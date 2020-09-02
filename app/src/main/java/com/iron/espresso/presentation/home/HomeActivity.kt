@@ -1,10 +1,11 @@
-package com.iron.espresso
+package com.iron.espresso.presentation.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.iron.espresso.R
 import com.iron.espresso.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
