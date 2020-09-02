@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="home_tab">
+        <item>스터디</item>
+        <item>내 스터디</item>
+        <item>설정</item>
+    </string-array>
+</resources>

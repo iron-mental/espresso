@@ -17,7 +17,7 @@ class HomeActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         binding.lifecycleOwner = this
 
-        val homeTabList = listOf("스터디", "내 스터디", "설정")
+        val homeTabList = resources.getStringArray(R.array.home_tab)
 
 
         binding.homePager.adapter = object : FragmentStatePagerAdapter(
