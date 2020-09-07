@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home
+package com.iron.espresso.presentation.home.mystudy
 
 import android.os.Bundle
 import android.view.LayoutInflater

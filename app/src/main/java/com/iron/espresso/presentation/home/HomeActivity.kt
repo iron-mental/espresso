@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.iron.espresso.R
 import com.iron.espresso.databinding.ActivityHomeBinding
+import com.iron.espresso.presentation.home.mystudy.MyStudyFragment
+import com.iron.espresso.presentation.home.setting.SettingFragment
+import com.iron.espresso.presentation.home.study.StudyFragment
 
 class HomeActivity : AppCompatActivity() {
 
