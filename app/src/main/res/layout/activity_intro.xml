@@ -97,7 +97,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent=".9"
             tools:targetApi="o" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
