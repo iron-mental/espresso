@@ -1,6 +1,8 @@
 package com.iron.espresso.presentation.sign
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityIntroBinding
@@ -17,6 +19,27 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
             lifecycleOwner = this@IntroActivity
             vm = introViewModel
         }
+
+        introViewModel.run {
+            clickTypeIdentifier.observe(this@IntroActivity, Observer { type ->
+                when (type) {
+                    IntroViewModel.TYPE_SIGN_IN -> {
+                        startFragment(SignInFragment())
+                    }
+                    IntroViewModel.TYPE_SIGN_UP -> {
+                        startFragment(SignUpFragment())
+                    }
+                }
+            })
+        }
+    }
+
+    private fun startFragment(fragment: Fragment) {
+        binding.fragmentContainerIntroView.bringToFront()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_intro_view, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 }
