@@ -10,10 +10,10 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        startKOIN()
+        startKoin()
     }
 
-    private fun startKOIN() {
+    private fun startKoin() {
         startKoin {
             androidContext(this@App)
             modules(
