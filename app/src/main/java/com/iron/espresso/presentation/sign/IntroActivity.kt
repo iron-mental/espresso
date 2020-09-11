@@ -22,10 +22,10 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
         introViewModel.run {
             clickTypeIdentifier.observe(this@IntroActivity, Observer { type ->
                 when (type) {
-                    IntroViewModel.TYPE_SIGN_IN -> {
+                    SignType.TYPE_SIGN_IN -> {
                         startFragment(SignInFragment())
                     }
-                    IntroViewModel.TYPE_SIGN_UP -> {
+                    SignType.TYPE_SIGN_UP -> {
                         startFragment(SignUpFragment())
                     }
                 }

@@ -6,22 +6,21 @@ import androidx.lifecycle.ViewModel
 class IntroViewModel : ViewModel() {
 
     private val _clickTypeIdentifier =
-        MutableLiveData<String>()
+        MutableLiveData<SignType>()
     val clickTypeIdentifier
         get() = _clickTypeIdentifier
 
 
     fun startSignUp() {
-        _clickTypeIdentifier.value = TYPE_SIGN_UP
+        _clickTypeIdentifier.value = SignType.TYPE_SIGN_UP
     }
 
     fun startSignIn() {
-        _clickTypeIdentifier.value = TYPE_SIGN_IN
+        _clickTypeIdentifier.value = SignType.TYPE_SIGN_IN
     }
 
-    companion object {
-        const val TYPE_SIGN_UP = "signUp"
-        const val TYPE_SIGN_IN = "signIn"
+}
 
-    }
+enum class SignType {
+    TYPE_SIGN_UP, TYPE_SIGN_IN
 }
