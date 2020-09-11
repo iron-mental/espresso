@@ -16,7 +16,6 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
         super.onCreate(savedInstanceState)
 
         binding.apply {
-            lifecycleOwner = this@IntroActivity
             vm = introViewModel
         }
 
