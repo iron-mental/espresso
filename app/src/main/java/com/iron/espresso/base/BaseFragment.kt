@@ -24,11 +24,6 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.lifecycleOwner = this
 
-        with(binding.root) {
-            setOnTouchListener { _, _ ->
-                true
-            }
-        }
         return binding.root
     }
 }
