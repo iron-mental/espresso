@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="VM"
+            type="com.iron.espresso.presentation.sign.SignUpViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <ImageButton
+            android:id="@+id/ib_exit"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:backgroundTint="@android:color/white"
+            android:src="@drawable/ic_clear"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".12" />
+
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:onClick="@{() -> VM.verifyEmailCheck(VM.signUpEmail)}"
+            android:text="다음"
+            android:textSize="15sp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".12" />
+
+
+        <TextView
+            android:id="@+id/tv_explain1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사용하실 이메일을"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/etc_email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ib_exit"
+            app:layout_constraintVertical_bias=".7" />
+
+        <TextView
+            android:id="@+id/tv_explain2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="입력해 주세요."
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_explain1"
+            app:layout_constraintTop_toBottomOf="@id/tv_explain1" />
+
+
+        <com.iron.espresso.custom.EditTextWithClear
+            android:id="@+id/etc_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:background="@android:color/transparent"
+            android:drawablePadding="5dp"
+            android:hint="email@inputinput.com"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:lines="1"
+            android:maxLines="1"
+            android:text="@={VM.signUpEmail}"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_explain1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onEditorEnterAction="@{VM.checkEmail}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
