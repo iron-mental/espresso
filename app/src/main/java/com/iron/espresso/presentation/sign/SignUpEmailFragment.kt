@@ -2,6 +2,7 @@ package com.iron.espresso.presentation.sign
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignUpEmailBinding
@@ -17,6 +18,15 @@ class SignUpEmailFragment :
 
         binding.apply {
             vm = signUpViewModel
+        }
+
+        signUpViewModel.run {
+            checkType.observe(viewLifecycleOwner, Observer { type ->
+                when (type) {
+                    CheckType.CHECK_EMAIL_FAIL -> {
+                    }
+                }
+            })
         }
     }
 }

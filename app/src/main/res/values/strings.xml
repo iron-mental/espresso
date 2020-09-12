@@ -21,7 +21,8 @@
 
     <string name="sign_up_password_explain1">사용하실 비밀번호</string>
     <string name="sign_up_password_explain2">입력해 주세요.</string>
-    <string name="sign_up_password_hint">비밀번호</string>
+    <string name="sign_up_password_hint1">비밀번호</string>
+    <string name="sign_up_password_hint2">6글자 이상 입력하세요</string>
 
 
 </resources>
