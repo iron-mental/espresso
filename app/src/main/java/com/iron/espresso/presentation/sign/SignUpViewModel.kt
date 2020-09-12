@@ -66,7 +66,7 @@ class SignUpViewModel : ViewModel() {
     }
 
     companion object {
-        private const val EMPTY = ""
+        const val EMPTY = ""
     }
 }
 

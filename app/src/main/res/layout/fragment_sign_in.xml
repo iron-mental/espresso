@@ -21,6 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:backgroundTint="@android:color/white"
+            android:onClick="@{() -> VM.exitViewModel()}"
             android:src="@drawable/ic_clear"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,8 +63,10 @@
                 android:inputType="textEmailAddress"
                 android:lines="1"
                 android:maxLines="1"
+                android:text="@={VM.signInEmail}"
                 android:textCursorDrawable="@null"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:onEditorEnterAction="@{VM.checkEmail}" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -102,8 +105,10 @@
                 android:inputType="textPassword"
                 android:lines="1"
                 android:maxLines="1"
+                android:text="@={VM.signInPassword}"
                 android:textCursorDrawable="@null"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:onEditorEnterAction="@{VM.checkPassword}" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -111,6 +116,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:backgroundTint="@color/colorCobaltBlue"
+            android:onClick="@{() -> VM.verifyLogin(VM.signInEmail, VM.signInPassword)}"
             android:text="@string/sign_in_sign_in_explain3"
             android:textSize="25sp"
             app:cornerRadius="10dp"
