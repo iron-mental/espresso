@@ -1,5 +1,6 @@
 package com.iron.espresso.di
 
+import com.iron.espresso.presentation.home.mystudy.MyStudyViewModel
 import com.iron.espresso.presentation.sign.IntroViewModel
 import com.iron.espresso.presentation.sign.SignInViewModel
 import com.iron.espresso.presentation.sign.SignUpViewModel
@@ -10,4 +11,5 @@ val viewModelModule = module {
     viewModel { IntroViewModel() }
     viewModel { SignUpViewModel() }
     viewModel { SignInViewModel() }
+    viewModel { MyStudyViewModel() }
 }
