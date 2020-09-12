@@ -13,6 +13,10 @@ class SignUpViewModel : ViewModel() {
     val checkType
         get() = _checkType
 
+    private val _exitIdentifier = MutableLiveData<Boolean>()
+    val exitIdentifier
+        get() = _exitIdentifier
+
 
     val checkEmail: Function1<String, Unit> = this::verifyEmailCheck
     val checkNickname: Function1<String, Unit> = this::verifyNicknameCheck
@@ -48,13 +52,17 @@ class SignUpViewModel : ViewModel() {
         checkType.value = CheckType.CHECK_ALL_SUCCESS
     }
 
-
     fun startViewModel() {
         signUpEmail.value = EMPTY
         signUpNickname.value = EMPTY
         signUpNickname.value = EMPTY
+        _checkType.value = CheckType.CHECK_NULL
+        _exitIdentifier.value = false
     }
 
+    fun exitViewModel() {
+        _exitIdentifier.value = true
+    }
 
     companion object {
         private const val EMPTY = ""
@@ -62,6 +70,7 @@ class SignUpViewModel : ViewModel() {
 }
 
 enum class CheckType {
+    CHECK_NULL,
     CHECK_EMAIL_SUCCESS, CHECK_NICKNAME_SUCCESS, CHECK_PASSWORD_SUCCESS, CHECK_ALL_SUCCESS,
     CHECK_EMAIL_FAIL, CHECK_NICKNAME_FAIL, CHECK_PASSWORD_FAIL, CHECK_ALL_FAIL
 }

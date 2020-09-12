@@ -18,8 +18,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
         binding.apply {
             vm = signUpViewModel
-            startFragment(SignUpEmailFragment())
             signUpViewModel.startViewModel()
+            startFragment(SignUpEmailFragment())
         }
 
         signUpViewModel.run {
@@ -41,14 +41,22 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                     }
                 }
             })
+            exitIdentifier.observe(viewLifecycleOwner, Observer { isExit ->
+                if (isExit) exitFragment()
+            })
         }
     }
+
 
     private fun startFragment(fragment: Fragment) {
         binding.fragmentContainerSignUp.bringToFront()
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_sign_up, fragment)
             .commit()
+    }
+
+    private fun exitFragment() {
+        parentFragmentManager.popBackStack()
     }
 
 }
