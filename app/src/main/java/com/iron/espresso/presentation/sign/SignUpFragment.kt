@@ -18,9 +18,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
         binding.apply {
             vm = signUpViewModel
-            signUpViewModel.checkType.value = CheckType.CHECK_EMAIL
+            signUpViewModel.startViewModel()
         }
-
 
         signUpViewModel.run {
             checkType.observe(viewLifecycleOwner, Observer { type ->
@@ -29,13 +28,12 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                         startFragment(SignUpEmailFragment())
                     }
                     CheckType.CHECK_PASSWORD -> {
-
+                        startFragment(SignUpPasswordFragment())
                     }
                     CheckType.CHECK_NICKNAME -> {
-
+                        startFragment(SignUpNicknameFragment())
                     }
                     CheckType.CHECK_ALL -> {
-
                     }
                 }
             })

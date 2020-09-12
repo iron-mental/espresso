@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:onClick="@{() -> VM.verifyEmailCheck(VM.signUpEmail)}"
+            android:onClick="@{() -> VM.verifyNicknameCheck(VM.signUpNickname)}"
             android:text="@string/sign_next"
             android:textSize="15sp"
             app:layout_constraintDimensionRatio="1:1"
@@ -43,10 +43,10 @@
             android:id="@+id/tv_explain1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_up_email_explain1"
+            android:text="@string/sign_up_nickname_explain1"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/etc_email"
+            app:layout_constraintBottom_toTopOf="@id/etc_nickname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias=".15"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/sign_up_email_explain2"
+            android:text="@string/sign_up_nickname_explain2"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tv_explain1"
@@ -66,24 +66,24 @@
 
 
         <com.iron.espresso.custom.EditTextWithClear
-            android:id="@+id/etc_email"
+            android:id="@+id/etc_nickname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:background="@android:color/transparent"
             android:drawablePadding="5dp"
-            android:hint="@string/sign_up_email_hint"
+            android:hint="@string/sign_up_nickname_hint"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:lines="1"
             android:maxLines="1"
-            android:text="@={VM.signUpEmail}"
+            android:text="@={VM.signUpNickname}"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_explain1"
             app:layout_constraintTop_toTopOf="parent"
-            app:onEditorEnterAction="@{VM.checkEmail}" />
+            app:onEditorEnterAction="@{VM.checkNickname}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
