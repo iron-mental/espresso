@@ -8,6 +8,7 @@ class SignUpViewModel : ViewModel() {
     val signUpEmail = MutableLiveData<String>()
     val signUpNickname = MutableLiveData<String>()
     val signUpPassword = MutableLiveData<String>()
+    val isProgressVisible = MutableLiveData<Boolean>()
 
     private val _checkType = MutableLiveData<CheckType>()
     val checkType

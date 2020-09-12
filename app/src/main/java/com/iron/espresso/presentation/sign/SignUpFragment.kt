@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.sign
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignUpBinding
+import com.iron.espresso.presentation.home.HomeActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sign_up) {
@@ -20,6 +22,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             vm = signUpViewModel
             signUpViewModel.startViewModel()
             startFragment(SignUpEmailFragment())
+            pbSignUp.bringToFront()
         }
 
         signUpViewModel.run {
@@ -35,6 +38,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                         registerUser()
                     }
                     CheckType.CHECK_ALL_SUCCESS -> {
+                        startMain()
                     }
                     CheckType.CHECK_ALL_FAIL -> {
 
@@ -59,4 +63,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
         parentFragmentManager.popBackStack()
     }
 
+    private fun startMain() {
+        startActivity(
+            Intent(activity?.application, HomeActivity()::class.java)
+        ).apply {
+            activity?.finish()
+        }
+    }
 }
