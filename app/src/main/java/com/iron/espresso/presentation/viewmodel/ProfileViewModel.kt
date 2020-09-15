@@ -25,11 +25,8 @@ class ProfileViewModel(private val getUser: GetUser) : ViewModel() {
             }, {
                 Logger.d("$it")
             })
-
-        // Activity -> ViewModel -> Repository(네트워크 상태에따라 로컬데이터일지 리모트 데이터일지 판별해서 요청) -> RemoteDataSource, LocalDataSource
     }
 }
-// domain - use case, entity
 
 
 
