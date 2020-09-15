@@ -14,11 +14,13 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.iron.espresso.MenuSet
 import com.iron.espresso.R
+import com.iron.espresso.ToolbarHelper
 import com.iron.espresso.databinding.ActivityProfileBinding
 import com.iron.espresso.model.repo.ProfileRepositoryImpl
 import com.iron.espresso.presentation.viewmodel.ProfileViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -26,16 +28,16 @@ class ProfileActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<ProfileViewModel> { parametersOf(ProfileRepositoryImpl.getInstance()) }
 
+    private lateinit var toolbarHelper: ToolbarHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
         binding.lifecycleOwner = this
 
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.run {
+        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
             setTitle(R.string.profile_title)
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_back_24)
+            setNavigationIcon(R.drawable.ic_back_24)
         }
 
         binding.btnGithub.setOnClickListener {
