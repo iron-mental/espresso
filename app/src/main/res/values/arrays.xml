@@ -4,4 +4,10 @@
         <item>내 스터디</item>
         <item>설정</item>
     </string-array>
+
+    <string-array name="setting_category">
+        <item>계정</item>
+        <item>알림</item>
+        <item>정보</item>
+    </string-array>
 </resources>
