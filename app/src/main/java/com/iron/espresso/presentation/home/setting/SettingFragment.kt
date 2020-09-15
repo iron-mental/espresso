@@ -22,17 +22,28 @@ class SettingFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false)
         binding.lifecycleOwner = this
 
-        val itemList = arrayListOf<ItemList>()
-
         val settingCategoryList = arrayListOf<CategoryItem>()
-        for (i in resources.getStringArray(R.array.setting_category)) {
-            itemList.add(ItemList(i))
-            settingCategoryList.add(CategoryItem(i,itemList))
+        for ((count, i) in resources.getStringArray(R.array.setting_category).withIndex()) {
+            val arrayList = arrayListOf<ItemList>()
+            when (count) {
+                0 -> for (j in resources.getStringArray(R.array.category_account)) {
+                    arrayList.add(ItemList(j))
+                }
+                1 -> for (j in resources.getStringArray(R.array.category_notice)) {
+                    arrayList.add(ItemList(j))
+                }
+                2 -> for (j in resources.getStringArray(R.array.category_info)) {
+                    arrayList.add(ItemList(j))
+                }
+                3 -> for (j in resources.getStringArray(R.array.category_etc)) {
+                    arrayList.add(ItemList(j))
+                }
+            }
+            settingCategoryList.add(CategoryItem(i, arrayList))
         }
 
         binding.settingRecyclerview.layoutManager = LinearLayoutManager(context)
-        binding.settingRecyclerview.adapter = SettingAdapter(settingCategoryList)
-
+        binding.settingRecyclerview.adapter = context?.let { SettingAdapter(it,settingCategoryList) }
 
         return binding.root
     }
