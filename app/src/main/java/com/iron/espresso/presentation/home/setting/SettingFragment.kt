@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.iron.espresso.R
 import com.iron.espresso.databinding.FragmentSettingBinding
+import kotlinx.android.synthetic.main.fragment_setting.*
 
 class SettingFragment : Fragment() {
 
@@ -44,6 +46,8 @@ class SettingFragment : Fragment() {
 
         binding.settingRecyclerview.layoutManager = LinearLayoutManager(context)
         binding.settingRecyclerview.adapter = context?.let { SettingAdapter(it,settingCategoryList) }
+
+        Glide.with(this).load(R.drawable.ic_launcher_background).circleCrop().into(binding.settingProfileImage)
 
         return binding.root
     }
