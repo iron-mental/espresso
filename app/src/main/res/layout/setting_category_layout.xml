@@ -2,20 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp">
+
+    <View
+        android:id="@+id/category_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/black" />
 
     <TextView
         android:id="@+id/category_title"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="#E6E6E6"
-        android:text="계정" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/category_divider"
+        android:layout_marginLeft="15dp"
+        android:text="계정"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/category_title"
-        tools:listitem="@layout/setting_item_layout"/>
+        android:layout_marginTop="12dp"
+        tools:listitem="@layout/setting_item_layout" />
 
 </RelativeLayout>

@@ -29,7 +29,7 @@ class SettingAdapter (
         val itemList = item[position]
         holder.categoryTitle.text = itemList.categoryTitle
         holder.categoryRecyclerView.layoutManager = LinearLayoutManager(context)
-        holder.categoryRecyclerView.adapter = SettingItemAdapter(itemList.items)
+        holder.categoryRecyclerView.adapter = SettingItemAdapter(context,itemList.items)
 
     }
 
