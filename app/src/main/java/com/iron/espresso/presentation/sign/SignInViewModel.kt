@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.sign
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -17,7 +18,7 @@ class SignInViewModel : ViewModel() {
         get() = _checkType
 
     private val _exitIdentifier = MutableLiveData<Boolean>()
-    val exitIdentifier
+    val exitIdentifier: LiveData<Boolean>
         get() = _exitIdentifier
 
 
