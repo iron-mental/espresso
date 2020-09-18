@@ -10,7 +10,7 @@ class SignInViewModel : ViewModel() {
 
 
     val checkEmail: Function1<String, Unit> = this::verifyEmailCheck
-    val checkPassword: Function1<String, Unit> = this::verifyPasswordCheck
+    val checkPassword: (email: String) -> Unit = this::verifyPasswordCheck
 
     private val _checkType = MutableLiveData<CheckType>()
     val checkType
