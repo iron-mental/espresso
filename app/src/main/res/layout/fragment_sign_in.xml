@@ -17,7 +17,7 @@
 
 
         <ImageButton
-            android:id="@+id/ib_exit"
+            android:id="@+id/button_exit"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:backgroundTint="@android:color/white"
@@ -33,11 +33,11 @@
             android:layout_height="wrap_content"
             android:text="@string/sign_in_explain1"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/tf_email"
-            app:layout_constraintStart_toStartOf="@id/tf_email" />
+            app:layout_constraintBottom_toTopOf="@id/email_field"
+            app:layout_constraintStart_toStartOf="@id/email_field" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tf_email"
+            android:id="@+id/email_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
@@ -75,11 +75,11 @@
             android:layout_height="wrap_content"
             android:text="@string/sign_in_explain2"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/tf_password"
-            app:layout_constraintStart_toStartOf="@id/tf_password" />
+            app:layout_constraintBottom_toTopOf="@id/password_field"
+            app:layout_constraintStart_toStartOf="@id/password_field" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tf_password"
+            android:id="@+id/password_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
@@ -124,7 +124,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tf_password"
+            app:layout_constraintTop_toBottomOf="@id/password_field"
             app:layout_constraintWidth_percent=".5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
