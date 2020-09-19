@@ -22,7 +22,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             vm = signUpViewModel
             signUpViewModel.startViewModel()
             startFragment(SignUpEmailFragment())
-            pbSignUp.bringToFront()
+            barSignUp.bringToFront()
         }
 
         signUpViewModel.run {
@@ -53,9 +53,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
 
     private fun startFragment(fragment: Fragment) {
-        binding.fragmentContainerSignUp.bringToFront()
+        binding.containerSignUp.bringToFront()
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_sign_up, fragment)
+            .replace(R.id.container_sign_up, fragment)
             .commit()
     }
 
