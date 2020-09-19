@@ -19,9 +19,9 @@ class SignUpViewModel : ViewModel() {
         get() = _exitIdentifier
 
 
-    val checkEmail: Function1<String, Unit> = this::verifyEmailCheck
-    val checkNickname: Function1<String, Unit> = this::verifyNicknameCheck
-    val checkPassword: Function1<String, Unit> = this::verifyPasswordCheck
+    val checkEmail: (email: String) -> Unit = this::verifyEmailCheck
+    val checkNickname: (email: String) -> Unit = this::verifyNicknameCheck
+    val checkPassword: (email: String) -> Unit = this::verifyPasswordCheck
 
     fun verifyEmailCheck(email: String?) {
         email?.let {
