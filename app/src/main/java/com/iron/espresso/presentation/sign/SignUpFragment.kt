@@ -65,7 +65,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 
     private fun startMain() {
         startActivity(
-            Intent(activity?.application, HomeActivity()::class.java)
+            Intent(activity?.application, HomeActivity::class.java)
         ).apply {
             activity?.finish()
         }
