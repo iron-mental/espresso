@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.sign
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -11,11 +12,11 @@ class SignUpViewModel : ViewModel() {
     val isProgressVisible = MutableLiveData<Boolean>()
 
     private val _checkType = MutableLiveData<CheckType>()
-    val checkType
+    val checkType: LiveData<CheckType>
         get() = _checkType
 
     private val _exitIdentifier = MutableLiveData<Boolean>()
-    val exitIdentifier
+    val exitIdentifier: LiveData<Boolean>
         get() = _exitIdentifier
 
 
@@ -50,7 +51,7 @@ class SignUpViewModel : ViewModel() {
     }
 
     fun registerUser() {
-        checkType.value = CheckType.CHECK_ALL_SUCCESS
+        _checkType.value = CheckType.CHECK_ALL_SUCCESS
     }
 
     fun startViewModel() {
