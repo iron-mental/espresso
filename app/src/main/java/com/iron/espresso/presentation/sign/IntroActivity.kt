@@ -34,9 +34,9 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
     }
 
     private fun startFragment(fragment: Fragment) {
-        binding.fragmentContainerIntroView.bringToFront()
+        binding.containerIntroView.bringToFront()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_intro_view, fragment)
+            .replace(R.id.container_intro_view, fragment)
             .addToBackStack(null)
             .commit()
     }

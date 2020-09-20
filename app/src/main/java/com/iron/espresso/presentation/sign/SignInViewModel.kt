@@ -14,7 +14,7 @@ class SignInViewModel : ViewModel() {
     val checkPassword: (email: String) -> Unit = this::verifyPasswordCheck
 
     private val _checkType = MutableLiveData<CheckType>()
-    val checkType
+    val checkType: LiveData<CheckType>
         get() = _checkType
 
     private val _exitIdentifier = MutableLiveData<Boolean>()
