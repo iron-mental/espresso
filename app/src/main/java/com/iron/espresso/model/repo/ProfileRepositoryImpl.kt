@@ -4,8 +4,10 @@ import com.iron.espresso.domain.entity.GithubUser
 import com.iron.espresso.domain.repo.ProfileRepository
 import com.iron.espresso.model.source.remote.ProfileRemoteDataSource
 import io.reactivex.Single
+import javax.inject.Inject
 
-class ProfileRepositoryImpl(private val remoteDataSource: ProfileRemoteDataSource):
+
+class ProfileRepositoryImpl @Inject constructor(private val remoteDataSource: ProfileRemoteDataSource):
     ProfileRepository {
 
     override fun getUser(userId: String): Single<GithubUser> {
@@ -13,10 +15,5 @@ class ProfileRepositoryImpl(private val remoteDataSource: ProfileRemoteDataSourc
             .map {
                 GithubUser(it.name.orEmpty(), it.avatarUrl.orEmpty())
             }
-    }
-
-    companion object {
-        fun getInstance(): ProfileRepository =
-            ProfileRepositoryImpl(ProfileRemoteDataSource.getInstance())
     }
 }

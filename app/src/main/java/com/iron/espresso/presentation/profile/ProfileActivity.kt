@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -16,17 +17,16 @@ import com.iron.espresso.MenuSet
 import com.iron.espresso.R
 import com.iron.espresso.ToolbarHelper
 import com.iron.espresso.databinding.ActivityProfileBinding
-import com.iron.espresso.model.repo.ProfileRepositoryImpl
 import com.iron.espresso.presentation.viewmodel.ProfileViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
 
-    private val viewModel by viewModel<ProfileViewModel> { parametersOf(ProfileRepositoryImpl.getInstance()) }
+    private val viewModel by viewModels<ProfileViewModel>()
 
     private lateinit var toolbarHelper: ToolbarHelper
 

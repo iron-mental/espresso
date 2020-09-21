@@ -3,15 +3,16 @@ package com.iron.espresso.model.source.remote
 import com.iron.espresso.model.api.GitHubApi
 import com.iron.espresso.model.response.GitHubUserResponse
 import io.reactivex.Single
+import javax.inject.Inject
 
-class ProfileRemoteDataSource(private val gitHubApi: GitHubApi = GitHubApi.create()) {
+class ProfileRemoteDataSourceImpl @Inject constructor(private val gitHubApi: GitHubApi) :
+    ProfileRemoteDataSource {
 
-    fun getUser(userId: String): Single<GitHubUserResponse> {
+    override fun getUser(userId: String): Single<GitHubUserResponse> {
         return gitHubApi.getUser(userId)
     }
+}
 
-    companion object {
-        fun getInstance() =
-            ProfileRemoteDataSource()
-    }
+interface ProfileRemoteDataSource {
+    fun getUser(userId: String): Single<GitHubUserResponse>
 }

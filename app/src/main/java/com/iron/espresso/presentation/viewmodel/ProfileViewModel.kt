@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.iron.espresso.Logger
@@ -10,7 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class ProfileViewModel(private val getUser: GetUser) : ViewModel() {
+class ProfileViewModel @ViewModelInject constructor(private val getUser: GetUser) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -21,6 +22,7 @@ class ProfileViewModel(private val getUser: GetUser) : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response: GithubUser ->
+                Logger.d("$response")
                 avatarUrl.value = response.avatarUrl
             }, {
                 Logger.d("$it")
