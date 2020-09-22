@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".presentation.sign.IntroActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,9 @@
         </activity>
 
         <activity android:name=".presentation.home.HomeActivity" />
-        <activity android:name=".presentation.sign.SignInActivity" />
+        <activity
+            android:name=".presentation.sign.SignInActivity"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
