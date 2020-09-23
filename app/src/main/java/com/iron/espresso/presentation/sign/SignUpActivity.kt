@@ -17,7 +17,6 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         super.onCreate(savedInstanceState)
         binding.apply {
             vm = signUpViewModel
-            signUpViewModel.startViewModel()
             startFragment(SignUpEmailFragment())
             barSignUp.bringToFront()
         }
@@ -57,7 +56,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
     }
 
     private fun exitFragment() {
-        finish()
+        startActivity<IntroActivity>()
     }
 
 }
