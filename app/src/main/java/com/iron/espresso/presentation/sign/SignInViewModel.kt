@@ -48,13 +48,6 @@ class SignInViewModel : ViewModel() {
         }
     }
 
-    fun startViewModel() {
-        signInEmail.value = SignUpViewModel.EMPTY
-        signInPassword.value = SignUpViewModel.EMPTY
-        _checkType.value = CheckType.CHECK_NULL
-        _exitIdentifier.value = false
-    }
-
     fun exitViewModel() {
         _exitIdentifier.value = true
     }
