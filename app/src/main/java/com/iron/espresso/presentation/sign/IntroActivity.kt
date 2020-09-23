@@ -24,10 +24,10 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
             clickTypeIdentifier.observe(this@IntroActivity, Observer { type ->
                 when (type) {
                     SignType.TYPE_SIGN_IN -> {
-                        startActivity<SignInActivity>()
+                        startFragment(SignInFragment())
                     }
                     SignType.TYPE_SIGN_UP -> {
-                        startFragment(SignUpFragment())
+                        startActivity<SignUpActivity>()
                     }
                 }
             })
@@ -37,9 +37,9 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
     private fun startFragment(fragment: Fragment) {
         binding.fragmentContainerIntroView.bringToFront()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_intro_view, fragment)
-            .addToBackStack(null)
-            .commit()
+                .replace(R.id.fragment_container_intro_view, fragment)
+                .addToBackStack(null)
+                .commit()
     }
 
 }
