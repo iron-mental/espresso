@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.iron.espresso.R
 import com.iron.espresso.databinding.FragmentSettingBinding
-import kotlinx.android.synthetic.main.fragment_setting.*
+import com.iron.espresso.presentation.home.setting.adapter.SettingAdapter
+import com.iron.espresso.presentation.home.setting.model.HeaderItem
+import com.iron.espresso.presentation.home.setting.model.ItemType
+import com.iron.espresso.presentation.home.setting.model.SettingHeaderItem
+import com.iron.espresso.presentation.home.setting.model.SettingItem
 
 class SettingFragment : Fragment() {
 
@@ -24,30 +26,35 @@ class SettingFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false)
         binding.lifecycleOwner = this
 
-        val settingCategoryList = arrayListOf<CategoryItem>()
-        for ((count, i) in resources.getStringArray(R.array.setting_category).withIndex()) {
-            val arrayList = arrayListOf<ItemList>()
+        val settingList = arrayListOf<ItemType>()
+        settingList.add(HeaderItem("", "", "", ""))
+
+        val categoryList = arrayListOf<SettingHeaderItem>()
+        for ((count, category) in resources.getStringArray(R.array.setting_category).withIndex()) {
+            val itemList = arrayListOf<SettingItem>()
             when (count) {
-                0 -> for (j in resources.getStringArray(R.array.category_account)) {
-                    arrayList.add(ItemList(j))
-                }
-                1 -> for (j in resources.getStringArray(R.array.category_notice)) {
-                    arrayList.add(ItemList(j))
-                }
-                2 -> for (j in resources.getStringArray(R.array.category_info)) {
-                    arrayList.add(ItemList(j))
-                }
-                3 -> for (j in resources.getStringArray(R.array.category_etc)) {
-                    arrayList.add(ItemList(j))
-                }
+                0 -> itemList.addAll(
+                    resources.getStringArray(R.array.category_account).map {
+                        SettingItem(it)
+                    })
+                1 -> itemList.addAll(
+                    resources.getStringArray(R.array.category_notice).map {
+                        SettingItem(it)
+                    })
+                2 -> itemList.addAll(
+                    resources.getStringArray(R.array.category_info).map {
+                        SettingItem(it)
+                    })
+                3 -> itemList.addAll(
+                    resources.getStringArray(R.array.category_etc).map {
+                        SettingItem(it)
+                    })
             }
-            settingCategoryList.add(CategoryItem(i, arrayList))
+            settingList.add(SettingHeaderItem(category))
+            settingList.addAll(itemList)
         }
 
-        binding.settingRecyclerview.layoutManager = LinearLayoutManager(context)
-        binding.settingRecyclerview.adapter = context?.let { SettingAdapter(it,settingCategoryList) }
-
-        Glide.with(this).load(R.drawable.ic_launcher_background).circleCrop().into(binding.settingProfileImage)
+        binding.settingRecyclerview.adapter = SettingAdapter(settingList)
 
         return binding.root
     }
