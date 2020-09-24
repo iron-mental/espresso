@@ -9,7 +9,7 @@
         <item>계정</item>
         <item>알림</item>
         <item>정보</item>
-        <item></item>
+        <item />
     </string-array>
 
     <string-array name="category_account">

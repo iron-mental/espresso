@@ -44,7 +44,7 @@ class SettingFragment : Fragment() {
                     })
                 3 -> itemList.addAll(
                     resources.getStringArray(R.array.category_etc).map {
-                        SettingItem(it, SubItemType.MOVE)
+                        SettingItem(it, null)
                     })
             }
             settingList.add(SettingHeaderItem(category))

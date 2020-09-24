@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -83,6 +84,9 @@ class SettingAdapter(
         private val categoryTitle: TextView = itemView.findViewById(R.id.category_title)
 
         fun bind(item: SettingHeaderItem) {
+            if (item.categoryTitle.isEmpty()) {
+                categoryTitle.visibility = View.GONE
+            }
             categoryTitle.text = item.categoryTitle
         }
     }
@@ -98,7 +102,7 @@ class SettingAdapter(
                 SubItemType.IMAGE -> {
                     val img = ImageView(itemView.context)
                     Glide.with(itemView.context)
-                        .load(R.drawable.sample)
+                        .load(R.drawable.ic_launcher_foreground)
                         .apply(RequestOptions().override(150, 150))
                         .apply(RequestOptions.centerCropTransform())
                         .into(img)
