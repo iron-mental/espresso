@@ -1,5 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/home_toolbar"
+            android:id="@+id/setting_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -22,10 +22,11 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/setting_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="설정"
+                    android:text="@string/setting"
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -34,80 +35,12 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/setting_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/home_toolbar"
-            android:overScrollMode="never">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/setting_profile_image"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/ic_launcher_foreground" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp">
-
-                        <TextView
-                            android:id="@+id/nickname"
-                            android:layout_width="237dp"
-                            android:layout_height="wrap_content"
-                            android:layout_toStartOf="@+id/location"
-                            android:maxLines="1"
-                            android:text="닉네임"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/location"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:maxLines="1"
-                            android:text="인천광역시 계양구"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="자기소개 글ddddddddddddddddddddddddddddddfdafdsafdsafdsafdsafdsafdsafdsadddfdafdafdsafdsadddfffffffffffff"
-                            android:textSize="15sp" />
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/setting_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:listitem="@layout/setting_category_layout">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-
-            </LinearLayout>
-
-
-        </androidx.core.widget.NestedScrollView>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/setting_toolbar"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </RelativeLayout>
 </layout>

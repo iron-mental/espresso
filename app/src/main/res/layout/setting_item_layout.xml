@@ -13,7 +13,7 @@
         android:textSize="16sp" />
 
     <LinearLayout
-        android:id="@+id/setting_sub_item"
+        android:id="@+id/setting_item_sub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
