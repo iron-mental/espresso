@@ -9,10 +9,7 @@ import androidx.fragment.app.Fragment
 import com.iron.espresso.R
 import com.iron.espresso.databinding.FragmentSettingBinding
 import com.iron.espresso.presentation.home.setting.adapter.SettingAdapter
-import com.iron.espresso.presentation.home.setting.model.HeaderItem
-import com.iron.espresso.presentation.home.setting.model.ItemType
-import com.iron.espresso.presentation.home.setting.model.SettingHeaderItem
-import com.iron.espresso.presentation.home.setting.model.SettingItem
+import com.iron.espresso.presentation.home.setting.model.*
 
 class SettingFragment : Fragment() {
 
@@ -35,19 +32,19 @@ class SettingFragment : Fragment() {
             when (count) {
                 0 -> itemList.addAll(
                     resources.getStringArray(R.array.category_account).map {
-                        SettingItem(it)
+                        SettingItem(it, SubItemType.IMAGE)
                     })
                 1 -> itemList.addAll(
                     resources.getStringArray(R.array.category_notice).map {
-                        SettingItem(it)
+                        SettingItem(it, SubItemType.SWITCH)
                     })
                 2 -> itemList.addAll(
                     resources.getStringArray(R.array.category_info).map {
-                        SettingItem(it)
+                        SettingItem(it, SubItemType.MOVE)
                     })
                 3 -> itemList.addAll(
                     resources.getStringArray(R.array.category_etc).map {
-                        SettingItem(it)
+                        SettingItem(it, SubItemType.MOVE)
                     })
             }
             settingList.add(SettingHeaderItem(category))

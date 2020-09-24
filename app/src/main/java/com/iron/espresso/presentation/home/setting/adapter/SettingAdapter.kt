@@ -4,9 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.iron.espresso.R
 import com.iron.espresso.presentation.home.setting.model.*
 
@@ -85,10 +88,38 @@ class SettingAdapter(
     }
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val itemText: TextView = itemView.findViewById(R.id.setting_item_text)
+        private val title: TextView = itemView.findViewById(R.id.setting_item_text)
+        private val subItemView: LinearLayout = itemView.findViewById(R.id.setting_item_sub)
 
         fun bind(item: SettingItem) {
-            itemText.text = item.title
+            title.text = item.title
+
+            when (item.subItemType) {
+                SubItemType.IMAGE -> {
+                    val img = ImageView(itemView.context)
+                    Glide.with(itemView.context)
+                        .load(R.drawable.sample)
+                        .apply(RequestOptions().override(150, 150))
+                        .apply(RequestOptions.centerCropTransform())
+                        .into(img)
+                    subItemView.addView(img)
+                }
+
+                SubItemType.SWITCH -> {
+                    val noticeSwitch = SwitchMaterial(itemView.context)
+                    subItemView.addView(noticeSwitch)
+                }
+
+                SubItemType.MOVE -> {
+                    val img = ImageView(itemView.context)
+                    Glide.with(itemView.context)
+                        .load(R.drawable.nexticon)
+                        .apply(RequestOptions().override(150, 150))
+                        .apply(RequestOptions.centerCropTransform())
+                        .into(img)
+                    subItemView.addView(img)
+                }
+            }
         }
     }
 }
