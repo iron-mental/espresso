@@ -42,29 +42,18 @@
 
 
         <TextView
-            android:id="@+id/explain1"
+            android:id="@+id/explain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_up_nickname_explain1"
+            android:layout_marginBottom="30dp"
+            android:text="@string/sign_up_nickname_explain"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/nickname_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias=".15"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_exit"
             app:layout_constraintVertical_bias=".7" />
-
-        <TextView
-            android:id="@+id/explain2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/sign_up_nickname_explain2"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/explain1"
-            app:layout_constraintTop_toBottomOf="@id/explain1" />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -80,7 +69,7 @@
             app:hintEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/explain1"
+            app:layout_constraintStart_toStartOf="@id/explain"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText

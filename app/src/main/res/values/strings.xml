@@ -11,18 +11,15 @@
 
     <string name="sign_next">다음</string>
 
-    <string name="sign_up_email_explain1">사용하실 이메일을</string>
-    <string name="sign_up_email_explain2">입력해 주세요.</string>
+    <string name="sign_up_email_explain">사용하실 이메일을\n입력해 주세요.</string>
     <string name="sign_up_email_hint">email@inputinput.com</string>
 
-    <string name="sign_up_nickname_explain1">가입을 위해</string>
-    <string name="sign_up_nickname_explain2">닉네임을 입력해 주세요.</string>
+    <string name="sign_up_nickname_explain">가입을 위해\n닉네임을 입력해 주세요.</string>
     <string name="sign_up_nickname_hint">닉네임</string>
 
-    <string name="sign_up_password_explain1">사용하실 비밀번호</string>
-    <string name="sign_up_password_explain2">입력해 주세요.</string>
-    <string name="sign_up_password_hint1">비밀번호</string>
-    <string name="sign_up_password_hint2">6글자 이상 입력하세요</string>
+    <string name="sign_up_password_explain">사용하실 비밀번호\n입력해 주세요.</string>
+    <string name="sign_up_password_hint">비밀번호</string>
+    <string name="sign_up_password_helper">6글자 이상 입력하세요</string>
 
 
 </resources>
