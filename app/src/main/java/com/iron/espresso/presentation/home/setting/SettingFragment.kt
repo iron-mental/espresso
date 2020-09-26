@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.iron.espresso.R
@@ -14,6 +15,7 @@ import com.iron.espresso.presentation.home.setting.model.*
 class SettingFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingBinding
+    private lateinit var settingAdapter: SettingAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +28,6 @@ class SettingFragment : Fragment() {
         val settingList = arrayListOf<ItemType>()
         settingList.add(HeaderItem("", "", "", ""))
 
-        val categoryList = arrayListOf<SettingHeaderItem>()
         for ((count, category) in resources.getStringArray(R.array.setting_category).withIndex()) {
             val itemList = arrayListOf<SettingItem>()
             when (count) {
@@ -51,7 +52,14 @@ class SettingFragment : Fragment() {
             settingList.addAll(itemList)
         }
 
-        binding.settingRecyclerview.adapter = SettingAdapter(settingList)
+        settingAdapter = SettingAdapter(settingList)
+        binding.settingRecyclerview.adapter = settingAdapter
+
+        settingAdapter.setItemClickListener(object : SettingAdapter.ItemClickListener {
+            override fun onClick(view: View, position: Int, title: String) {
+                Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
+            }
+        })
 
         return binding.root
     }

@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,6 +16,18 @@ import com.iron.espresso.presentation.home.setting.model.*
 class SettingAdapter(
     private val itemList: List<ItemType>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    interface ItemClickListener {
+        fun onClick(view: View, position: Int, title: String)
+    }
+
+    private lateinit var itemClickListener: ItemClickListener
+
+    fun setItemClickListener(itemClickListener: ItemClickListener) {
+        this.itemClickListener = itemClickListener
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             0 -> {
@@ -56,6 +67,9 @@ class SettingAdapter(
             is ItemViewHolder -> {
                 val item = itemList[position] as SettingItem
                 holder.bind(item)
+                holder.itemView.setOnClickListener {
+                    itemClickListener.onClick(it, position, item.title)
+                }
             }
         }
     }
