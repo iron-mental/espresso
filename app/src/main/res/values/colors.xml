@@ -7,5 +7,9 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
-
+    <color name="theme_ededea">#EDEDEA</color>
+    <color name="theme_e7e7e5">#E7E7E5</color>
+    <color name="theme_e0e0de">#E0E0DE</color>
+    <color name="theme_d1d1cf">#D1D1CF</color>
+    <color name="theme_292929">#292929</color>
 </resources>

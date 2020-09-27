@@ -3,15 +3,15 @@ package com.iron.espresso.presentation.profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.iron.espresso.MenuSet
 import com.iron.espresso.R
@@ -19,6 +19,7 @@ import com.iron.espresso.ToolbarHelper
 import com.iron.espresso.databinding.ActivityProfileBinding
 import com.iron.espresso.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.view_profile_header.view.*
 
 
 @AndroidEntryPoint
@@ -34,21 +35,17 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
             setTitle(R.string.profile_title)
             setNavigationIcon(R.drawable.ic_back_24)
         }
 
-        binding.btnGithub.setOnClickListener {
-            val userId = binding.edtGithubId.text.toString()
-            viewModel.getProfileImage(userId)
-        }
-
         viewModel.avatarUrl.observe(this, Observer { avatarUrl ->
             Glide.with(this)
                 .load(avatarUrl)
-                .into(binding.profileImage)
+                .into(binding.layoutHeader.profile_image)
         })
     }
 
