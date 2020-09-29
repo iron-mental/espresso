@@ -16,15 +16,15 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp">
 
             <TextView
                 android:id="@+id/setting_profile_nickname"
-                android:layout_width="237dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/setting_profile_location"
                 android:maxLines="1"
+                android:padding="1dp"
                 android:text="닉네임"
                 android:textSize="15sp" />
 
@@ -33,6 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:padding="1dp"
                 android:maxLines="1"
                 android:text="인천광역시 계양구"
                 android:textSize="15sp" />
@@ -41,10 +42,11 @@
                 android:id="@+id/setting_profile_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/setting_profile_nickname"
+                android:layout_marginTop="12dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="자기소개 글ddddddddddddddddddddddddddddddfdafdsafdsafdsafdsafdsafdsafdsadddfdafdafdsafdsadddfffffffffffff"
+                android:text="자기소개 글이 길어지면 '...' 표시가 됩니다."
                 android:textSize="15sp" />
 
         </RelativeLayout>
