@@ -1,6 +1,7 @@
 package com.iron.espresso.presentation.home.setting
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,7 @@ class SettingFragment : Fragment() {
         val settingList = arrayListOf<ItemType>()
         settingList.add(HeaderItem("", "", "", ""))
 
-        for ((count, category) in resources.getStringArray(R.array.setting_category).withIndex()) {
+        resources.getStringArray(R.array.setting_category).forEachIndexed { count, category ->
             val itemList = arrayListOf<SettingItem>()
             when (count) {
                 0 -> itemList.addAll(
@@ -41,11 +42,11 @@ class SettingFragment : Fragment() {
                     })
                 2 -> itemList.addAll(
                     resources.getStringArray(R.array.category_info).map {
-                        SettingItem(it, SubItemType.MOVE)
+                        SettingItem(it, SubItemType.INFO)
                     })
                 3 -> itemList.addAll(
                     resources.getStringArray(R.array.category_etc).map {
-                        SettingItem(it, null)
+                        SettingItem(it, SubItemType.NONE)
                     })
             }
             settingList.add(SettingHeaderItem(category))
@@ -54,12 +55,6 @@ class SettingFragment : Fragment() {
 
         settingAdapter = SettingAdapter(settingList)
         binding.settingRecyclerview.adapter = settingAdapter
-
-        settingAdapter.setItemClickListener(object : SettingAdapter.ItemClickListener {
-            override fun onClick(view: View, position: Int, title: String) {
-                Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
-            }
-        })
 
         return binding.root
     }

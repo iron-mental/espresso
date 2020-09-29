@@ -27,6 +27,8 @@ class SettingAdapter(
         this.itemClickListener = itemClickListener
     }
 
+    var viewAdded = 0
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -55,20 +57,20 @@ class SettingAdapter(
     override fun getItemCount(): Int = itemList.count()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is HeaderViewHolder -> {
-                val item = itemList[position] as HeaderItem
-                holder.bind(item)
-            }
-            is ItemHeaderViewHolder -> {
-                val item = itemList[position] as SettingHeaderItem
-                holder.bind(item)
-            }
-            is ItemViewHolder -> {
-                val item = itemList[position] as SettingItem
-                holder.bind(item)
-                holder.itemView.setOnClickListener {
-                    itemClickListener.onClick(it, position, item.title)
+        if (viewAdded < itemList.count()) {
+            viewAdded++
+            when (holder) {
+                is HeaderViewHolder -> {
+                    val item = itemList[position] as HeaderItem
+                    holder.bind(item)
+                }
+                is ItemHeaderViewHolder -> {
+                    val item = itemList[position] as SettingHeaderItem
+                    holder.bind(item)
+                }
+                is ItemViewHolder -> {
+                    val item = itemList[position] as SettingItem
+                    holder.bind(item, itemClickListener)
                 }
             }
         }
@@ -122,20 +124,16 @@ class SettingAdapter(
                         .into(img)
                     subItemView.addView(img)
                 }
-
                 SubItemType.SWITCH -> {
                     val noticeSwitch = SwitchMaterial(itemView.context)
                     subItemView.addView(noticeSwitch)
                 }
-
-                SubItemType.MOVE -> {
+                SubItemType.INFO -> {
                     val img = ImageView(itemView.context)
-                    Glide.with(itemView.context)
-                        .load(R.drawable.nexticon)
-                        .apply(RequestOptions().override(150, 150))
-                        .apply(RequestOptions.centerCropTransform())
-                        .into(img)
+                    img.setImageResource(R.drawable.ic_next)
                     subItemView.addView(img)
+                }
+                SubItemType.NONE -> {
                 }
             }
         }
