@@ -1,7 +1,7 @@
 package com.iron.espresso.presentation.home.setting
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +54,34 @@ class SettingFragment : Fragment() {
         }
 
         settingAdapter = SettingAdapter(settingList)
+        settingAdapter.setItemClickListener(object : SettingAdapter.ItemClickListener {
+            override fun onClick(view: View) {
+                Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
+
+                when (view.tag.toString()) {
+                    getString(R.string.notice) -> {
+                        val intent = Intent(context, SettingNoticeActivity::class.java)
+                        startActivity(intent)
+                    }
+                    getString(R.string.help) -> {
+                        val intent = Intent(context, SettingHelpActivity::class.java)
+                        startActivity(intent)
+                    }
+                    getString(R.string.contact) -> {
+                        val intent = Intent(context, SettingContactActivity::class.java)
+                        startActivity(intent)
+                    }
+                    getString(R.string.terms) -> {
+                        val intent = Intent(context, SettingTermsActivity::class.java)
+                        startActivity(intent)
+                    }
+                    getString(R.string.policy) -> {
+                        val intent = Intent(context, SettingPolicyActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+            }
+        })
         binding.settingRecyclerview.adapter = settingAdapter
 
         return binding.root
@@ -67,5 +95,4 @@ class SettingFragment : Fragment() {
         fun newInstance() =
             SettingFragment()
     }
-
 }

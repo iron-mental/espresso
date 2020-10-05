@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">terminal</string>
+
     <string name="setting">설정</string>
+    <string name="notice">공지사항</string>
+    <string name="help">도움말</string>
+    <string name="contact">문의하기</string>
+    <string name="terms">이용약관</string>
+    <string name="policy">개인정보 취급방침</string>
 </resources>

@@ -18,7 +18,7 @@ class SettingAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface ItemClickListener {
-        fun onClick(view: View, position: Int, title: String)
+        fun onClick(view: View)
     }
 
     private lateinit var itemClickListener: ItemClickListener
@@ -27,7 +27,7 @@ class SettingAdapter(
         this.itemClickListener = itemClickListener
     }
 
-    var viewAdded = 0
+    private var viewAdded = 0
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -111,8 +111,13 @@ class SettingAdapter(
         private val title: TextView = itemView.findViewById(R.id.setting_item_text)
         private val subItemView: LinearLayout = itemView.findViewById(R.id.setting_item_sub)
 
-        fun bind(item: SettingItem) {
+        fun bind(item: SettingItem, itemClickListener: ItemClickListener) {
             title.text = item.title
+
+            itemView.tag = item.title
+            itemView.setOnClickListener {
+                itemClickListener.onClick(it)
+            }
 
             when (item.subItemType) {
                 SubItemType.IMAGE -> {
