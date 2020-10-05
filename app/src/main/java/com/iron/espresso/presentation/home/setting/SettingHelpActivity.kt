@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.iron.espresso.R
-import com.iron.espresso.databinding.ActivitySettingContactBinding
+import com.iron.espresso.databinding.ActivitySettingHelpBinding
 
 class SettingHelpActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySettingContactBinding
+    private lateinit var binding: ActivitySettingHelpBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
