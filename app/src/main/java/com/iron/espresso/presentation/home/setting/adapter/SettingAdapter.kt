@@ -62,7 +62,7 @@ class SettingAdapter(
             when (holder) {
                 is HeaderViewHolder -> {
                     val item = itemList[position] as HeaderItem
-                    holder.bind(item)
+                    holder.bind(item, itemClickListener)
                 }
                 is ItemHeaderViewHolder -> {
                     val item = itemList[position] as SettingHeaderItem
@@ -88,7 +88,11 @@ class SettingAdapter(
         private val settingProfileImage: ImageView =
             itemView.findViewById(R.id.setting_profile_image)
 
-        fun bind(item: HeaderItem) {
+        fun bind(item: HeaderItem, itemClickListener: ItemClickListener) {
+            itemView.tag = itemViewType
+            itemView.setOnClickListener {
+                itemClickListener.onClick(it)
+            }
             Glide.with(itemView.context)
                 .load(R.drawable.ic_launcher_background)
                 .circleCrop()

@@ -58,7 +58,7 @@ class SettingFragment : Fragment() {
             override fun onClick(view: View) {
                 Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
 
-                when (view.tag.toString()) {
+                when (view.tag) {
                     getString(R.string.notice) -> {
                         val intent = Intent(context, SettingNoticeActivity::class.java)
                         startActivity(intent)
@@ -77,6 +77,10 @@ class SettingFragment : Fragment() {
                     }
                     getString(R.string.policy) -> {
                         val intent = Intent(context, SettingPolicyActivity::class.java)
+                        startActivity(intent)
+                    }
+                    0 -> {
+                        val intent = Intent(context, SettingProfileActivity::class.java)
                         startActivity(intent)
                     }
                 }
