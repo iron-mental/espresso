@@ -14,7 +14,6 @@
             android:id="@+id/setting_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
             android:padding="20dp">
 
             <RelativeLayout
@@ -27,7 +26,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="@string/setting"
-                    android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
@@ -35,11 +33,19 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <View
+            android:id="@+id/setting_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/setting_toolbar"
+            android:layout_marginBottom="10dp"
+            android:background="@color/black" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/setting_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/setting_toolbar"
+            android:layout_below="@+id/setting_divider"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

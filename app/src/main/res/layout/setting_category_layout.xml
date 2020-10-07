@@ -9,7 +9,7 @@
     <View
         android:id="@+id/category_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="3dp"
         android:layout_marginBottom="10dp"
         android:background="@color/black" />
 
@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/category_divider"
         android:layout_marginStart="15dp"
-        tools:text="계정"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="계정" />
 
 </RelativeLayout>
