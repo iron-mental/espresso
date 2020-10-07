@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".presentation.home.setting.SettingProfileActivity"></activity>
         <activity android:name=".presentation.home.setting.SettingPolicyActivity" />
         <activity android:name=".presentation.home.setting.SettingTermsActivity" />
         <activity android:name=".presentation.home.setting.SettingContactActivity" />
