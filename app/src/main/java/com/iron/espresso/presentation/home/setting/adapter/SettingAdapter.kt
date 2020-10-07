@@ -113,10 +113,12 @@ class SettingAdapter(
 
         fun bind(item: SettingItem, itemClickListener: ItemClickListener) {
             title.text = item.title
+            val noticeSwitch = SwitchMaterial(itemView.context)
 
             itemView.tag = item.title
             itemView.setOnClickListener {
                 itemClickListener.onClick(it)
+                noticeSwitch.isChecked = !noticeSwitch.isChecked
             }
 
             when (item.subItemType) {
@@ -130,7 +132,6 @@ class SettingAdapter(
                     subItemView.addView(img)
                 }
                 SubItemType.SWITCH -> {
-                    val noticeSwitch = SwitchMaterial(itemView.context)
                     subItemView.addView(noticeSwitch)
                 }
                 SubItemType.INFO -> {
