@@ -139,9 +139,16 @@ class SettingAdapter(
                     subItemView.addView(noticeSwitch)
                 }
                 SubItemType.INFO -> {
-                    val img = ImageView(itemView.context)
-                    img.setImageResource(R.drawable.ic_next)
-                    subItemView.addView(img)
+                    if(itemView.tag == itemView.context.getString(R.string.app_version)){
+                        val text = TextView(itemView.context)
+                        text.text = itemView.context.getString(R.string.version_text)
+                        subItemView.addView(text)
+                    }
+                    else {
+                        val img = ImageView(itemView.context)
+                        img.setImageResource(R.drawable.ic_next)
+                        subItemView.addView(img)
+                    }
                 }
                 SubItemType.NONE -> {
                 }
