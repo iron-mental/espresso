@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.home.setting.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -125,6 +126,11 @@ class SettingAdapter(
                 noticeSwitch.isChecked = !noticeSwitch.isChecked
             }
 
+            noticeSwitch.setOnCheckedChangeListener { _, isChecked ->
+                Log.d("Switch State=", isChecked.toString())
+                itemClickListener.onClick(itemView)
+            }
+
             when (item.subItemType) {
                 SubItemType.IMAGE -> {
                     val img = ImageView(itemView.context)
@@ -139,12 +145,11 @@ class SettingAdapter(
                     subItemView.addView(noticeSwitch)
                 }
                 SubItemType.INFO -> {
-                    if(itemView.tag == itemView.context.getString(R.string.app_version)){
+                    if (itemView.tag == itemView.context.getString(R.string.app_version)) {
                         val text = TextView(itemView.context)
                         text.text = itemView.context.getString(R.string.version_text)
                         subItemView.addView(text)
-                    }
-                    else {
+                    } else {
                         val img = ImageView(itemView.context)
                         img.setImageResource(R.drawable.ic_next)
                         subItemView.addView(img)
