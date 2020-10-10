@@ -20,7 +20,7 @@ class ToolbarHelper(activity: AppCompatActivity, rootView: ViewGroup) {
         this.toolbar = toolbar
         activity.setSupportActionBar(toolbar)
         actionBar = activity.supportActionBar
-
+        setTitle("")
         rootView.addView(toolbar)
     }
 
