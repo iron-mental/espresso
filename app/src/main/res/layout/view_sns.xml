@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.iron.espresso.R" />
+
         <variable
             name="viewModel"
             type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,177 +38,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider" />
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_github"
+        <include
+            android:id="@+id/github_input_view"
+            hint="@{`Github Project URL`}"
+            icon="@{R.drawable.github}"
+            layout="@layout/view_input_url"
+            title="@{`Github`}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:paddingStart="24dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="24dp"
-            android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title">
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
-            <ImageView
-                android:id="@+id/github_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/github"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/github_title"
-                android:layout_width="73dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Github"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/github_icon"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:hint="Github id"
-                android:textColorHint="@color/theme_d1d1cf"
-                android:textSize="12sp"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/github_title"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/github_id_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@={viewModel.githubId}"
-                    android:imeOptions="actionDone" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_linkedin"
+        <include
+            android:id="@+id/linkedin_input_view"
+            hint="@{`LinkedIn URL`}"
+            icon="@{R.drawable.linked_in}"
+            layout="@layout/view_input_url"
+            title="@{`LinkedIn`}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:paddingStart="24dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="24dp"
-            android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_github">
+            app:layout_constraintTop_toBottomOf="@id/github_input_view" />
 
-            <ImageView
-                android:id="@+id/linkedin_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/linked_in"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/linkedin_title"
-                android:layout_width="73dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="LinkedIn"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/linkedin_icon"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:hint="LinkedIn URL"
-                android:textColorHint="@color/theme_d1d1cf"
-                android:textSize="12sp"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/linkedin_title"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_web_url"
+        <include
+            android:id="@+id/web_input_view"
+            hint="@{`관련 URL (블로그 등)`}"
+            icon="@{R.drawable.icon_web}"
+            layout="@layout/view_input_url"
+            title="@{`Web`}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:paddingStart="24dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="24dp"
-            android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_linkedin">
-
-            <ImageView
-                android:id="@+id/url_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_web"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/url_title"
-                android:layout_width="73dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Web"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/url_icon"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:hint="관련 URL (븛로그 등)"
-                android:textColorHint="@color/theme_d1d1cf"
-                android:textSize="12sp"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/url_title"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+            app:layout_constraintTop_toBottomOf="@id/linkedin_input_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
