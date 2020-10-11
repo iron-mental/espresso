@@ -38,6 +38,8 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             exitIdentifier.observe(this@SignInActivity, Observer { isExit ->
                 if (isExit) startActivity<IntroActivity>()
             })
+
+            checkLogin("rkdcjf0122@naver.com", "qlalfqjsgh")
         }
 
     }

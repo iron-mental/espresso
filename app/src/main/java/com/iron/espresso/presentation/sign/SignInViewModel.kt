@@ -1,10 +1,12 @@
 package com.iron.espresso.presentation.sign
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.iron.espresso.domain.usecase.GetUser
 
-class SignInViewModel : ViewModel() {
+class SignInViewModel(private val getUser: GetUser) : ViewModel() {
 
     val signInEmail = MutableLiveData<String>()
     val signInPassword = MutableLiveData<String>()
@@ -20,6 +22,15 @@ class SignInViewModel : ViewModel() {
     private val _exitIdentifier = MutableLiveData<Boolean>()
     val exitIdentifier: LiveData<Boolean>
         get() = _exitIdentifier
+
+
+    fun checkLogin(userId: String, userPass: String) {
+        Thread {
+            val getUser = getUser(userId, userPass)
+            getUser.email?.let { Log.d("결과", "성공") } ?: Log.d("결과", "실패")
+        }.start()
+
+    }
 
 
     private fun verifyEmailCheck(email: String?) {
