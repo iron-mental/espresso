@@ -19,7 +19,7 @@ class SettingAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface ItemClickListener {
-        fun onClick(view: View)
+        fun onClick(view: View, noticeSwitch: SwitchMaterial? = null)
     }
 
     private lateinit var itemClickListener: ItemClickListener
@@ -58,7 +58,7 @@ class SettingAdapter(
     override fun getItemCount(): Int = itemList.count()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (viewAdded < itemList.count()) {
+        if (viewAdded < itemCount) {
             viewAdded++
             when (holder) {
                 is HeaderViewHolder -> {
@@ -143,6 +143,7 @@ class SettingAdapter(
                 }
                 SubItemType.SWITCH -> {
                     subItemView.addView(noticeSwitch)
+                    noticeSwitch.isClickable = false
                 }
                 SubItemType.INFO -> {
                     if (itemView.tag == itemView.context.getString(R.string.app_version)) {

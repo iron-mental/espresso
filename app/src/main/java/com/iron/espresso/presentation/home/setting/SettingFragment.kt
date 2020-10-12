@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.iron.espresso.R
 import com.iron.espresso.databinding.FragmentSettingBinding
 import com.iron.espresso.presentation.home.setting.adapter.SettingAdapter
@@ -55,10 +56,13 @@ class SettingFragment : Fragment() {
 
         settingAdapter = SettingAdapter(settingList)
         settingAdapter.setItemClickListener(object : SettingAdapter.ItemClickListener {
-            override fun onClick(view: View) {
-                Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
+            override fun onClick(view: View, noticeSwitch: SwitchMaterial?) {
 
+                Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
                 when (view.tag) {
+                    getString(R.string.push_alarm) -> {
+                        noticeSwitch!!.isChecked = !noticeSwitch.isChecked
+                    }
                     getString(R.string.notice) -> {
                         val intent = Intent(context, SettingNoticeActivity::class.java)
                         startActivity(intent)

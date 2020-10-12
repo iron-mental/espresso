@@ -9,4 +9,5 @@
     <string name="policy">개인정보 취급방침</string>
     <string name="app_version">앱 버전</string>
     <string name="version_text">0.0.0</string>
+    <string name="push_alarm">푸쉬 알림 사용</string>
 </resources>
