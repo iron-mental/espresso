@@ -44,7 +44,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                         startFragment(SignUpPasswordFragment())
                     }
                     CheckType.CHECK_PASSWORD_SUCCESS -> {
-                        registerUser()
+//                        registerUser()
                     }
                     CheckType.CHECK_ALL_SUCCESS -> {
                         startActivity<HomeActivity>()
@@ -57,6 +57,8 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             exitIdentifier.observe(this@SignUpActivity, { isExit ->
                 if (isExit) exitFragment()
             })
+
+            registerUser("duksung3@naver.com","ejrtjd12","조던보단반스")
         }
     }
 

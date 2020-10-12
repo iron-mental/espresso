@@ -1,10 +1,12 @@
 package com.iron.espresso.presentation.sign
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.iron.espresso.domain.usecase.GetUser
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel(private val getUser: GetUser) : ViewModel() {
 
     val signUpEmail = MutableLiveData<String>()
     val signUpNickname = MutableLiveData<String>()
@@ -50,8 +52,11 @@ class SignUpViewModel : ViewModel() {
         }
     }
 
-    fun registerUser() {
-        _checkType.value = CheckType.CHECK_ALL_SUCCESS
+    fun registerUser(userId: String, userPass: String, nickname: String) {
+        Thread {
+            Log.d("결과", getUser.invoke(userId, userPass, nickname).toString())
+//            _checkType.value = CheckType.CHECK_ALL_SUCCESS
+        }.start()
     }
 
 
