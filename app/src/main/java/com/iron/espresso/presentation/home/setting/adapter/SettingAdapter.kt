@@ -122,13 +122,11 @@ class SettingAdapter(
 
             itemView.tag = item.title
             itemView.setOnClickListener {
-                itemClickListener.onClick(it)
-                noticeSwitch.isChecked = !noticeSwitch.isChecked
-            }
-
-            noticeSwitch.setOnCheckedChangeListener { _, isChecked ->
-                Log.d("Switch State=", isChecked.toString())
-                itemClickListener.onClick(itemView)
+                if (item.subItemType == SubItemType.SWITCH) {
+                    itemClickListener.onClick(it, noticeSwitch)
+                } else {
+                    itemClickListener.onClick(it)
+                }
             }
 
             when (item.subItemType) {
