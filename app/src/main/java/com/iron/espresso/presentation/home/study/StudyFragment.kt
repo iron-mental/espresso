@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.home.study
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,12 @@ class StudyFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_study, container, false)
         binding.lifecycleOwner = this
+
+        binding.searchButton.setOnClickListener {
+            val intent = Intent(context, SearchStudyActivity::class.java)
+            startActivity(intent)
+        }
+
         return binding.root
     }
 
