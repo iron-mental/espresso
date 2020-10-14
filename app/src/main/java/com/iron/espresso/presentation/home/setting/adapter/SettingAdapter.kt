@@ -4,9 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -58,8 +56,6 @@ class SettingAdapter(
     override fun getItemCount(): Int = itemList.count()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (viewAdded < itemCount) {
-            viewAdded++
             when (holder) {
                 is HeaderViewHolder -> {
                     val item = itemList[position] as HeaderItem
@@ -74,7 +70,6 @@ class SettingAdapter(
                     holder.bind(item, itemClickListener)
                 }
             }
-        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -105,9 +100,6 @@ class SettingAdapter(
         private val categoryTitle: TextView = itemView.findViewById(R.id.category_title)
 
         fun bind(item: SettingHeaderItem) {
-            if (item.categoryTitle.isEmpty()) {
-                categoryTitle.visibility = View.GONE
-            }
             categoryTitle.text = item.categoryTitle
         }
     }
@@ -128,6 +120,7 @@ class SettingAdapter(
                     itemClickListener.onClick(it)
                 }
             }
+            subItemView.removeAllViews()
 
             when (item.subItemType) {
                 SubItemType.IMAGE -> {
