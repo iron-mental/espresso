@@ -7,24 +7,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/setting_profile_image"
             android:layout_width="55dp"
-            android:layout_height="55dp" />
+            android:layout_height="55dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/setting_profile_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:padding="1dp"
                 android:text="닉네임"
                 android:textSize="15sp" />
 
@@ -36,14 +40,13 @@
                 android:maxLines="1"
                 android:padding="1dp"
                 android:text="인천광역시 계양구"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/setting_profile_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/setting_profile_nickname"
-                android:layout_marginTop="12dp"
+                android:layout_alignParentBottom="true"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다."

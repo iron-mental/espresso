@@ -125,11 +125,7 @@ class SettingAdapter(
             when (item.subItemType) {
                 SubItemType.IMAGE -> {
                     val img = ImageView(itemView.context)
-                    Glide.with(itemView.context)
-                        .load(R.drawable.ic_launcher_foreground)
-                        .apply(RequestOptions().override(150, 150))
-                        .apply(RequestOptions.centerCropTransform())
-                        .into(img)
+                    img.setImageResource(R.drawable.ic_next)
                     subItemView.addView(img)
                 }
                 SubItemType.SWITCH -> {

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="15dp">
+    android:layout_height="wrap_content">
 
     <View
         android:id="@+id/category_divider"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_marginBottom="10dp"
         android:background="@color/black" />
 
     <TextView
         android:id="@+id/category_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_below="@+id/category_divider"
-        android:layout_marginStart="15dp"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold"
         tools:text="계정" />
 
