@@ -13,11 +13,13 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/hot_keyword_button"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:maxLines="1"
+            android:textColor="@color/white"
             android:textSize="14sp"
-            app:cornerRadius="14dp" />
+            app:cornerRadius="14dp"
+            app:strokeColor="@color/colorCobaltBlue" />
 
     </LinearLayout>
 </layout>
