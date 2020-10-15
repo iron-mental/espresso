@@ -23,62 +23,34 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/place_search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="장소로 검색하기"
+            android:text="@string/search_place"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/hot_keyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="핫 등록 키워드"
+            android:text="@string/search_hot_keyword"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/place_search_button" />
 
-        <GridLayout
-            android:layout_width="match_parent"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hot_keyword_recyclerview"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:columnCount="3"
-            android:orientation="horizontal"
-            android:useDefaultMargins="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
+            app:layout_constraintTop_toBottomOf="@+id/hot_keyword"
+            tools:listitem="@layout/search_hot_keyword_item"/>
 
-            <Button
-                android:id="@+id/btn1"
-                android:layout_columnWeight="1"/>
-
-            <Button
-                android:id="@+id/btn2"
-                android:layout_columnWeight="1"/>
-
-            <Button
-                android:id="@+id/btn3"
-                android:layout_columnWeight="1"/>
-
-            <Button
-                android:id="@+id/btn4"
-                android:layout_columnWeight="1"/>
-
-            <Button
-                android:id="@+id/btn5"
-                android:layout_columnWeight="1"/>
-
-            <Button
-                android:id="@+id/btn6"
-                android:layout_columnWeight="1"/>
-
-
-
-        </GridLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
