@@ -44,12 +44,13 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hot_keyword_recyclerview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:overScrollMode="never"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hot_keyword"
-            tools:listitem="@layout/search_hot_keyword_item"/>
+            tools:listitem="@layout/search_hot_keyword_item" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

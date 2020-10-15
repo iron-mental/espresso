@@ -10,20 +10,21 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchStudyBinding
 import kotlinx.android.synthetic.main.activity_search_study.*
 
-class SearchStudyActivity : BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
+class SearchStudyActivity :
+    BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val hotKeywordList = arrayListOf<HotKeywordItem>()
-        hotKeywordList.add(HotKeywordItem("1"))
-        hotKeywordList.add(HotKeywordItem("2"))
-        hotKeywordList.add(HotKeywordItem("3"))
-        hotKeywordList.add(HotKeywordItem("4"))
-        hotKeywordList.add(HotKeywordItem("5"))
-        hotKeywordList.add(HotKeywordItem("6"))
+        hotKeywordList.add(HotKeywordItem("안드로이드"))
+        hotKeywordList.add(HotKeywordItem("node.js"))
+        hotKeywordList.add(HotKeywordItem("코드리뷰"))
+        hotKeywordList.add(HotKeywordItem("취업스터디"))
+        hotKeywordList.add(HotKeywordItem("프로젝트"))
+        hotKeywordList.add(HotKeywordItem("Swift"))
 
-        binding.hotKeywordRecyclerview.layoutManager = GridLayoutManager(this,3)
+        binding.hotKeywordRecyclerview.layoutManager = GridLayoutManager(this, 3)
         binding.hotKeywordRecyclerview.adapter = HotKeywordAdapter(hotKeywordList)
     }
 }
