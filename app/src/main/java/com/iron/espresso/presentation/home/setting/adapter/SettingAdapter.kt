@@ -1,13 +1,11 @@
 package com.iron.espresso.presentation.home.setting.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.iron.espresso.R
 import com.iron.espresso.presentation.home.setting.model.*
@@ -56,20 +54,20 @@ class SettingAdapter(
     override fun getItemCount(): Int = itemList.count()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            when (holder) {
-                is HeaderViewHolder -> {
-                    val item = itemList[position] as HeaderItem
-                    holder.bind(item, itemClickListener)
-                }
-                is ItemHeaderViewHolder -> {
-                    val item = itemList[position] as SettingHeaderItem
-                    holder.bind(item)
-                }
-                is ItemViewHolder -> {
-                    val item = itemList[position] as SettingItem
-                    holder.bind(item, itemClickListener)
-                }
+        when (holder) {
+            is HeaderViewHolder -> {
+                val item = itemList[position] as HeaderItem
+                holder.bind(item, itemClickListener)
             }
+            is ItemHeaderViewHolder -> {
+                val item = itemList[position] as SettingHeaderItem
+                holder.bind(item)
+            }
+            is ItemViewHolder -> {
+                val item = itemList[position] as SettingItem
+                holder.bind(item, itemClickListener)
+            }
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -108,6 +106,9 @@ class SettingAdapter(
         private val title: TextView = itemView.findViewById(R.id.setting_item_text)
         private val subItemView: LinearLayout = itemView.findViewById(R.id.setting_item_sub)
 
+        private val button: Button = itemView.findViewById(R.id.setting_item_button)
+        private val image: ImageView = itemView.findViewById(R.id.setting_item_image)
+
         fun bind(item: SettingItem, itemClickListener: ItemClickListener) {
             title.text = item.title
             val noticeSwitch = SwitchMaterial(itemView.context)
@@ -124,9 +125,13 @@ class SettingAdapter(
 
             when (item.subItemType) {
                 SubItemType.IMAGE -> {
-                    val img = ImageView(itemView.context)
-                    img.setImageResource(R.drawable.ic_next)
-                    subItemView.addView(img)
+                    if (itemView.tag == "이메일") {
+                        button.text = "인증"
+                        subItemView.addView(button)
+                    } else {
+                        image.setImageResource(R.drawable.ic_github)
+                        subItemView.addView(image)
+                    }
                 }
                 SubItemType.SWITCH -> {
                     subItemView.addView(noticeSwitch)
