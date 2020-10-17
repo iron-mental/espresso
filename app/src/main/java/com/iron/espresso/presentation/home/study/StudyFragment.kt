@@ -5,14 +5,19 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.iron.espresso.R
 import com.iron.espresso.databinding.FragmentStudyBinding
+import com.iron.espresso.presentation.StudyCategoryItem
+import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
 import com.iron.espresso.utils.ToolbarHelper
 
 class StudyFragment : Fragment() {
     private lateinit var binding: FragmentStudyBinding
 
     private lateinit var toolbarHelper: ToolbarHelper
+
+    private val categoryAdapter by lazy { CategoryAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,8 +36,13 @@ class StudyFragment : Fragment() {
         toolbarHelper = ToolbarHelper((activity as AppCompatActivity), binding.appbar).apply {
             setTitle(TOOLBAR_TITLE)
         }
-    }
 
+        binding.apply {
+            viewStudyCategory.adapter = categoryAdapter
+            viewStudyCategory.layoutManager = GridLayoutManager(context, SPAN_COUNT)
+            categoryAdapter.addAll(DUMMY_DATA)
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_study, menu)
@@ -55,6 +65,23 @@ class StudyFragment : Fragment() {
     companion object {
 
         private const val TOOLBAR_TITLE = "스터디"
+
+        private const val SPAN_COUNT = 2
+
+        private val DUMMY_DATA = mutableListOf<StudyCategoryItem>().apply {
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+            add(StudyCategoryItem(""))
+        }
 
         fun newInstance() =
             StudyFragment()
