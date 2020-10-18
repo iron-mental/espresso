@@ -22,4 +22,6 @@
     <string name="sign_up_password_helper">6글자 이상 입력하세요</string>
 
 
+    <string name="profile_title">프로필</string>
+    <string name="share">공유하기</string>
 </resources>
