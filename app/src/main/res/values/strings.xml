@@ -22,6 +22,13 @@
     <string name="sign_up_password_helper">6글자 이상 입력하세요</string>
 
 
+    <string name="sign_in_explain_email">Email</string>
+    <string name="sign_in_explain_password">Password</string>
+    <string name="sign_in_explain_in">로그인</string>
+    <string name="sign_in_hint_password">패스워드 입력</string>
+    <string name="sign_in_hint_email">이메일 입력</string>
+
+
     <string name="profile_title">프로필</string>
     <string name="share">공유하기</string>
 </resources>

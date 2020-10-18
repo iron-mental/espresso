@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.sign
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -7,7 +8,7 @@ class IntroViewModel : ViewModel() {
 
     private val _clickTypeIdentifier =
         MutableLiveData<SignType>()
-    val clickTypeIdentifier
+    val clickTypeIdentifier: LiveData<SignType>
         get() = _clickTypeIdentifier
 
 

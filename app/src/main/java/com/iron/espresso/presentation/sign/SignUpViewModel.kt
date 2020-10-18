@@ -1,10 +1,7 @@
 package com.iron.espresso.presentation.sign
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.iron.espresso.domain.usecase.GetUser
 
 class SignUpViewModel(private val getUser: GetUser) : ViewModel() {
 
@@ -64,6 +61,9 @@ class SignUpViewModel(private val getUser: GetUser) : ViewModel() {
         _exitIdentifier.value = true
     }
 
+    companion object {
+        const val EMPTY = ""
+    }
 }
 
 enum class CheckType {
