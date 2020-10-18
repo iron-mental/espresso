@@ -3,6 +3,7 @@ package com.iron.espresso.presentation.home
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.google.android.material.tabs.TabLayout
@@ -14,13 +15,14 @@ import com.iron.espresso.presentation.home.mystudy.MyStudyFragment
 import com.iron.espresso.presentation.home.setting.SettingFragment
 import com.iron.espresso.presentation.home.study.StudyFragment
 
-class HomeActivity : AppCompatActivity(), UseBinding<ActivityHomeBinding> {
+class HomeActivity : AppCompatActivity() {
 
-    override val binding: ActivityHomeBinding
-        get() = BindingHelper.getBinding(this, R.layout.activity_home)
+    private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        binding.lifecycleOwner = this
 
         val homeTabList = resources.getStringArray(R.array.home_tab)
 

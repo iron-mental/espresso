@@ -3,6 +3,7 @@ package com.iron.espresso.domain.usecase
 import com.iron.espresso.domain.entity.GithubUser
 import com.iron.espresso.domain.repo.ProfileRepository
 import io.reactivex.Single
+import javax.inject.Inject
 
 class GetGithubUser @Inject constructor(private val profileRepository: ProfileRepository) {
 

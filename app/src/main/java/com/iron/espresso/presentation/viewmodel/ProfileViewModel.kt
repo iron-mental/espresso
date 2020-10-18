@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.iron.espresso.Logger
 import com.iron.espresso.domain.entity.GithubUser
-import com.iron.espresso.domain.usecase.GetUser
+import com.iron.espresso.domain.usecase.GetGithubUser
 import com.iron.espresso.ext.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-class ProfileViewModel @ViewModelInject constructor(private val getUser: GetUser) : ViewModel() {
+class ProfileViewModel @ViewModelInject constructor(private val getGithubUser: GetGithubUser) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -42,7 +42,7 @@ class ProfileViewModel @ViewModelInject constructor(private val getUser: GetUser
 
 
     private fun getProfileImage(userId: String) {
-        compositeDisposable += getUser(userId)
+        compositeDisposable += getGithubUser(userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response: GithubUser ->

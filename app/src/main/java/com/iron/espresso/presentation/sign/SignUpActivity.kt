@@ -35,7 +35,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         }
 
         signUpViewModel.run {
-            checkType.observe(this@SignUpActivity, { type ->
+            checkType.observe(this@SignUpActivity) { type ->
                 when (type) {
                     CheckType.CHECK_EMAIL_SUCCESS -> {
                         startFragment(SignUpNicknameFragment())
@@ -53,10 +53,10 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
                     }
                 }
-            })
-            exitIdentifier.observe(this@SignUpActivity, { isExit ->
+            }
+            exitIdentifier.observe(this@SignUpActivity) { isExit ->
                 if (isExit) exitFragment()
-            })
+            }
 
             registerUser("duksung3@naver.com","ejrtjd12","조던보단반스")
         }

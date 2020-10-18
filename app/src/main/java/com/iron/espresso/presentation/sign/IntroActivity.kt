@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityIntroBinding
+import com.iron.espresso.ext.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro) {
@@ -40,5 +41,4 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
             .addToBackStack(null)
             .commit()
     }
-
 }
