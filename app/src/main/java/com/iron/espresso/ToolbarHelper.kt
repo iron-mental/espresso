@@ -1,6 +1,7 @@
 package com.iron.espresso
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -35,6 +36,20 @@ class ToolbarHelper(activity: AppCompatActivity, rootView: ViewGroup) {
         actionBar?.run {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(iconResId)
+        }
+    }
+
+    fun setCustomView(view: View) {
+        setCustomView(view, false)
+    }
+
+    fun setCustomView(view: View, relativeHeight: Boolean) {
+        toolbar.run {
+            addView(view)
+            setContentInsetsAbsolute(0, 0)
+            if (relativeHeight) {
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            }
         }
     }
 }
