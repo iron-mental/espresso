@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityIntroBinding
+import com.iron.espresso.ext.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro) {
@@ -23,10 +24,10 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
             clickTypeIdentifier.observe(this@IntroActivity, Observer { type ->
                 when (type) {
                     SignType.TYPE_SIGN_IN -> {
-                        startFragment(SignInFragment())
+                        startActivity<SignInActivity>()
                     }
                     SignType.TYPE_SIGN_UP -> {
-                        startFragment(SignUpFragment())
+                        startActivity<SignUpActivity>()
                     }
                 }
             })
@@ -34,11 +35,10 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
     }
 
     private fun startFragment(fragment: Fragment) {
-        binding.fragmentContainerIntroView.bringToFront()
+        binding.containerIntroView.bringToFront()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_intro_view, fragment)
+            .replace(R.id.container_intro_view, fragment)
             .addToBackStack(null)
             .commit()
     }
-
 }
