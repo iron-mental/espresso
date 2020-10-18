@@ -38,4 +38,5 @@ ext {
     retrofitVersion = '2.6.0'
 
     activityVersion = "1.1.0"
+    glideVersion = '4.10.0'
 }

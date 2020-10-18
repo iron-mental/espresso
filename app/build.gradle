@@ -2,8 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.1"
@@ -50,7 +48,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
 
     implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+    implementation "androidx.fragment:fragment:$fragmentVersion"
 
     //RxJava2 : https://github.com/ReactiveX/RxJava
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
