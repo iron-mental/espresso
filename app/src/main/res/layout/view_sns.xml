@@ -1,0 +1,79 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.iron.espresso.R" />
+
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        tools:background="@color/colorPrimaryDark">
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:background="@color/theme_292929"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:text="SNS"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <include
+            android:id="@+id/github_input_view"
+            hint="@{`Github Project URL`}"
+            icon="@{R.drawable.github}"
+            layout="@layout/view_input_url"
+            title="@{`Github`}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+
+        <include
+            android:id="@+id/linkedin_input_view"
+            hint="@{`LinkedIn URL`}"
+            icon="@{R.drawable.linked_in}"
+            layout="@layout/view_input_url"
+            title="@{`LinkedIn`}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/github_input_view" />
+
+        <include
+            android:id="@+id/web_input_view"
+            hint="@{`관련 URL (블로그 등)`}"
+            icon="@{R.drawable.icon_web}"
+            layout="@layout/view_input_url"
+            title="@{`Web`}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linkedin_input_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

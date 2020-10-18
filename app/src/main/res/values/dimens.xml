@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="gap_between_search_reyclerview">20dp</dimen>
+</resources>
