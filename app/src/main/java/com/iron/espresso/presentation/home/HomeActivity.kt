@@ -1,6 +1,7 @@
 package com.iron.espresso.presentation.home
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -57,5 +58,13 @@ class HomeActivity : AppCompatActivity(), UseBinding<ActivityHomeBinding> {
 
             bottomTab.setupWithViewPager(homePager)
         }
+
+        binding.bottomTab.setupWithViewPager(binding.homePager)
+
+        Handler().postDelayed({
+            binding.bottomTab.getTabAt(0)?.setIcon(R.drawable.ic_baseline_settings_24)
+            binding.bottomTab.getTabAt(1)?.setIcon(R.drawable.ic_baseline_settings_24)
+            binding.bottomTab.getTabAt(2)?.setIcon(R.drawable.ic_baseline_settings_24)
+        }, 100)
     }
 }
