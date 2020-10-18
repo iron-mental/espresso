@@ -14,60 +14,21 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
-        <ImageButton
-            android:id="@+id/ib_exit"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:backgroundTint="@android:color/white"
-            android:onClick="@{() -> VM.exitViewModel()}"
-            android:src="@drawable/ic_clear"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".12" />
-
         <TextView
-            android:id="@+id/tv_next"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:onClick="@{() -> VM.verifyEmailCheck(VM.signUpEmail)}"
-            android:text="@string/sign_next"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".12" />
-
-
-        <TextView
-            android:id="@+id/tv_explain1"
+            android:id="@+id/explain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_up_email_explain1"
+            android:layout_marginBottom="30dp"
+            android:text="@string/sign_up_email_explain"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tf_email"
+            app:layout_constraintBottom_toTopOf="@id/email_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias=".15"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ib_exit"
-            app:layout_constraintVertical_bias=".7" />
-
-        <TextView
-            android:id="@+id/tv_explain2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/sign_up_email_explain2"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/tv_explain1"
-            app:layout_constraintTop_toBottomOf="@id/tv_explain1" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tf_email"
+            android:id="@+id/email_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
@@ -79,7 +40,7 @@
             app:hintEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_explain1"
+            app:layout_constraintStart_toStartOf="@id/explain"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText

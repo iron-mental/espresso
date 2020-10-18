@@ -6,17 +6,8 @@ import com.iron.espresso.domain.repo.UserRepository
 class GetUser(private val userRepository: UserRepository) {
     operator fun invoke(userId: String, userPass: String): User =
         userRepository.getUser(userId, userPass)
-}
 
+    operator fun invoke(userId: String, userPass: String, nickname: String): Boolean =
+        userRepository.registerUser(userId, userPass, nickname)
 
-import com.iron.espresso.domain.entity.GithubUser
-import com.iron.espresso.domain.repo.ProfileRepository
-import io.reactivex.Single
-import javax.inject.Inject
-
-class GetUser @Inject constructor(private val profileRepository: ProfileRepository) {
-
-    operator fun invoke(userId: String): Single<GithubUser> {
-        return profileRepository.getUser(userId)
-    }
 }

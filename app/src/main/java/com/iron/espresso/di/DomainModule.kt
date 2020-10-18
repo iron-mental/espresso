@@ -7,7 +7,6 @@ val domainModule = module {
     single<GetUser> { GetUser(get()) }
 }
 import com.iron.espresso.domain.repo.ProfileRepository
-import com.iron.espresso.domain.usecase.GetUser
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
