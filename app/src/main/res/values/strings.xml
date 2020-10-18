@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">terminal</string>
 
+    <string name="setting">설정</string>
+    <string name="notice">공지사항</string>
+    <string name="help">도움말</string>
+    <string name="contact">문의하기</string>
+    <string name="terms">이용약관</string>
+    <string name="policy">개인정보 취급방침</string>
+    <string name="app_version">앱 버전</string>
+    <string name="version_text">0.0.0</string>
+    <string name="push_alarm">푸쉬 알림 사용</string>
 
     <string name="intro_sign_up">1분만에 시작하기</string>
     <string name="intro_sign_in">로그인</string>
