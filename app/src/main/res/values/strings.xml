@@ -1,5 +1,37 @@
 <resources>
     <string name="app_name">terminal</string>
+
+
+    <string name="intro_sign_up">1분만에 시작하기</string>
+    <string name="intro_sign_in">로그인</string>
+    <string name="intro_explain1">혼자하는 개발 공부 힘들었다면?</string>
+    <string name="intro_explain2">개발자들이 개발자를 알고 만든</string>
+    <string name="intro_explain3">‘터미널’ 에서 스터디를 시작해보세요.</string>
+
+
+    <string name="sign_next">다음</string>
+
+    <string name="sign_up_email_explain1">사용하실 이메일을</string>
+    <string name="sign_up_email_explain2">입력해 주세요.</string>
+    <string name="sign_up_email_hint">email@inputinput.com</string>
+
+    <string name="sign_up_nickname_explain1">가입을 위해</string>
+    <string name="sign_up_nickname_explain2">닉네임을 입력해 주세요.</string>
+    <string name="sign_up_nickname_hint">닉네임</string>
+
+    <string name="sign_up_password_explain1">사용하실 비밀번호</string>
+    <string name="sign_up_password_explain2">입력해 주세요.</string>
+    <string name="sign_up_password_hint1">비밀번호</string>
+    <string name="sign_up_password_hint2">6글자 이상 입력하세요</string>
+
+
+    <string name="sign_in_explain_email">Email</string>
+    <string name="sign_in_explain_password">Password</string>
+    <string name="sign_in_explain_in">로그인</string>
+    <string name="sign_in_hint_password">패스워드 입력</string>
+    <string name="sign_in_hint_email">이메일 입력</string>
+
+
     <string name="profile_title">프로필</string>
     <string name="share">공유하기</string>
 </resources>
