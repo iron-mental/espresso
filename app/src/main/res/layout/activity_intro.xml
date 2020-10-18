@@ -16,7 +16,7 @@
         android:background="@android:color/white">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_container_intro_view"
+            android:id="@+id/container_intro_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:translationZ="90dp"
@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_sign_in"
+            android:id="@+id/button_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -41,51 +41,51 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/iv_intro"
+            android:id="@+id/cover"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/intro_dummy_image"
-            app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
+            app:layout_constraintBottom_toTopOf="@id/button_sign_up"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_sign_in"
+            app:layout_constraintTop_toBottomOf="@id/button_sign_in"
             app:layout_constraintVertical_bias=".1" />
 
         <TextView
-            android:id="@+id/tv_explain1"
+            android:id="@+id/explain1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/intro_explain1"
-            app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
+            app:layout_constraintBottom_toTopOf="@id/button_sign_up"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_intro"
+            app:layout_constraintTop_toBottomOf="@id/cover"
             app:layout_constraintVertical_bias=".3" />
 
         <TextView
-            android:id="@+id/tv_explain2"
+            android:id="@+id/explain2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@string/intro_explain2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_explain1" />
+            app:layout_constraintTop_toBottomOf="@id/explain1" />
 
         <TextView
-            android:id="@+id/tv_explain3"
+            android:id="@+id/explain3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@string/intro_explain3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_explain2" />
+            app:layout_constraintTop_toBottomOf="@id/explain2" />
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_sign_up"
+            android:id="@+id/button_sign_up"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="10dp"

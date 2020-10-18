@@ -6,10 +6,9 @@ import android.widget.EditText
 import androidx.databinding.BindingAdapter
 
 @BindingAdapter("onEditorEnterAction")
-fun EditText.onEditorEnterAction(f: Function1<String, Unit>?) {
+fun EditText.onEditorEnterAction(f: (email: String) -> Unit?) {
 
-    if (f == null) setOnEditorActionListener(null)
-    else setOnEditorActionListener { v, actionId, event ->
+    setOnEditorActionListener { v, actionId, event ->
 
         val imeAction = when (actionId) {
             EditorInfo.IME_ACTION_DONE,

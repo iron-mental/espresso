@@ -25,9 +25,9 @@
     <string name="sign_up_password_hint2">6글자 이상 입력하세요</string>
 
 
-    <string name="sign_in_explain1">Email</string>
-    <string name="sign_in_explain2">Password</string>
-    <string name="sign_in_sign_in_explain3">로그인</string>
+    <string name="sign_in_explain_email">Email</string>
+    <string name="sign_in_explain_password">Password</string>
+    <string name="sign_in_explain_in">로그인</string>
     <string name="sign_in_hint_password">패스워드 입력</string>
     <string name="sign_in_hint_email">이메일 입력</string>
 
@@ -35,4 +35,6 @@
     <string name="my_study_explain1">내 스터디</string>
 
 
+    <string name="profile_title">프로필</string>
+    <string name="share">공유하기</string>
 </resources>

@@ -1,24 +1,36 @@
 package com.iron.espresso.presentation.sign
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.iron.espresso.domain.usecase.GetUser
 
-class SignInViewModel : ViewModel() {
+class SignInViewModel(private val getUser: GetUser) : ViewModel() {
 
     val signInEmail = MutableLiveData<String>()
     val signInPassword = MutableLiveData<String>()
 
 
-    val checkEmail: Function1<String, Unit> = this::verifyEmailCheck
-    val checkPassword: Function1<String, Unit> = this::verifyPasswordCheck
+    val checkEmail: (email: String) -> Unit = this::verifyEmailCheck
+    val checkPassword: (email: String) -> Unit = this::verifyPasswordCheck
 
     private val _checkType = MutableLiveData<CheckType>()
-    val checkType
+    val checkType: LiveData<CheckType>
         get() = _checkType
 
     private val _exitIdentifier = MutableLiveData<Boolean>()
-    val exitIdentifier
+    val exitIdentifier: LiveData<Boolean>
         get() = _exitIdentifier
+
+
+    fun checkLogin(userId: String, userPass: String) {
+        Thread {
+            val getUser = getUser(userId, userPass)
+            getUser.email?.let { Log.d("결과", "성공") } ?: Log.d("결과", "실패")
+        }.start()
+
+    }
 
 
     private fun verifyEmailCheck(email: String?) {
@@ -45,13 +57,6 @@ class SignInViewModel : ViewModel() {
         if (email != null || password != null) {
             _checkType.value = CheckType.CHECK_ALL_SUCCESS
         }
-    }
-
-    fun startViewModel() {
-        signInEmail.value = SignUpViewModel.EMPTY
-        signInPassword.value = SignUpViewModel.EMPTY
-        _checkType.value = CheckType.CHECK_NULL
-        _exitIdentifier.value = false
     }
 
     fun exitViewModel() {
