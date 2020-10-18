@@ -18,8 +18,7 @@ class ProfileViewModel @ViewModelInject constructor(private val getUser: GetUser
     private val compositeDisposable = CompositeDisposable()
 
 
-    val githubId = MutableLiveData<String>()
-
+    private val githubId = MutableLiveData<String>()
 
     val avatarUrl = MutableLiveData<String>()
 
@@ -29,14 +28,12 @@ class ProfileViewModel @ViewModelInject constructor(private val getUser: GetUser
 
     init {
         githubId.observeForever {
-            Logger.d("$it")
             githubIdSubject.onNext(it)
         }
 
         compositeDisposable += githubIdSubject
-            .debounce(500, TimeUnit.MILLISECONDS)
+            .debounce(DEBOUNCE_TIME, TimeUnit.MILLISECONDS)
             .subscribe({ githubId ->
-                Logger.d("$githubId")
                 getProfileImage(githubId)
             }, {
                 Logger.d("$it")
@@ -44,16 +41,19 @@ class ProfileViewModel @ViewModelInject constructor(private val getUser: GetUser
     }
 
 
-    fun getProfileImage(userId: String) {
+    private fun getProfileImage(userId: String) {
         compositeDisposable += getUser(userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response: GithubUser ->
-                Logger.d("$response")
                 avatarUrl.value = response.avatarUrl
             }, {
                 Logger.d("$it")
             })
+    }
+
+    companion object {
+        private const val DEBOUNCE_TIME = 500L
     }
 }
 
