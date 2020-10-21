@@ -1,20 +1,34 @@
 package com.iron.espresso.presentation.home.study
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
+import com.iron.espresso.ToolbarHelper
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchStudyBinding
-import kotlinx.android.synthetic.main.activity_search_study.*
 
 class SearchStudyActivity :
-    BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
+        BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
+
+    private lateinit var toolbarHelper: ToolbarHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
+            setCustomView(EditText(this@SearchStudyActivity).apply {
+                hint = "스터디명 분류(키워드) 등"
+                maxLines = 1
+                tag = "iron"
+            })
+            setNavigationIcon(R.drawable.ic_back_24)
+            setTitle("")
+        }
+
 
         val hotKeywordList = arrayListOf<HotKeywordItem>()
         hotKeywordList.add(HotKeywordItem("안드로이드"))
