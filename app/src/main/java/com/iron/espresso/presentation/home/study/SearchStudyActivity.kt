@@ -41,4 +41,13 @@ class SearchStudyActivity :
         binding.hotKeywordRecyclerview.layoutManager = GridLayoutManager(this, 3)
         binding.hotKeywordRecyclerview.adapter = HotKeywordAdapter(hotKeywordList)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+        }
+        return true
+    }
 }
