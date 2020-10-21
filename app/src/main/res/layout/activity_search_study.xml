@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/place_search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,17 +47,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/place_search_button" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/hot_keyword_recyclerview"
-            android:layout_width="match_parent"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/hot_keyword_group"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:overScrollMode="never"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hot_keyword"
-            tools:listitem="@layout/search_hot_keyword_item" />
+            app:layout_constraintTop_toBottomOf="@+id/hot_keyword" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

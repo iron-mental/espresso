@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 
-open class HotKeywordAdapter(private val items: List<HotKeywordItem>) :
+class HotKeywordAdapter(private val items: List<HotKeywordItem>) :
     RecyclerView.Adapter<ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
