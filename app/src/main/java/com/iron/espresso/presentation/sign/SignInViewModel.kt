@@ -10,7 +10,7 @@ class SignInViewModel(private val getUser: GetUser) : ViewModel() {
 
     val signInEmail = MutableLiveData<String>()
     val signInPassword = MutableLiveData<String>()
-
+    val isProgressVisible = MutableLiveData<Boolean>()
 
     val checkEmail: (email: String) -> Unit = this::verifyEmailCheck
     val checkPassword: (email: String) -> Unit = this::verifyPasswordCheck
@@ -33,7 +33,7 @@ class SignInViewModel(private val getUser: GetUser) : ViewModel() {
     }
 
 
-    private fun verifyEmailCheck(email: String?) {
+    fun verifyEmailCheck(email: String?) {
         email?.let {
             if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
@@ -43,7 +43,7 @@ class SignInViewModel(private val getUser: GetUser) : ViewModel() {
         }
     }
 
-    private fun verifyPasswordCheck(password: String?) {
+    fun verifyPasswordCheck(password: String?) {
         password?.let {
             if (password.length > 6) {
                 _checkType.value = CheckType.CHECK_PASSWORD_SUCCESS

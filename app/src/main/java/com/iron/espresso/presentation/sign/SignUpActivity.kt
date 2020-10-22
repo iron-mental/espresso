@@ -1,37 +1,24 @@
 package com.iron.espresso.presentation.sign
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySignUpBinding
 import com.iron.espresso.ext.startActivity
 import com.iron.espresso.presentation.home.HomeActivity
-import com.iron.espresso.utils.ToolbarHelper
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {
 
     private val signUpViewModel by viewModel<SignUpViewModel>()
 
-    private lateinit var toolbarHelper: ToolbarHelper
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-        toolbarHelper = ToolbarHelper(this, binding.appBar).apply {
-            setNavigationIcon(R.drawable.ic_clear)
-        }
 
         binding.apply {
             vm = signUpViewModel
             startFragment(SignUpEmailFragment())
-            barSignUp.bringToFront()
         }
 
         signUpViewModel.run {
@@ -45,6 +32,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                     }
                     CheckType.CHECK_PASSWORD_SUCCESS -> {
 //                        registerUser()
+                        startActivity<HomeActivity>()
                     }
                     CheckType.CHECK_ALL_SUCCESS -> {
                         startActivity<HomeActivity>()
@@ -58,25 +46,8 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                 if (isExit) exitFragment()
             }
 
-            registerUser("duksung3@naver.com","ejrtjd12","조던보단반스")
+//            registerUser("duksung3@naver.com","ejrtjd12","조던보단반스")
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_action, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.next -> {
-                Toast.makeText(this, "다음", Toast.LENGTH_SHORT).show()
-            }
-            android.R.id.home -> {
-                exitFragment()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun startFragment(fragment: Fragment) {

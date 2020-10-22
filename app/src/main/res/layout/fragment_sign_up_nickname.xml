@@ -13,63 +13,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/button_exit"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:backgroundTint="@android:color/white"
-            android:onClick="@{() -> VM.exitViewModel()}"
-            android:src="@drawable/ic_clear"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".12" />
-
-        <TextView
-            android:id="@+id/button_next"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:onClick="@{() -> VM.verifyNicknameCheck(VM.signUpNickname)}"
-            android:text="@string/sign_next"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".12" />
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
             android:id="@+id/explain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginStart="33sp"
+            android:lineSpacingExtra="16sp"
             android:text="@string/sign_up_nickname_explain"
-            android:textSize="25sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/nickname_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias=".15"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias=".7" />
-
+            app:layout_constraintTop_toBottomOf="@id/appBar"
+            app:layout_constraintVertical_bias=".3" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nickname_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
             android:layout_marginEnd="15dp"
+            android:lineSpacingExtra="18sp"
             app:boxBackgroundMode="filled"
             app:boxStrokeColor="@color/colorCobaltBlue"
             app:boxStrokeWidth="0dp"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorCobaltBlue"
             app:hintEnabled="false"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/explain"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/explain">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -82,7 +62,7 @@
                 android:maxLines="1"
                 android:text="@={VM.signUpNickname}"
                 android:textCursorDrawable="@null"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:onEditorEnterAction="@{VM.checkNickname}" />
         </com.google.android.material.textfield.TextInputLayout>
 

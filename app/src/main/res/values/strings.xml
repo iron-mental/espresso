@@ -31,11 +31,13 @@
     <string name="sign_up_password_helper">6글자 이상 입력하세요</string>
 
 
-    <string name="sign_in_explain_email">Email</string>
-    <string name="sign_in_explain_password">Password</string>
-    <string name="sign_in_explain_in">로그인</string>
-    <string name="sign_in_hint_password">패스워드 입력</string>
-    <string name="sign_in_hint_email">이메일 입력</string>
+
+    <string name="sign_in_email_explain">사용하실 이메일을\n입력해 주세요.</string>
+    <string name="sign_in_email_hint">email@inputinput.com</string>
+
+    <string name="sign_in_password_explain">사용하실 비밀번호\n입력해 주세요.</string>
+    <string name="sign_in_password_hint">비밀번호</string>
+    <string name="sign_in_password_helper">6글자 이상 입력하세요</string>
 
 
     <string name="my_study_explain1">내 스터디</string>
