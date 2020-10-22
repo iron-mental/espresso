@@ -11,16 +11,18 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchStudyBinding
 
 class SearchStudyActivity :
-    BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
+        BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
 
     private lateinit var toolbarHelper: ToolbarHelper
+    private lateinit var searchEditText: EditText
+    private lateinit var hotKeywordButton: Chip
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val editText = EditText(this@SearchStudyActivity)
+        searchEditText = EditText(this)
         toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setCustomView(editText.apply {
+            setCustomView(searchEditText.apply {
                 hint = context.getString(R.string.search_hint)
                 maxLines = 1
             })
@@ -28,30 +30,31 @@ class SearchStudyActivity :
             setTitle("")
         }
 
+        val hotKeywordList = arrayListOf<HotKeywordItem>().apply {
+            add(HotKeywordItem("안드로이드"))
+            add(HotKeywordItem("node.js"))
+            add(HotKeywordItem("코드리뷰fdsafdsafdsafdsafdsafdsafd"))
+            add(HotKeywordItem("취업스터디"))
+            add(HotKeywordItem("프로젝트"))
+            add(HotKeywordItem("Swift"))
+            add(HotKeywordItem("안드로이드fdsafdsafdsafdsafdsafdsa"))
+            add(HotKeywordItem("node.rkdcjfajdcjddl"))
+            add(HotKeywordItem("코드리뷰"))
+            add(HotKeywordItem("취업스터디"))
+            add(HotKeywordItem("프로젝트fdsafdsafdsafdsafdsa"))
+            add(HotKeywordItem("Swift"))
+        }
 
-        val hotKeywordList = arrayListOf<HotKeywordItem>()
-        hotKeywordList.add(HotKeywordItem("안드로이드"))
-        hotKeywordList.add(HotKeywordItem("node.js"))
-        hotKeywordList.add(HotKeywordItem("코드리뷰fdsafdsafdsafdsafdsafdsafd"))
-        hotKeywordList.add(HotKeywordItem("취업스터디"))
-        hotKeywordList.add(HotKeywordItem("프로젝트"))
-        hotKeywordList.add(HotKeywordItem("Swift"))
-        hotKeywordList.add(HotKeywordItem("안드로이드fdsafdsafdsafdsafdsafdsa"))
-        hotKeywordList.add(HotKeywordItem("node.rkdcjfajdcjddl"))
-        hotKeywordList.add(HotKeywordItem("코드리뷰"))
-        hotKeywordList.add(HotKeywordItem("취업스터디"))
-        hotKeywordList.add(HotKeywordItem("프로젝트fdsafdsafdsafdsafdsa"))
-        hotKeywordList.add(HotKeywordItem("Swift"))
-
-        for (keyWord in hotKeywordList) {
-            val button = Chip(this).apply {
+        // 핫 키워드 버튼 클릭 시 검색 창 text 대응
+        hotKeywordList.forEach { keyWord ->
+            hotKeywordButton = Chip(this).apply {
                 text = keyWord.title
                 setOnClickListener {
                     Toast.makeText(this@SearchStudyActivity, text, Toast.LENGTH_SHORT).show()
-                    editText.setText(text)
+                    searchEditText.setText(text)
                 }
             }
-            binding.hotKeywordGroup.addView(button)
+            binding.hotKeywordGroup.addView(hotKeywordButton)
         }
     }
 
