@@ -21,6 +21,7 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.lifecycleOwner = this
 

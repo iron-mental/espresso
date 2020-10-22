@@ -13,34 +13,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/explain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginStart="33dp"
+            android:lineSpacingExtra="16sp"
             android:text="@string/sign_up_email_explain"
-            android:textSize="25sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/email_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias=".15"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBar"
+            app:layout_constraintVertical_bias=".3" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
             android:layout_marginEnd="15dp"
+            android:lineSpacingExtra="18sp"
             app:boxBackgroundMode="filled"
             app:boxStrokeColor="@color/colorCobaltBlue"
             app:boxStrokeWidth="0dp"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorCobaltBlue"
             app:hintEnabled="false"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/explain"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/explain">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -53,7 +61,7 @@
                 android:maxLines="1"
                 android:text="@={VM.signUpEmail}"
                 android:textCursorDrawable="@null"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:onEditorEnterAction="@{VM.checkEmail}" />
         </com.google.android.material.textfield.TextInputLayout>
 
