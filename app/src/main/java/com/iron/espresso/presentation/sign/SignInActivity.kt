@@ -1,6 +1,7 @@
 package com.iron.espresso.presentation.sign
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
@@ -19,29 +20,34 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
         binding.apply {
             vm = signInViewModel
+            startFragment(SignInEmailFragment())
         }
 
         signInViewModel.run {
             checkType.observe(this@SignInActivity, Observer { type ->
                 when (type) {
-                    CheckType.CHECK_EMAIL_FAIL -> {
+                    CheckType.CHECK_EMAIL_SUCCESS -> {
+                        startFragment(SignInPasswordFragment())
                     }
-                    CheckType.CHECK_PASSWORD_FAIL -> {
+                    CheckType.CHECK_PASSWORD_SUCCESS -> {
+//                        registerUser()
+                        startActivity<HomeActivity>()
                     }
                     CheckType.CHECK_ALL_SUCCESS -> {
                         startActivity<HomeActivity>()
                     }
                     CheckType.CHECK_ALL_FAIL -> {
+
                     }
                 }
             })
-            exitIdentifier.observe(this@SignInActivity, Observer { isExit ->
-                if (isExit) startActivity<IntroActivity>()
-            })
-
-            checkLogin("rkdcjf0122@naver.com", "qlalfqjsgh")
         }
-
     }
 
+    private fun startFragment(fragment: Fragment) {
+        binding.containerSignIn.bringToFront()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container_sign_in, fragment)
+            .commit()
+    }
 }

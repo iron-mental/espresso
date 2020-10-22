@@ -7,129 +7,33 @@
         <variable
             name="VM"
             type="com.iron.espresso.presentation.sign.SignInViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp"
-            app:layout_constraintTop_toTopOf="parent">
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/container_sign_in"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:translationZ="90dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/appBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-
-                app:navigationClick="@{()->VM.exitViewModel()}"
-                app:navigationIcon="@drawable/ic_clear" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <TextView
-            android:id="@+id/explain_email"
+        <ProgressBar
+            android:id="@+id/bar_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_in_explain_email"
-            android:textSize="20sp"
+            android:indeterminateTint="@color/colorCobaltBlue"
+            android:translationZ="90dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias=".05"
-            app:layout_constraintStart_toStartOf="@id/email_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias=".25" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/email_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            app:boxBackgroundMode="filled"
-            app:boxStrokeColor="@color/colorCobaltBlue"
-            app:boxStrokeWidth="0dp"
-            app:endIconMode="clear_text"
-            app:endIconTint="@color/colorCobaltBlue"
-            app:hintEnabled="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/explain_email"
-            app:layout_constraintWidth_percent=".9">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/sign_in_hint_email"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:lines="1"
-                android:maxLines="1"
-                android:text="@={VM.signInEmail}"
-                android:textCursorDrawable="@null"
-                android:textSize="20sp"
-                app:onEditorEnterAction="@{VM.checkEmail}" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <TextView
-            android:id="@+id/explain_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:text="@string/sign_in_explain_password"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@id/password_field"
-            app:layout_constraintTop_toBottomOf="@id/email_field" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            app:boxBackgroundMode="filled"
-            app:boxStrokeColor="@color/colorCobaltBlue"
-            app:boxStrokeWidth="0dp"
-            app:endIconMode="password_toggle"
-            app:endIconTint="@color/colorCobaltBlue"
-            app:hintEnabled="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/explain_password"
-            app:layout_constraintWidth_percent=".9">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/sign_in_hint_password"
-                android:imeOptions="actionGo"
-                android:inputType="textPassword"
-                android:lines="1"
-                android:maxLines="1"
-                android:text="@={VM.signInPassword}"
-                android:textCursorDrawable="@null"
-                android:textSize="20sp"
-                app:onEditorEnterAction="@{VM.checkPassword}" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorCobaltBlue"
-            android:onClick="@{() -> VM.verifyLogin(VM.signInEmail, VM.signInPassword)}"
-            android:text="@string/sign_in_explain_in"
-            android:textSize="25sp"
-            app:cornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password_field"
-            app:layout_constraintWidth_percent=".5" />
+            app:toggleVisible="@{VM.isProgressVisible}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
