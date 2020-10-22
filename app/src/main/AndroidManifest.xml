@@ -45,6 +45,8 @@
         <activity android:name=".presentation.home.setting.SettingHelpActivity" />
 
         <activity android:name=".presentation.home.setting.SettingNoticeActivity" />
+
+        <activity android:name=".presentation.home.study.StudyCreateActivity"/>
     </application>
 
 </manifest>
