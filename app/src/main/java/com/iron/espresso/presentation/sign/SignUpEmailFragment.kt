@@ -54,7 +54,7 @@ class SignUpEmailFragment :
                 }
             }
             android.R.id.home -> {
-                activity?.finish()
+                signUpViewModel.exitViewModel()
             }
         }
         return super.onOptionsItemSelected(item)

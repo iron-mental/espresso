@@ -41,6 +41,10 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                     }
                 }
             })
+
+            exitIdentifier.observe(this@SignInActivity) { isExit ->
+                if (isExit) exitFragment()
+            }
         }
     }
 
@@ -49,5 +53,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         supportFragmentManager.beginTransaction()
             .replace(R.id.container_sign_in, fragment)
             .commit()
+    }
+
+    private fun exitFragment() {
+        startActivity<IntroActivity>()
     }
 }
