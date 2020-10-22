@@ -2,6 +2,7 @@ package com.iron.espresso.presentation.home.study
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.android.material.chip.Chip
@@ -28,6 +29,10 @@ class SearchStudyActivity :
             })
             setNavigationIcon(R.drawable.ic_back_24)
             setTitle("")
+        }
+
+        binding.placeSearchButton.setOnClickListener {
+            Toast.makeText(this, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
         }
 
         val hotKeywordList = arrayListOf<HotKeywordItem>().apply {
