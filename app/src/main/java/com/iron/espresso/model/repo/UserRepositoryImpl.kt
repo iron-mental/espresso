@@ -7,13 +7,13 @@ import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import io.reactivex.Single
 
 class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource) : UserRepository {
-    override fun getUser(userId: String, password: String): Single<User> =
-        userRemoteDataSource.getUser(userId, password).map {
+    override fun login(email: String, password: String): Single<User> =
+        userRemoteDataSource.login(email, password).map {
             it.toUser()
         }
 
-    override fun registerUser(userId: String, password: String, nickname: String): Single<MessageResponse> =
-        userRemoteDataSource.registerUser(userId, password, nickname)
+    override fun registerUser(email: String, password: String, nickname: String): Single<MessageResponse> =
+        userRemoteDataSource.registerUser(email, password, nickname)
 
 
     override fun checkDuplicateEmail(email: String): Single<MessageResponse> =

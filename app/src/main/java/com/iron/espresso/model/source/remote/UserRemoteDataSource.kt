@@ -1,6 +1,5 @@
 package com.iron.espresso.model.source.remote
 
-import com.google.gson.JsonObject
 import com.iron.espresso.model.api.UserApi
 import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.UserResponse
@@ -9,14 +8,11 @@ import io.reactivex.Single
 
 class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSource {
 
-    override fun getUser(userId: String, password: String): Single<UserResponse> {
-        val body = JsonObject().apply {
-            addProperty("email", userId)
-            addProperty("password", password)
-        }
+    override fun login(email: String, password: String): Single<UserResponse> =
+        userApi.login(LoginRequest(email, password))
 
-        return userApi.getUser(body)
-    }
+    override fun getUser(id: Int): Single<UserResponse> =
+        userApi.getUser(id)
 
     override fun checkDuplicateEmail(email: String): Single<MessageResponse> =
         userApi.checkDuplicateEmail(email)
@@ -24,20 +20,23 @@ class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSou
     override fun checkDuplicateNickname(nickname: String): Single<MessageResponse> =
         userApi.checkDuplicateNickname(nickname)
 
-    override fun registerUser(userId: String, password: String, nickname: String): Single<MessageResponse> {
-        val body = JsonObject().apply {
-            addProperty("email", userId)
-            addProperty("password", password)
-            addProperty("nickname", nickname)
-        }
-        return userApi.registerUser(body)
-    }
+    override fun registerUser(
+        email: String,
+        password: String,
+        nickname: String
+    ): Single<MessageResponse> =
+        userApi.registerUser(RegisterUserRequest(email, password, nickname))
 }
 
-interface UserRemoteDataSource {
-    fun getUser(userId: String, password: String): Single<UserResponse>
+data class RegisterUserRequest(val email: String, val password: String, val nickname: String)
+data class LoginRequest(val email: String, val password: String)
 
-    fun registerUser(userId: String, password: String, nickname: String): Single<MessageResponse>
+interface UserRemoteDataSource {
+    fun login(email: String, password: String): Single<UserResponse>
+
+    fun getUser(id: Int): Single<UserResponse>
+
+    fun registerUser(email: String, password: String, nickname: String): Single<MessageResponse>
 
     fun checkDuplicateEmail(email: String): Single<MessageResponse>
 

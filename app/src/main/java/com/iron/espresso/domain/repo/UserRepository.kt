@@ -5,9 +5,9 @@ import com.iron.espresso.model.response.MessageResponse
 import io.reactivex.Single
 
 interface UserRepository {
-    fun getUser(userId: String, password: String): Single<User>
+    fun login(email: String, password: String): Single<User>
 
-    fun registerUser(userId: String, password: String, nickname: String): Single<MessageResponse>
+    fun registerUser(email: String, password: String, nickname: String): Single<MessageResponse>
 
     fun checkDuplicateEmail(email: String): Single<MessageResponse>
 
