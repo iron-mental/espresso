@@ -16,6 +16,7 @@ class StudyCreateActivity : AppCompatActivity() {
 
     private lateinit var toolbarHelper: ToolbarHelper
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

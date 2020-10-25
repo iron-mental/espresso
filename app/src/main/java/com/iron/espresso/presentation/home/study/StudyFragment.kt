@@ -55,7 +55,7 @@ class StudyFragment : Fragment() {
             }
 
             R.id.add_study -> {
-                startActivity(StudyCreateActivity.getInstance(requireContext()))
+                startActivity(StudyCategoryActivity.getInstance(requireContext()))
             }
 
         }
@@ -69,7 +69,7 @@ class StudyFragment : Fragment() {
 
         private const val SPAN_COUNT = 2
 
-        private val DUMMY_DATA = mutableListOf<StudyCategoryItem>().apply {
+        val DUMMY_DATA = mutableListOf<StudyCategoryItem>().apply {
             add(StudyCategoryItem(""))
             add(StudyCategoryItem(""))
             add(StudyCategoryItem(""))
