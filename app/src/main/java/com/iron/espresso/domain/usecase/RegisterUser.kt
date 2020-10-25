@@ -5,6 +5,6 @@ import com.iron.espresso.model.response.MessageResponse
 import io.reactivex.Single
 
 class RegisterUser(private val userRepository: UserRepository) {
-    operator fun invoke(userId: String, userPass: String, nickname: String): Single<MessageResponse> =
-        userRepository.registerUser(userId, userPass, nickname)
+    operator fun invoke(email: String, userPass: String, nickname: String): Single<MessageResponse> =
+        userRepository.registerUser(email, userPass, nickname)
 }

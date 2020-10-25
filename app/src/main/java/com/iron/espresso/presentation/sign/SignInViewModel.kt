@@ -1,12 +1,14 @@
 package com.iron.espresso.presentation.sign
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.iron.espresso.domain.usecase.GetUser
+import com.iron.espresso.Logger
+import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.domain.usecase.Login
+import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.ext.plusAssign
 
-class SignInViewModel(private val getUser: GetUser) : ViewModel() {
+class SignInViewModel(private val login: Login) : BaseViewModel() {
 
     val signInEmail = MutableLiveData<String>()
     val signInPassword = MutableLiveData<String>()
@@ -23,13 +25,15 @@ class SignInViewModel(private val getUser: GetUser) : ViewModel() {
     val exitIdentifier: LiveData<Boolean>
         get() = _exitIdentifier
 
-
     fun checkLogin(userId: String, userPass: String) {
-        Thread {
-            val getUser = getUser(userId, userPass)
-            getUser.email?.let { Log.d("결과", "성공") } ?: Log.d("결과", "실패")
-        }.start()
 
+        compositeDisposable += login(userId, userPass)
+            .networkSchedulers()
+            .subscribe({
+                Logger.d("$it")
+            }, {
+                Logger.d("$it")
+            })
     }
 
 

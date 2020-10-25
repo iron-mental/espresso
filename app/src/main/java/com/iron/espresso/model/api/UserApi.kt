@@ -1,25 +1,27 @@
 package com.iron.espresso.model.api
 
-import com.google.gson.JsonObject
 import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.UserResponse
+import com.iron.espresso.model.source.remote.LoginRequest
+import com.iron.espresso.model.source.remote.RegisterUserRequest
 import io.reactivex.Single
-import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface UserApi {
 
     @POST("/v1/user/login")
+    fun login(
+        @Body body: LoginRequest
+    ): Single<UserResponse>
+
+    @GET("/v1/user/{id}}")
     fun getUser(
-        @Body body: JsonObject
+        @Path(value = "id") id: Int
     ): Single<UserResponse>
 
     @POST("/v1/user")
     fun registerUser(
-        @Body body: JsonObject
+        @Body body: RegisterUserRequest
     ): Single<MessageResponse>
 
     @GET("/v1/check-nickname")
