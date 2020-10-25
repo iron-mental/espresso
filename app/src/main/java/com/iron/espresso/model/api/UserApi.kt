@@ -5,6 +5,7 @@ import com.iron.espresso.model.response.UserResponse
 import com.iron.espresso.model.source.remote.LoginRequest
 import com.iron.espresso.model.source.remote.RegisterUserRequest
 import io.reactivex.Single
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface UserApi {
@@ -33,5 +34,11 @@ interface UserApi {
     fun checkDuplicateNickname(
         @Query("nickname") nickname: String
     ): Single<MessageResponse>
+
+    @Multipart
+    @PATCH("/v1/user/{id}")
+    fun modifyUser(
+        @Body body: RequestBody
+    ): Single<UserResponse>
 
 }
