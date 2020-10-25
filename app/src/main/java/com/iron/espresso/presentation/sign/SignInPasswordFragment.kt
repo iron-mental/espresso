@@ -9,14 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
-import com.iron.espresso.databinding.FragmentSignUpNicknameBinding
+import com.iron.espresso.databinding.FragmentSignInPasswordBinding
 import com.iron.espresso.utils.ToolbarHelper
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class SignUpNicknameFragment :
-    BaseFragment<FragmentSignUpNicknameBinding>(R.layout.fragment_sign_up_nickname) {
+class SignInPasswordFragment :
+    BaseFragment<FragmentSignInPasswordBinding>(R.layout.fragment_sign_in_password) {
 
-    private val signUpViewModel by sharedViewModel<SignUpViewModel>()
+    private val signInViewModel by sharedViewModel<SignInViewModel>()
 
     private lateinit var toolbarHelper: ToolbarHelper
 
@@ -28,12 +28,12 @@ class SignUpNicknameFragment :
         }
 
         binding.apply {
-            vm = signUpViewModel
+            vm = signInViewModel
         }
-        signUpViewModel.run {
+        signInViewModel.run {
             checkType.observe(viewLifecycleOwner, Observer { type ->
                 when (type) {
-                    CheckType.CHECK_NICKNAME_FAIL -> {
+                    CheckType.CHECK_PASSWORD_FAIL -> {
 
                     }
                 }
@@ -49,12 +49,12 @@ class SignUpNicknameFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.next -> {
-                signUpViewModel.run {
-                    verifyNicknameCheck(signUpViewModel.signUpNickname.value)
+                signInViewModel.run {
+                    verifyPasswordCheck(signInViewModel.signInPassword.value)
                 }
             }
             android.R.id.home -> {
-                signUpViewModel.exitViewModel()
+                signInViewModel.exitViewModel()
             }
         }
         return super.onOptionsItemSelected(item)
