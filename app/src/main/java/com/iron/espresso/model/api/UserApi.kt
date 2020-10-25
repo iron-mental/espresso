@@ -1,7 +1,9 @@
 package com.iron.espresso.model.api
 
 import com.google.gson.JsonObject
+import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.UserResponse
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,25 +15,21 @@ interface UserApi {
     @POST("/v1/user/login")
     fun getUser(
         @Body body: JsonObject
-    ): Call<UserResponse>
-
+    ): Single<UserResponse>
 
     @POST("/v1/user")
     fun registerUser(
         @Body body: JsonObject
-    ): Call<String>
+    ): Single<MessageResponse>
 
     @GET("/v1/check-nickname")
     fun checkDuplicateEmail(
         @Query("email") email: String
-    ): Call<String>
+    ): Single<MessageResponse>
 
     @GET("/v1/check-email")
     fun checkDuplicateNickname(
         @Query("nickname") nickname: String
-    ): Call<String>
-
-//    /v1/user/check-nickname/:nickname
-
+    ): Single<MessageResponse>
 
 }

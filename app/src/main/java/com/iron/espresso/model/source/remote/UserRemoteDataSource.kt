@@ -2,46 +2,44 @@ package com.iron.espresso.model.source.remote
 
 import com.google.gson.JsonObject
 import com.iron.espresso.model.api.UserApi
+import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.UserResponse
+import io.reactivex.Single
 
 
 class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSource {
 
-    override fun getUser(userId: String, userPass: String): UserResponse {
+    override fun getUser(userId: String, password: String): Single<UserResponse> {
         val body = JsonObject().apply {
             addProperty("email", userId)
-            addProperty("password", userPass)
+            addProperty("password", password)
         }
 
-        return userApi.getUser(body).execute().body() ?: error(
-            userApi.getUser(body).execute().message()
-        )
+        return userApi.getUser(body)
     }
 
-    override fun checkDuplicateEmail(email: String): String =
-        userApi.checkDuplicateEmail(email).execute().body() ?: error("실패")
+    override fun checkDuplicateEmail(email: String): Single<MessageResponse> =
+        userApi.checkDuplicateEmail(email)
 
+    override fun checkDuplicateNickname(nickname: String): Single<MessageResponse> =
+        userApi.checkDuplicateNickname(nickname)
 
-    override fun checkDuplicateNickname(nickname: String): String =
-        userApi.checkDuplicateNickname(nickname).execute().body() ?: error("실패")
-
-
-    override fun registerUser(userId: String, userPass: String, nickname: String): Boolean {
+    override fun registerUser(userId: String, password: String, nickname: String): Single<MessageResponse> {
         val body = JsonObject().apply {
             addProperty("email", userId)
-            addProperty("password", userPass)
+            addProperty("password", password)
             addProperty("nickname", nickname)
         }
-        return userApi.registerUser(body).request().isHttps
+        return userApi.registerUser(body)
     }
 }
 
 interface UserRemoteDataSource {
-    fun getUser(userId: String, userPass: String): UserResponse
+    fun getUser(userId: String, password: String): Single<UserResponse>
 
-    fun registerUser(userId: String, userPass: String, nickname: String): Boolean
+    fun registerUser(userId: String, password: String, nickname: String): Single<MessageResponse>
 
-    fun checkDuplicateEmail(email: String): String
+    fun checkDuplicateEmail(email: String): Single<MessageResponse>
 
-    fun checkDuplicateNickname(nickname: String): String
+    fun checkDuplicateNickname(nickname: String): Single<MessageResponse>
 }
