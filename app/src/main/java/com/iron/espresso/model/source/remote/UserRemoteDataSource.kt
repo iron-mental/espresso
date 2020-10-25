@@ -30,8 +30,11 @@ class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSou
     ): Single<MessageResponse> =
         userApi.registerUser(RegisterUserRequest(email, password, nickname))
 
-    override fun modifyUser(request: ModifyUserRequest): Single<UserResponse> =
-        userApi.modifyUser(request.toMultipartBody())
+    override fun modifyUser(id: Int, request: ModifyUserRequest): Single<UserResponse> =
+        userApi.modifyUser(id, request.toMultipartBody())
+
+    override fun deleteUser(id: Int): Single<MessageResponse> =
+        userApi.deleteUser(id)
 }
 
 data class RegisterUserRequest(val email: String, val password: String, val nickname: String)
@@ -58,7 +61,7 @@ data class ModifyUserRequest(
             if (snsWeb.isNotEmpty()) addFormDataPart("sns_web", snsWeb)
             if (image != null) {
                 addFormDataPart(
-                    image.name,
+                    "image",
                     image.name,
                     RequestBody.create(MultipartBody.FORM, image)
                 )
@@ -79,5 +82,7 @@ interface UserRemoteDataSource {
 
     fun checkDuplicateNickname(nickname: String): Single<MessageResponse>
 
-    fun modifyUser(request: ModifyUserRequest): Single<UserResponse>
+    fun modifyUser(id: Int, request: ModifyUserRequest): Single<UserResponse>
+
+    fun deleteUser(id: Int): Single<MessageResponse>
 }

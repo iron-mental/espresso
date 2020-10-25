@@ -38,7 +38,12 @@ interface UserApi {
     @Multipart
     @PATCH("/v1/user/{id}")
     fun modifyUser(
+        @Path(value = "id") id: Int,
         @Body body: RequestBody
     ): Single<UserResponse>
 
+    @DELETE("/v1/user/{id}")
+    fun deleteUser(
+        @Path(value = "id") id: Int
+    ): Single<MessageResponse>
 }
