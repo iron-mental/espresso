@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.iron.espresso.R
@@ -24,6 +25,14 @@ class StudyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val button = Button(context).apply {
+            text = "스터디 리스트"
+            setOnClickListener{
+                startActivity(StudyListActivity.getInstance(context))
+            }
+        }
+        (view as ViewGroup).addView(button)
     }
 
     companion object {
