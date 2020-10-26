@@ -22,7 +22,7 @@ class StudyListActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle("스터디")
+            setTitle(getString(R.string.study))
             setNavigationIcon(R.drawable.ic_back_24)
         }
     }
