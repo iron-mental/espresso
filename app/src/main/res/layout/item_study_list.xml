@@ -60,11 +60,12 @@
                 tools:text="마포구" />
 
             <ImageView
+                android:id="@+id/profile_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/date"
                 android:layout_below="@+id/caption"
-                android:src="@drawable/dummy_image"/>
+                android:layout_toEndOf="@+id/date"
+                android:src="@drawable/dummy_image" />
 
         </RelativeLayout>
 
