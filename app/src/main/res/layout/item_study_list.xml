@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/image">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/location"
+                android:maxLines="1"
+                android:textSize="17sp"
+                tools:text="스니커즈 어플 만드실" />
+
+            <TextView
+                android:id="@+id/caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:layout_alignParentStart="true"
+                android:maxLines="1"
+                android:textSize="17sp"
+                tools:text="안녕하세요 많은 참여 부탁드립니다." />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/caption"
+                android:layout_alignParentStart="true"
+                android:maxLines="1"
+                android:textSize="17sp"
+                tools:text="09/21" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@color/colorCobaltBlue"
+                android:maxLines="1"
+                android:textSize="17sp"
+                tools:text="마포구" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/date"
+                android:layout_below="@+id/caption"
+                android:src="@drawable/dummy_image"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/dummy_image" />
+
+    </RelativeLayout>
+
+</layout>
