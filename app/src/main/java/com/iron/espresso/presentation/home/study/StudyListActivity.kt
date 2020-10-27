@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import com.iron.espresso.R
 import com.iron.espresso.ToolbarHelper
 import com.iron.espresso.databinding.ActivityStudyListBinding
+import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
+import com.iron.espresso.presentation.home.study.model.StudyListItem
 
 class StudyListActivity : AppCompatActivity() {
 
@@ -25,6 +27,20 @@ class StudyListActivity : AppCompatActivity() {
             setTitle(getString(R.string.study))
             setNavigationIcon(R.drawable.ic_back_24)
         }
+
+        val studyList = mutableListOf<StudyListItem>().apply {
+            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
+            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
+            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
+            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
+            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
+            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
+
+        }
+
+        binding.studyList.adapter = StudyListAdapter(studyList)
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
