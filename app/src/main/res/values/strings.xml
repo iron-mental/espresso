@@ -46,4 +46,6 @@
     <string name="profile_title">프로필</string>
     <string name="share">공유하기</string>
     <string name="study">스터디</string>
+    <string name="recency">최신</string>
+    <string name="location">지역</string>
 </resources>

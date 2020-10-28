@@ -4,8 +4,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.tabs.TabItem
+import com.google.android.material.tabs.TabLayout
 import com.iron.espresso.R
 import com.iron.espresso.ToolbarHelper
 import com.iron.espresso.databinding.ActivityStudyListBinding
@@ -40,7 +44,16 @@ class StudyListActivity : AppCompatActivity() {
 
         binding.studyList.adapter = StudyListAdapter(studyList)
 
+        binding.topTab.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                Toast.makeText(this@StudyListActivity, tab?.text, Toast.LENGTH_SHORT).show()
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
 
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

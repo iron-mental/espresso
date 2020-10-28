@@ -19,18 +19,19 @@
             android:layout_height="wrap_content" />
 
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/top_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="최신" />
+                android:text="@string/recency" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="지역"/>
+                android:text="@string/location"/>
 
         </com.google.android.material.tabs.TabLayout>
 
