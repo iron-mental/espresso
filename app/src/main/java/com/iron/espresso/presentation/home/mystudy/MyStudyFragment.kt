@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.iron.espresso.R
@@ -35,6 +36,12 @@ class MyStudyFragment : Fragment() {
             rvMyStudy.adapter = myStudyAdapter
             vm = myStudyViewModel
             myStudyViewModel.showMyStudyList()
+
+            myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener{
+                override fun onClick(view: View) {
+                    Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
 
