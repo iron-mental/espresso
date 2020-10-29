@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/iv_image"
+            android:layout_width="41dp"
+            android:layout_height="19.5dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorCobaltBlue"
+            android:text="공지"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="모임 진행시 가이드 라인 입니다."
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_image"
+            app:layout_constraintStart_toEndOf="@id/iv_image"
+            app:layout_constraintTop_toTopOf="@+id/iv_image" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:text="20.8.27"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_location"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_location" />
+
+        <TextView
+            android:id="@+id/tv_name2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="69dp"
+            android:layout_marginBottom="10dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="[모임 진행시 가이드 라인] 1. 스터디를 진행할 휴대폰은 매너모드로 해주세요. 1. 스터디를 진행할 휴대폰은 매너모드로 해주세요. 1. 스터디를 진행할 휴대폰은 매너모드로 해주세요. 2. 코로나 19 감염자가 급증함에따"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/iv_image"
+            app:layout_constraintTop_toBottomOf="@+id/iv_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
