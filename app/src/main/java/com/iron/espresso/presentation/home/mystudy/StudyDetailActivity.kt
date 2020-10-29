@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
@@ -40,6 +41,10 @@ class StudyDetailActivity : AppCompatActivity() {
                     }
             }
         }
+
+        TabLayoutMediator(binding.topTab, binding.studyDetailPager) { tab, position ->
+            tab.text = studyDetailTabList[position]
+        }.attach()
     }
 
     companion object {
