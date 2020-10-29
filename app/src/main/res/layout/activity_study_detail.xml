@@ -10,15 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/container_notice"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/study_detail_pager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:translationZ="90dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/container_notice"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/top_tab" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/top_tab"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/container_notice" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
