@@ -37,9 +37,10 @@ class MyStudyFragment : Fragment() {
             vm = myStudyViewModel
             myStudyViewModel.showMyStudyList()
 
-            myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener{
+            myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
                 override fun onClick(view: View) {
                     Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
+                    startActivity(context?.let { StudyDetailActivity.getInstance(it) })
                 }
             })
         }
