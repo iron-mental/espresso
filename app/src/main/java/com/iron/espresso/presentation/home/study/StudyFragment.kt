@@ -28,7 +28,7 @@ class StudyFragment : Fragment() {
 
         val button = Button(context).apply {
             text = "스터디 리스트"
-            setOnClickListener{
+            setOnClickListener {
                 startActivity(StudyListActivity.getInstance(context))
             }
         }

@@ -44,10 +44,11 @@ class StudyListActivity : AppCompatActivity() {
 
         binding.studyList.adapter = StudyListAdapter(studyList)
 
-        binding.topTab.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
+        binding.topTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 Toast.makeText(this@StudyListActivity, tab?.text, Toast.LENGTH_SHORT).show()
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
 
@@ -67,6 +68,6 @@ class StudyListActivity : AppCompatActivity() {
 
     companion object {
         fun getInstance(context: Context) =
-                Intent(context, StudyListActivity::class.java)
+            Intent(context, StudyListActivity::class.java)
     }
 }

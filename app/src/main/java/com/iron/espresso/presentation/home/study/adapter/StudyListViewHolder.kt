@@ -25,15 +25,14 @@ class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             caption.text = item.caption
             location.text = item.location
             date.text = item.date
-            image.setImageResource(R.drawable.image001)
 
             Glide.with(itemView)
-                .load(R.drawable.image001)
-                .transform(CenterCrop(),RoundedCorners(30))
+                .load("https://appsamurai.com/wp-content/uploads/2017/07/android-and-ios-development.jpg")
+                .transform(CenterCrop(), RoundedCorners(30))
                 .into(image)
 
             Glide.with(itemView)
-                .load(R.drawable.image001)
+                .load("https://www.leaders.kr/news/photo/201709/54250_45831_2657.jpg")
                 .circleCrop()
                 .into(profileImage)
         }
