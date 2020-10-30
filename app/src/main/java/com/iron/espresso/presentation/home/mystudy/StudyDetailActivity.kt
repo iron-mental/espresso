@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
+import com.iron.espresso.ToolbarHelper
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeFragment
@@ -17,10 +18,16 @@ import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 class StudyDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStudyDetailBinding
+    private lateinit var toolbarHelper: ToolbarHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_study_detail)
+
+        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
+            setTitle(MOCK_TITLE)
+            setNavigationIcon(R.drawable.ic_back_24)
+        }
 
         val studyDetailTabList = resources.getStringArray(R.array.study_detail_tab)
 
@@ -50,5 +57,7 @@ class StudyDetailActivity : AppCompatActivity() {
     companion object {
         fun getInstance(context: Context) =
             Intent(context, StudyDetailActivity::class.java)
+
+        const val MOCK_TITLE = "Swift 정복하기"
     }
 }
