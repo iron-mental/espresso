@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.iron.espresso.R
+import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.data.model.NoticeListItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
+import com.iron.espresso.presentation.home.setting.adapter.SettingAdapter
+import com.iron.espresso.presentation.home.setting.model.*
 
 class NoticeFragment : Fragment() {
     private lateinit var binding: FragmentNoticeBinding
@@ -27,14 +30,14 @@ class NoticeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val noticeList = mutableListOf<NoticeListItem>().apply {
-            add(NoticeListItem("공지", "강남역 윙스터디", "강남구", "10/27"))
-            add(NoticeListItem("공지", "강남역 윙스터디", "강남구", "10/27"))
-            add(NoticeListItem("공지", "강남역 윙스터디", "강남구", "10/27"))
-            add(NoticeListItem("공지", "강남역 윙스터디", "강남구", "10/27"))
-            add(NoticeListItem("공지", "강남역 윙스터디", "강남구", "10/27"))
-            add(NoticeListItem("공지", "강남역 윙스터디", "강남구", "10/27"))
-            add(NoticeListItem("공지", "강남역 윙스터디", "강남구", "10/27"))
+        val noticeListItem = mutableListOf<NoticeListItem>().apply {
+            add(NoticeListItem("강남역 윙스터디1", "강남구", "10/27",NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디2", "강남구", "10/27",NoticeItemType.HEADER))
+            add(NoticeListItem("강남역 윙스터디3", "강남구", "10/27",NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디4", "강남구", "10/27",NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디5", "강남구", "10/27",NoticeItemType.HEADER))
+            add(NoticeListItem("강남역 윙스터디6", "강남구", "10/27",NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디7", "강남구", "10/27",NoticeItemType.ITEM))
         }
 
         binding.noticeList.adapter = NoticeAdapter(noticeList)
