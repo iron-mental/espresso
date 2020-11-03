@@ -13,3 +13,12 @@ fun ImageView.setUrlImg(url: String?) {
         .error(R.drawable.dummy_image)
         .into(this)
 }
+
+@BindingAdapter("bind:setStudyCategoryImg")
+fun ImageView.setStudyCategoryImg(drawable: Int?) {
+    Glide.with(context)
+        .load(drawable)
+        .fitCenter()
+        .error(R.drawable.dummy_image)
+        .into(this)
+}

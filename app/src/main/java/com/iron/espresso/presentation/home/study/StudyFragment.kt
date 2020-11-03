@@ -69,18 +69,13 @@ class StudyFragment : Fragment() {
         private const val SPAN_COUNT = 2
 
         private val DUMMY_DATA = mutableListOf<StudyCategoryItem>().apply {
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
-            add(StudyCategoryItem(""))
+            for (i in 0 until 3) {
+                add(StudyCategoryItem(R.drawable.android))
+                add(StudyCategoryItem(R.drawable.swift))
+                add(StudyCategoryItem(R.drawable.node))
+                add(StudyCategoryItem(R.drawable.frontend))
+                add(StudyCategoryItem(R.drawable.tenserflow))
+            }
         }
 
         fun newInstance() =
