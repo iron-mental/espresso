@@ -13,6 +13,7 @@ import com.iron.espresso.databinding.FragmentNoticeBinding
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
 import com.iron.espresso.presentation.home.setting.adapter.SettingAdapter
 import com.iron.espresso.presentation.home.setting.model.*
+import kotlinx.android.synthetic.main.item_notice_layout.*
 
 class NoticeFragment : Fragment() {
     private lateinit var binding: FragmentNoticeBinding
@@ -31,30 +32,17 @@ class NoticeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val noticeListItem = mutableListOf<NoticeListItem>().apply {
-            add(NoticeListItem("강남역 윙스터디1", "강남구", "10/27",NoticeItemType.ITEM))
-            add(NoticeListItem("강남역 윙스터디2", "강남구", "10/27",NoticeItemType.HEADER))
-            add(NoticeListItem("강남역 윙스터디3", "강남구", "10/27",NoticeItemType.ITEM))
-            add(NoticeListItem("강남역 윙스터디4", "강남구", "10/27",NoticeItemType.ITEM))
-            add(NoticeListItem("강남역 윙스터디5", "강남구", "10/27",NoticeItemType.HEADER))
-            add(NoticeListItem("강남역 윙스터디6", "강남구", "10/27",NoticeItemType.ITEM))
-            add(NoticeListItem("강남역 윙스터디7", "강남구", "10/27",NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디1", "강남구", "10/27", NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디2", "강남구", "10/27", NoticeItemType.HEADER))
+            add(NoticeListItem("강남역 윙스터디3", "강남구", "10/27", NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디4", "강남구", "10/27", NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디5", "강남구", "10/27", NoticeItemType.HEADER))
+            add(NoticeListItem("강남역 윙스터디6", "강남구", "10/27", NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디7", "강남구", "10/27", NoticeItemType.ITEM))
         }
+        noticeListItem.sortBy { it.type }
 
-        val noticeList = mutableListOf<NoticeListItem>()
-        val noticeItem = mutableListOf<NoticeListItem>()
-        noticeListItem.forEachIndexed { _, list ->
-            when(list.type){
-                NoticeItemType.HEADER -> {
-                    noticeList.add(list)
-                }
-                NoticeItemType.ITEM -> {
-                    noticeItem.add(list)
-                }
-            }
-        }
-        noticeList.addAll(noticeItem)
-
-        binding.noticeList.adapter = NoticeAdapter(noticeList)
+        binding.noticeList.adapter = NoticeAdapter(noticeListItem)
     }
 
     companion object {
