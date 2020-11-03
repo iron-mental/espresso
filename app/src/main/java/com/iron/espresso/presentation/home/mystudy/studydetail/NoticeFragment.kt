@@ -40,6 +40,20 @@ class NoticeFragment : Fragment() {
             add(NoticeListItem("강남역 윙스터디7", "강남구", "10/27",NoticeItemType.ITEM))
         }
 
+        val noticeList = mutableListOf<NoticeListItem>()
+        val noticeItem = mutableListOf<NoticeListItem>()
+        noticeListItem.forEachIndexed { _, list ->
+            when(list.type){
+                NoticeItemType.HEADER -> {
+                    noticeList.add(list)
+                }
+                NoticeItemType.ITEM -> {
+                    noticeItem.add(list)
+                }
+            }
+        }
+        noticeList.addAll(noticeItem)
+
         binding.noticeList.adapter = NoticeAdapter(noticeList)
     }
 

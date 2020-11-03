@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
+import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.data.model.NoticeListItem
 import com.iron.espresso.databinding.ItemNoticeLayoutBinding
 
@@ -19,7 +20,17 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     fun bind(item: NoticeListItem) {
         binding?.run {
             title.text = item.title
-            category.text = item.category
+            category.apply {
+                when(item.type){
+                    NoticeItemType.HEADER -> {
+                        text = context.getString(R.string.pined_true)
+                        setBackgroundResource(R.color.theme_fc813e)
+                    }
+                    NoticeItemType.ITEM -> {
+                        text = context.getString(R.string.pined_false)
+                    }
+                }
+            }
             version.text = item.version
             content.text = item.content
         }
