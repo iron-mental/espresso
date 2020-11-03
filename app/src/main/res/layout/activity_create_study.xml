@@ -30,13 +30,42 @@
                 android:orientation="vertical"
                 android:paddingBottom="40dp">
 
-                <ImageView
-                    android:id="@+id/study_image"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_title_and_image"
                     android:layout_width="match_parent"
-                    android:layout_height="169dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/dummy_image"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/change_image"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/ic_material_add"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/image"
+                        android:layout_width="match_parent"
+                        android:layout_height="169dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/swift"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/title"
+                        android:layout_width="283dp"
+                        android:layout_height="54dp"
+                        android:background="@android:color/white"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/image"
+                        app:layout_constraintVertical_bias=".1" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include layout="@layout/view_divider" />
 
