@@ -5,8 +5,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.data.model.NoticeListItem
 import com.iron.espresso.presentation.home.mystudy.adapter.viewholder.NoticeViewHolder
 
-class NoticeAdapter(private val noticeList: List<NoticeListItem>) :
+class NoticeAdapter :
     RecyclerView.Adapter<NoticeViewHolder>() {
+
+    private val noticeList = mutableListOf<NoticeListItem>()
+
+    fun setItemList(noticeList: List<NoticeListItem>) {
+        this.noticeList.addAll(noticeList)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder =
         NoticeViewHolder(parent)

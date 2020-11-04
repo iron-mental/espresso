@@ -21,7 +21,7 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         binding?.run {
             title.text = item.title
             category.apply {
-                when(item.type){
+                when (item.type) {
                     NoticeItemType.HEADER -> {
                         text = context.getString(R.string.pined_true)
                         setBackgroundResource(R.color.theme_fc813e)

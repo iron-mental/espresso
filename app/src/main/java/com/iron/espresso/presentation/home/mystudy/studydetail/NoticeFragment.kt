@@ -11,12 +11,11 @@ import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.data.model.NoticeListItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
-import com.iron.espresso.presentation.home.setting.adapter.SettingAdapter
-import com.iron.espresso.presentation.home.setting.model.*
-import kotlinx.android.synthetic.main.item_notice_layout.*
 
 class NoticeFragment : Fragment() {
+
     private lateinit var binding: FragmentNoticeBinding
+    private var noticeAdapter = NoticeAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +31,7 @@ class NoticeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val noticeListItem = mutableListOf<NoticeListItem>().apply {
-            add(NoticeListItem("강남역 윙스터디1", "강남구", "10/27", NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디1", "강\n남\n구\n청", "10/27", NoticeItemType.ITEM))
             add(NoticeListItem("강남역 윙스터디2", "강남구", "10/27", NoticeItemType.HEADER))
             add(NoticeListItem("강남역 윙스터디3", "강남구", "10/27", NoticeItemType.ITEM))
             add(NoticeListItem("강남역 윙스터디4", "강남구", "10/27", NoticeItemType.ITEM))
@@ -42,7 +41,8 @@ class NoticeFragment : Fragment() {
         }
         noticeListItem.sortBy { it.type }
 
-        binding.noticeList.adapter = NoticeAdapter(noticeListItem)
+        noticeAdapter.setItemList(noticeListItem)
+        binding.noticeList.adapter = noticeAdapter
     }
 
     companion object {
