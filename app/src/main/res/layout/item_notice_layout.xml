@@ -16,7 +16,7 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/theme_292929"/>
+            android:background="@color/theme_292929" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -78,7 +78,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/theme_292929"/>
+            android:background="@color/theme_292929" />
 
     </LinearLayout>
 

@@ -52,8 +52,8 @@ class NoticeFragment : Fragment() {
 
         noticeAdapter.setItemList(noticeListItem)
         binding.noticeList.adapter = noticeAdapter
-        noticeAdapter.onClick = { position ->
-            Toast.makeText(context, "onClick position: $position", Toast.LENGTH_SHORT).show()
+        noticeAdapter.itemClickListener = { title ->
+            Toast.makeText(context, "onClick position: $title", Toast.LENGTH_SHORT).show()
         }
     }
 
