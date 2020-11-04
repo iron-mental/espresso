@@ -1,6 +1,7 @@
 package com.iron.espresso.presentation.home.mystudy.adapter.viewholder
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,10 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                         setBackgroundResource(R.color.theme_fc813e)
                     }
                     NoticeItemType.ITEM -> {
+                        if (flag) {
+                            flag = false
+                            divider.layoutParams.height = 15
+                        }
                         text = context.getString(R.string.pined_false)
                         setBackgroundResource(R.color.colorCobaltBlue)
                     }
@@ -35,5 +40,9 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             date.text = item.date
             content.text = item.content
         }
+    }
+
+    companion object {
+        var flag = true
     }
 }
