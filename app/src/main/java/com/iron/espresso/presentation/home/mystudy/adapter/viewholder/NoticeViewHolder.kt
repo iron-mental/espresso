@@ -28,10 +28,11 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                     }
                     NoticeItemType.ITEM -> {
                         text = context.getString(R.string.pined_false)
+                        setBackgroundResource(R.color.colorCobaltBlue)
                     }
                 }
             }
-            version.text = item.version
+            date.text = item.date
             content.text = item.content
         }
     }

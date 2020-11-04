@@ -38,7 +38,15 @@ class NoticeFragment : Fragment() {
             add(NoticeListItem("강남역 윙스터디5", "강남구", "10/27", NoticeItemType.HEADER))
             add(NoticeListItem("강남역 윙스터디6", "강남구", "10/27", NoticeItemType.ITEM))
             add(NoticeListItem("강남역 윙스터디7", "강남구", "10/27", NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디8", "강\n남\n구\n청", "10/27", NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디9", "강남구", "10/27", NoticeItemType.HEADER))
+            add(NoticeListItem("강남역 윙스터디10", "강남구", "10/27", NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디11", "강남구", "10/27", NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디12", "강남구", "10/27", NoticeItemType.HEADER))
+            add(NoticeListItem("강남역 윙스터디13", "강남구", "10/27", NoticeItemType.ITEM))
+            add(NoticeListItem("강남역 윙스터디14", "강남구", "10/27", NoticeItemType.ITEM))
         }
+
         noticeListItem.sortBy { it.type }
 
         noticeAdapter.setItemList(noticeListItem)
