@@ -1,0 +1,66 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.iron.espresso.R" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@color/colorPrimaryDark">
+
+        <include
+            android:id="@+id/info_view"
+            layout="@layout/view_info" />
+
+        <include
+            android:id="@+id/github_input_view"
+            hint="@{`Github Project URL`}"
+            icon="@{R.drawable.github}"
+            layout="@layout/view_input_url"
+            title="@{`Github`}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/info_view" />
+
+        <include
+            android:id="@+id/appstore_input_view"
+            hint="@{`App Store URL`}"
+            icon="@{R.drawable.app_store}"
+            layout="@layout/view_input_url"
+            title="@{`App Store`}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/github_input_view" />
+
+        <include
+            android:id="@+id/playstore_input_view"
+            hint="@{`PlayStore URL`}"
+            icon="@{R.drawable.play_store}"
+            layout="@layout/view_input_url"
+            title="@{`PlayStore`}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appstore_input_view" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/project_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="+ 프로젝트 추가"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/playstore_input_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
