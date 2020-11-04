@@ -1,7 +1,6 @@
 package com.iron.espresso.presentation.home.mystudy.adapter.viewholder
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +17,11 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemNoticeLayoutBinding>(itemView)
 
-    fun bind(item: NoticeListItem) {
+    fun bind(item: NoticeListItem, onClick: (title: String) -> Unit) {
+        itemView.setOnClickListener {
+            onClick(item.title)
+        }
+
         binding?.run {
             title.text = item.title
             category.apply {

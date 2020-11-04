@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.iron.espresso.R
@@ -51,6 +52,9 @@ class NoticeFragment : Fragment() {
 
         noticeAdapter.setItemList(noticeListItem)
         binding.noticeList.adapter = noticeAdapter
+        noticeAdapter.onClick = { position ->
+            Toast.makeText(context, "onClick position: $position", Toast.LENGTH_SHORT).show()
+        }
     }
 
     companion object {
