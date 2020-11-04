@@ -29,7 +29,7 @@ class StudyDetailActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_study_detail)
 
         toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle(MOCK_TITLE)
+            setTitle(intent.extras?.getString("title"))
             setNavigationIcon(R.drawable.ic_back_24)
         }
 
@@ -79,7 +79,5 @@ class StudyDetailActivity : AppCompatActivity() {
     companion object {
         fun getInstance(context: Context) =
             Intent(context, StudyDetailActivity::class.java)
-
-        const val MOCK_TITLE = "Swift 정복하기"
     }
 }

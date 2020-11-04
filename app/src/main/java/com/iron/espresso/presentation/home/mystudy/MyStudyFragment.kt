@@ -40,7 +40,9 @@ class MyStudyFragment : Fragment() {
             myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
                 override fun onClick(view: View) {
                     Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
-                    startActivity(context?.let { StudyDetailActivity.getInstance(it) })
+                    startActivity(context?.let {
+                        StudyDetailActivity.getInstance(it).putExtra("title", view.tag.toString())
+                    })
                 }
             })
         }
