@@ -54,6 +54,7 @@ class NoticeFragment : Fragment() {
         binding.noticeList.adapter = noticeAdapter
         noticeAdapter.itemClickListener = { title ->
             Toast.makeText(context, "onClick position: $title", Toast.LENGTH_SHORT).show()
+            startActivity(context?.let { NoticeDetailActivity.getInstance(it) })
         }
     }
 
