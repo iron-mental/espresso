@@ -43,6 +43,9 @@ class StudyListActivity : AppCompatActivity() {
         binding.studyList.adapter = studyListAdapter
         studyListAdapter.apply {
             setItemList(studyList)
+            itemClickListener = { title ->
+                println("onClick title: $title")
+            }
         }
 
 

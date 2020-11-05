@@ -6,6 +6,8 @@ import com.iron.espresso.presentation.home.study.model.StudyListItem
 
 class StudyListAdapter :
     RecyclerView.Adapter<StudyListViewHolder>() {
+
+    lateinit var itemClickListener: (title: String) -> Unit
     private val studyList = mutableListOf<StudyListItem>()
 
     fun setItemList(studyList: List<StudyListItem>) {
@@ -19,6 +21,6 @@ class StudyListAdapter :
         studyList.size
 
     override fun onBindViewHolder(holder: StudyListViewHolder, position: Int) {
-        holder.bind(studyList[position])
+        holder.bind(studyList[position], itemClickListener)
     }
 }
