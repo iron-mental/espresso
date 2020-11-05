@@ -19,56 +19,71 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/writer_container"
-            android:layout_width="match_parent"
+        <ScrollView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="13dp"
+            android:overScrollMode="never"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appbar">
 
-            <ImageView
-                android:id="@+id/writer_image"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:src="@drawable/dummy_image"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/writer_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/writer_name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:text="윤여울"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/date"
-                app:layout_constraintStart_toEndOf="@+id/writer_image"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2020.8.27 목요일 오후 10:00"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/writer_name"
-                app:layout_constraintTop_toBottomOf="@+id/writer_name" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/writer_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="13dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/appbar">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/writer_image"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:src="@drawable/dummy_image"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/writer_name"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:text="[모임 진행시 가이드 라인]
+                    <TextView
+                        android:id="@+id/writer_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="윤여울"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toTopOf="@+id/date"
+                        app:layout_constraintStart_toEndOf="@+id/writer_image"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2020.8.27 목요일 오후 10:00"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/writer_name"
+                        app:layout_constraintTop_toBottomOf="@+id/writer_name" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="13dp"
+                    android:text="[모임 진행시 가이드 라인]
 
 1. 스터디를 진행할 때 휴대폰은 매너모드로 설정해주세
 요
@@ -78,10 +93,10 @@
 꼭 착용해 주세요
 
 3. 노트북 가져오세요"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/writer_container"
-            app:layout_constraintEnd_toEndOf="@+id/writer_container"
-            app:layout_constraintTop_toBottomOf="@+id/writer_container" />
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
