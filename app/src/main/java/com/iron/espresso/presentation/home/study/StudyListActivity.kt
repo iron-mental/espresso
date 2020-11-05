@@ -4,11 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import com.iron.espresso.R
 import com.iron.espresso.ToolbarHelper
@@ -19,8 +17,8 @@ import com.iron.espresso.presentation.home.study.model.StudyListItem
 class StudyListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStudyListBinding
-
-    lateinit var toolbarHelper: ToolbarHelper
+    private lateinit var toolbarHelper: ToolbarHelper
+    private val studyListAdapter = StudyListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +40,12 @@ class StudyListActivity : AppCompatActivity() {
 
         }
 
-        binding.studyList.adapter = StudyListAdapter(studyList)
+        binding.studyList.adapter = studyListAdapter
+        studyListAdapter.apply {
+            setItemList(studyList)
+        }
+
+
 
         binding.topTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {

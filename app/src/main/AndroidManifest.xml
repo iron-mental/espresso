@@ -16,15 +16,16 @@
         <activity
             android:name=".presentation.sign.IntroActivity"
             android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity android:name=".presentation.profile.ProfileActivity" />
+
+        <activity android:name=".presentation.home.HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.profile.ProfileActivity" />
-
-        <activity android:name=".presentation.home.HomeActivity" />
 
         <activity
             android:name=".presentation.sign.SignInActivity"
