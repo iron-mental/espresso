@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.iron.espresso.R
 import com.iron.espresso.ToolbarHelper
@@ -20,12 +22,21 @@ class NoticeDetailActivity : AppCompatActivity() {
 
         toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
             setTitle(TOOLBAR_TITLE)
+            setNavigationIcon(R.drawable.ic_back_24)
         }
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+        }
+        return true
     }
 
     companion object {
-        const val TOOLBAR_TITLE = "공지사항"
+        const val TOOLBAR_TITLE = "공지사항 상세 화면"
         fun getInstance(context: Context) =
             Intent(context, NoticeDetailActivity::class.java)
     }
