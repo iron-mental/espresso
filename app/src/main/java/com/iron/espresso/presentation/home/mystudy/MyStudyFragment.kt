@@ -41,7 +41,7 @@ class MyStudyFragment : Fragment() {
                 override fun onClick(view: View) {
                     Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
                     startActivity(context?.let {
-                        StudyDetailActivity.getInstance(it).putExtra("title", view.tag.toString())
+                        StudyDetailActivity.getInstance(it, view.tag.toString())
                     })
                 }
             })

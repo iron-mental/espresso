@@ -29,7 +29,7 @@ class StudyDetailActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_study_detail)
 
         toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle(intent.extras?.getString("title"))
+            setTitle(intent.extras?.getString(TOOLBAR_TITLE))
             setNavigationIcon(R.drawable.ic_back_24)
         }
 
@@ -77,7 +77,8 @@ class StudyDetailActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun getInstance(context: Context) =
-            Intent(context, StudyDetailActivity::class.java)
+        const val TOOLBAR_TITLE = "title"
+        fun getInstance(context: Context, title: String) =
+            Intent(context, StudyDetailActivity::class.java).putExtra(TOOLBAR_TITLE, title)
     }
 }
