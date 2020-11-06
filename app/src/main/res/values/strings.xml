@@ -16,6 +16,8 @@
     <string name="intro_explain1">혼자하는 개발 공부 힘들었다면?</string>
     <string name="intro_explain2">개발자들이 개발자를 알고 만든</string>
     <string name="intro_explain3">‘터미널’ 에서 스터디를 시작해보세요.</string>
+    <string name="search_place">장소로 검색</string>
+    <string name="search_hot_keyword">핫 등록 키워드</string>
 
 
     <string name="sign_next">다음</string>
@@ -45,4 +47,5 @@
 
     <string name="profile_title">프로필</string>
     <string name="share">공유하기</string>
+    <string name="search_hint">스터디명 분류(키워드) 등</string>
 </resources>
