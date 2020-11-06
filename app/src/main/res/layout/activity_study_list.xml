@@ -20,18 +20,9 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/top_tab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/recency" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/location"/>
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            app:tabMode="scrollable">
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -39,8 +30,8 @@
             android:id="@+id/study_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

@@ -11,7 +11,9 @@ class StudyListAdapter :
     private val studyList = mutableListOf<StudyListItem>()
 
     fun setItemList(studyList: List<StudyListItem>) {
+        this.studyList.clear()
         this.studyList.addAll(studyList)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudyListViewHolder =

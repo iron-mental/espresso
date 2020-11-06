@@ -13,6 +13,7 @@ import com.iron.espresso.ToolbarHelper
 import com.iron.espresso.databinding.ActivityStudyListBinding
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
 import com.iron.espresso.presentation.home.study.model.StudyListItem
+import kotlinx.android.synthetic.main.activity_study_list.*
 
 class StudyListActivity : AppCompatActivity() {
 
@@ -44,10 +45,13 @@ class StudyListActivity : AppCompatActivity() {
         studyListAdapter.apply {
             setItemList(studyList)
             itemClickListener = { title ->
-                println("onClick title: $title")
+                Toast.makeText(this@StudyListActivity, "onClick title: $title", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
-
+        resources.getStringArray(R.array.study_tab).forEach { title ->
+            binding.topTab.addTab(binding.topTab.newTab().setText(title))
+        }
 
 
         binding.topTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
