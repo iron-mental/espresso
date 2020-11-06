@@ -31,7 +31,6 @@
     <string name="sign_up_password_helper">6글자 이상 입력하세요</string>
 
 
-
     <string name="sign_in_email_explain">사용하실 이메일을\n입력해 주세요.</string>
     <string name="sign_in_email_hint">email@inputinput.com</string>
 
@@ -45,4 +44,7 @@
 
     <string name="profile_title">프로필</string>
     <string name="share">공유하기</string>
+    <string name="mystudy_chat">새 채팅</string>
+    <string name="mystudy_notice">새 공지</string>
+    <string name="mystudy_member">새 맴버</string>
 </resources>

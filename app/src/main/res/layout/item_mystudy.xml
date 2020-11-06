@@ -6,63 +6,105 @@
     <data>
 
         <variable
+            name="glideType"
+            type="com.iron.espresso.ext.ImageType" />
+
+        <variable
             name="myStudyItem"
             type="com.iron.espresso.data.model.MyStudyItem" />
     </data>
 
-    <androidx.cardview.widget.CardView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0.1dp"
-        android:clipToPadding="true"
-        app:cardElevation="1dp">
+        android:layout_marginTop="5dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            android:layout_marginStart="24dp"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            bind:setUrlImg="@{myStudyItem.image}"
+            bind:type="@{glideType.ROUND}" />
 
-            <ImageView
-                android:id="@+id/iv_image"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitXY"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent=".15"
-                bind:setUrlImg="@{myStudyItem.image}" />
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_marginStart="24dp"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="17sp"
+            android:text="@{myStudyItem.location}"
+            android:textColor="#0047ab"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{myStudyItem.location}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias=".2"
-                app:layout_constraintStart_toEndOf="@id/iv_image"
-                app:layout_constraintTop_toTopOf="@id/iv_image" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="19sp"
+            android:text="@{myStudyItem.name}"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="@id/location"
+            app:layout_constraintTop_toBottomOf="@id/location" />
 
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{myStudyItem.name}"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias=".2"
-                app:layout_constraintStart_toEndOf="@id/iv_image"
-                app:layout_constraintTop_toBottomOf="@id/tv_location" />
+        <TextView
+            android:id="@+id/chat"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/colorCobaltBlue"
+            android:gravity="center"
+            android:paddingStart="7.6dp"
+            android:paddingEnd="7.6dp"
+            android:text="@string/mystudy_chat"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/notice"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:gravity="center"
+            android:paddingStart="7.6dp"
+            android:paddingEnd="7.6dp"
+            android:text="@string/mystudy_notice"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chat" />
+
+        <TextView
+            android:id="@+id/member"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@android:color/darker_gray"
+            android:gravity="center"
+            android:paddingStart="7.6dp"
+            android:paddingEnd="7.6dp"
+            android:text="@string/mystudy_member"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notice" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
