@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".presentation.home.HomeActivity"
+            android:name=".presentation.sign.IntroActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".presentation.profile.ProfileActivity" />
 
-        <!--        <activity android:name=".presentation.home.HomeActivity" />-->
+        <activity android:name=".presentation.home.HomeActivity" />
 
         <activity
             android:name=".presentation.sign.SignInActivity"
@@ -49,6 +49,8 @@
         <activity android:name=".presentation.home.study.StudyCategoryActivity" />
 
         <activity android:name=".presentation.home.study.StudyCreateActivity" />
+
+        <activity android:name=".presentation.home.study.SearchStudyActivity" />
     </application>
 
 </manifest>

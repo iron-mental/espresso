@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.iron.espresso.R
@@ -22,8 +24,13 @@ class StudyCategoryActivity : AppCompatActivity(), StudyCategoryAdapterListener 
 
     private val categoryAdapter by lazy { CategoryAdapter() }
 
-    override fun getData(item: StudyCategoryItem) {
-        startActivity(StudyCreateActivity.getInstance(this))
+    override fun getData(item: StudyCategoryItem, imageView: ImageView) {
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this,
+            imageView,
+            imageView.transitionName
+        ).toBundle()
+        startActivity(StudyCreateActivity.getInstance(this, item.image), options)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

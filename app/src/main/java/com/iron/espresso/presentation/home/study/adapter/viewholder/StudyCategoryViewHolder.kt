@@ -2,6 +2,7 @@ package com.iron.espresso.presentation.home.study.adapter.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
@@ -23,10 +24,13 @@ class StudyCategoryViewHolder(parent: ViewGroup) :
             executePendingBindings()
         }
 
-        itemView.setOnClickListener { listener.getData(item) }
+        binding?.ivImage?.apply {
+            transitionName = item.image.toString()
+            setOnClickListener { listener.getData(item, this) }
+        }
     }
 }
 
 interface StudyCategoryAdapterListener {
-    fun getData(item: StudyCategoryItem)
+    fun getData(item: StudyCategoryItem, imageView: ImageView)
 }

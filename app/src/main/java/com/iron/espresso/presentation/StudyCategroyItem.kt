@@ -1,5 +1,5 @@
 package com.iron.espresso.presentation
 
 data class StudyCategoryItem(
-        val image: String
+    val image: Int
 )
