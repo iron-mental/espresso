@@ -3,6 +3,7 @@ package com.iron.espresso.presentation.home.study
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -11,9 +12,10 @@ import com.iron.espresso.R
 import com.iron.espresso.databinding.FragmentStudyBinding
 import com.iron.espresso.presentation.StudyCategoryItem
 import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
+import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
 import com.iron.espresso.utils.ToolbarHelper
 
-class StudyFragment : Fragment() {
+class StudyFragment : Fragment(), StudyCategoryAdapterListener {
     private lateinit var binding: FragmentStudyBinding
 
     private lateinit var toolbarHelper: ToolbarHelper
@@ -29,12 +31,11 @@ class StudyFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_study, container, false)
         binding.lifecycleOwner = this
 
-        binding.searchButton.setOnClickListener {
-            val intent = Intent(context, SearchStudyActivity::class.java)
-            startActivity(intent)
-        }
-
         return binding.root
+    }
+
+    override fun getData(item: StudyCategoryItem, imageView: ImageView) {
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,6 +50,8 @@ class StudyFragment : Fragment() {
             viewStudyCategory.layoutManager = GridLayoutManager(context, SPAN_COUNT)
             categoryAdapter.addAll(DUMMY_DATA)
         }
+        categoryAdapter.setItemClickListener(this)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -59,9 +62,12 @@ class StudyFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.search_study -> {
+                val intent = Intent(context, SearchStudyActivity::class.java)
+                startActivity(intent)
             }
 
             R.id.add_study -> {
+                startActivity(StudyCategoryActivity.getInstance(requireContext()))
             }
 
         }
@@ -75,7 +81,7 @@ class StudyFragment : Fragment() {
 
         private const val SPAN_COUNT = 2
 
-        private val DUMMY_DATA = mutableListOf<StudyCategoryItem>().apply {
+        val DUMMY_DATA = mutableListOf<StudyCategoryItem>().apply {
             for (i in 0 until 3) {
                 add(StudyCategoryItem(R.drawable.android))
                 add(StudyCategoryItem(R.drawable.swift))
@@ -89,6 +95,3 @@ class StudyFragment : Fragment() {
             StudyFragment()
     }
 }
-
-
-
