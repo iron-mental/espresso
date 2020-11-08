@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.iron.espresso.R
 import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.data.model.NoticeListItem
@@ -56,6 +58,8 @@ class NoticeFragment : Fragment() {
             }
         }
         binding.noticeList.adapter = noticeAdapter
+
+        binding.noticeList.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
     }
 
     companion object {
