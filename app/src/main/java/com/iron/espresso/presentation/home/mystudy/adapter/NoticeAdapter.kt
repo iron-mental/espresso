@@ -13,7 +13,9 @@ class NoticeAdapter :
     private val noticeList = mutableListOf<NoticeListItem>()
 
     fun setItemList(noticeList: List<NoticeListItem>) {
+        this.noticeList.clear()
         this.noticeList.addAll(noticeList)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder =

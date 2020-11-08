@@ -49,12 +49,13 @@ class NoticeFragment : Fragment() {
         }
 
         noticeListItem.sortBy { it.type }
-
-        noticeAdapter.setItemList(noticeListItem)
-        binding.noticeList.adapter = noticeAdapter
-        noticeAdapter.itemClickListener = { title ->
-            Toast.makeText(context, "onClick position: $title", Toast.LENGTH_SHORT).show()
+        noticeAdapter.run {
+            setItemList(noticeListItem)
+            itemClickListener = { title ->
+                Toast.makeText(context, "onClick position: $title", Toast.LENGTH_SHORT).show()
+            }
         }
+        binding.noticeList.adapter = noticeAdapter
     }
 
     companion object {
