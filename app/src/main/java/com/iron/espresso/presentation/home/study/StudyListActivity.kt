@@ -31,6 +31,23 @@ class StudyListActivity : AppCompatActivity() {
             setNavigationIcon(R.drawable.ic_back_24)
         }
 
+        val studyTabList = resources.getStringArray(R.array.home_tab)
+        studyTabList.forEach { title ->
+            binding.topTab.addTab(binding.topTab.newTab().setText(title))
+        }
+
+        binding.topTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                Toast.makeText(this@StudyListActivity, tab?.text, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
+
         val studyList = mutableListOf<StudyListItem>().apply {
             add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
             add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
@@ -49,22 +66,6 @@ class StudyListActivity : AppCompatActivity() {
                     .show()
             }
         }
-        resources.getStringArray(R.array.study_tab).forEach { title ->
-            binding.topTab.addTab(binding.topTab.newTab().setText(title))
-        }
-
-
-        binding.topTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                Toast.makeText(this@StudyListActivity, tab?.text, Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
