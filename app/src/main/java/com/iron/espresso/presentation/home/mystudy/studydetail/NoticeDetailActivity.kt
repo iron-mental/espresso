@@ -25,6 +25,20 @@ class NoticeDetailActivity : AppCompatActivity() {
             setTitle(TOOLBAR_TITLE)
             setNavigationIcon(R.drawable.ic_back_24)
         }
+
+        binding.category.apply {
+            when (intent.extras?.get("type")) {
+                NoticeItemType.HEADER -> {
+                    text = resources.getString(R.string.pined_true)
+                    setBackgroundResource(R.color.theme_fc813e)
+                }
+                NoticeItemType.ITEM -> {
+                    text = resources.getString(R.string.pined_false)
+                    setBackgroundResource(R.color.colorCobaltBlue)
+                }
+                else -> error("error")
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
