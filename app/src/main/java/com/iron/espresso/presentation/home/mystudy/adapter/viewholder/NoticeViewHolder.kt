@@ -31,10 +31,6 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                         setBackgroundResource(R.color.theme_fc813e)
                     }
                     NoticeItemType.ITEM -> {
-                        if (flag) {
-                            flag = false
-                            divider.layoutParams.height = 15
-                        }
                         text = context.getString(R.string.pined_false)
                         setBackgroundResource(R.color.colorCobaltBlue)
                     }
@@ -42,10 +38,13 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             }
             date.text = item.date
             content.text = item.content
-        }
-    }
 
-    companion object {
-        var flag = true
+            divider.layoutParams.height =
+                if (item.type == NoticeItemType.HEADER && nextItem?.type == NoticeItemType.ITEM) {
+                    100
+                } else {
+                    1
+                }
+        }
     }
 }

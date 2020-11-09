@@ -25,6 +25,6 @@ class NoticeAdapter :
         noticeList.size
 
     override fun onBindViewHolder(holder: NoticeViewHolder, position: Int) {
-        holder.bind(noticeList[position], itemClickListener)
+        holder.bind(noticeList[position], noticeList.getOrNull(position + 1), itemClickListener)
     }
 }
