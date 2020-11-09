@@ -5,10 +5,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.iron.espresso.R
 import com.iron.espresso.ToolbarHelper
+import com.iron.espresso.data.model.NoticeItemType
+import com.iron.espresso.data.model.NoticeListItem
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 
 class NoticeDetailActivity : AppCompatActivity() {
@@ -37,7 +38,7 @@ class NoticeDetailActivity : AppCompatActivity() {
 
     companion object {
         const val TOOLBAR_TITLE = "공지사항 상세 화면"
-        fun getInstance(context: Context) =
-            Intent(context, NoticeDetailActivity::class.java)
+        fun getInstance(context: Context, noticeItem: NoticeListItem) =
+            Intent(context, NoticeDetailActivity::class.java).putExtra("type", noticeItem.type)
     }
 }
