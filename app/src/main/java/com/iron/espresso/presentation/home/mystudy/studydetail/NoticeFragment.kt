@@ -51,7 +51,7 @@ class NoticeFragment : Fragment() {
         noticeListItem.sortBy { it.type }
         noticeAdapter.run {
             setItemList(noticeListItem)
-            itemClickListener = { title ->
+            setItemClickListener { title: String ->
                 Toast.makeText(context, "onClick position: $title", Toast.LENGTH_SHORT).show()
             }
         }

@@ -17,7 +17,11 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemNoticeLayoutBinding>(itemView)
 
-    fun bind(item: NoticeListItem, itemClickListener: (title: String) -> Unit) {
+    fun bind(
+        item: NoticeListItem,
+        nextItem: NoticeListItem?,
+        itemClickListener: (title: String) -> Unit
+    ) {
         itemView.setOnClickListener {
             itemClickListener(item.title)
         }

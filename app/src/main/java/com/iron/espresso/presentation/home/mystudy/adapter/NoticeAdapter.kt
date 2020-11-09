@@ -8,7 +8,11 @@ import com.iron.espresso.presentation.home.mystudy.adapter.viewholder.NoticeView
 class NoticeAdapter :
     RecyclerView.Adapter<NoticeViewHolder>() {
 
-    lateinit var itemClickListener: (title: String) -> Unit
+    private lateinit var itemClickListener: (title: String) -> Unit
+
+    fun setItemClickListener(listener: (title: String) -> Unit) {
+        itemClickListener = listener
+    }
 
     private val noticeList = mutableListOf<NoticeListItem>()
 
