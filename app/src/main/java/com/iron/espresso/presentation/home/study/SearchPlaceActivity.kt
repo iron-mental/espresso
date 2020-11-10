@@ -1,5 +1,7 @@
 package com.iron.espresso.presentation.home.study
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -13,5 +15,10 @@ class SearchPlaceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_place)
+    }
+
+    companion object {
+        fun getInstance(context: Context) =
+            Intent(context, SearchPlaceActivity::class.java)
     }
 }

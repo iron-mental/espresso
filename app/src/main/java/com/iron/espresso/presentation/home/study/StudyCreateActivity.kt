@@ -37,7 +37,7 @@ class StudyCreateActivity : AppCompatActivity() {
         }
 
         binding.placeContainer.setOnClickListener {
-            startActivity()
+            startActivity(SearchPlaceActivity.getInstance(this))
         }
 
         binding.image.transitionName = image.toString()
