@@ -28,21 +28,29 @@ interface RetrofitNetwork {
         @Path("notice_id") noticeId: Int
     ): Call<NoticeResponse>
 }
+
 data class NoticeResponse(
+    @SerializedName("result")
+    val result: String,
+    @SerializedName("data")
+    val data: Notice,
+)
+
+data class Notice(
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("study_id")
-    val studyId: Int?,
+    val studyId: Int,
     @SerializedName("title")
-    val title: String?,
+    val title: String,
     @SerializedName("contents")
-    val contents: String?,
+    val contents: String,
     @SerializedName("pinned")
-    val pinned: Boolean?,
+    val pinned: Boolean,
     @SerializedName("created_at")
-    val createAt: String?,
+    val createAt: String,
     @SerializedName("updated_at")
-    val updatedAt: String?
+    val updatedAt: String,
 )
 
 
@@ -88,17 +96,17 @@ class NoticeDetailActivity : AppCompatActivity() {
                 call: Call<NoticeResponse>,
                 response: Response<NoticeResponse>
             ) {
-                Log.d("TAG","response : ${response.body()!!.studyId}")
-                Log.d("TAG","response : ${response.errorBody()}")
-                Log.d("TAG","response : ${response.message()}")
-                Log.d("TAG","response : ${response.code()}")
                 Log.d("TAG", "성공 : ${response.raw()}")
-                if (response.isSuccessful) {
-                    Log.d("Response :: ", "${response.body()}")
-                } else {
-                    Log.d("Response :: ", "실패")
-                }
+                Log.d("Response :: ", "${response.body()}")
+
                 val data: NoticeResponse? = response.body()
+                binding.title.text = data?.data?.title
+                binding.run {
+                    title.text = data?.data?.title
+                    content.text = data?.data?.contents
+                    date.text = data?.data?.createAt
+
+                }
             }
 
             override fun onFailure(call: Call<NoticeResponse>, t: Throwable) {
