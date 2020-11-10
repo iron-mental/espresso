@@ -48,6 +48,12 @@
         <activity android:name=".presentation.home.setting.SettingHelpActivity" />
 
         <activity android:name=".presentation.home.setting.SettingNoticeActivity" />
+
+        <activity android:name=".presentation.home.study.StudyCategoryActivity" />
+
+        <activity android:name=".presentation.home.study.StudyCreateActivity" />
+
+        <activity android:name=".presentation.home.study.SearchStudyActivity" />
     </application>
 
 </manifest>
