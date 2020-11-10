@@ -68,20 +68,6 @@ class NoticeDetailActivity : AppCompatActivity() {
             setNavigationIcon(R.drawable.ic_back_24)
         }
 
-        binding.category.apply {
-            when (intent.extras?.get("type")) {
-                NoticeItemType.HEADER -> {
-                    text = resources.getString(R.string.pined_true)
-                    setBackgroundResource(R.color.theme_fc813e)
-                }
-                NoticeItemType.ITEM -> {
-                    text = resources.getString(R.string.pined_false)
-                    setBackgroundResource(R.color.colorCobaltBlue)
-                }
-                else -> error("error")
-            }
-        }
-
         //retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl("http://3.35.154.27:3000")
@@ -100,12 +86,14 @@ class NoticeDetailActivity : AppCompatActivity() {
                 Log.d("Response :: ", "${response.body()}")
 
                 val data: NoticeResponse? = response.body()
-                binding.title.text = data?.data?.title
-                binding.run {
-                    title.text = data?.data?.title
-                    content.text = data?.data?.contents
-                    date.text = data?.data?.createAt
-
+                binding.category.apply {
+                    if (data!!.data.pinned) {
+                        text = resources.getString(R.string.pined_true)
+                        setBackgroundResource(R.color.theme_fc813e)
+                    } else {
+                        text = resources.getString(R.string.pined_false)
+                        setBackgroundResource(R.color.colorCobaltBlue)
+                    }
                 }
             }
 
@@ -126,7 +114,7 @@ class NoticeDetailActivity : AppCompatActivity() {
 
     companion object {
         const val TOOLBAR_TITLE = "공지사항 상세 화면"
-        fun getInstance(context: Context, noticeItem: NoticeListItem) =
-            Intent(context, NoticeDetailActivity::class.java).putExtra("type", noticeItem.type)
+        fun getInstance(context: Context) =
+            Intent(context, NoticeDetailActivity::class.java)
     }
 }

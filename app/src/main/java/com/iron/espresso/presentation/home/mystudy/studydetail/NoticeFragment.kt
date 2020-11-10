@@ -53,7 +53,8 @@ class NoticeFragment : Fragment() {
         noticeAdapter.setItemList(noticeListItem)
         binding.noticeList.adapter = noticeAdapter
         noticeAdapter.itemClickListener = { noticeItem ->
-            startActivity(context?.let { NoticeDetailActivity.getInstance(it, noticeItem) })
+            Toast.makeText(context,noticeItem.title,Toast.LENGTH_SHORT).show()
+            startActivity(context?.let { NoticeDetailActivity.getInstance(it) })
         }
     }
 
