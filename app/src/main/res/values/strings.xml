@@ -47,10 +47,13 @@
     <string name="profile_title">프로필</string>
     <string name="share">공유하기</string>
 
+    <string name="study">스터디</string>
+    <string name="recency">최신</string>
+    <string name="location">지역</string>
+
     <string name="mystudy_chat">새 채팅</string>
     <string name="mystudy_notice">새 공지</string>
     <string name="mystudy_member">새 맴버</string>
 
     <string name="search_hint">스터디명 분류(키워드) 등</string>
-
 </resources>
