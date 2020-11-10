@@ -43,12 +43,14 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             date.text = item.date
             content.text = item.content
 
-            divider.layoutParams.height =
-                if (item.type == NoticeItemType.HEADER && nextItem?.type == NoticeItemType.ITEM) {
-                    100
-                } else {
-                    1
-                }
+            divider.apply {
+                layoutParams.height =
+                    if (item.type == NoticeItemType.HEADER && nextItem?.type == NoticeItemType.ITEM) {
+                        resources.getDimension(R.dimen.diff_divide_height).toInt()
+                    } else {
+                        resources.getDimension(R.dimen.same_divide_height).toInt()
+                    }
+            }
         }
     }
 }

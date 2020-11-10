@@ -16,7 +16,7 @@ import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
 class NoticeFragment : Fragment() {
 
     private lateinit var binding: FragmentNoticeBinding
-    private var noticeAdapter = NoticeAdapter()
+    private val noticeAdapter = NoticeAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
