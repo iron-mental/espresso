@@ -36,6 +36,10 @@ class StudyCreateActivity : AppCompatActivity() {
             setNavigationIcon(R.drawable.ic_back_24)
         }
 
+        binding.placeContainer.setOnClickListener {
+            startActivity()
+        }
+
         binding.image.transitionName = image.toString()
         binding.image.load(image, true) {
             supportPostponeEnterTransition()
