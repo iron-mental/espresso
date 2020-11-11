@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -49,10 +50,21 @@ class SearchPlaceActivity : AppCompatActivity() {
             add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
         }
 
-        placeAdapter.setItemList(placeItemList)
-        binding.placeList.run{
+        placeAdapter.run {
+            setItemList(placeItemList)
+            setItemClickListener { title ->
+                Toast.makeText(this@SearchPlaceActivity, title, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.placeList.run {
             adapter = placeAdapter
-            addItemDecoration(DividerItemDecoration(this@SearchPlaceActivity, LinearLayout.VERTICAL))
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@SearchPlaceActivity,
+                    LinearLayout.VERTICAL
+                )
+            )
         }
 
     }
