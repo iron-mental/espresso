@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -29,8 +30,7 @@ class SearchPlaceActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_place)
 
         searchEditText = EditText(this)
-        toolbarHelper = ToolbarHelper(this, binding.appbar.apply {
-        }).apply {
+        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
             setTitle(null)
             setNavigationIcon(R.drawable.ic_back_24)
             setCustomView(searchEditText.apply {
@@ -40,9 +40,29 @@ class SearchPlaceActivity : AppCompatActivity() {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
+                requestFocus()
+                imeOptions = EditorInfo.IME_ACTION_SEARCH
+                setOnEditorActionListener { search, action, event ->
+                    var handled = false     //키보드 내림
+                    if (search.text.isNotEmpty() && action == EditorInfo.IME_ACTION_SEARCH) {
+                        searchPlace(text.toString())
+                    } else {
+                        handled = true      //키보드 유지
+                    }
+                    handled
+                }
             })
         }
 
+        binding.placeList.run {
+            adapter = placeAdapter
+            addItemDecoration(
+                DividerItemDecoration(this@SearchPlaceActivity, LinearLayout.VERTICAL)
+            )
+        }
+    }
+
+    private fun searchPlace(keyword: String) {
         val placeItemList = mutableListOf<PlaceItem>().apply {
             add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
             add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
@@ -56,17 +76,6 @@ class SearchPlaceActivity : AppCompatActivity() {
                 Toast.makeText(this@SearchPlaceActivity, title, Toast.LENGTH_SHORT).show()
             }
         }
-
-        binding.placeList.run {
-            adapter = placeAdapter
-            addItemDecoration(
-                DividerItemDecoration(
-                    this@SearchPlaceActivity,
-                    LinearLayout.VERTICAL
-                )
-            )
-        }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
