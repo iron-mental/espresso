@@ -21,6 +21,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -31,6 +32,7 @@
             app:layout_constraintStart_toEndOf="@+id/title" />
 
         <TextView
+            android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="경기 성남시 분당구 판교로 256번길 25"
