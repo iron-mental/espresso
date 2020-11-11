@@ -3,25 +3,23 @@ package com.iron.espresso.presentation.home.study
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.marginEnd
 import androidx.databinding.DataBindingUtil
-import com.iron.espresso.MenuSet
 import com.iron.espresso.R
 import com.iron.espresso.ToolbarHelper
+import com.iron.espresso.data.model.PlaceItem
 import com.iron.espresso.databinding.ActivitySearchPlaceBinding
+import com.iron.espresso.presentation.home.study.adapter.PlaceAdapter
 
 class SearchPlaceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchPlaceBinding
     private lateinit var toolbarHelper: ToolbarHelper
     private lateinit var searchEditText: EditText
+    private val placeAdapter = PlaceAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +39,17 @@ class SearchPlaceActivity : AppCompatActivity() {
                 )
             })
         }
+
+        val placeItemList = mutableListOf<PlaceItem>().apply {
+            add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
+            add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
+            add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
+            add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
+        }
+
+        placeAdapter.setItemList(placeItemList)
+        binding.placeList.adapter = placeAdapter
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
