@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.iron.espresso.R
 import com.iron.espresso.ToolbarHelper
 import com.iron.espresso.data.model.PlaceItem
@@ -48,7 +50,10 @@ class SearchPlaceActivity : AppCompatActivity() {
         }
 
         placeAdapter.setItemList(placeItemList)
-        binding.placeList.adapter = placeAdapter
+        binding.placeList.run{
+            adapter = placeAdapter
+            addItemDecoration(DividerItemDecoration(this@SearchPlaceActivity, LinearLayout.VERTICAL))
+        }
 
     }
 
