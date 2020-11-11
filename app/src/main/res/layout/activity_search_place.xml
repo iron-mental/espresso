@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -22,11 +22,12 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/place_list"
-            android:layout_width="0dp"
+            android:layout_width="0"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/appbar"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/item_place_list"/>
+            app:layout_constraintTop_toBottomOf="@+id/appbar"
+            tools:listitem="@layout/item_place_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
