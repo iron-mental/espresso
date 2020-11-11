@@ -7,7 +7,12 @@ import com.iron.espresso.presentation.home.study.adapter.viewholder.PlaceViewHol
 
 class PlaceAdapter : RecyclerView.Adapter<PlaceViewHolder>() {
 
+    private lateinit var itemClickListener: (title: String) -> Unit
     private val placeList = mutableListOf<PlaceItem>()
+
+    fun setItemClickListener(listener: (title: String) -> Unit) {
+        this.itemClickListener = listener
+    }
 
     fun setItemList(placeList: List<PlaceItem>) {
         this.placeList.clear()
@@ -19,7 +24,7 @@ class PlaceAdapter : RecyclerView.Adapter<PlaceViewHolder>() {
         PlaceViewHolder(parent)
 
     override fun onBindViewHolder(holder: PlaceViewHolder, position: Int) {
-        holder.bind(placeList[position])
+        holder.bind(placeList[position], itemClickListener)
     }
 
     override fun getItemCount(): Int =
