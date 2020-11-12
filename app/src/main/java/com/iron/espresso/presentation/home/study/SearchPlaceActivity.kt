@@ -98,6 +98,7 @@ class SearchPlaceActivity : AppCompatActivity() {
                     setItemList(placeList)
                     setItemClickListener { title ->
                         Toast.makeText(this@SearchPlaceActivity, title, Toast.LENGTH_SHORT).show()
+                        startActivity(SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity))
                     }
                 }
 
