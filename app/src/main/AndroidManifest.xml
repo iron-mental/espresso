@@ -18,7 +18,9 @@
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="zwhswglizn" />
 
-        <activity android:name=".presentation.home.study.SearchPlaceDetailActivity" />
+        <activity
+            android:name=".presentation.home.study.SearchPlaceDetailActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".presentation.home.study.SearchPlaceActivity" />
         <activity
             android:name=".presentation.sign.IntroActivity"
