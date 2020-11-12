@@ -15,9 +15,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.iron.espresso.R
 import com.iron.espresso.ToolbarHelper
-import com.iron.espresso.data.model.PlaceItem
 import com.iron.espresso.databinding.ActivitySearchPlaceBinding
 import com.iron.espresso.model.api.KakaoApi
+import com.iron.espresso.model.response.Place
 import com.iron.espresso.model.response.PlaceResponse
 import com.iron.espresso.presentation.home.study.adapter.PlaceAdapter
 import retrofit2.Call
@@ -73,19 +73,6 @@ class SearchPlaceActivity : AppCompatActivity() {
     }
 
     private fun searchPlace(keyword: String) {
-        val placeItemList = mutableListOf<PlaceItem>().apply {
-            add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
-            add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
-            add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
-            add(PlaceItem("넥슨코리아", "게임제작", "경기 성남시 분당구 판교로 256번길 25"))
-        }
-
-        placeAdapter.run {
-            setItemList(placeItemList)
-            setItemClickListener { title ->
-                Toast.makeText(this@SearchPlaceActivity, title, Toast.LENGTH_SHORT).show()
-            }
-        }
 
         //retrofit
         val retrofit = Retrofit.Builder()
@@ -101,8 +88,19 @@ class SearchPlaceActivity : AppCompatActivity() {
                 call: Call<PlaceResponse>,
                 response: Response<PlaceResponse>
             ) {
-                Log.d("TAG","response : ${response.body()}")
+                Log.d("TAG", "response : ${response.body()}")
                 Log.d("TAG", "성공 : ${response.raw()}")
+
+                val placeList = mutableListOf<Place>().apply {
+                    response.body()?.documents?.let { addAll(it) }
+                }
+                placeAdapter.run {
+                    setItemList(placeList)
+                    setItemClickListener { title ->
+                        Toast.makeText(this@SearchPlaceActivity, title, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
             }
 
             override fun onFailure(call: Call<PlaceResponse>, t: Throwable) {
