@@ -3,6 +3,7 @@ package com.iron.espresso.presentation.home.study
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -16,7 +17,14 @@ import com.iron.espresso.R
 import com.iron.espresso.ToolbarHelper
 import com.iron.espresso.data.model.PlaceItem
 import com.iron.espresso.databinding.ActivitySearchPlaceBinding
+import com.iron.espresso.model.api.KakaoApi
+import com.iron.espresso.model.response.PlaceResponse
 import com.iron.espresso.presentation.home.study.adapter.PlaceAdapter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchPlaceActivity : AppCompatActivity() {
 
@@ -44,9 +52,11 @@ class SearchPlaceActivity : AppCompatActivity() {
                 imeOptions = EditorInfo.IME_ACTION_SEARCH
                 setOnEditorActionListener { search, action, event ->
                     var handled = false     //키보드 내림
-                    if (search.text.isNotEmpty() && action == EditorInfo.IME_ACTION_SEARCH) {
+                    if (search.text.isNotEmpty()) {
                         searchPlace(text.toString())
+                        Log.d("TAG", "성공")
                     } else {
+                        Log.d("TAG", "실패")
                         handled = true      //키보드 유지
                     }
                     handled
@@ -76,6 +86,31 @@ class SearchPlaceActivity : AppCompatActivity() {
                 Toast.makeText(this@SearchPlaceActivity, title, Toast.LENGTH_SHORT).show()
             }
         }
+
+        //retrofit
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(KakaoApi::class.java)
+        val callGetTest = service.getPlacesByKeyword(REST_API_KEY, keyword)
+
+        callGetTest.enqueue(object : Callback<PlaceResponse> {
+            override fun onResponse(
+                call: Call<PlaceResponse>,
+                response: Response<PlaceResponse>
+            ) {
+                Log.d("TAG","response : ${response.body()}")
+                Log.d("TAG", "성공 : ${response.raw()}")
+            }
+
+            override fun onFailure(call: Call<PlaceResponse>, t: Throwable) {
+                Log.d("TAG", "실패 : $t")
+            }
+        })
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -91,6 +126,8 @@ class SearchPlaceActivity : AppCompatActivity() {
         fun getInstance(context: Context) =
             Intent(context, SearchPlaceActivity::class.java)
 
-        const val TOOLBAR_HINT = "넥슨"
+        const val TOOLBAR_HINT = "장소를 입력하세요"
+        const val REST_API_KEY = "KakaoAK 58071fbe087f96f72e3baf3fb28f2f6a"
+        const val BASE_URL = "https://dapi.kakao.com/"
     }
 }
