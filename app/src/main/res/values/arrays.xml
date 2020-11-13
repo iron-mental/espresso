@@ -5,6 +5,12 @@
         <item>설정</item>
     </string-array>
 
+    <string-array name="study_detail_tab">
+        <item>공지사항</item>
+        <item>스터디 정보</item>
+        <item>채팅</item>
+    </string-array>
+
     <string-array name="setting_category">
         <item>계정</item>
         <item>알림</item>
