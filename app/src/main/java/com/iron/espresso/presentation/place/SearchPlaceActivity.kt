@@ -128,8 +128,6 @@ class SearchPlaceActivity : AppCompatActivity() {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 finish()
-            } else {
-                error("error")
             }
         }
     }
