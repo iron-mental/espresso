@@ -1,6 +1,8 @@
 package com.iron.espresso.presentation.home.mystudy
 
 import android.os.Bundle
+import android.view.ViewGroup
+import android.widget.Toast
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -44,6 +46,15 @@ class MyStudyFragment : Fragment() {
             rvMyStudy.adapter = myStudyAdapter
             vm = myStudyViewModel
             myStudyViewModel.showMyStudyList()
+
+            myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
+                override fun onClick(view: View) {
+                    Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
+                    startActivity(context?.let {
+                        StudyDetailActivity.getInstance(it, view.tag.toString())
+                    })
+                }
+            })
         }
 
     }

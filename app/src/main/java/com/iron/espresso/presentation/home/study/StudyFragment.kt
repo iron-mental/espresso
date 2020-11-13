@@ -2,16 +2,10 @@ package com.iron.espresso.presentation.home.study
 
 import android.content.Intent
 import android.os.Bundle
-<<<<<<< HEAD
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
-=======
 import android.view.*
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
->>>>>>> 6a44bfbc2bc0321dd1b52416a6d1b78e903c130a
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager

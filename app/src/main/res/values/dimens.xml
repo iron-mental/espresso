@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="gap_between_search_reyclerview">20dp</dimen>
+    <dimen name="diff_divide_height">10dp</dimen>
+    <dimen name="same_divide_height">1dp</dimen>
 </resources>
