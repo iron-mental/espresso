@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.study
+package com.iron.espresso.presentation.place
 
 import android.content.Context
 import android.content.Intent

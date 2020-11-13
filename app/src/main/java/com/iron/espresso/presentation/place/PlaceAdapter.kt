@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.study.adapter
+package com.iron.espresso.presentation.place
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

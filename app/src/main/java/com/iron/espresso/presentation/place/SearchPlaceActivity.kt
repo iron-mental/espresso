@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.study
+package com.iron.espresso.presentation.place
 
 import android.content.Context
 import android.content.Intent
@@ -19,7 +19,6 @@ import com.iron.espresso.databinding.ActivitySearchPlaceBinding
 import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.Place
 import com.iron.espresso.model.response.PlaceResponse
-import com.iron.espresso.presentation.home.study.adapter.PlaceAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

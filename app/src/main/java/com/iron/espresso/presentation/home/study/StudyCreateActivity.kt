@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import com.iron.espresso.R
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.load
+import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.utils.ToolbarHelper
 
 class StudyCreateActivity : AppCompatActivity() {
