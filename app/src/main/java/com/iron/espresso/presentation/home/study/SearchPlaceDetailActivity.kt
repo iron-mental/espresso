@@ -15,6 +15,11 @@ class SearchPlaceDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_place_detail)
+
+        binding.selectButton.setOnClickListener {
+            setResult(RESULT_OK)
+            finish()
+        }
     }
 
     companion object {

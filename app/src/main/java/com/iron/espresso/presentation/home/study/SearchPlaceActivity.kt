@@ -98,7 +98,9 @@ class SearchPlaceActivity : AppCompatActivity() {
                     setItemList(placeList)
                     setItemClickListener { title ->
                         Toast.makeText(this@SearchPlaceActivity, title, Toast.LENGTH_SHORT).show()
-                        startActivity(SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity))
+                        startActivityForResult(
+                            SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity), 1
+                        )
                     }
                 }
 
@@ -119,6 +121,18 @@ class SearchPlaceActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                finish()
+            } else {
+                error("error")
+            }
+        }
     }
 
     companion object {
