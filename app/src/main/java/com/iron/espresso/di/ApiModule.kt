@@ -1,6 +1,7 @@
 package com.iron.espresso.di
 
 import com.iron.espresso.model.api.GitHubApi
+import com.iron.espresso.model.api.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 object ApiModule {
     private const val BASE_URL = "https://api.github.com"
     private const val BASE_V3_HEADER = "Accept: application/vnd.github.v3+json"
+    private const val USER_URL = "http://3.35.154.27:3000"
 
     @Singleton
     @Provides
@@ -25,5 +27,17 @@ object ApiModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GitHubApi::class.java)
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideUserApi(): UserApi {
+        return Retrofit.Builder()
+            .baseUrl(USER_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(UserApi::class.java)
     }
 }

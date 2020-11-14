@@ -5,8 +5,10 @@ import com.iron.espresso.domain.repo.UserRepository
 import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import io.reactivex.Single
+import javax.inject.Inject
 
-class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource) : UserRepository {
+class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: UserRemoteDataSource) :
+    UserRepository {
     override fun login(email: String, password: String): Single<User> =
         userRemoteDataSource.login(email, password).map {
             it.toUser()

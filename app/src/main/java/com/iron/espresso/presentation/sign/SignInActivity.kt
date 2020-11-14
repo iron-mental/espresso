@@ -1,6 +1,7 @@
 package com.iron.espresso.presentation.sign
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
@@ -8,11 +9,13 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySignInBinding
 import com.iron.espresso.ext.startActivity
 import com.iron.espresso.presentation.home.HomeActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.iron.espresso.presentation.viewmodel.SignInViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
 
-    private val signInViewModel by viewModel<SignInViewModel>()
+    private val signInViewModel by viewModels<SignInViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

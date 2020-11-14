@@ -6,7 +6,7 @@
 
         <variable
             name="VM"
-            type="com.iron.espresso.presentation.sign.SignInViewModel" />
+            type="com.iron.espresso.presentation.viewmodel.SignInViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

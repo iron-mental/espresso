@@ -16,12 +16,12 @@
         <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
 
         <activity
-            android:name=".presentation.sign.IntroActivity"
+            android:name=".presentation.home.HomeActivity"
             android:windowSoftInputMode="adjustPan" />
 
         <activity android:name=".presentation.profile.ProfileActivity" />
 
-        <activity android:name=".presentation.home.HomeActivity">
+        <activity android:name=".presentation.sign.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
