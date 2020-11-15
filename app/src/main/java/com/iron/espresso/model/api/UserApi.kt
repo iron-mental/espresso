@@ -1,5 +1,6 @@
 package com.iron.espresso.model.api
 
+import com.iron.espresso.domain.usecase.LoginUser
 import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.UserResponse
 import com.iron.espresso.model.source.remote.LoginRequest
@@ -13,7 +14,7 @@ interface UserApi {
     @POST("/v1/user/login")
     fun login(
         @Body body: LoginRequest
-    ): Single<UserResponse>
+    ): Single<LoginUser>
 
     @GET("/v1/user/{id}}")
     fun getUser(

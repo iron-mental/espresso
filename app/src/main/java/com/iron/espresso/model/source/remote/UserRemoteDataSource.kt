@@ -1,5 +1,6 @@
 package com.iron.espresso.model.source.remote
 
+import com.iron.espresso.domain.usecase.LoginUser
 import com.iron.espresso.model.api.UserApi
 import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.UserResponse
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi) :
     UserRemoteDataSource {
 
-    override fun login(email: String, password: String): Single<UserResponse> =
+    override fun login(email: String, password: String): Single<LoginUser> =
         userApi.login(LoginRequest(email, password))
 
     override fun getUser(id: Int): Single<UserResponse> =
@@ -71,7 +72,7 @@ data class ModifyUserRequest(
 }
 
 interface UserRemoteDataSource {
-    fun login(email: String, password: String): Single<UserResponse>
+    fun login(email: String, password: String): Single<LoginUser>
 
     fun getUser(id: Int): Single<UserResponse>
 

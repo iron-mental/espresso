@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.viewmodel
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -30,11 +31,15 @@ class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginU
 
     fun checkLogin(userId: String, userPass: String) {
 
+        Log.d("결과", userId)
+        Log.d("결과", userPass)
         compositeDisposable += loginUser(userId, userPass)
             .networkSchedulers()
             .subscribe({
+                _checkType.value = CheckType.CHECK_ALL_SUCCESS
                 Logger.d("$it")
             }, {
+                _checkType.value = CheckType.CHECK_ALL_FAIL
                 Logger.d("$it")
             })
     }
@@ -60,11 +65,6 @@ class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginU
         }
     }
 
-    fun verifyLogin(email: String?, password: String?) {
-        if (email != null || password != null) {
-            _checkType.value = CheckType.CHECK_ALL_SUCCESS
-        }
-    }
 
     fun exitViewModel() {
         _exitIdentifier.value = true
