@@ -42,8 +42,21 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
     override fun onMapReady(naverMap: NaverMap) {
 
         val placeItems = intent.getSerializableExtra(PLACE_ITEMS) as Place
+
+        //초기 카메라 위치 설정
         naverMap.cameraPosition = CameraPosition(LatLng(placeItems.y, placeItems.x), 16.0)
-        binding.address.text = placeItems.addressName
+
+        //카메라 이동 멈췄을 때
+        naverMap.addOnCameraIdleListener {
+            binding.address.text = when {
+                placeItems.roadAddressName.isEmpty() -> {
+                    placeItems.addressName
+                }
+                else -> {
+                    placeItems.roadAddressName
+                }
+            }
+        }
 
     }
 
