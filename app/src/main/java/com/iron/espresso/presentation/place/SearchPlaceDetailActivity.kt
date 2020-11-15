@@ -41,16 +41,18 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
 
-        val coord = naverMap.cameraPosition
+        val placeItems = intent.getSerializableExtra(PLACE_ITEMS) as Place
+        naverMap.cameraPosition = CameraPosition(LatLng(placeItems.y, placeItems.x), 16.0)
+        binding.address.text = placeItems.addressName
 
-        Toast.makeText(this, "위도: ${coord.target.latitude}, 경도: ${coord.target.longitude}", Toast.LENGTH_SHORT)
-            .show()
     }
 
     companion object {
+        private const val PLACE_ITEMS = "place_items"
+
         fun getInstance(context: Context, item: Place) =
             Intent(context, SearchPlaceDetailActivity::class.java).apply {
-                putExtra("items", item)
+                putExtra(PLACE_ITEMS, item)
             }
     }
 }
