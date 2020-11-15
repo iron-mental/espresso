@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -95,10 +94,11 @@ class SearchPlaceActivity : AppCompatActivity() {
                 }
                 placeAdapter.run {
                     setItemList(placeList)
-                    setItemClickListener { title ->
-                        Toast.makeText(this@SearchPlaceActivity, title, Toast.LENGTH_SHORT).show()
+                    setItemClickListener { item ->
+                        Log.d("ITEMS", item.toString())
                         startActivityForResult(
-                            SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity), 1
+                            SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity, item),
+                            1
                         )
                     }
                 }

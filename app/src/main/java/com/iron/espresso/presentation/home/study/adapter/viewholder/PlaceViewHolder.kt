@@ -13,9 +13,9 @@ class PlaceViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<com.iron.espresso.databinding.ItemPlaceListBinding>(itemView)
 
-    fun bind(item: Place, itemClickListener: (title: String) -> Unit) {
+    fun bind(item: Place, itemClickListener: (item: Place) -> Unit) {
         itemView.setOnClickListener {
-            itemClickListener(item.place_name)
+            itemClickListener(item)
         }
         binding?.run {
             title.text = item.place_name
