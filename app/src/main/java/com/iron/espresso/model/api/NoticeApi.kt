@@ -22,28 +22,33 @@ interface NoticeApi {
 
     @POST("/v1/study/{study_id}/notice")
     fun registerNotice(
+        @Header("Authorization") bearerToken: String,
         @Path("study_id") studyId: Int,
         @Body body: RegisterNoticeRequest
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/study/{study_id}/notice/")
     fun getNotice(
+        @Header("Authorization") bearerToken: String,
         @Path("study_id") studyId: Int
     ): Single<BaseResponse<NoticeDetailResponse>>
 
     @GET("/v1/study/{study_id}/notice/{notice_id}")
     fun getNoticeList(
+        @Header("Authorization") bearerToken: String,
         @Path("study_id") studyId: Int,
         @Path("notice_id") noticeId: Int
     ): Single<BaseResponse<NoticeListResponse>>
 
     @GET("/v1/study/1/notice/paging/list")
     fun getNoticeList(
+        @Header("Authorization") bearerToken: String,
         @Query("values") noticeIds: String
     ): Single<BaseResponse<NoticeListResponse>>
 
     @PUT("/v1/study/{study_id}/notice/{notice_id}")
     fun modifyNotice(
+        @Header("Authorization") bearerToken: String,
         @Path("study_id") studyId: Int,
         @Path("notice_id") noticeId: Int,
         @Body body: ModifyNoticeRequest
@@ -51,6 +56,7 @@ interface NoticeApi {
 
     @DELETE("/v1/study/{study_id}/notice/{notice_id}")
     fun deleteNotice(
+        @Header("Authorization") bearerToken: String,
         @Path("study_id") studyId: Int,
         @Path("notice_id") noticeId: Int
     ): Single<BaseResponse<Nothing>>
