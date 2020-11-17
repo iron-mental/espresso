@@ -46,7 +46,7 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
         val placeItems = intent.getSerializableExtra(PLACE_ITEMS) as Place
 
         //초기 카메라 위치 설정
-        naverMap.cameraPosition = CameraPosition(LatLng(placeItems.y, placeItems.x), 16.0)
+        naverMap.cameraPosition = CameraPosition(LatLng(placeItems.lat, placeItems.lng), 16.0)
 
         //카메라 이동 멈췄을 때
         naverMap.addOnCameraIdleListener {

@@ -18,7 +18,7 @@ class PlaceViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             itemClickListener(item)
         }
         binding?.run {
-            title.text = item.place_name
+            title.text = item.placeName
             category.text = item.categoryGroupName
             address.text = item.addressName
         }

@@ -34,7 +34,7 @@ data class Place(
     @SerializedName("id")
     val id: String,
     @SerializedName("place_name")
-    val place_name: String,
+    val placeName: String,
     @SerializedName("category_name")
     val categoryName: String,
     @SerializedName("category_group_code")
@@ -48,11 +48,11 @@ data class Place(
     @SerializedName("road_address_name")
     val roadAddressName: String,
     @SerializedName("x")
-    val x: Double,
+    val lng: Double,
     @SerializedName("y")
-    val y: Double,
+    val lat: Double,
     @SerializedName("place_url")
-    val place_url: String,
+    val placeUrl: String,
     @SerializedName("distance")
     val distance: String
 ) : Serializable
