@@ -1,6 +1,7 @@
 package com.iron.espresso.di
 
 import com.iron.espresso.model.api.GitHubApi
+import com.iron.espresso.model.api.ProjectApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +17,8 @@ object ApiModule {
     private const val BASE_URL = "https://api.github.com"
     private const val BASE_V3_HEADER = "Accept: application/vnd.github.v3+json"
 
+    private const val API_URL = "http://3.35.154.27:3000"
+
     @Singleton
     @Provides
     fun provideGitHubApi(): GitHubApi {
@@ -25,5 +28,16 @@ object ApiModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GitHubApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideProjectApi(): ProjectApi {
+        return Retrofit.Builder()
+            .baseUrl(API_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ProjectApi::class.java)
     }
 }

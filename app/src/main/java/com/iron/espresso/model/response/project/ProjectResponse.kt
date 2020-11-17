@@ -1,4 +1,4 @@
-package com.iron.espresso.model.response
+package com.iron.espresso.model.response.project
 
 
 import com.google.gson.annotations.SerializedName
