@@ -40,7 +40,7 @@ interface UserApi {
     ): Single<BaseResponse<Nothing>>
 
     @Multipart
-    @PATCH("/v1/user/{id}")
+    @PUT("/v1/user/{id}")
     fun modifyUser(
         @Header("Authorization") bearerToken: String,
         @Path("id") id: Int,
