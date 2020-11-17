@@ -15,10 +15,10 @@ class PlaceViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
     fun bind(item: Place, itemClickListener: (title: String) -> Unit) {
         itemView.setOnClickListener {
-            itemClickListener(item.place_name)
+            itemClickListener(item.placeName)
         }
         binding?.run {
-            title.text = item.place_name
+            title.text = item.placeName
             category.text = item.categoryGroupName
             address.text = item.addressName
         }

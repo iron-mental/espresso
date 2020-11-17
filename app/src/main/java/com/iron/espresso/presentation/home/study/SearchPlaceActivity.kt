@@ -37,31 +37,32 @@ class SearchPlaceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_place)
 
-        searchEditText = EditText(this)
+        searchEditText = EditText(this).apply {
+            hint = TOOLBAR_HINT
+            setSingleLine()
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            requestFocus()
+            imeOptions = EditorInfo.IME_ACTION_SEARCH
+            setOnEditorActionListener { search, _, _ ->
+                var handled = false     //키보드 내림
+                if (search.text.isNotEmpty()) {
+                    Log.d("TAG", "성공")
+                    searchPlace(text.toString())
+                } else {
+                    Log.d("TAG", "실패")
+                    handled = true      //키보드 유지
+                }
+                handled
+            }
+        }
+
         toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
             setTitle(null)
             setNavigationIcon(R.drawable.ic_back_24)
-            setCustomView(searchEditText.apply {
-                hint = TOOLBAR_HINT
-                setSingleLine()
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                requestFocus()
-                imeOptions = EditorInfo.IME_ACTION_SEARCH
-                setOnEditorActionListener { search, action, event ->
-                    var handled = false     //키보드 내림
-                    if (search.text.isNotEmpty()) {
-                        searchPlace(text.toString())
-                        Log.d("TAG", "성공")
-                    } else {
-                        Log.d("TAG", "실패")
-                        handled = true      //키보드 유지
-                    }
-                    handled
-                }
-            })
+            setCustomView(searchEditText)
         }
 
         binding.placeList.run {

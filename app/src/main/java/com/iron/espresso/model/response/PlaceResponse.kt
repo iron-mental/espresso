@@ -26,14 +26,14 @@ data class RegionInfo(
     @SerializedName("keyword")
     val keyword: String,
     @SerializedName("selected_region")
-    val selected_region: String
+    val selectedRegion: String
 )
 
 data class Place(
     @SerializedName("id")
     val id: String,
     @SerializedName("place_name")
-    val place_name: String,
+    val placeName: String,
     @SerializedName("category_name")
     val categoryName: String,
     @SerializedName("category_group_code")
@@ -47,11 +47,11 @@ data class Place(
     @SerializedName("road_address_name")
     val roadAddressName: String,
     @SerializedName("x")
-    val x: String,
+    val lng: String,
     @SerializedName("y")
-    val y: String,
+    val lat: String,
     @SerializedName("place_url")
-    val place_url: String,
+    val placeUrl: String,
     @SerializedName("distance")
     val distance: String
 )
