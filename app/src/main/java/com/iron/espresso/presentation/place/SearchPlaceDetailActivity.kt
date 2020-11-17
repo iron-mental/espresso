@@ -81,16 +81,13 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                 Log.d("TAG", "response : ${response.body()?.documents}")
                 Log.d("TAG", "성공 : ${response.raw()}")
 
-                val localList = response.body()?.documents
-                binding.address.text = localList?.get(0)?.address?.addressName
+                val roadAddress = response.body()?.documents?.get(0)?.roadAddress
+                val address = response.body()?.documents?.get(0)?.address
 
-                binding.address.text = when {
-                    localList?.get(0)?.roadAddress?.addressName?.isEmpty()!! -> {
-                        localList[0].address.addressName
-                    }
-                    else -> {
-                        localList[0].roadAddress.addressName
-                    }
+                if (roadAddress?.addressName != null) {
+                    binding.address.text = roadAddress.addressName
+                } else {
+                    binding.address.text = address?.addressName
                 }
 
             }
