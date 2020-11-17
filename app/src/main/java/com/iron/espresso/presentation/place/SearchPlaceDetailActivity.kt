@@ -8,6 +8,7 @@ import androidx.annotation.UiThread
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import com.iron.espresso.R
+import com.iron.espresso.data.model.PlaceItem
 import com.iron.espresso.databinding.ActivitySearchPlaceDetailBinding
 import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.*
@@ -29,11 +30,6 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_place_detail)
-
-        binding.selectButton.setOnClickListener {
-            setResult(RESULT_OK)
-            finish()
-        }
 
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
@@ -88,6 +84,24 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                     binding.address.text = roadAddress.addressName
                 } else {
                     binding.address.text = address?.addressName
+                }
+                val realAddress = address ?: return
+
+                binding.selectButton.setOnClickListener {
+                    val placeItem = PlaceItem(
+                        lat,
+                        lng,
+                        realAddress.region1depthName,
+                        realAddress.region2depthName,
+                        binding.address.text.toString(),
+                        null,
+                        binding.addressDetail.text.toString()
+                    )
+
+                    val placeItems = intent.putExtra("placeItems", placeItem)
+
+                    setResult(RESULT_OK, placeItems)
+                    finish()
                 }
 
             }
