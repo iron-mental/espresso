@@ -127,6 +127,7 @@ class SearchPlaceActivity : AppCompatActivity() {
 
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
+                setResult(RESULT_OK, data)
                 finish()
             }
         }

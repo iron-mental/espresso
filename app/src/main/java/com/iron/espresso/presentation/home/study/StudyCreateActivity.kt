@@ -4,11 +4,13 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.iron.espresso.R
+import com.iron.espresso.data.model.PlaceItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.load
 import com.iron.espresso.presentation.place.SearchPlaceActivity
@@ -53,6 +55,16 @@ class StudyCreateActivity : AppCompatActivity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                val items = data?.getSerializableExtra("placeItems") as PlaceItem
+                Log.d("placeItems", items.toString())
+            }
+        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
