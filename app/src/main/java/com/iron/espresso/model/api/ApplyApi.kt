@@ -1,32 +1,53 @@
 package com.iron.espresso.model.api
 
-import com.iron.espresso.model.response.MessageResponse
+import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.apply.ApplyDetailResponse
+import com.iron.espresso.model.response.apply.ApplyListResponse
 import io.reactivex.Single
 import retrofit2.http.*
 
+data class RegisterStudyApplyRequest(
+    val message: String
+)
+
+data class ModifyStudyApplyRequest(
+    val message: String
+)
 
 interface ApplyApi {
 
     @POST("/v1/study/{study_id}/apply")
     fun registerApply(
-        @Path(value = "study_id") studyId: Int
-    )
+        @Header("Authorization") bearerToken: String,
+        @Path("study_id") studyId: Int,
+        @Body body: RegisterStudyApplyRequest
+    ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/study/{study_id}/apply/{apply_id}")
     fun getApply(
-        @Path(value = "study_id") studyId: Int,
-        @Path(value = "apply_id") applyId: Int
-    )
+        @Header("Authorization") bearerToken: String,
+        @Path("study_id") studyId: Int,
+        @Path("apply_id") applyId: Int
+    ): Single<BaseResponse<ApplyDetailResponse>>
 
-    @PATCH("/v1/study/{study_id}/apply/{apply_id}")
+    @GET("/v1/study/{study_id}/apply")
+    fun getApplyList(
+        @Header("Authorization") bearerToken: String,
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<ApplyListResponse>>
+
+    @PUT("/v1/study/{study_id}/apply/{apply_id}")
     fun modifyApply(
-        @Path(value = "study_id") studyId: Int,
-        @Path(value = "apply_id") applyId: Int
-    )
+        @Header("Authorization") bearerToken: String,
+        @Path("study_id") studyId: Int,
+        @Path("apply_id") applyId: Int,
+        @Body body: ModifyStudyApplyRequest
+    ): Single<BaseResponse<Nothing>>
 
     @DELETE("/v1/study/{study_id}/apply/{apply_id}")
     fun deleteApply(
-        @Path(value = "study_id") studyId: Int,
-        @Path(value = "apply_id") applyId: Int
-    ): Single<MessageResponse>
+        @Header("Authorization") bearerToken: String,
+        @Path("study_id") studyId: Int,
+        @Path("apply_id") applyId: Int
+    ): Single<BaseResponse<Nothing>>
 }
