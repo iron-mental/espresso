@@ -125,7 +125,7 @@ interface StudyApi {
         @Path("study_id") studyId: Int
     ): Single<BaseResponse<StudyDetailResponse>>
 
-    @PATCH("/v1/study/{study_id}")
+    @PUT("/v1/study/{study_id}")
     fun modifyStudy(
         @Header("Authorization") bearerToken: String,
         @Path("study_id") studyId: Int,
@@ -138,11 +138,11 @@ interface StudyApi {
         @Path("id") userId: Int
     ): Single<BaseResponse<MyStudyListResponse>>
 
-    @GET("/v1/study/{category}/{sort}")
+    @GET("/v1/study")
     fun getStudyList(
         @Header("Authorization") bearerToken: String,
-        @Path("category") category: String,
-        @Path("sort") sort: String // new, length
+        @Query("category") category: String,
+        @Query("sort") sort: String // new, length
     ): Single<BaseResponse<StudyListResponse>>
 
     @GET("/v1/study/paging/list")
