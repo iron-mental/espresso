@@ -13,24 +13,24 @@ data class RegisterProjectRequest(
     @SerializedName("contents")
     val contents: String,
     @SerializedName("sns_github")
-    val snsGithub: String = "",
+    val snsGithub: String? = null,
     @SerializedName("sns_appstore")
-    val snsAppstore: String = "",
+    val snsAppstore: String? = null,
     @SerializedName("sns_playstore")
-    val snsPlaystore: String = ""
+    val snsPlaystore: String? = null
 )
 
 data class ModifyProjectRequest(
     @SerializedName("title")
-    val title: String = "",
+    val title: String? = null,
     @SerializedName("contents")
-    val contents: String = "",
+    val contents: String? = null,
     @SerializedName("sns_github")
-    val snsGithub: String = "",
+    val snsGithub: String? = null,
     @SerializedName("sns_appstore")
-    val snsAppstore: String = "",
+    val snsAppstore: String? = null,
     @SerializedName("sns_playstore")
-    val snsPlaystore: String = ""
+    val snsPlaystore: String? = null
 )
 
 interface ProjectApi {
@@ -52,6 +52,7 @@ interface ProjectApi {
     fun modifyProject(
         @Header("Authorization") bearerToken: String,
         @Path("id") id: Int,
+        @Path("project_id") projectId: Int,
         @Body body: ModifyProjectRequest
     ): Single<BaseResponse<Nothing>>
 
