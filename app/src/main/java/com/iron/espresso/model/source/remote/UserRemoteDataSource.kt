@@ -5,7 +5,7 @@ import com.iron.espresso.model.api.UserApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
-import com.iron.espresso.model.response.user.UserListResponse
+import com.iron.espresso.model.response.user.UserResponse
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -17,7 +17,7 @@ class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSou
     override fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>> =
         userApi.login(LoginRequest(email, password))
 
-    override fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserListResponse>> =
+    override fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>> =
         userApi.getUser(bearerToken, id)
 
     override fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>> =
@@ -95,7 +95,7 @@ data class ModifyUserRequest(
 interface UserRemoteDataSource {
     fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>>
 
-    fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserListResponse>>
+    fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>>
 
     fun registerUser(
         email: String,

@@ -3,7 +3,7 @@ package com.iron.espresso.model.api
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
-import com.iron.espresso.model.response.user.UserListResponse
+import com.iron.espresso.model.response.user.UserResponse
 import com.iron.espresso.model.source.remote.LoginRequest
 import com.iron.espresso.model.source.remote.ReIssuanceTokenRequest
 import com.iron.espresso.model.source.remote.RegisterUserRequest
@@ -22,7 +22,7 @@ interface UserApi {
     fun getUser(
         @Header("Authorization") bearerToken: String,
         @Path("id") id: Int
-    ): Single<BaseResponse<UserListResponse>>
+    ): Single<BaseResponse<UserResponse>>
 
     @POST("/v1/user")
     fun registerUser(
