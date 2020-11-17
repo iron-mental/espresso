@@ -43,6 +43,7 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
 
+        var flag = true
         val placeItems = intent.getSerializableExtra(PLACE_ITEMS) as Place
 
         //초기 카메라 위치 설정
@@ -50,15 +51,24 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
 
         //카메라 이동 멈췄을 때
         naverMap.addOnCameraIdleListener {
-
-            searchCoord(
-                naverMap.cameraPosition.target.longitude,
-                naverMap.cameraPosition.target.latitude
-            )
+            if (flag) {
+                searchCoord(
+                    naverMap.cameraPosition.target.longitude,
+                    naverMap.cameraPosition.target.latitude,
+                    placeItems.placeName
+                )
+            } else {
+                searchCoord(
+                    naverMap.cameraPosition.target.longitude,
+                    naverMap.cameraPosition.target.latitude,
+                    null
+                )
+            }
+            flag = false
         }
     }
 
-    private fun searchCoord(lat: Double, lng: Double) {
+    private fun searchCoord(lat: Double, lng: Double, placeName: String?) {
 
         //retrofit
         val retrofit = Retrofit.Builder()
@@ -94,7 +104,7 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                         realAddress.region1depthName,
                         realAddress.region2depthName,
                         binding.address.text.toString(),
-                        null,
+                        placeName,
                         binding.addressDetail.text.toString()
                     )
 
