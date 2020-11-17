@@ -1,5 +1,9 @@
 package com.iron.espresso.model.api
 
+import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.notice.NoticeDetailResponse
+import com.iron.espresso.model.response.notice.NoticeListResponse
+import io.reactivex.Single
 import retrofit2.http.*
 
 data class RegisterNoticeRequest(
@@ -9,35 +13,45 @@ data class RegisterNoticeRequest(
 )
 
 data class ModifyNoticeRequest(
-    val title: String,
-    val contents: String,
-    val pinned: Boolean
+    val title: String = "",
+    val contents: String = "",
+    val pinned: Boolean? = null
 )
 
 interface NoticeApi {
 
     @POST("/v1/study/{study_id}/notice")
     fun registerNotice(
-        @Path(value = "study_id") studyId: Int,
+        @Path("study_id") studyId: Int,
         @Body body: RegisterNoticeRequest
-    )
+    ): Single<BaseResponse<Nothing>>
+
+    @GET("/v1/study/{study_id}/notice/")
+    fun getNotice(
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<NoticeDetailResponse>>
 
     @GET("/v1/study/{study_id}/notice/{notice_id}")
-    fun getNotice(
-        @Path(value = "study_id") studyId: Int,
-        @Path(value = "notice_id") noticeId: Int
-    )
+    fun getNoticeList(
+        @Path("study_id") studyId: Int,
+        @Path("notice_id") noticeId: Int
+    ): Single<BaseResponse<NoticeListResponse>>
 
-    @PATCH("/v1/study/{study_id}/notice/{notice_id}")
+    @GET("/v1/study/1/notice/paging/list")
+    fun getNoticeList(
+        @Query("values") noticeIds: String
+    ): Single<BaseResponse<NoticeListResponse>>
+
+    @PUT("/v1/study/{study_id}/notice/{notice_id}")
     fun modifyNotice(
-        @Path(value = "study_id") studyId: Int,
-        @Path(value = "notice_id") noticeId: Int,
+        @Path("study_id") studyId: Int,
+        @Path("notice_id") noticeId: Int,
         @Body body: ModifyNoticeRequest
-    )
+    ): Single<BaseResponse<Nothing>>
 
     @DELETE("/v1/study/{study_id}/notice/{notice_id}")
     fun deleteNotice(
-        @Path(value = "study_id") studyId: Int,
-        @Path(value = "notice_id") noticeId: Int
-    )
+        @Path("study_id") studyId: Int,
+        @Path("notice_id") noticeId: Int
+    ): Single<BaseResponse<Nothing>>
 }
