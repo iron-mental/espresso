@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.model.response.Place
 
-class PlaceViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-    LayoutInflater.from(parent.context).inflate(R.layout.item_place_list, parent, false)
-) {
+class PlaceViewHolder(parent: ViewGroup, val itemClickListener: (title: String) -> Unit) :
+    RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_place_list, parent, false)
+    ) {
     private val binding =
         DataBindingUtil.bind<com.iron.espresso.databinding.ItemPlaceListBinding>(itemView)
 
-    fun bind(item: Place, itemClickListener: (title: String) -> Unit) {
+    fun bind(item: Place) {
         itemView.setOnClickListener {
             itemClickListener(item.placeName)
         }
