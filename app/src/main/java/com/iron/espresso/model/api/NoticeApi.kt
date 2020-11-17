@@ -13,8 +13,8 @@ data class RegisterNoticeRequest(
 )
 
 data class ModifyNoticeRequest(
-    val title: String = "",
-    val contents: String = "",
+    val title: String? = null,
+    val contents: String? = null,
     val pinned: Boolean? = null
 )
 
