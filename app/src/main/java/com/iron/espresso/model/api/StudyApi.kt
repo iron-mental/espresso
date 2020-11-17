@@ -111,6 +111,8 @@ data class ModifyStudyRequest(
 
 interface StudyApi {
 
+
+    /** RegisterStudyRequest 만들어서 toMultipartBody */
     @Multipart
     @POST("/v1/study")
     fun registerStudy(
@@ -125,6 +127,7 @@ interface StudyApi {
         @Path("study_id") studyId: Int
     ): Single<BaseResponse<StudyDetailResponse>>
 
+    /** ModifyStudyRequest 만들어서 toMultipartBody */
     @PUT("/v1/study/{study_id}")
     fun modifyStudy(
         @Header("Authorization") bearerToken: String,
