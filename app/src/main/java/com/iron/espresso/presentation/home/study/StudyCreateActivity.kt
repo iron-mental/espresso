@@ -62,6 +62,8 @@ class StudyCreateActivity : AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 val items = data?.getSerializableExtra("placeItems") as PlaceItem
                 Log.d("placeItems", items.toString())
+
+                binding.placeDetail.text = items.addressName
             }
         }
     }
