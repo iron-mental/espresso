@@ -59,4 +59,6 @@
     <string name="mystudy_member">새 맴버</string>
 
     <string name="search_hint">스터디명 분류(키워드) 등</string>
+    <string name="address_hint">상세주소를 입력하세요 (건물명, 동/호수 등)</string>
+    <string name="set_location">선택한 위치로 설정</string>
 </resources>
