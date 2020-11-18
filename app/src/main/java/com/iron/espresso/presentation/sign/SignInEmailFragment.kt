@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
+import com.iron.espresso.base.ToolbarHelper
 import com.iron.espresso.databinding.FragmentSignInEmailBinding
-import com.iron.espresso.utils.ToolbarHelper
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SignInEmailFragment :

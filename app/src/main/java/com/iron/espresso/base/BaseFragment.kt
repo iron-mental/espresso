@@ -1,6 +1,5 @@
 package com.iron.espresso.base
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
 
     protected lateinit var binding: B
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,7 +22,6 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.lifecycleOwner = this
-
         return binding.root
     }
 }
