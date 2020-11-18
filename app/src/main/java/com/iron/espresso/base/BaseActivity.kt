@@ -29,9 +29,11 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
 
     private fun initToolbarHelper() {
         val appBarLayout =
-            (binding.root as ViewGroup).children.find { it is AppBarLayout } as AppBarLayout
+            (binding.root as ViewGroup).children.find { it is AppBarLayout } as? AppBarLayout
 
-        toolbarHelper = ToolbarHelper(this, appBarLayout)
+        if (appBarLayout != null) {
+            toolbarHelper = ToolbarHelper(this, appBarLayout)
+        }
     }
 
     override fun setToolbarTitle(@StringRes titleResId: Int) {
