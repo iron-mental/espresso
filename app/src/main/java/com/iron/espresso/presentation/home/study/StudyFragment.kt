@@ -2,19 +2,19 @@ package com.iron.espresso.presentation.home.study
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.view.*
+import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.iron.espresso.R
+import com.iron.espresso.base.ToolbarHelper
 import com.iron.espresso.databinding.FragmentStudyBinding
 import com.iron.espresso.presentation.StudyCategoryItem
 import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
-import com.iron.espresso.utils.ToolbarHelper
 
 class StudyFragment : Fragment(), StudyCategoryAdapterListener {
     private lateinit var binding: FragmentStudyBinding
@@ -51,7 +51,7 @@ class StudyFragment : Fragment(), StudyCategoryAdapterListener {
         (view as ViewGroup).addView(button)
 
         toolbarHelper = ToolbarHelper((activity as AppCompatActivity), binding.appbar).apply {
-            setTitle(TOOLBAR_TITLE)
+            setToolbarTitle(TOOLBAR_TITLE)
         }
 
         binding.apply {

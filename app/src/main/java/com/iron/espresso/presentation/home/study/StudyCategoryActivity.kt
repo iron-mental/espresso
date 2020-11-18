@@ -5,22 +5,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.iron.espresso.R
+import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityCategoryStudyBinding
 import com.iron.espresso.presentation.StudyCategoryItem
 import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
-import com.iron.espresso.utils.ToolbarHelper
 
-class StudyCategoryActivity : AppCompatActivity(), StudyCategoryAdapterListener {
-
-    private lateinit var binding: ActivityCategoryStudyBinding
-
-    private lateinit var toolbarHelper: ToolbarHelper
+class StudyCategoryActivity :
+    BaseActivity<ActivityCategoryStudyBinding>(R.layout.activity_category_study),
+    StudyCategoryAdapterListener {
 
     private val categoryAdapter by lazy { CategoryAdapter() }
 
@@ -39,10 +36,8 @@ class StudyCategoryActivity : AppCompatActivity(), StudyCategoryAdapterListener 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_category_study)
         binding.lifecycleOwner = this
 
-        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle(TITLE)
-            setNavigationIcon(R.drawable.ic_back_24)
-        }
+        setToolbarTitle(TITLE)
+        setNavigationIcon(R.drawable.ic_back_24)
 
         binding.apply {
             viewStudyCategory.adapter = categoryAdapter
@@ -63,12 +58,9 @@ class StudyCategoryActivity : AppCompatActivity(), StudyCategoryAdapterListener 
     }
 
     companion object {
-
         private const val TITLE = "스터디 만들기"
 
         fun getInstance(context: Context) =
             Intent(context, StudyCategoryActivity::class.java)
     }
-
-
 }

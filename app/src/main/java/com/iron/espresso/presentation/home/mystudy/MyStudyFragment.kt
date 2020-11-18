@@ -38,7 +38,7 @@ class MyStudyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         toolbarHelper = ToolbarHelper((activity as AppCompatActivity), binding.appbar).apply {
-            setTitle(TOOLBAR_TITLE)
+            setToolbarTitle(TOOLBAR_TITLE)
         }
 
         binding.run {
