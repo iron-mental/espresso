@@ -2,18 +2,17 @@ package com.iron.espresso.presentation.home.study
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.tabs.TabLayout
 import com.iron.espresso.R
-import com.iron.espresso.ToolbarHelper
+import com.iron.espresso.base.ToolbarHelper
 import com.iron.espresso.databinding.ActivityStudyListBinding
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
 import com.iron.espresso.presentation.home.study.model.StudyListItem
-import kotlinx.android.synthetic.main.activity_study_list.*
 
 class StudyListActivity : AppCompatActivity() {
 

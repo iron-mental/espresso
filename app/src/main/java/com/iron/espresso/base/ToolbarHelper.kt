@@ -1,4 +1,4 @@
-package com.iron.espresso
+package com.iron.espresso.base
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +8,10 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
+import com.iron.espresso.R
 
-class ToolbarHelper(activity: AppCompatActivity, rootView: ViewGroup) {
+class ToolbarHelper(activity: AppCompatActivity, rootView: ViewGroup) :
+    ToolbarProvider {
     private var toolbar: MaterialToolbar
     private var actionBar: ActionBar?
 
@@ -24,26 +26,26 @@ class ToolbarHelper(activity: AppCompatActivity, rootView: ViewGroup) {
         rootView.addView(toolbar)
     }
 
-    fun setTitle(@StringRes titleResId: Int) {
+    override fun setToolbarTitle(@StringRes titleResId: Int) {
         actionBar?.setTitle(titleResId)
     }
 
-    fun setTitle(title: String) {
+    override fun setToolbarTitle(title: String) {
         actionBar?.title = title
     }
 
-    fun setNavigationIcon(@DrawableRes iconResId: Int) {
+    override fun setNavigationIcon(@DrawableRes iconResId: Int) {
         actionBar?.run {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(iconResId)
         }
     }
 
-    fun setCustomView(view: View) {
+    override fun setCustomView(view: View) {
         setCustomView(view, false)
     }
 
-    fun setCustomView(view: View, relativeHeight: Boolean) {
+    override fun setCustomView(view: View, relativeHeight: Boolean) {
         toolbar.run {
             addView(view)
             setContentInsetsAbsolute(0, 0)
