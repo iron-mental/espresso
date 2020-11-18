@@ -23,7 +23,7 @@ class SignUpEmailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolbarHelper = ToolbarHelper(activity as AppCompatActivity, binding.appBar).apply {
+        toolbarHelper = ToolbarHelper(activity as AppCompatActivity, binding.appbar).apply {
             setNavigationIcon(R.drawable.ic_clear)
         }
 
