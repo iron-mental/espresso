@@ -7,13 +7,11 @@ import android.widget.Toast
 import com.google.android.material.chip.Chip
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
-import com.iron.espresso.base.ToolbarHelper
 import com.iron.espresso.databinding.ActivitySearchStudyBinding
 
 class SearchStudyActivity :
-        BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
+    BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
 
-    private lateinit var toolbarHelper: ToolbarHelper
     private lateinit var searchEditText: EditText
     private lateinit var hotKeywordButton: Chip
 
@@ -21,14 +19,13 @@ class SearchStudyActivity :
         super.onCreate(savedInstanceState)
 
         searchEditText = EditText(this)
-        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setCustomView(searchEditText.apply {
-                hint = context.getString(R.string.search_hint)
-                maxLines = 1
-            })
-            setNavigationIcon(R.drawable.ic_back_24)
-            setTitle("")
-        }
+
+        setCustomView(searchEditText.apply {
+            hint = context.getString(R.string.search_hint)
+            maxLines = 1
+        })
+        setNavigationIcon(R.drawable.ic_back_24)
+        setToolbarTitle("")
 
         binding.placeSearchButton.setOnClickListener {
             Toast.makeText(this, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
