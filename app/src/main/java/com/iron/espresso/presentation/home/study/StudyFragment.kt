@@ -5,35 +5,19 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Button
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.iron.espresso.R
-import com.iron.espresso.base.ToolbarHelper
+import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentStudyBinding
 import com.iron.espresso.presentation.StudyCategoryItem
 import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
 
-class StudyFragment : Fragment(), StudyCategoryAdapterListener {
-    private lateinit var binding: FragmentStudyBinding
-
-    private lateinit var toolbarHelper: ToolbarHelper
+class StudyFragment :
+    BaseFragment<FragmentStudyBinding>(R.layout.fragment_study),
+    StudyCategoryAdapterListener {
 
     private val categoryAdapter by lazy { CategoryAdapter() }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true)
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_study, container, false)
-        binding.lifecycleOwner = this
-
-        return binding.root
-    }
 
     override fun getData(item: StudyCategoryItem, imageView: ImageView) {
 
@@ -49,10 +33,6 @@ class StudyFragment : Fragment(), StudyCategoryAdapterListener {
             }
         }
         (view as ViewGroup).addView(button)
-
-        toolbarHelper = ToolbarHelper((activity as AppCompatActivity), binding.appbar).apply {
-            setToolbarTitle(TOOLBAR_TITLE)
-        }
 
         binding.apply {
             viewStudyCategory.adapter = categoryAdapter
@@ -84,9 +64,6 @@ class StudyFragment : Fragment(), StudyCategoryAdapterListener {
 
 
     companion object {
-
-        private const val TOOLBAR_TITLE = "스터디"
-
         private const val SPAN_COUNT = 2
 
         val DUMMY_DATA = mutableListOf<StudyCategoryItem>().apply {

@@ -42,6 +42,10 @@ class HomeActivity :
             bottomTab.run {
                 addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                     override fun onTabSelected(tab: TabLayout.Tab?) {
+                        val position = tab?.position
+                        if (position != null) {
+                            setToolbarTitle(homeTabList[position])
+                        }
                     }
 
                     override fun onTabUnselected(tab: TabLayout.Tab?) {

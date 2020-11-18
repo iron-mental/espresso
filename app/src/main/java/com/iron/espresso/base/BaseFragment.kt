@@ -13,6 +13,8 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
     Fragment() {
 
     protected lateinit var binding: B
+    protected val baseActivity: BaseActivity<*>?
+        get() = activity as? BaseActivity<*>
 
     override fun onCreateView(
         inflater: LayoutInflater,
