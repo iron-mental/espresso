@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class LocalResponse(
     @SerializedName("meta")
-    val meta: LocalMeta,
+    val meta: LocalMeta?,
     @SerializedName("documents")
-    val documents: List<TotalAddress>
+    val documents: List<TotalAddress>?
 )
 
 data class LocalMeta(

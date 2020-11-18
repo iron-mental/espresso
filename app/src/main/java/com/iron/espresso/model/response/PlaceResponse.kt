@@ -5,9 +5,9 @@ import java.io.Serializable
 
 data class PlaceResponse(
     @SerializedName("meta")
-    val meta: PlaceMeta,
+    val meta: PlaceMeta?,
     @SerializedName("documents")
-    val documents: List<Place>
+    val documents: List<Place>?
 )
 
 data class PlaceMeta(
