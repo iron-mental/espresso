@@ -58,9 +58,11 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                 if (firstAnim) { //처음 한번만 실행
                     firstAnim = false
                     ObjectAnimator.ofFloat(binding.marker, "translationY", -25f).apply {
+                        binding.marker.drawable.alpha = 50
                         duration = 100
                         start()
                     }
+
                 }
             }
         }
@@ -81,6 +83,7 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                     null
                 )
                 ObjectAnimator.ofFloat(binding.marker, "translationY", 0f).apply {
+                    binding.marker.drawable.alpha = 255
                     duration = 100
                     start()
                 }
@@ -141,8 +144,6 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                 Log.d("TAG", "실패 : $t")
             }
         })
-
-
     }
 
     companion object {
