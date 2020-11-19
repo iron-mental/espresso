@@ -9,7 +9,7 @@ import androidx.annotation.UiThread
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import com.iron.espresso.R
-import com.iron.espresso.data.model.PlaceItem
+import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.databinding.ActivitySearchPlaceDetailBinding
 import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.*
@@ -47,7 +47,7 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
 
         var firstEvent = true
         var firstAnim = false
-        val placeItems = intent.getSerializableExtra(PLACE_ITEMS) as Place
+        val placeItems = intent.getSerializableExtra(PLACE_ITEM) as Place
 
         //초기 카메라 위치 설정
         naverMap.cameraPosition = CameraPosition(LatLng(placeItems.lat, placeItems.lng), 16.0)
@@ -122,7 +122,7 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                 val realAddress = address ?: return
 
                 binding.selectButton.setOnClickListener {
-                    val placeItem = PlaceItem(
+                    val localItem = LocalItem(
                         lat,
                         lng,
                         realAddress.region1depthName,
@@ -132,7 +132,7 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                         binding.addressDetail.text.toString()
                     )
 
-                    val placeItems = intent.putExtra("placeItems", placeItem)
+                    val placeItems = intent.putExtra(LOCAL_ITEM, localItem)
 
                     setResult(RESULT_OK, placeItems)
                     finish()
@@ -147,11 +147,12 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
     }
 
     companion object {
-        private const val PLACE_ITEMS = "place_items"
+        private const val PLACE_ITEM = "place_items"
+        const val LOCAL_ITEM = "local_items"
 
         fun getInstance(context: Context, item: Place) =
             Intent(context, SearchPlaceDetailActivity::class.java).apply {
-                putExtra(PLACE_ITEMS, item)
+                putExtra(PLACE_ITEM, item)
             }
     }
 }

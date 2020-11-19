@@ -98,7 +98,7 @@ class SearchPlaceActivity : AppCompatActivity() {
                         Log.d("ITEMS", item.toString())
                         startActivityForResult(
                             SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity, item),
-                            1
+                            REQ_CODE
                         )
                     }
                 }
@@ -125,7 +125,7 @@ class SearchPlaceActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 1) {
+        if (requestCode == REQ_CODE) {
             if (resultCode == RESULT_OK) {
                 setResult(RESULT_OK, data)
                 finish()
@@ -140,5 +140,7 @@ class SearchPlaceActivity : AppCompatActivity() {
         const val TOOLBAR_HINT = "장소를 입력하세요"
         const val REST_API_KEY = "KakaoAK 58071fbe087f96f72e3baf3fb28f2f6a"
         const val BASE_URL = "https://dapi.kakao.com/"
+        const val REQ_CODE = 1
+
     }
 }

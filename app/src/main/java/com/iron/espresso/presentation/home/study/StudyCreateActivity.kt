@@ -10,10 +10,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.iron.espresso.R
-import com.iron.espresso.data.model.PlaceItem
+import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.load
 import com.iron.espresso.presentation.place.SearchPlaceActivity
+import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
 import com.iron.espresso.utils.ToolbarHelper
 
 class StudyCreateActivity : AppCompatActivity() {
@@ -40,7 +41,7 @@ class StudyCreateActivity : AppCompatActivity() {
         }
 
         binding.placeContainer.setOnClickListener {
-            startActivityForResult(SearchPlaceActivity.getInstance(this), 0)
+            startActivityForResult(SearchPlaceActivity.getInstance(this), REQ_CODE)
         }
 
         binding.image.transitionName = image.toString()
@@ -58,10 +59,10 @@ class StudyCreateActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 0) {
+        if (requestCode == REQ_CODE) {
             if (resultCode == RESULT_OK) {
-                val items = data?.getSerializableExtra("placeItems") as PlaceItem
-                Log.d("placeItems", items.toString())
+                val items = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
+                Log.d(LOCAL_ITEM, items.toString())
 
                 binding.placeDetail.text = items.addressName
             }
@@ -80,8 +81,8 @@ class StudyCreateActivity : AppCompatActivity() {
     companion object {
 
         private const val TITLE = "스터디 만들기"
-
         private const val KEY = "key"
+        private const val REQ_CODE = 0
 
         fun getInstance(context: Context, item: Int) =
             Intent(context, StudyCreateActivity::class.java).apply {
