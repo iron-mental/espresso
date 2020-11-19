@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.place
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +15,7 @@ import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.*
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.CameraUpdate.REASON_GESTURE
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
@@ -43,28 +45,47 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
 
-        var flag = true
+        var firstEvent = true
+        var firstAnim = false
         val placeItems = intent.getSerializableExtra(PLACE_ITEMS) as Place
 
         //초기 카메라 위치 설정
         naverMap.cameraPosition = CameraPosition(LatLng(placeItems.lat, placeItems.lng), 16.0)
 
+        //카메라 이동할 때
+        naverMap.addOnCameraChangeListener { reason, _ ->
+            if (reason == REASON_GESTURE) {
+                if (firstAnim) { //처음 한번만 실행
+                    firstAnim = false
+                    ObjectAnimator.ofFloat(binding.marker, "translationY", -25f).apply {
+                        duration = 100
+                        start()
+                    }
+                }
+            }
+        }
+
         //카메라 이동 멈췄을 때
         naverMap.addOnCameraIdleListener {
-            if (flag) {
+            if (firstEvent) {     // 처음 한번만 실행
                 searchCoord(
                     naverMap.cameraPosition.target.longitude,
                     naverMap.cameraPosition.target.latitude,
                     placeItems.placeName
                 )
+                firstEvent = false
             } else {
                 searchCoord(
                     naverMap.cameraPosition.target.longitude,
                     naverMap.cameraPosition.target.latitude,
                     null
                 )
+                ObjectAnimator.ofFloat(binding.marker, "translationY", 0f).apply {
+                    duration = 100
+                    start()
+                }
             }
-            flag = false
+            firstAnim = true
         }
     }
 
