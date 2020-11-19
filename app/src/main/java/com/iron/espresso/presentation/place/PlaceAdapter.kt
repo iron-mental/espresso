@@ -21,10 +21,10 @@ class PlaceAdapter : RecyclerView.Adapter<PlaceViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceViewHolder =
-        PlaceViewHolder(parent)
+        PlaceViewHolder(parent, itemClickListener)
 
     override fun onBindViewHolder(holder: PlaceViewHolder, position: Int) {
-        holder.bind(placeList[position], itemClickListener)
+        holder.bind(placeList[position])
     }
 
     override fun getItemCount(): Int =
