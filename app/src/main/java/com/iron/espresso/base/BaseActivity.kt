@@ -32,7 +32,9 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
             (binding.root as ViewGroup).children.find { it is AppBarLayout } as? AppBarLayout
 
         if (appBarLayout != null) {
-            toolbarHelper = ToolbarHelper(this, appBarLayout)
+            toolbarHelper = ToolbarHelper(this, appBarLayout).apply {
+                setToolbarTitle(EMPTY_TOOLBAR_TITLE)
+            }
         }
     }
 
@@ -54,5 +56,9 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
 
     override fun setCustomView(view: View, relativeHeight: Boolean) {
         toolbarHelper?.setCustomView(view, relativeHeight)
+    }
+
+    companion object {
+        private const val EMPTY_TOOLBAR_TITLE = ""
     }
 }

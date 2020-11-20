@@ -1,4 +1,5 @@
 package com.iron.espresso.presentation.sign
+
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -22,6 +23,8 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setNavigationIcon(R.drawable.ic_clear)
 
         binding.apply {
             vm = signInViewModel

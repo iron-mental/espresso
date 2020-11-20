@@ -20,6 +20,8 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setNavigationIcon(R.drawable.ic_clear)
+
         binding.apply {
             vm = signUpViewModel
             startFragment(SignUpEmailFragment())
