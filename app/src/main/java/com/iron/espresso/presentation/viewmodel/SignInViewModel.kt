@@ -1,6 +1,5 @@
-package com.iron.espresso.presentation.viewmodel
+package com.iron.espresso.presentation.sign
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +8,6 @@ import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.usecase.LoginUser
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
-import com.iron.espresso.presentation.sign.CheckType
 
 class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginUser) :
     BaseViewModel() {
@@ -31,8 +29,6 @@ class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginU
 
     fun checkLogin(userId: String, userPass: String) {
 
-        Log.d("결과", userId)
-        Log.d("결과", userPass)
         compositeDisposable += loginUser(userId, userPass)
             .networkSchedulers()
             .subscribe({

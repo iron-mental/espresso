@@ -78,4 +78,6 @@ dependencies {
     implementation "androidx.hilt:hilt-common:1.0.0-alpha02"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
     kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
+
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 }

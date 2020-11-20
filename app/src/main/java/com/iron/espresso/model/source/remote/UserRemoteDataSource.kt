@@ -1,44 +1,65 @@
 package com.iron.espresso.model.source.remote
 
-import com.iron.espresso.domain.usecase.LoginUser
+import com.google.gson.annotations.SerializedName
 import com.iron.espresso.model.api.UserApi
-import com.iron.espresso.model.response.MessageResponse
-import com.iron.espresso.model.response.UserResponse
+import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.user.AccessTokenResponse
+import com.iron.espresso.model.response.user.UserAuthResponse
+import com.iron.espresso.model.response.user.UserResponse
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
-import javax.inject.Inject
 
 
-class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi) :
-    UserRemoteDataSource {
+class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSource {
 
-    override fun login(email: String, password: String): Single<LoginUser> =
+    override fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>> =
         userApi.login(LoginRequest(email, password))
 
-    override fun getUser(id: Int): Single<UserResponse> =
-        userApi.getUser(id)
+    override fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>> =
+        userApi.getUser(bearerToken, id)
 
-    override fun checkDuplicateEmail(email: String): Single<MessageResponse> =
+    override fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>> =
         userApi.checkDuplicateEmail(email)
 
-    override fun checkDuplicateNickname(nickname: String): Single<MessageResponse> =
+    override fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>> =
         userApi.checkDuplicateNickname(nickname)
 
     override fun registerUser(
         email: String,
         password: String,
         nickname: String
-    ): Single<MessageResponse> =
+    ): Single<BaseResponse<Nothing>> =
         userApi.registerUser(RegisterUserRequest(email, password, nickname))
 
-    override fun modifyUser(request: ModifyUserRequest): Single<UserResponse> =
-        userApi.modifyUser(request.toMultipartBody())
+    override fun modifyUser(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserRequest
+    ): Single<BaseResponse<Nothing>> =
+        userApi.modifyUser(bearerToken, id, request.toMultipartBody())
+
+    override fun deleteUser(bearerToken: String, id: Int): Single<BaseResponse<Nothing>> =
+        userApi.deleteUser(bearerToken, id)
+
+
+    override fun verifyEmail(bearerToken: String, id: Int): Single<BaseResponse<Nothing>> =
+        userApi.verifyEmail(bearerToken, id)
+
+    override fun resetPassword(email: String): Single<BaseResponse<Nothing>> =
+        userApi.resetPassword(email)
+
+    override fun reIssuanceAccessToken(
+        bearerToken: String,
+        refreshToken: ReIssuanceTokenRequest
+    ): Single<BaseResponse<AccessTokenResponse>> =
+        userApi.reIssuanceAccessToken(bearerToken, refreshToken)
 }
 
 data class RegisterUserRequest(val email: String, val password: String, val nickname: String)
 data class LoginRequest(val email: String, val password: String)
+data class ReIssuanceTokenRequest(@SerializedName("refresh_token") val refreshToken: String)
 
 data class ModifyUserRequest(
     val image: File? = null,
@@ -50,7 +71,7 @@ data class ModifyUserRequest(
     val snsLinkedIn: String = "",
     val snsWeb: String = ""
 ) {
-    fun toMultipartBody(): RequestBody {
+    fun toMultipartBody(): MultipartBody {
         return MultipartBody.Builder().run {
             if (introduce.isNotEmpty()) addFormDataPart("introduce", introduce)
             if (location.isNotEmpty()) addFormDataPart("location", location)
@@ -61,7 +82,7 @@ data class ModifyUserRequest(
             if (snsWeb.isNotEmpty()) addFormDataPart("sns_web", snsWeb)
             if (image != null) {
                 addFormDataPart(
-                    image.name,
+                    "image",
                     image.name,
                     RequestBody.create(MultipartBody.FORM, image)
                 )
@@ -72,15 +93,34 @@ data class ModifyUserRequest(
 }
 
 interface UserRemoteDataSource {
-    fun login(email: String, password: String): Single<LoginUser>
+    fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>>
 
-    fun getUser(id: Int): Single<UserResponse>
+    fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>>
 
-    fun registerUser(email: String, password: String, nickname: String): Single<MessageResponse>
+    fun registerUser(
+        email: String,
+        password: String,
+        nickname: String
+    ): Single<BaseResponse<Nothing>>
 
-    fun checkDuplicateEmail(email: String): Single<MessageResponse>
+    fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
 
-    fun checkDuplicateNickname(nickname: String): Single<MessageResponse>
+    fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>
 
-    fun modifyUser(request: ModifyUserRequest): Single<UserResponse>
+    fun modifyUser(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserRequest
+    ): Single<BaseResponse<Nothing>>
+
+    fun deleteUser(bearerToken: String, id: Int): Single<BaseResponse<Nothing>>
+
+    fun verifyEmail(bearerToken: String, id: Int): Single<BaseResponse<Nothing>>
+
+    fun resetPassword(email: String): Single<BaseResponse<Nothing>>
+
+    fun reIssuanceAccessToken(
+        bearerToken: String,
+        refreshToken: ReIssuanceTokenRequest
+    ): Single<BaseResponse<AccessTokenResponse>>
 }
