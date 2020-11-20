@@ -37,7 +37,7 @@ interface UserApi {
 
     @GET("/v1/user/check-nickname/{nickname}")
     fun checkDuplicateNickname(
-        @Query("nickname") nickname: String
+        @Path("nickname") nickname: String
     ): Single<MessageResponse>
 
     @Multipart

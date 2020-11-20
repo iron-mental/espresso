@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.usecase.CheckDuplicateEmail
+import com.iron.espresso.domain.usecase.CheckDuplicateNickname
 import com.iron.espresso.domain.usecase.RegisterUser
 import com.iron.espresso.ext.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,7 +14,8 @@ import io.reactivex.schedulers.Schedulers
 
 class SignUpViewModel @ViewModelInject constructor(
     private val registerUser: RegisterUser,
-    private val checkDuplicateEmail: CheckDuplicateEmail
+    private val checkDuplicateEmail: CheckDuplicateEmail,
+    private val checkDuplicateNickname: CheckDuplicateNickname
 ) :
     BaseViewModel() {
 
@@ -60,7 +62,24 @@ class SignUpViewModel @ViewModelInject constructor(
 
     fun verifyNicknameCheck(nickname: String?) {
         nickname?.let {
-            _checkType.value = CheckType.CHECK_NICKNAME_SUCCESS
+            if(nickname.length in 2..7){
+                compositeDisposable += checkDuplicateNickname.invoke(nickname)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ message ->
+                        Logger.d("${message.message.length}")
+                        if (message.result) {
+                            _checkType.value = CheckType.CHECK_NICKNAME_SUCCESS
+                        } else {
+                            _checkType.value = CheckType.CHECK_NICKNAME_FAIL
+                        }
+                    }, {
+                        _checkType.value = CheckType.CHECK_NICKNAME_FAIL
+                    })
+            }else{
+                _checkType.value = CheckType.CHECK_NICKNAME_FAIL
+            }
+
         }
     }
 
