@@ -1,6 +1,7 @@
 package com.iron.espresso.presentation.home.study
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,10 +10,14 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
+import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.load
+import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
 import com.iron.espresso.utils.ToolbarHelper
@@ -54,6 +59,37 @@ class StudyCreateActivity : AppCompatActivity() {
             start()
         }
 
+        binding.buttonSignUp.setOnClickListener {
+            val token = "Access Token"
+            ApiModule.provideStudyApi()
+                .registerStudy(
+                    bearerToken = "Bearer $token",
+                    body = RegisterStudyRequest(
+                        category = "ios",
+                        title = "tset",
+                        introduce = "test",
+                        progress = "test",
+                        studyTime = "tes5wereasafsaft",
+                        latitude = 1.0,
+                        longitude = 1.0,
+                        sido = "test",
+                        sigungu = "test",
+                        addressName = "test",
+                        placeName = "test",
+                        locationDetail = "test",
+                        snsNotion = "",
+                        snsEverNote = "",
+                        snsWeb = "",
+                        image = null
+                    ).toMultipartBody()
+                )
+                .networkSchedulers()
+                .subscribe({
+                    Logger.d("$it")
+                }, {
+                    Logger.d("$it")
+                })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
