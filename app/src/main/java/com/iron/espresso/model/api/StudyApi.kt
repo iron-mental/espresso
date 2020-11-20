@@ -28,7 +28,7 @@ data class RegisterStudyRequest(
     val snsWeb: String = "",
     val image: File? = null,
 ) {
-    fun toMultipartBody(): MultipartBody {
+    fun toMultipartBody(): List<MultipartBody.Part> {
         return MultipartBody.Builder().run {
             val latitude = latitude.toString()
             val longitude = longitude.toString()
@@ -54,8 +54,7 @@ data class RegisterStudyRequest(
                     RequestBody.create(MultipartBody.FORM, image)
                 )
             }
-
-            build()
+            build().parts
         }
     }
 }
@@ -117,8 +116,7 @@ interface StudyApi {
     @POST("/v1/study")
     fun registerStudy(
         @Header("Authorization") bearerToken: String,
-        @Path("id") id: Int,
-        @Part body: MultipartBody
+        @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/study/{study_id}")
