@@ -5,12 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.domain.usecase.CheckDuplicateEmail
 import com.iron.espresso.domain.usecase.RegisterUser
 import com.iron.espresso.ext.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class SignUpViewModel @ViewModelInject constructor(private val registerUser: RegisterUser) :
+class SignUpViewModel @ViewModelInject constructor(
+    private val registerUser: RegisterUser,
+    private val checkDuplicateEmail: CheckDuplicateEmail
+) :
     BaseViewModel() {
 
     val signUpEmail = MutableLiveData<String>()
@@ -34,7 +38,20 @@ class SignUpViewModel @ViewModelInject constructor(private val registerUser: Reg
     fun verifyEmailCheck(email: String?) {
         email?.let {
             if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
+                compositeDisposable += checkDuplicateEmail.invoke(email)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ message ->
+                        if (message.result) {
+                            _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
+                        } else {
+                            _checkType.value = CheckType.CHECK_EMAIL_FAIL
+                        }
+                        Logger.d(it)
+                    }, {
+                        _checkType.value = CheckType.CHECK_EMAIL_FAIL
+                        Logger.d("$it")
+                    })
             } else {
                 _checkType.value = CheckType.CHECK_EMAIL_FAIL
             }

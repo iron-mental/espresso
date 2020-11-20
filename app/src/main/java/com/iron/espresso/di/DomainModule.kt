@@ -2,6 +2,7 @@ package com.iron.espresso.di
 
 import com.iron.espresso.domain.repo.ProfileRepository
 import com.iron.espresso.domain.repo.UserRepository
+import com.iron.espresso.domain.usecase.CheckDuplicateEmail
 import com.iron.espresso.domain.usecase.GetGithubUser
 import com.iron.espresso.domain.usecase.LoginUser
 import com.iron.espresso.domain.usecase.RegisterUser
@@ -31,6 +32,12 @@ object DomainModule {
     @Provides
     fun provideRegisterUser(repository: UserRepository): RegisterUser {
         return RegisterUser(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCheckDuplicateEmail(repository: UserRepository) : CheckDuplicateEmail{
+        return CheckDuplicateEmail(repository)
     }
 }
 

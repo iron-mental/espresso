@@ -2,6 +2,7 @@ package com.iron.espresso.model.repo
 
 import com.iron.espresso.domain.repo.UserRepository
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import io.reactivex.Single
@@ -15,9 +16,9 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
         userRemoteDataSource.registerUser(email, password, nickname)
 
 
-    override fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>> =
+    override fun checkDuplicateEmail(email: String): Single<MessageResponse> =
         userRemoteDataSource.checkDuplicateEmail(email)
 
-    override fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>> =
+    override fun checkDuplicateNickname(nickname: String): Single<MessageResponse> =
         userRemoteDataSource.checkDuplicateNickname(nickname)
 }
