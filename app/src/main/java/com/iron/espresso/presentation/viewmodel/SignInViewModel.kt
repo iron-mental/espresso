@@ -33,7 +33,11 @@ class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginU
         compositeDisposable += loginUser(userId, userPass)
             .networkSchedulers()
             .subscribe({
-                _checkType.value = CheckType.CHECK_ALL_SUCCESS
+                if (it.result) {
+                    _checkType.value = CheckType.CHECK_ALL_SUCCESS
+                } else {
+                    _checkType.value = CheckType.CHECK_ALL_FAIL
+                }
                 Logger.d("$it")
             }, {
                 _checkType.value = CheckType.CHECK_ALL_FAIL
