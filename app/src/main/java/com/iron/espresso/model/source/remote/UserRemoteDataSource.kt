@@ -10,9 +10,11 @@ import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import javax.inject.Inject
 
 
-class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSource {
+class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi) :
+    UserRemoteDataSource {
 
     override fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>> =
         userApi.login(LoginRequest(email, password))

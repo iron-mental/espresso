@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.sign
+package com.iron.espresso.presentation.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -8,6 +8,7 @@ import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.usecase.LoginUser
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
+import com.iron.espresso.presentation.sign.CheckType
 
 class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginUser) :
     BaseViewModel() {
