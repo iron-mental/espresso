@@ -10,6 +10,7 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySignInBinding
 import com.iron.espresso.ext.startActivity
 import com.iron.espresso.presentation.home.HomeActivity
+import com.iron.espresso.presentation.viewmodel.CheckType
 import com.iron.espresso.presentation.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

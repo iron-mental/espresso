@@ -11,6 +11,8 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.base.ToolbarHelper
 import com.iron.espresso.databinding.FragmentSignUpEmailBinding
+import com.iron.espresso.presentation.viewmodel.CheckType
+import com.iron.espresso.presentation.viewmodel.SignUpViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SignUpEmailFragment :

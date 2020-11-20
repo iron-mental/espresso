@@ -4,6 +4,7 @@ import com.iron.espresso.domain.repo.ProfileRepository
 import com.iron.espresso.domain.repo.UserRepository
 import com.iron.espresso.domain.usecase.GetGithubUser
 import com.iron.espresso.domain.usecase.LoginUser
+import com.iron.espresso.domain.usecase.RegisterUser
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,12 +21,16 @@ object DomainModule {
         return GetGithubUser(repository)
     }
 
-
     @Singleton
     @Provides
     fun provideLoginUser(repository: UserRepository): LoginUser {
         return LoginUser(repository)
     }
 
+    @Singleton
+    @Provides
+    fun provideRegisterUser(repository: UserRepository): RegisterUser {
+        return RegisterUser(repository)
+    }
 }
 

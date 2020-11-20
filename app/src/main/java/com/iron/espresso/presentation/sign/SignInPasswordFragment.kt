@@ -11,6 +11,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.base.ToolbarHelper
 import com.iron.espresso.databinding.FragmentSignInPasswordBinding
+import com.iron.espresso.presentation.viewmodel.CheckType
 import com.iron.espresso.presentation.viewmodel.SignInViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

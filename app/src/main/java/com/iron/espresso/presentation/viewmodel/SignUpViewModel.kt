@@ -1,5 +1,6 @@
-package com.iron.espresso.presentation.sign
+package com.iron.espresso.presentation.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
@@ -9,7 +10,7 @@ import com.iron.espresso.ext.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class SignUpViewModel(private val registerUser: RegisterUser) :
+class SignUpViewModel @ViewModelInject constructor(private val registerUser: RegisterUser) :
     BaseViewModel() {
 
     val signUpEmail = MutableLiveData<String>()
@@ -67,7 +68,6 @@ class SignUpViewModel(private val registerUser: RegisterUser) :
                 Logger.d("$it")
             })
     }
-
 
     fun exitViewModel() {
         _exitIdentifier.value = true
