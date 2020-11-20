@@ -21,6 +21,7 @@ import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
 import com.iron.espresso.utils.ToolbarHelper
+import java.io.File
 
 class StudyCreateActivity : AppCompatActivity() {
 
@@ -80,7 +81,7 @@ class StudyCreateActivity : AppCompatActivity() {
                         snsNotion = "",
                         snsEverNote = "",
                         snsWeb = "",
-                        image = null
+                        image = File("/storage/0000-0000/DCIM/Camera/20201018_142454.JPG")
                     ).toMultipartBody()
                 )
                 .networkSchedulers()
