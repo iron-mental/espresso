@@ -28,6 +28,10 @@ class StudyCreateActivity :
         setToolbarTitle(TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
 
+        binding.placeContainer.setOnClickListener {
+            startActivityForResult(SearchPlaceActivity.getInstance(this), 0)
+        }
+
         binding.image.transitionName = image.toString()
         binding.image.load(image, true) {
             supportPostponeEnterTransition()

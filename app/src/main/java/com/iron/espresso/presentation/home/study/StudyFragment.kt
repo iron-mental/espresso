@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.study
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
@@ -50,8 +49,7 @@ class StudyFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.search_study -> {
-                val intent = Intent(context, SearchStudyActivity::class.java)
-                startActivity(intent)
+                startActivity(StudyListActivity.getInstance(requireContext()))
             }
 
             R.id.add_study -> {
