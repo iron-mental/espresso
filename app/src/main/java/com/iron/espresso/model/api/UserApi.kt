@@ -1,37 +1,72 @@
 package com.iron.espresso.model.api
 
-import com.google.gson.JsonObject
-import com.iron.espresso.model.response.UserResponse
-import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.user.AccessTokenResponse
+import com.iron.espresso.model.response.user.UserAuthResponse
+import com.iron.espresso.model.response.user.UserResponse
+import com.iron.espresso.model.source.remote.LoginRequest
+import com.iron.espresso.model.source.remote.ReIssuanceTokenRequest
+import com.iron.espresso.model.source.remote.RegisterUserRequest
+import io.reactivex.Single
+import okhttp3.MultipartBody
+import retrofit2.http.*
 
 interface UserApi {
 
     @POST("/v1/user/login")
-    fun getUser(
-        @Body body: JsonObject
-    ): Call<UserResponse>
+    fun login(
+        @Body body: LoginRequest
+    ): Single<BaseResponse<UserAuthResponse>>
 
+    @GET("/v1/user/{id}}")
+    fun getUser(
+        @Header("Authorization") bearerToken: String,
+        @Path("id") id: Int
+    ): Single<BaseResponse<UserResponse>>
 
     @POST("/v1/user")
     fun registerUser(
-        @Body body: JsonObject
-    ): Call<String>
+        @Body body: RegisterUserRequest
+    ): Single<BaseResponse<Nothing>>
 
-    @GET("/v1/check-nickname")
+    @GET("/v1/user/check-email/{email}")
     fun checkDuplicateEmail(
-        @Query("email") email: String
-    ): Call<String>
+        @Path("email") email: String
+    ): Single<BaseResponse<Nothing>>
 
-    @GET("/v1/check-email")
+    @GET("/v1/user/check-nickname/{nickname}")
     fun checkDuplicateNickname(
         @Query("nickname") nickname: String
-    ): Call<String>
+    ): Single<BaseResponse<Nothing>>
 
-//    /v1/user/check-nickname/:nickname
+    @Multipart
+    @PUT("/v1/user/{id}")
+    fun modifyUser(
+        @Header("Authorization") bearerToken: String,
+        @Path("id") id: Int,
+        @Part body: MultipartBody
+    ): Single<BaseResponse<Nothing>>
 
+    @DELETE("/v1/user/{id}")
+    fun deleteUser(
+        @Header("Authorization") bearerToken: String,
+        @Path("id") id: Int
+    ): Single<BaseResponse<Nothing>>
 
+    @GET("/v1/user/{id}/emailVerify")
+    fun verifyEmail(
+        @Header("Authorization") bearerToken: String,
+        @Path("id") id: Int
+    ): Single<BaseResponse<Nothing>>
+
+    @POST("/v1/firebase/reset-password/{email}")
+    fun resetPassword(
+        @Path("email") email: String,
+    ): Single<BaseResponse<Nothing>>
+
+    @POST("/v1/user/reissuance")
+    fun reIssuanceAccessToken(
+        @Header("Authorization") bearerToken: String,
+        @Body refreshToken: ReIssuanceTokenRequest
+    ): Single<BaseResponse<AccessTokenResponse>>
 }
