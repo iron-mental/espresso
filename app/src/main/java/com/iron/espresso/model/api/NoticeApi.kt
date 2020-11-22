@@ -27,7 +27,7 @@ interface NoticeApi {
         @Body body: RegisterNoticeRequest
     ): Single<BaseResponse<Nothing>>
 
-    @GET("/v1/study/{study_id}/notice/")
+    @GET("/v1/study/{study_id}/notice")
     fun getNotice(
         @Header("Authorization") bearerToken: String,
         @Path("study_id") studyId: Int

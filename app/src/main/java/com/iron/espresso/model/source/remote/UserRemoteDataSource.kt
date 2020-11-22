@@ -71,7 +71,7 @@ data class ModifyUserRequest(
     val snsLinkedIn: String = "",
     val snsWeb: String = ""
 ) {
-    fun toMultipartBody(): MultipartBody {
+    fun toMultipartBody(): List<MultipartBody.Part> {
         return MultipartBody.Builder().run {
             if (introduce.isNotEmpty()) addFormDataPart("introduce", introduce)
             if (location.isNotEmpty()) addFormDataPart("location", location)
@@ -87,7 +87,7 @@ data class ModifyUserRequest(
                     RequestBody.create(MultipartBody.FORM, image)
                 )
             }
-            build()
+            build().parts
         }
     }
 }
