@@ -2,7 +2,7 @@ package com.iron.espresso.di
 
 import com.iron.espresso.domain.repo.ProfileRepository
 import com.iron.espresso.domain.usecase.GetGithubUser
-import com.iron.espresso.domain.usecase.GetUser
+import com.iron.espresso.domain.usecase.Login
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,7 +11,7 @@ import org.koin.dsl.module
 import javax.inject.Singleton
 
 val domainModule = module {
-    single<GetUser> { GetUser(get()) }
+    single<Login> { Login(get()) }
 }
 
 @Module

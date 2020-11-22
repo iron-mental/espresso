@@ -1,12 +1,16 @@
 package com.iron.espresso.presentation.sign
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.iron.espresso.domain.usecase.GetUser
+import com.iron.espresso.Logger
+import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.domain.usecase.RegisterUser
+import com.iron.espresso.ext.plusAssign
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
-class SignUpViewModel(private val getUser: GetUser) : ViewModel() {
+class SignUpViewModel(private val registerUser: RegisterUser) :
+    BaseViewModel() {
 
     val signUpEmail = MutableLiveData<String>()
     val signUpNickname = MutableLiveData<String>()
@@ -53,10 +57,15 @@ class SignUpViewModel(private val getUser: GetUser) : ViewModel() {
     }
 
     fun registerUser(userId: String, userPass: String, nickname: String) {
-        Thread {
-            Log.d("결과", getUser.invoke(userId, userPass, nickname).toString())
-//            _checkType.value = CheckType.CHECK_ALL_SUCCESS
-        }.start()
+        compositeDisposable += registerUser.invoke(userId, userPass, nickname)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Logger.d("$it")
+                _checkType.value = CheckType.CHECK_ALL_SUCCESS
+            }, {
+                Logger.d("$it")
+            })
     }
 
 
