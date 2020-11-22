@@ -27,7 +27,7 @@ data class RegionInfo(
     @SerializedName("keyword")
     val keyword: String,
     @SerializedName("selected_region")
-    val selected_region: String
+    val selectedRegion: String
 )
 
 data class Place(

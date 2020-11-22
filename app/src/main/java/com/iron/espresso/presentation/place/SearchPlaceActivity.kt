@@ -9,11 +9,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.iron.espresso.R
-import com.iron.espresso.ToolbarHelper
+import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchPlaceBinding
 import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.Place
@@ -24,43 +22,40 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchPlaceActivity : AppCompatActivity() {
+class SearchPlaceActivity :
+    BaseActivity<ActivitySearchPlaceBinding>(R.layout.activity_search_place_detail) {
 
-    private lateinit var binding: ActivitySearchPlaceBinding
-    private lateinit var toolbarHelper: ToolbarHelper
     private lateinit var searchEditText: EditText
     private val placeAdapter = PlaceAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_search_place)
 
-        searchEditText = EditText(this)
-        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle(null)
-            setNavigationIcon(R.drawable.ic_back_24)
-            setCustomView(searchEditText.apply {
-                hint = TOOLBAR_HINT
-                setSingleLine()
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                requestFocus()
-                imeOptions = EditorInfo.IME_ACTION_SEARCH
-                setOnEditorActionListener { search, action, event ->
-                    var handled = false     //키보드 내림
-                    if (search.text.isNotEmpty()) {
-                        searchPlace(text.toString())
-                        Log.d("TAG", "성공")
-                    } else {
-                        Log.d("TAG", "실패")
-                        handled = true      //키보드 유지
-                    }
-                    handled
+        searchEditText = EditText(this).apply {
+            hint = TOOLBAR_HINT
+            setSingleLine()
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            requestFocus()
+            imeOptions = EditorInfo.IME_ACTION_SEARCH
+            setOnEditorActionListener { search, _, _ ->
+                var handled = false     //키보드 내림
+                if (search.text.isNotEmpty()) {
+                    Log.d("TAG", "성공")
+                    searchPlace(text.toString())
+                } else {
+                    Log.d("TAG", "실패")
+                    handled = true      //키보드 유지
                 }
-            })
+                handled
+            }
         }
+
+        setToolbarTitle(null)
+        setNavigationIcon(R.drawable.ic_back_24)
+        setCustomView(searchEditText)
 
         binding.placeList.run {
             adapter = placeAdapter
