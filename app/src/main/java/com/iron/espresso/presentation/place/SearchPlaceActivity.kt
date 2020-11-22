@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.study
+package com.iron.espresso.presentation.place
 
 import android.content.Context
 import android.content.Intent
@@ -9,33 +9,27 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.iron.espresso.R
-import com.iron.espresso.ToolbarHelper
+import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchPlaceBinding
 import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.Place
 import com.iron.espresso.model.response.PlaceResponse
-import com.iron.espresso.presentation.home.study.adapter.PlaceAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchPlaceActivity : AppCompatActivity() {
+class SearchPlaceActivity :
+    BaseActivity<ActivitySearchPlaceBinding>(R.layout.activity_search_place_detail) {
 
-    private lateinit var binding: ActivitySearchPlaceBinding
-    private lateinit var toolbarHelper: ToolbarHelper
     private lateinit var searchEditText: EditText
     private val placeAdapter = PlaceAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_search_place)
 
         searchEditText = EditText(this).apply {
             hint = TOOLBAR_HINT
@@ -59,11 +53,9 @@ class SearchPlaceActivity : AppCompatActivity() {
             }
         }
 
-        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle(null)
-            setNavigationIcon(R.drawable.ic_back_24)
-            setCustomView(searchEditText)
-        }
+        setToolbarTitle(null)
+        setNavigationIcon(R.drawable.ic_back_24)
+        setCustomView(searchEditText)
 
         binding.placeList.run {
             adapter = placeAdapter
@@ -97,10 +89,11 @@ class SearchPlaceActivity : AppCompatActivity() {
                 }
                 placeAdapter.run {
                     setItemList(placeList)
-                    setItemClickListener { title ->
-                        Toast.makeText(this@SearchPlaceActivity, title, Toast.LENGTH_SHORT).show()
+                    setItemClickListener { item ->
+                        Log.d("ITEMS", item.toString())
                         startActivityForResult(
-                            SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity), 1
+                            SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity, item),
+                            REQ_CODE
                         )
                     }
                 }
@@ -127,11 +120,10 @@ class SearchPlaceActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 1) {
+        if (requestCode == REQ_CODE) {
             if (resultCode == RESULT_OK) {
+                setResult(RESULT_OK, data)
                 finish()
-            } else {
-                error("error")
             }
         }
     }
@@ -143,5 +135,7 @@ class SearchPlaceActivity : AppCompatActivity() {
         const val TOOLBAR_HINT = "장소를 입력하세요"
         const val REST_API_KEY = "KakaoAK 58071fbe087f96f72e3baf3fb28f2f6a"
         const val BASE_URL = "https://dapi.kakao.com/"
+        const val REQ_CODE = 1
+
     }
 }

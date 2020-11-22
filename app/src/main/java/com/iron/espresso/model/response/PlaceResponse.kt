@@ -1,12 +1,13 @@
 package com.iron.espresso.model.response
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class PlaceResponse(
     @SerializedName("meta")
-    val meta: PlaceMeta,
+    val meta: PlaceMeta?,
     @SerializedName("documents")
-    val documents: List<Place>
+    val documents: List<Place>?
 )
 
 data class PlaceMeta(
@@ -47,11 +48,11 @@ data class Place(
     @SerializedName("road_address_name")
     val roadAddressName: String,
     @SerializedName("x")
-    val lng: String,
+    val lng: Double,
     @SerializedName("y")
-    val lat: String,
+    val lat: Double,
     @SerializedName("place_url")
     val placeUrl: String,
     @SerializedName("distance")
     val distance: String
-)
+) : Serializable

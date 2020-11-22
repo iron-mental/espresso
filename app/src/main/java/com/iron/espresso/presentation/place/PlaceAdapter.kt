@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.study.adapter
+package com.iron.espresso.presentation.place
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,10 +7,10 @@ import com.iron.espresso.presentation.home.study.adapter.viewholder.PlaceViewHol
 
 class PlaceAdapter : RecyclerView.Adapter<PlaceViewHolder>() {
 
-    private lateinit var itemClickListener: (title: String) -> Unit
+    private lateinit var itemClickListener: (item: Place) -> Unit
     private val placeList = mutableListOf<Place>()
 
-    fun setItemClickListener(listener: (title: String) -> Unit) {
+    fun setItemClickListener(listener: (item: Place) -> Unit) {
         this.itemClickListener = listener
     }
 

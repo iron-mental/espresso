@@ -30,7 +30,7 @@ class ToolbarHelper(activity: AppCompatActivity, rootView: ViewGroup) :
         actionBar?.setTitle(titleResId)
     }
 
-    override fun setToolbarTitle(title: String) {
+    override fun setToolbarTitle(title: String?) {
         actionBar?.title = title
     }
 

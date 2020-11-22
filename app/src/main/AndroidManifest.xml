@@ -20,16 +20,16 @@
 
         <activity
             android:name=".presentation.sign.IntroActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".presentation.profile.ProfileActivity" />
+        <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
+        <activity android:name=".presentation.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.profile.ProfileActivity" />
-        <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
-        <activity android:name=".presentation.home.HomeActivity" />
         <activity
             android:name=".presentation.sign.SignInActivity"
             android:windowSoftInputMode="adjustResize" />
@@ -47,9 +47,9 @@
         <activity android:name=".presentation.home.study.StudyCreateActivity" />
         <activity android:name=".presentation.home.study.SearchStudyActivity" />
         <activity
-            android:name=".presentation.home.study.SearchPlaceDetailActivity"
+            android:name=".presentation.place.SearchPlaceDetailActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".presentation.home.study.SearchPlaceActivity" />
+        <activity android:name=".presentation.place.SearchPlaceActivity" />
     </application>
 
 </manifest>

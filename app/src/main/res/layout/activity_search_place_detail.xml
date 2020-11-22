@@ -10,9 +10,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.home.study.SearchPlaceDetailActivity">
+        tools:context=".presentation.place.SearchPlaceDetailActivity">
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
             android:name="com.naver.maps.map.MapFragment"
             android:layout_width="0dp"
@@ -21,6 +21,33 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/guideline"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/map"
+            app:layout_constraintEnd_toEndOf="@+id/map"
+            app:layout_constraintStart_toStartOf="@+id/map"
+            app:layout_constraintTop_toTopOf="@+id/map" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_material_add"
+            app:layout_constraintBottom_toBottomOf="@+id/map"
+            app:layout_constraintEnd_toEndOf="@+id/map"
+            app:layout_constraintStart_toStartOf="@+id/map"
+            app:layout_constraintTop_toTopOf="@+id/map" />
+
+        <ImageView
+            android:id="@+id/marker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_location_24"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="@+id/map"
+            app:layout_constraintStart_toStartOf="@+id/map" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/address_container"
@@ -45,13 +72,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="이곳은 현재 위치의 주소가 출력됩니다."
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/address_detail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="이곳은 현재 위치의 주소가 출력됩니다." />
 
             <EditText
                 android:id="@+id/address_detail"
@@ -60,7 +87,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/bg_outline"
-                android:hint="상세주소를 입력하세요 (건물명, 동/호수 등)"
+                android:hint="@string/address_hint"
                 android:inputType="text"
                 android:padding="16dp"
                 android:textColor="@color/black"
@@ -77,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:padding="16dp"
-                android:text="선택한 위치로 설정"
+                android:text="@string/set_location"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="14sp"
