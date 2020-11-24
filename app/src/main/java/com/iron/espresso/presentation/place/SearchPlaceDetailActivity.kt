@@ -44,9 +44,9 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
 
-        var firstEvent = true
-        var firstAnim = false
+        var gesturing = false
         val placeItems = intent.getSerializableExtra(PLACE_ITEM) as Place
+        var placeName = placeItems.placeName
 
         //초기 카메라 위치 설정
         naverMap.cameraPosition = CameraPosition(LatLng(placeItems.lat, placeItems.lng), 16.0)
@@ -54,39 +54,36 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
         //카메라 이동할 때
         naverMap.addOnCameraChangeListener { reason, _ ->
             if (reason == REASON_GESTURE) {
-                if (firstAnim) { //처음 한번만 실행
-                    firstAnim = false
+                if (gesturing) { // 로직 한번만 실
+                    gesturing = false
                     ObjectAnimator.ofFloat(binding.marker, "translationY", -25f).apply {
                         binding.marker.drawable.alpha = 50
                         duration = 100
                         start()
                     }
-
+                    placeName = ""
                 }
             }
         }
 
         //카메라 이동 멈췄을 때
         naverMap.addOnCameraIdleListener {
-            if (firstEvent) {     // 처음 한번만 실행
-                viewModel.value.searchCoord(
-                    naverMap.cameraPosition.target.longitude,
-                    naverMap.cameraPosition.target.latitude,
-                    placeItems.placeName
-                )
-                firstEvent = false
+            if (placeName.isNotEmpty()) {
             } else {
-                viewModel.value.searchCoord(
-                    naverMap.cameraPosition.target.longitude,
-                    naverMap.cameraPosition.target.latitude
-                )
                 ObjectAnimator.ofFloat(binding.marker, "translationY", 0f).apply {
                     binding.marker.drawable.alpha = 255
                     duration = 100
                     start()
                 }
             }
-            firstAnim = true
+
+            viewModel.value.searchCoord(
+                naverMap.cameraPosition.target.longitude,
+                naverMap.cameraPosition.target.latitude,
+                placeName
+            )
+
+            gesturing = true
         }
 
         viewModel.value.sendLocalItem.observe(this) { localItem ->
