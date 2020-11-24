@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".presentation.home.mystudy.studydetail.NoticeDetailActivity" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -20,7 +21,7 @@
 
         <activity
             android:name=".presentation.sign.IntroActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".presentation.profile.ProfileActivity" />
         <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
         <activity android:name=".presentation.home.HomeActivity">
