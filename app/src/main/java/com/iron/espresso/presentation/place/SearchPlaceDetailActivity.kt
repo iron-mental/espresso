@@ -18,12 +18,9 @@ import com.naver.maps.map.CameraUpdate.REASON_GESTURE
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivitySearchPlaceDetailBinding

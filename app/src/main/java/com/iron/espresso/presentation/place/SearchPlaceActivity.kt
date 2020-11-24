@@ -15,13 +15,9 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchPlaceBinding
 import com.iron.espresso.model.response.Place
-import com.iron.espresso.model.response.PlaceResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchPlaceActivity :
     BaseActivity<ActivitySearchPlaceBinding>(R.layout.activity_search_place) {
 
