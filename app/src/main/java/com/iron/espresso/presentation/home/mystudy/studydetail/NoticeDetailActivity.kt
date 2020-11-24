@@ -2,16 +2,12 @@ package com.iron.espresso.presentation.home.mystudy.studydetail
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
 import com.google.gson.annotations.SerializedName
 import com.iron.espresso.R
-import com.iron.espresso.ToolbarHelper
-import com.iron.espresso.data.model.NoticeItemType
-import com.iron.espresso.data.model.NoticeListItem
+import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -54,19 +50,14 @@ data class Notice(
 )
 
 
-class NoticeDetailActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityNoticeDetailBinding
-    private lateinit var toolbarHelper: ToolbarHelper
+class NoticeDetailActivity :
+    BaseActivity<ActivityNoticeDetailBinding>(R.layout.activity_notice_detail) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_notice_detail)
 
-        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle(TOOLBAR_TITLE)
-            setNavigationIcon(R.drawable.ic_back_24)
-        }
+        setToolbarTitle(TOOLBAR_TITLE)
+        setNavigationIcon(R.drawable.ic_back_24)
 
         //retrofit
         val retrofit = Retrofit.Builder()
@@ -85,9 +76,10 @@ class NoticeDetailActivity : AppCompatActivity() {
                 Log.d("TAG", "성공 : ${response.raw()}")
                 Log.d("Response :: ", "${response.body()}")
 
-                val data: NoticeResponse? = response.body()
+                val data = response.body()?.data?.pinned ?: return
+
                 binding.category.apply {
-                    if (data!!.data.pinned) {
+                    if (data) {
                         text = resources.getString(R.string.pined_true)
                         setBackgroundResource(R.color.theme_fc813e)
                     } else {
