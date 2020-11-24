@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchPlaceBinding
-import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.Place
 import com.iron.espresso.model.response.PlaceResponse
 import retrofit2.Call
@@ -23,10 +23,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchPlaceActivity :
-    BaseActivity<ActivitySearchPlaceBinding>(R.layout.activity_search_place_detail) {
+    BaseActivity<ActivitySearchPlaceBinding>(R.layout.activity_search_place) {
+
+    private val viewModel by viewModels<SearchPlaceViewModel>()
 
     private lateinit var searchEditText: EditText
     private val placeAdapter = PlaceAdapter()
+    private lateinit var placeList: List<Place>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +47,7 @@ class SearchPlaceActivity :
                 var handled = false     //키보드 내림
                 if (search.text.isNotEmpty()) {
                     Log.d("TAG", "성공")
-                    searchPlace(text.toString())
+                    viewModel.searchPlace(text.toString())
                 } else {
                     Log.d("TAG", "실패")
                     handled = true      //키보드 유지
@@ -63,49 +66,20 @@ class SearchPlaceActivity :
                 DividerItemDecoration(this@SearchPlaceActivity, LinearLayout.VERTICAL)
             )
         }
-    }
 
-    private fun searchPlace(keyword: String) {
-
-        //retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(KakaoApi::class.java)
-        val callGetTest = service.getPlacesByKeyword(REST_API_KEY, keyword)
-
-        callGetTest.enqueue(object : Callback<PlaceResponse> {
-            override fun onResponse(
-                call: Call<PlaceResponse>,
-                response: Response<PlaceResponse>
-            ) {
-                Log.d("TAG", "response : ${response.body()}")
-                Log.d("TAG", "성공 : ${response.raw()}")
-
-                val placeList = mutableListOf<Place>().apply {
-                    response.body()?.documents?.let { addAll(it) }
-                }
-                placeAdapter.run {
-                    setItemList(placeList)
-                    setItemClickListener { item ->
-                        Log.d("ITEMS", item.toString())
-                        startActivityForResult(
-                            SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity, item),
-                            REQ_CODE
-                        )
-                    }
-                }
-
-            }
-
-            override fun onFailure(call: Call<PlaceResponse>, t: Throwable) {
-                Log.d("TAG", "실패 : $t")
+        viewModel.placeList.observe(this, { place ->
+            placeList = place
+            placeAdapter.run {
+                setItemList(placeList)
             }
         })
-
-
+        placeAdapter.setItemClickListener { item ->
+            Log.d("ITEMS", item.toString())
+            startActivityForResult(
+                SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity, item),
+                REQ_CODE
+            )
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -134,7 +108,6 @@ class SearchPlaceActivity :
 
         const val TOOLBAR_HINT = "장소를 입력하세요"
         const val REST_API_KEY = "KakaoAK 58071fbe087f96f72e3baf3fb28f2f6a"
-        const val BASE_URL = "https://dapi.kakao.com/"
         const val REQ_CODE = 1
 
     }

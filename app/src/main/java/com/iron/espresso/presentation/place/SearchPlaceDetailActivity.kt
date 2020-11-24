@@ -4,14 +4,13 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.annotation.UiThread
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import com.iron.espresso.R
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.databinding.ActivitySearchPlaceDetailBinding
-import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.*
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
@@ -28,6 +27,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivitySearchPlaceDetailBinding
+    private val viewModel = viewModels<SearchPlaceDetailViewModel>()
+    private lateinit var localItem: LocalItem
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,17 +72,16 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
         //카메라 이동 멈췄을 때
         naverMap.addOnCameraIdleListener {
             if (firstEvent) {     // 처음 한번만 실행
-                searchCoord(
+                viewModel.value.searchCoord(
                     naverMap.cameraPosition.target.longitude,
                     naverMap.cameraPosition.target.latitude,
                     placeItems.placeName
                 )
                 firstEvent = false
             } else {
-                searchCoord(
+                viewModel.value.searchCoord(
                     naverMap.cameraPosition.target.longitude,
-                    naverMap.cameraPosition.target.latitude,
-                    null
+                    naverMap.cameraPosition.target.latitude
                 )
                 ObjectAnimator.ofFloat(binding.marker, "translationY", 0f).apply {
                     binding.marker.drawable.alpha = 255
@@ -90,61 +91,21 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
             }
             firstAnim = true
         }
+
+        viewModel.value.sendLocalItem.observe(this) { localItem ->
+            this.localItem = localItem
+            binding.address.text = localItem.addressName
+        }
+
+        binding.selectButton.setOnClickListener {
+            localItem.locationDetail = binding.addressDetail.text.toString()
+            val intent = Intent().putExtra(LOCAL_ITEM, localItem)
+
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
 
-    private fun searchCoord(lat: Double, lng: Double, placeName: String?) {
-
-        //retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl(SearchPlaceActivity.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(KakaoApi::class.java)
-        val callGetLocal = service.convertAddressToCoord(SearchPlaceActivity.REST_API_KEY, lat, lng)
-
-        callGetLocal.enqueue(object : Callback<LocalResponse> {
-            override fun onResponse(
-                call: Call<LocalResponse>,
-                response: Response<LocalResponse>
-            ) {
-                Log.d("TAG", "response : ${response.body()?.documents}")
-                Log.d("TAG", "성공 : ${response.raw()}")
-
-                val roadAddress = response.body()?.documents?.get(0)?.roadAddress
-                val address = response.body()?.documents?.get(0)?.address
-
-                if (roadAddress?.addressName != null) {
-                    binding.address.text = roadAddress.addressName
-                } else {
-                    binding.address.text = address?.addressName
-                }
-                val realAddress = address ?: return
-
-                binding.selectButton.setOnClickListener {
-                    val localItem = LocalItem(
-                        lat,
-                        lng,
-                        realAddress.region1depthName,
-                        realAddress.region2depthName,
-                        binding.address.text.toString(),
-                        placeName,
-                        binding.addressDetail.text.toString()
-                    )
-
-                    val placeItems = intent.putExtra(LOCAL_ITEM, localItem)
-
-                    setResult(RESULT_OK, placeItems)
-                    finish()
-                }
-
-            }
-
-            override fun onFailure(call: Call<LocalResponse>, t: Throwable) {
-                Log.d("TAG", "실패 : $t")
-            }
-        })
-    }
 
     companion object {
         private const val PLACE_ITEM = "place_items"
