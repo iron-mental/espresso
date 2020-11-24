@@ -7,79 +7,72 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorCobaltBlue"
+            android:padding="3dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="공지" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/category"
+            app:layout_constraintStart_toEndOf="@id/category"
+            app:layout_constraintTop_toTopOf="@+id/category"
+            tools:text="모임 진행시 가이드 라인 입니다." />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            tools:text="날짜" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="69dp"
+            android:layout_marginBottom="10dp"
+            android:ellipsize="end"
+            android:lines="3"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/category"
+            app:layout_constraintTop_toBottomOf="@+id/category"
+            tools:text="[모임 진행시 가이드 라인] 1. 스터디를 진행할 휴대폰은 매너모드로 해주세요. 1. 스터디를 진행할 휴대폰은 매너모드로 해주세요. 1. 스터디를 진행할 휴대폰은 매너모드로 해주세요. 2. 코로나 19 감염자가 급증함에따" />
 
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/theme_292929" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/category"
-                android:layout_width="41dp"
-                android:layout_height="19.5dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorCobaltBlue"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="공지" />
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="@+id/category"
-                app:layout_constraintStart_toEndOf="@id/category"
-                app:layout_constraintTop_toTopOf="@+id/category"
-                tools:text="모임 진행시 가이드 라인 입니다." />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/title"
-                tools:text="날짜" />
-
-            <TextView
-                android:id="@+id/content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="69dp"
-                android:layout_marginBottom="10dp"
-                android:ellipsize="end"
-                android:lines="3"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/category"
-                app:layout_constraintTop_toBottomOf="@+id/category"
-                tools:text="[모임 진행시 가이드 라인] 1. 스터디를 진행할 휴대폰은 매너모드로 해주세요. 1. 스터디를 진행할 휴대폰은 매너모드로 해주세요. 1. 스터디를 진행할 휴대폰은 매너모드로 해주세요. 2. 코로나 19 감염자가 급증함에따" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/theme_292929" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/theme_292929"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/content" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

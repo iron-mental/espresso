@@ -65,7 +65,7 @@
 
         <include
             android:id="@+id/web_input_view"
-            hint="@{`관련 URL (블로그 등)`}"
+            hint="@{`URL (blog etc)`}"
             icon="@{R.drawable.icon_web}"
             layout="@layout/view_input_url"
             title="@{`Web`}"

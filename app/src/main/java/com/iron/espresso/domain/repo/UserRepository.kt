@@ -1,13 +1,15 @@
 package com.iron.espresso.domain.repo
 
 import com.iron.espresso.domain.entity.User
+import com.iron.espresso.model.response.BaseResponse
+import io.reactivex.Single
 
 interface UserRepository {
-    fun getUser(userId: String, userPass: String): User
+    fun login(email: String, password: String): Single<User>
 
-    fun registerUser(userId: String, userPass: String, nickname: String): Boolean
+    fun registerUser(email: String, password: String, nickname: String): Single<BaseResponse<Nothing>>
 
-    fun checkDuplicateEmail(email: String): String
+    fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
 
-    fun checkDuplicateNickname(nickname: String): String
+    fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>
 }

@@ -17,7 +17,11 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemNoticeLayoutBinding>(itemView)
 
-    fun bind(item: NoticeListItem, itemClickListener: (noticeItem: NoticeListItem) -> Unit) {
+    fun bind(
+        item: NoticeListItem,
+        nextItem: NoticeListItem?,
+        itemClickListener: (noticeItem: NoticeListItem) -> Unit
+    ) {
         itemView.setOnClickListener {
             itemClickListener(item)
         }
@@ -31,10 +35,6 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                         setBackgroundResource(R.color.theme_fc813e)
                     }
                     NoticeItemType.ITEM -> {
-                        if (flag) {
-                            flag = false
-                            divider.layoutParams.height = 15
-                        }
                         text = context.getString(R.string.pined_false)
                         setBackgroundResource(R.color.colorCobaltBlue)
                     }
@@ -42,10 +42,15 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             }
             date.text = item.date
             content.text = item.content
-        }
-    }
 
-    companion object {
-        var flag = true
+            divider.apply {
+                layoutParams.height =
+                    if (item.type == NoticeItemType.HEADER && nextItem?.type == NoticeItemType.ITEM) {
+                        resources.getDimension(R.dimen.diff_divide_height).toInt()
+                    } else {
+                        resources.getDimension(R.dimen.same_divide_height).toInt()
+                    }
+            }
+        }
     }
 }

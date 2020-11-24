@@ -8,12 +8,18 @@ import com.iron.espresso.presentation.home.mystudy.adapter.viewholder.NoticeView
 class NoticeAdapter :
     RecyclerView.Adapter<NoticeViewHolder>() {
 
-    lateinit var itemClickListener: (noticeItem: NoticeListItem) -> Unit
+    private lateinit var itemClickListener: (noticeItem: NoticeListItem) -> Unit
+
+    fun setItemClickListener(listener: (noticeItem: NoticeListItem) -> Unit) {
+        itemClickListener = listener
+    }
 
     private val noticeList = mutableListOf<NoticeListItem>()
 
     fun setItemList(noticeList: List<NoticeListItem>) {
+        this.noticeList.clear()
         this.noticeList.addAll(noticeList)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder =
@@ -23,6 +29,6 @@ class NoticeAdapter :
         noticeList.size
 
     override fun onBindViewHolder(holder: NoticeViewHolder, position: Int) {
-        holder.bind(noticeList[position], itemClickListener)
+        holder.bind(noticeList[position], noticeList.getOrNull(position + 1), itemClickListener)
     }
 }

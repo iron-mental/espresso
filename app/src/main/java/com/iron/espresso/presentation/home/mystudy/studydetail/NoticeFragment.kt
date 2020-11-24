@@ -16,7 +16,7 @@ import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
 class NoticeFragment : Fragment() {
 
     private lateinit var binding: FragmentNoticeBinding
-    private var noticeAdapter = NoticeAdapter()
+    private val noticeAdapter = NoticeAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,12 +50,15 @@ class NoticeFragment : Fragment() {
 
         noticeListItem.sortBy { it.type }
 
-        noticeAdapter.setItemList(noticeListItem)
-        binding.noticeList.adapter = noticeAdapter
-        noticeAdapter.itemClickListener = { noticeItem ->
-            Toast.makeText(context,noticeItem.title,Toast.LENGTH_SHORT).show()
-            startActivity(context?.let { NoticeDetailActivity.getInstance(it) })
+        noticeAdapter.run {
+            setItemList(noticeListItem)
+            setItemClickListener { noticeItem : NoticeListItem ->
+                Toast.makeText(context, "onClick position: $noticeItem", Toast.LENGTH_SHORT).show()
+                startActivity(context?.let { NoticeDetailActivity.getInstance(it) })
+            }
         }
+        binding.noticeList.adapter = noticeAdapter
+
     }
 
     companion object {

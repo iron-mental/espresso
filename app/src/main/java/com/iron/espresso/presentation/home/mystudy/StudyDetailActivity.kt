@@ -7,31 +7,26 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
-import com.iron.espresso.ToolbarHelper
+import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 
-class StudyDetailActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityStudyDetailBinding
-    private lateinit var toolbarHelper: ToolbarHelper
+class StudyDetailActivity :
+    BaseActivity<ActivityStudyDetailBinding>(R.layout.activity_study_detail) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_study_detail)
 
-        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle(intent.extras?.getString("title"))
-            setNavigationIcon(R.drawable.ic_back_24)
-        }
+        setToolbarTitle(intent.extras?.getString(TOOLBAR_TITLE).orEmpty())
+        setNavigationIcon(R.drawable.ic_back_24)
 
         val studyDetailTabList = resources.getStringArray(R.array.study_detail_tab)
 
@@ -77,7 +72,8 @@ class StudyDetailActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun getInstance(context: Context) =
-            Intent(context, StudyDetailActivity::class.java)
+        const val TOOLBAR_TITLE = "title"
+        fun getInstance(context: Context, title: String) =
+            Intent(context, StudyDetailActivity::class.java).putExtra(TOOLBAR_TITLE, title)
     }
 }

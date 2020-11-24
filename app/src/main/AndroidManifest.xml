@@ -14,11 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".presentation.home.mystudy.studydetail.NoticeDetailActivity" />
-        <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="zwhswglizn" />
+
         <activity
             android:name=".presentation.sign.IntroActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".presentation.profile.ProfileActivity" />
+        <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
         <activity android:name=".presentation.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +37,20 @@
         <activity
             android:name=".presentation.sign.SignUpActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".presentation.home.study.StudyListActivity" />
         <activity android:name=".presentation.home.setting.SettingProfileActivity" />
         <activity android:name=".presentation.home.setting.SettingPolicyActivity" />
         <activity android:name=".presentation.home.setting.SettingTermsActivity" />
         <activity android:name=".presentation.home.setting.SettingContactActivity" />
         <activity android:name=".presentation.home.setting.SettingHelpActivity" />
         <activity android:name=".presentation.home.setting.SettingNoticeActivity" />
+        <activity android:name=".presentation.home.study.StudyCategoryActivity" />
+        <activity android:name=".presentation.home.study.StudyCreateActivity" />
+        <activity android:name=".presentation.home.study.SearchStudyActivity" />
+        <activity
+            android:name=".presentation.place.SearchPlaceDetailActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".presentation.place.SearchPlaceActivity" />
     </application>
 
 </manifest>
