@@ -9,5 +9,5 @@ data class LocalItem(
     val sigungu: String,
     val addressName: String,
     val placeName: String = "",
-    val locationDetail: String = ""
+    var locationDetail: String = ""
 ): Serializable

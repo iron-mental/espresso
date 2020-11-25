@@ -12,29 +12,24 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.iron.espresso.R
+import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.load
 import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
-import com.iron.espresso.utils.ToolbarHelper
 
-class StudyCreateActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityCreateStudyBinding
-
-    private lateinit var toolbarHelper: ToolbarHelper
+class StudyCreateActivity :
+    BaseActivity<ActivityCreateStudyBinding>(R.layout.activity_create_study) {
 
     private val viewModel: StudyCreateViewModel by viewModels()
 
     private lateinit var registerStudyRequest: RegisterStudyRequest
 
-
     private val image by lazy {
         intent.getIntExtra(KEY, 0)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +37,8 @@ class StudyCreateActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_study)
         binding.lifecycleOwner = this
 
-        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle(TITLE)
-            setNavigationIcon(R.drawable.ic_back_24)
-        }
+        setToolbarTitle(TITLE)
+        setNavigationIcon(R.drawable.ic_back_24)
 
         binding.image.transitionName = image.toString()
         binding.image.load(image, true) {
@@ -129,6 +122,4 @@ class StudyCreateActivity : AppCompatActivity() {
             }
 
     }
-
-
 }

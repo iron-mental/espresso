@@ -9,58 +9,52 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.iron.espresso.R
-import com.iron.espresso.ToolbarHelper
+import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchPlaceBinding
-import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.Place
-import com.iron.espresso.model.response.PlaceResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import dagger.hilt.android.AndroidEntryPoint
 
-class SearchPlaceActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class SearchPlaceActivity :
+    BaseActivity<ActivitySearchPlaceBinding>(R.layout.activity_search_place) {
 
-    private lateinit var binding: ActivitySearchPlaceBinding
-    private lateinit var toolbarHelper: ToolbarHelper
+    private val viewModel by viewModels<SearchPlaceViewModel>()
+
     private lateinit var searchEditText: EditText
     private val placeAdapter = PlaceAdapter()
+    private lateinit var placeList: List<Place>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_search_place)
 
-        searchEditText = EditText(this)
-        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle(null)
-            setNavigationIcon(R.drawable.ic_back_24)
-            setCustomView(searchEditText.apply {
-                hint = TOOLBAR_HINT
-                setSingleLine()
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                requestFocus()
-                imeOptions = EditorInfo.IME_ACTION_SEARCH
-                setOnEditorActionListener { search, action, event ->
-                    var handled = false     //키보드 내림
-                    if (search.text.isNotEmpty()) {
-                        searchPlace(text.toString())
-                        Log.d("TAG", "성공")
-                    } else {
-                        Log.d("TAG", "실패")
-                        handled = true      //키보드 유지
-                    }
-                    handled
+        searchEditText = EditText(this).apply {
+            hint = TOOLBAR_HINT
+            setSingleLine()
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            requestFocus()
+            imeOptions = EditorInfo.IME_ACTION_SEARCH
+            setOnEditorActionListener { search, _, _ ->
+                var handled = false     //키보드 내림
+                if (search.text.isNotEmpty()) {
+                    Log.d("TAG", "성공")
+                    viewModel.searchPlace(text.toString())
+                } else {
+                    Log.d("TAG", "실패")
+                    handled = true      //키보드 유지
                 }
-            })
+                handled
+            }
         }
+
+        setToolbarTitle(null)
+        setNavigationIcon(R.drawable.ic_back_24)
+        setCustomView(searchEditText)
 
         binding.placeList.run {
             adapter = placeAdapter
@@ -68,49 +62,20 @@ class SearchPlaceActivity : AppCompatActivity() {
                 DividerItemDecoration(this@SearchPlaceActivity, LinearLayout.VERTICAL)
             )
         }
-    }
 
-    private fun searchPlace(keyword: String) {
-
-        //retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(KakaoApi::class.java)
-        val callGetTest = service.getPlacesByKeyword(REST_API_KEY, keyword)
-
-        callGetTest.enqueue(object : Callback<PlaceResponse> {
-            override fun onResponse(
-                call: Call<PlaceResponse>,
-                response: Response<PlaceResponse>
-            ) {
-                Log.d("TAG", "response : ${response.body()}")
-                Log.d("TAG", "성공 : ${response.raw()}")
-
-                val placeList = mutableListOf<Place>().apply {
-                    response.body()?.documents?.let { addAll(it) }
-                }
-                placeAdapter.run {
-                    setItemList(placeList)
-                    setItemClickListener { item ->
-                        Log.d("ITEMS", item.toString())
-                        startActivityForResult(
-                            SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity, item),
-                            REQ_CODE
-                        )
-                    }
-                }
-
-            }
-
-            override fun onFailure(call: Call<PlaceResponse>, t: Throwable) {
-                Log.d("TAG", "실패 : $t")
+        viewModel.placeList.observe(this, { place ->
+            placeList = place
+            placeAdapter.run {
+                setItemList(placeList)
             }
         })
-
-
+        placeAdapter.setItemClickListener { item ->
+            Log.d("ITEMS", item.toString())
+            startActivityForResult(
+                SearchPlaceDetailActivity.getInstance(this@SearchPlaceActivity, item),
+                REQ_CODE
+            )
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -139,7 +104,6 @@ class SearchPlaceActivity : AppCompatActivity() {
 
         const val TOOLBAR_HINT = "장소를 입력하세요"
         const val REST_API_KEY = "KakaoAK 58071fbe087f96f72e3baf3fb28f2f6a"
-        const val BASE_URL = "https://dapi.kakao.com/"
         const val REQ_CODE = 1
 
     }

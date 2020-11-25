@@ -8,14 +8,12 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.iron.espresso.MenuSet
 import com.iron.espresso.R
-import com.iron.espresso.ToolbarHelper
+import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.ActivityProfileBinding
 import com.iron.espresso.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,24 +21,17 @@ import kotlinx.android.synthetic.main.view_profile_header.view.*
 
 
 @AndroidEntryPoint
-class ProfileActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityProfileBinding
+class ProfileActivity :
+    BaseActivity<ActivityProfileBinding>(R.layout.activity_profile) {
 
     private val viewModel by viewModels<ProfileViewModel>()
 
-    private lateinit var toolbarHelper: ToolbarHelper
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
-        binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        toolbarHelper = ToolbarHelper(this, binding.appbar).apply {
-            setTitle(R.string.profile_title)
-            setNavigationIcon(R.drawable.ic_back_24)
-        }
+        setTitle(R.string.profile_title)
+        setNavigationIcon(R.drawable.ic_back_24)
 
         viewModel.avatarUrl.observe(this, Observer { avatarUrl ->
             Glide.with(this)
