@@ -64,6 +64,11 @@ class StudyCreateActivity : AppCompatActivity() {
         viewModel.registerStudyRequest.observe(this) { registerStudyRequest ->
             this.registerStudyRequest = registerStudyRequest
             binding.placeDetail.text = registerStudyRequest.addressName
+        }
+
+        binding.buttonSignUp.setOnClickListener {
+            Log.d("test2", "test2")
+
             registerStudyRequest.run {
                 category = "ios"
                 title = binding.title.text.toString()
@@ -71,10 +76,7 @@ class StudyCreateActivity : AppCompatActivity() {
                 progress = binding.proceed.text.toString()
                 studyTime = binding.time.text.toString()
             }
-        }
 
-        binding.buttonSignUp.setOnClickListener {
-            Log.d("test2", "test2")
             binding.run {
                 when {
                     title.text.isEmpty() -> Toast.makeText(
