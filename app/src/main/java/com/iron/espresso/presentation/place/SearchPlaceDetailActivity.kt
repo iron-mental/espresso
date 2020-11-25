@@ -80,7 +80,7 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                 searchCoord(
                     naverMap.cameraPosition.target.longitude,
                     naverMap.cameraPosition.target.latitude,
-                    null
+                    ""
                 )
                 ObjectAnimator.ofFloat(binding.marker, "translationY", 0f).apply {
                     binding.marker.drawable.alpha = 255
@@ -92,7 +92,7 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun searchCoord(lat: Double, lng: Double, placeName: String?) {
+    private fun searchCoord(lat: Double, lng: Double, placeName: String) {
 
         //retrofit
         val retrofit = Retrofit.Builder()
