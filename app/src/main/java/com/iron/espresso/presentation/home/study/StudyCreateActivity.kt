@@ -1,33 +1,33 @@
 package com.iron.espresso.presentation.home.study
 
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
-import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.load
-import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
 import com.iron.espresso.utils.ToolbarHelper
-import java.io.File
 
 class StudyCreateActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateStudyBinding
 
     private lateinit var toolbarHelper: ToolbarHelper
+
+    private val viewModel: StudyCreateViewModel by viewModels()
+
+    private lateinit var registerStudyRequest: RegisterStudyRequest
 
 
     private val image by lazy {
@@ -46,10 +46,6 @@ class StudyCreateActivity : AppCompatActivity() {
             setNavigationIcon(R.drawable.ic_back_24)
         }
 
-        binding.placeContainer.setOnClickListener {
-            startActivityForResult(SearchPlaceActivity.getInstance(this), REQ_CODE)
-        }
-
         binding.image.transitionName = image.toString()
         binding.image.load(image, true) {
             supportPostponeEnterTransition()
@@ -60,48 +56,41 @@ class StudyCreateActivity : AppCompatActivity() {
             start()
         }
 
+        binding.placeContainer.setOnClickListener {
+            startActivityForResult(SearchPlaceActivity.getInstance(this), REQ_CODE)
+        }
+
+        viewModel.registerStudyRequest.observe(this) { registerStudyRequest ->
+            this.registerStudyRequest = registerStudyRequest
+            binding.placeDetail.text = registerStudyRequest.addressName
+            registerStudyRequest.run {
+                category = "ios"
+                title = binding.title.text.toString()
+                introduce = binding.introduce.text.toString()
+                progress = binding.proceed.text.toString()
+                studyTime = binding.time.text.toString()
+            }
+        }
+
+        // 무엇무엇을 입력하세요 메세지 용도
         binding.buttonSignUp.setOnClickListener {
-            val token = "Access Token"
-            ApiModule.provideStudyApi()
-                .registerStudy(
-                    bearerToken = "Bearer $token",
-                    body = RegisterStudyRequest(
-                        category = "ios",
-                        title = "tset",
-                        introduce = "test",
-                        progress = "test",
-                        studyTime = "tes5wereasafsaft",
-                        latitude = 1.0,
-                        longitude = 1.0,
-                        sido = "test",
-                        sigungu = "test",
-                        addressName = "test",
-                        placeName = "test",
-                        locationDetail = "test",
-                        snsNotion = "",
-                        snsEverNote = "",
-                        snsWeb = "",
-                        image = File("/storage/0000-0000/DCIM/Camera/20201018_142454.JPG")
-                    ).toMultipartBody()
-                )
-                .networkSchedulers()
-                .subscribe({
-                    Logger.d("$it")
-                }, {
-                    Logger.d("$it")
-                })
+            Log.d("test2", "test2")
         }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == REQ_CODE) {
-            if (resultCode == RESULT_OK) {
-                val items = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
-                Log.d(LOCAL_ITEM, items.toString())
+        if (requestCode == REQ_CODE && resultCode == RESULT_OK) {
+            val items = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
+            Log.d(LOCAL_ITEM, items.toString())
+            viewModel.addItems(items)
 
-                binding.placeDetail.text = items.addressName
+            //장소를 입력했을 때 완성
+            binding.buttonSignUp.setOnClickListener {
+                Log.d("test2", "test2")
+                viewModel.createStudy(registerStudyRequest)
             }
         }
     }
@@ -130,3 +119,4 @@ class StudyCreateActivity : AppCompatActivity() {
 
 
 }
+//File("/storage/0000-0000/DCIM/Camera/20201120_190322.jpg")
