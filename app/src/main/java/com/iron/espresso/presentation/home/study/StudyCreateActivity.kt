@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -72,9 +73,25 @@ class StudyCreateActivity : AppCompatActivity() {
             }
         }
 
-        // 무엇무엇을 입력하세요 메세지 용도
         binding.buttonSignUp.setOnClickListener {
             Log.d("test2", "test2")
+            binding.run {
+                when {
+                    title.text.isEmpty() -> Toast.makeText(
+                        this@StudyCreateActivity,
+                        "제목을 입력하세요",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    placeDetail.text == "장소" -> Toast.makeText(
+                        this@StudyCreateActivity,
+                        "장소를 선택하세요",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    else -> {
+                        viewModel.createStudy(registerStudyRequest)
+                    }
+                }
+            }
         }
     }
 
@@ -86,12 +103,6 @@ class StudyCreateActivity : AppCompatActivity() {
             val items = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
             Log.d(LOCAL_ITEM, items.toString())
             viewModel.addItems(items)
-
-            //장소를 입력했을 때 완성
-            binding.buttonSignUp.setOnClickListener {
-                Log.d("test2", "test2")
-                viewModel.createStudy(registerStudyRequest)
-            }
         }
     }
 
@@ -119,4 +130,3 @@ class StudyCreateActivity : AppCompatActivity() {
 
 
 }
-//File("/storage/0000-0000/DCIM/Camera/20201120_190322.jpg")
