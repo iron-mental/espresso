@@ -17,7 +17,9 @@ import com.iron.espresso.ext.load
 import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StudyCreateActivity :
     BaseActivity<ActivityCreateStudyBinding>(R.layout.activity_create_study) {
 

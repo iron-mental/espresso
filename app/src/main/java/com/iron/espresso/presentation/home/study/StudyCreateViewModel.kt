@@ -1,15 +1,16 @@
 package com.iron.espresso.presentation.home.study
 
 import android.annotation.SuppressLint
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.LocalItem
-import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.model.api.RegisterStudyRequest
+import com.iron.espresso.model.api.StudyApi
 
-class StudyCreateViewModel : BaseViewModel() {
+class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: StudyApi) : BaseViewModel() {
 
     val token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksImVtYWlsIjoicmhkdWRja3NAbmF2ZXIuY29tIiwibmlja25hbWUiOiLqs6DsmIHssKwiLCJpYXQiOjE2MDU4NDk0MzMsImV4cCI6MTYwNzE0NTQzMywiaXNzIjoidGVybWluYWwtc2VydmVyIiwic3ViIjoidXNlckluZm8tYWNjZXNzIn0.Eptf9T9Z_c-VmIUqLNV5CKAN-ftm1sZSwOzs91SrIr0"
@@ -70,7 +71,7 @@ class StudyCreateViewModel : BaseViewModel() {
     fun createStudy(registerStudyRequest: RegisterStudyRequest): String {
 
         if (emptyCheck(registerStudyRequest) == "스터디가 등록되었습니다") {
-            ApiModule.provideStudyApi()
+            studyApi
                 .registerStudy(
                     bearerToken = "Bearer $token",
                     body = registerStudyRequest.toMultipartBody()
