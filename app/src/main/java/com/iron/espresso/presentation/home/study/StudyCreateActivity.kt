@@ -57,7 +57,6 @@ class StudyCreateActivity :
         viewModel.addItems(null)
 
         binding.buttonSignUp.setOnClickListener {
-            Log.d("test2", "test2")
 
             registerStudyRequest.run {
                 category = "ios"
@@ -67,22 +66,8 @@ class StudyCreateActivity :
                 studyTime = binding.time.text.toString()
             }
 
-            binding.run {
-                when {
-                    title.text.isEmpty() -> Toast.makeText(
-                        this@StudyCreateActivity,
-                        "제목을 입력하세요",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    placeDetail.text == "장소" -> Toast.makeText(
-                        this@StudyCreateActivity,
-                        "장소를 선택하세요",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    else -> {
-                        viewModel.createStudy(registerStudyRequest)
-                    }
-                }
+            viewModel.createStudy(registerStudyRequest).let { message ->
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
             }
         }
     }
