@@ -14,7 +14,25 @@ class StudyCreateViewModel : BaseViewModel() {
     val token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksImVtYWlsIjoicmhkdWRja3NAbmF2ZXIuY29tIiwibmlja25hbWUiOiLqs6DsmIHssKwiLCJpYXQiOjE2MDU4NDk0MzMsImV4cCI6MTYwNzE0NTQzMywiaXNzIjoidGVybWluYWwtc2VydmVyIiwic3ViIjoidXNlckluZm8tYWNjZXNzIn0.Eptf9T9Z_c-VmIUqLNV5CKAN-ftm1sZSwOzs91SrIr0"
 
-    val registerStudyRequest = MutableLiveData<RegisterStudyRequest>()
+    val registerStudyRequest = MutableLiveData<RegisterStudyRequest>().apply {
+        value = RegisterStudyRequest(
+            category = "",
+            title = "",
+            introduce = "",
+            progress = "",
+            studyTime = "",
+            latitude = 0.0,
+            longitude = 0.0,
+            sido = "",
+            sigungu = "",
+            addressName = "",
+            placeName = "",
+            locationDetail = "",
+            snsNotion = "",
+            snsEverNote = "",
+            snsWeb = "",
+            image = null)
+    }
 
     fun addItems(localItem: LocalItem) {
         registerStudyRequest.value = RegisterStudyRequest(

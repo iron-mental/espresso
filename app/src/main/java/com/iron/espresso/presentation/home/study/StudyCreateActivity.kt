@@ -25,8 +25,6 @@ class StudyCreateActivity :
 
     private lateinit var registerStudyRequest: RegisterStudyRequest
 
-    private var localItem = LocalItem()
-
     private val image by lazy {
         intent.getIntExtra(KEY, 0)
     }
@@ -55,7 +53,6 @@ class StudyCreateActivity :
             binding.placeDetail.text = registerStudyRequest.addressName
         }
 
-        viewModel.addItems(localItem)
 
         binding.buttonSignUp.setOnClickListener {
 
@@ -78,7 +75,7 @@ class StudyCreateActivity :
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQ_CODE && resultCode == RESULT_OK) {
-            localItem = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
+            val localItem = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
             viewModel.addItems(localItem)
             Log.d(LOCAL_ITEM, localItem.toString())
         }
