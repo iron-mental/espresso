@@ -25,13 +25,14 @@ class StudyCreateActivity :
 
     private lateinit var registerStudyRequest: RegisterStudyRequest
 
+    private var localItem = LocalItem()
+
     private val image by lazy {
         intent.getIntExtra(KEY, 0)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setToolbarTitle(TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
 
@@ -54,7 +55,25 @@ class StudyCreateActivity :
             binding.placeDetail.text = registerStudyRequest.addressName
         }
 
-        viewModel.addItems(null)
+        registerStudyRequest = RegisterStudyRequest(
+            category = "ios",
+            title = binding.title.text.toString(),
+            introduce = binding.introduce.text.toString(),
+            progress = binding.proceed.text.toString(),
+            studyTime = binding.time.text.toString(),
+            latitude = localItem.lat,
+            longitude = localItem.lng,
+            sido = localItem.sido,
+            sigungu = localItem.sigungu,
+            addressName = localItem.addressName,
+            placeName = localItem.placeName,
+            locationDetail = localItem.locationDetail,
+            snsNotion = "",
+            snsEverNote = "",
+            snsWeb = "",
+            image = null
+        )
+        viewModel.addItems(registerStudyRequest, localItem)
 
         binding.buttonSignUp.setOnClickListener {
 
@@ -77,9 +96,9 @@ class StudyCreateActivity :
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQ_CODE && resultCode == RESULT_OK) {
-            val items = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
-            Log.d(LOCAL_ITEM, items.toString())
-            viewModel.addItems(items)
+            localItem = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
+            viewModel.addItems(registerStudyRequest, localItem)
+            Log.d(LOCAL_ITEM, localItem.toString())
         }
     }
 

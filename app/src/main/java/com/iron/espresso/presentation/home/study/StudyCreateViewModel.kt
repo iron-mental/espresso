@@ -16,6 +16,27 @@ class StudyCreateViewModel : BaseViewModel() {
 
     val registerStudyRequest = MutableLiveData<RegisterStudyRequest>()
 
+    fun addItems(items: RegisterStudyRequest, localItem: LocalItem) {
+        registerStudyRequest.value = RegisterStudyRequest(
+            category = items.category,
+            title = items.title,
+            introduce = items.introduce,
+            progress = items.progress,
+            studyTime = items.studyTime,
+            latitude = localItem.lat,
+            longitude = localItem.lng,
+            sido = localItem.sido,
+            sigungu = localItem.sigungu,
+            addressName = localItem.addressName,
+            placeName = localItem.placeName,
+            locationDetail = localItem.locationDetail,
+            snsNotion = items.snsNotion,
+            snsEverNote = items.snsEverNote,
+            snsWeb = items.snsWeb,
+            image = items.image
+        )
+    }
+
     private fun emptyCheck(registerStudyRequest: RegisterStudyRequest): String {
         return when {
             registerStudyRequest.title.isEmpty() -> "제목을 작성하세요"
@@ -24,49 +45,6 @@ class StudyCreateViewModel : BaseViewModel() {
             registerStudyRequest.addressName.isEmpty() -> "장소를 선택하세요"
             registerStudyRequest.studyTime.isEmpty() -> "시간을 작성하세요"
             else -> "스터디가 등록되었습니다"
-        }
-    }
-
-    fun addItems(items: LocalItem?) {
-        if (items != null) {
-            registerStudyRequest.value = RegisterStudyRequest(
-                category = "",
-                title = "",
-                introduce = "",
-                progress = "",
-                studyTime = "",
-                latitude = items.lat,
-                longitude = items.lng,
-                sido = items.sido,
-                sigungu = items.sigungu,
-                addressName = items.addressName,
-                placeName = items.placeName,
-                locationDetail = items.locationDetail,
-                snsNotion = "",
-                snsEverNote = "",
-                snsWeb = "",
-                image = null
-            )
-        } else {
-            registerStudyRequest.value = RegisterStudyRequest(
-                "",
-                "",
-                "",
-                "",
-                "",
-                0.0,
-                0.0,
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                null
-            )
-
         }
     }
 
