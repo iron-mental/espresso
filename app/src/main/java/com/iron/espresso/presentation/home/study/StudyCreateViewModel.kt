@@ -9,6 +9,7 @@ import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.model.api.StudyApi
+import java.io.File
 
 class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: StudyApi) : BaseViewModel() {
 
@@ -32,7 +33,8 @@ class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: St
             snsNotion = "",
             snsEverNote = "",
             snsWeb = "",
-            image = null)
+            image = File("/storage/0000-0000/DCIM/Camera/20201120_190322.jpg")
+        )
     }
 
     fun addItems(localItem: LocalItem) {
@@ -52,7 +54,7 @@ class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: St
             snsNotion = "",
             snsEverNote = "",
             snsWeb = "",
-            image = null
+            image = File("/storage/0000-0000/DCIM/Camera/20201120_190322.jpg")
         )
     }
 
