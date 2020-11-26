@@ -16,13 +16,13 @@ class StudyCreateViewModel : BaseViewModel() {
 
     val registerStudyRequest = MutableLiveData<RegisterStudyRequest>()
 
-    fun addItems(items: RegisterStudyRequest, localItem: LocalItem) {
+    fun addItems(localItem: LocalItem) {
         registerStudyRequest.value = RegisterStudyRequest(
-            category = items.category,
-            title = items.title,
-            introduce = items.introduce,
-            progress = items.progress,
-            studyTime = items.studyTime,
+            category = "",
+            title = "",
+            introduce = "",
+            progress = "",
+            studyTime = "",
             latitude = localItem.lat,
             longitude = localItem.lng,
             sido = localItem.sido,
@@ -30,10 +30,10 @@ class StudyCreateViewModel : BaseViewModel() {
             addressName = localItem.addressName,
             placeName = localItem.placeName,
             locationDetail = localItem.locationDetail,
-            snsNotion = items.snsNotion,
-            snsEverNote = items.snsEverNote,
-            snsWeb = items.snsWeb,
-            image = items.image
+            snsNotion = "",
+            snsEverNote = "",
+            snsWeb = "",
+            image = null
         )
     }
 

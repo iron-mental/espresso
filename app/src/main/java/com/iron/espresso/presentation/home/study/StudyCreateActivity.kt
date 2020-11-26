@@ -55,25 +55,7 @@ class StudyCreateActivity :
             binding.placeDetail.text = registerStudyRequest.addressName
         }
 
-        registerStudyRequest = RegisterStudyRequest(
-            category = "ios",
-            title = binding.title.text.toString(),
-            introduce = binding.introduce.text.toString(),
-            progress = binding.proceed.text.toString(),
-            studyTime = binding.time.text.toString(),
-            latitude = localItem.lat,
-            longitude = localItem.lng,
-            sido = localItem.sido,
-            sigungu = localItem.sigungu,
-            addressName = localItem.addressName,
-            placeName = localItem.placeName,
-            locationDetail = localItem.locationDetail,
-            snsNotion = "",
-            snsEverNote = "",
-            snsWeb = "",
-            image = null
-        )
-        viewModel.addItems(registerStudyRequest, localItem)
+        viewModel.addItems(localItem)
 
         binding.buttonSignUp.setOnClickListener {
 
@@ -97,7 +79,7 @@ class StudyCreateActivity :
 
         if (requestCode == REQ_CODE && resultCode == RESULT_OK) {
             localItem = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
-            viewModel.addItems(registerStudyRequest, localItem)
+            viewModel.addItems(localItem)
             Log.d(LOCAL_ITEM, localItem.toString())
         }
     }
