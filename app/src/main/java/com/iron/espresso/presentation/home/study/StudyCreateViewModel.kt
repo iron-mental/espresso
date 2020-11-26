@@ -16,25 +16,48 @@ class StudyCreateViewModel : BaseViewModel() {
 
     val registerStudyRequest = MutableLiveData<RegisterStudyRequest>()
 
-    fun addItems(items: LocalItem) {
-        registerStudyRequest.value = RegisterStudyRequest(
-            category = "",
-            title = "",
-            introduce = "",
-            progress = "",
-            studyTime = "",
-            latitude = items.lat,
-            longitude = items.lng,
-            sido = items.sido,
-            sigungu = items.sigungu,
-            addressName = items.addressName,
-            placeName = items.placeName,
-            locationDetail = items.locationDetail,
-            snsNotion = "",
-            snsEverNote = "",
-            snsWeb = "",
-            image = null
-        )
+
+    fun addItems(items: LocalItem?) {
+        if (items != null) {
+            registerStudyRequest.value = RegisterStudyRequest(
+                category = "",
+                title = "",
+                introduce = "",
+                progress = "",
+                studyTime = "",
+                latitude = items.lat,
+                longitude = items.lng,
+                sido = items.sido,
+                sigungu = items.sigungu,
+                addressName = items.addressName,
+                placeName = items.placeName,
+                locationDetail = items.locationDetail,
+                snsNotion = "",
+                snsEverNote = "",
+                snsWeb = "",
+                image = null
+            )
+        } else {
+            registerStudyRequest.value = RegisterStudyRequest(
+                "",
+                "",
+                "",
+                "",
+                "",
+                0.0,
+                0.0,
+                "",
+                "",
+                "장소를 입력하세요.",
+                "",
+                "",
+                "",
+                "",
+                "",
+                null
+            )
+
+        }
     }
 
     @SuppressLint("CheckResult")

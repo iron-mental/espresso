@@ -9,8 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
@@ -34,9 +32,6 @@ class StudyCreateActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_create_study)
-        binding.lifecycleOwner = this
-
         setToolbarTitle(TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
 
@@ -58,6 +53,8 @@ class StudyCreateActivity :
             this.registerStudyRequest = registerStudyRequest
             binding.placeDetail.text = registerStudyRequest.addressName
         }
+
+        viewModel.addItems(null)
 
         binding.buttonSignUp.setOnClickListener {
             Log.d("test2", "test2")
