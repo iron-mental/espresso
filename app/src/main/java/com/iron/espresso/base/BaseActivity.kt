@@ -42,7 +42,7 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
         toolbarHelper?.setToolbarTitle(titleResId)
     }
 
-    override fun setToolbarTitle(title: String) {
+    override fun setToolbarTitle(title: String?) {
         toolbarHelper?.setToolbarTitle(title)
     }
 

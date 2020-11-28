@@ -7,7 +7,7 @@ import androidx.annotation.StringRes
 interface ToolbarProvider {
     fun setToolbarTitle(@StringRes titleResId: Int)
 
-    fun setToolbarTitle(title: String)
+    fun setToolbarTitle(title: String?)
 
     fun setNavigationIcon(@DrawableRes iconResId: Int)
 
