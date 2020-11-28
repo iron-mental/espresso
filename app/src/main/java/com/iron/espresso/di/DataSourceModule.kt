@@ -8,7 +8,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import org.koin.dsl.module
 import javax.inject.Singleton
 
 @Module
@@ -18,9 +17,9 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindProfileRemoteDataSource(profileRemoteDataSourceImpl: ProfileRemoteDataSourceImpl): ProfileRemoteDataSource
-}
 
+    @Singleton
+    @Binds
+    abstract fun bindUserRemoteDataSource(userRemoteDataSourceImpl: UserRemoteDataSourceImpl): UserRemoteDataSource
 
-val dataSourceModule = module {
-    single<UserRemoteDataSource> { UserRemoteDataSourceImpl(get()) }
 }

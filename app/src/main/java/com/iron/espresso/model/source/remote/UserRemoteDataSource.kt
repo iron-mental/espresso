@@ -3,6 +3,7 @@ package com.iron.espresso.model.source.remote
 import com.google.gson.annotations.SerializedName
 import com.iron.espresso.model.api.UserApi
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
@@ -10,9 +11,11 @@ import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import javax.inject.Inject
 
 
-class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSource {
+class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi) :
+    UserRemoteDataSource {
 
     override fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>> =
         userApi.login(LoginRequest(email, password))
@@ -20,10 +23,10 @@ class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSou
     override fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>> =
         userApi.getUser(bearerToken, id)
 
-    override fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>> =
+    override fun checkDuplicateEmail(email: String): Single<MessageResponse> =
         userApi.checkDuplicateEmail(email)
 
-    override fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>> =
+    override fun checkDuplicateNickname(nickname: String): Single<MessageResponse> =
         userApi.checkDuplicateNickname(nickname)
 
     override fun registerUser(
@@ -103,9 +106,9 @@ interface UserRemoteDataSource {
         nickname: String
     ): Single<BaseResponse<Nothing>>
 
-    fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
+    fun checkDuplicateEmail(email: String): Single<MessageResponse>
 
-    fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>
+    fun checkDuplicateNickname(nickname: String): Single<MessageResponse>
 
     fun modifyUser(
         bearerToken: String,

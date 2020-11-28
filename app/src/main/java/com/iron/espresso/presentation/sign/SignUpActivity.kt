@@ -1,20 +1,26 @@
 package com.iron.espresso.presentation.sign
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySignUpBinding
 import com.iron.espresso.ext.startActivity
 import com.iron.espresso.presentation.home.HomeActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.iron.espresso.presentation.viewmodel.CheckType
+import com.iron.espresso.presentation.viewmodel.SignUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {
 
-    private val signUpViewModel by viewModel<SignUpViewModel>()
+    private val signUpViewModel by viewModels<SignUpViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setNavigationIcon(R.drawable.ic_clear)
 
         binding.apply {
             vm = signUpViewModel

@@ -1,14 +1,16 @@
-package com.iron.espresso.presentation.sign
+package com.iron.espresso.presentation.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.domain.usecase.Login
+import com.iron.espresso.domain.usecase.LoginUser
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 
-class SignInViewModel(private val login: Login) : BaseViewModel() {
+class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginUser) :
+    BaseViewModel() {
 
     val signInEmail = MutableLiveData<String>()
     val signInPassword = MutableLiveData<String>()
@@ -27,11 +29,17 @@ class SignInViewModel(private val login: Login) : BaseViewModel() {
 
     fun checkLogin(userId: String, userPass: String) {
 
-        compositeDisposable += login(userId, userPass)
+        compositeDisposable += loginUser(userId, userPass)
             .networkSchedulers()
             .subscribe({
+                if (it.result) {
+                    _checkType.value = CheckType.CHECK_ALL_SUCCESS
+                } else {
+                    _checkType.value = CheckType.CHECK_ALL_FAIL
+                }
                 Logger.d("$it")
             }, {
+                _checkType.value = CheckType.CHECK_ALL_FAIL
                 Logger.d("$it")
             })
     }
@@ -57,11 +65,6 @@ class SignInViewModel(private val login: Login) : BaseViewModel() {
         }
     }
 
-    fun verifyLogin(email: String?, password: String?) {
-        if (email != null || password != null) {
-            _checkType.value = CheckType.CHECK_ALL_SUCCESS
-        }
-    }
 
     fun exitViewModel() {
         _exitIdentifier.value = true

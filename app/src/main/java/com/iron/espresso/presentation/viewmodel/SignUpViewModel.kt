@@ -1,15 +1,22 @@
-package com.iron.espresso.presentation.sign
+package com.iron.espresso.presentation.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.domain.usecase.CheckDuplicateEmail
+import com.iron.espresso.domain.usecase.CheckDuplicateNickname
 import com.iron.espresso.domain.usecase.RegisterUser
 import com.iron.espresso.ext.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class SignUpViewModel(private val registerUser: RegisterUser) :
+class SignUpViewModel @ViewModelInject constructor(
+    private val registerUser: RegisterUser,
+    private val checkDuplicateEmail: CheckDuplicateEmail,
+    private val checkDuplicateNickname: CheckDuplicateNickname
+) :
     BaseViewModel() {
 
     val signUpEmail = MutableLiveData<String>()
@@ -33,7 +40,20 @@ class SignUpViewModel(private val registerUser: RegisterUser) :
     fun verifyEmailCheck(email: String?) {
         email?.let {
             if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
+                compositeDisposable += checkDuplicateEmail.invoke(email)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ message ->
+                        if (message.result) {
+                            _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
+                        } else {
+                            _checkType.value = CheckType.CHECK_EMAIL_FAIL
+                        }
+                        Logger.d(it)
+                    }, {
+                        _checkType.value = CheckType.CHECK_EMAIL_FAIL
+                        Logger.d("$it")
+                    })
             } else {
                 _checkType.value = CheckType.CHECK_EMAIL_FAIL
             }
@@ -42,7 +62,24 @@ class SignUpViewModel(private val registerUser: RegisterUser) :
 
     fun verifyNicknameCheck(nickname: String?) {
         nickname?.let {
-            _checkType.value = CheckType.CHECK_NICKNAME_SUCCESS
+            if(nickname.length in 2..7){
+                compositeDisposable += checkDuplicateNickname.invoke(nickname)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ message ->
+                        Logger.d("${message.message.length}")
+                        if (message.result) {
+                            _checkType.value = CheckType.CHECK_NICKNAME_SUCCESS
+                        } else {
+                            _checkType.value = CheckType.CHECK_NICKNAME_FAIL
+                        }
+                    }, {
+                        _checkType.value = CheckType.CHECK_NICKNAME_FAIL
+                    })
+            }else{
+                _checkType.value = CheckType.CHECK_NICKNAME_FAIL
+            }
+
         }
     }
 
@@ -67,7 +104,6 @@ class SignUpViewModel(private val registerUser: RegisterUser) :
                 Logger.d("$it")
             })
     }
-
 
     fun exitViewModel() {
         _exitIdentifier.value = true

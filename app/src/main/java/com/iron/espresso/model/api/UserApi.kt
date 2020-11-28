@@ -1,6 +1,7 @@
 package com.iron.espresso.model.api
 
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
@@ -32,12 +33,12 @@ interface UserApi {
     @GET("/v1/user/check-email/{email}")
     fun checkDuplicateEmail(
         @Path("email") email: String
-    ): Single<BaseResponse<Nothing>>
+    ): Single<MessageResponse>
 
     @GET("/v1/user/check-nickname/{nickname}")
     fun checkDuplicateNickname(
-        @Query("nickname") nickname: String
-    ): Single<BaseResponse<Nothing>>
+        @Path("nickname") nickname: String
+    ): Single<MessageResponse>
 
     @Multipart
     @PUT("/v1/user/{id}")

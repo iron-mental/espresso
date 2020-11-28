@@ -5,12 +5,12 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
-import com.iron.espresso.base.ToolbarHelper
 import com.iron.espresso.databinding.FragmentSignInEmailBinding
+import com.iron.espresso.presentation.viewmodel.CheckType
+import com.iron.espresso.presentation.viewmodel.SignInViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SignInEmailFragment :
@@ -18,14 +18,9 @@ class SignInEmailFragment :
 
     private val signInViewModel by sharedViewModel<SignInViewModel>()
 
-    private lateinit var toolbarHelper: ToolbarHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        toolbarHelper = ToolbarHelper(activity as AppCompatActivity, binding.appbar).apply {
-            setNavigationIcon(R.drawable.ic_clear)
-        }
 
         binding.apply {
             vm = signInViewModel
