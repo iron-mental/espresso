@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.iron.espresso.App
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
+import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySignInBinding
 import com.iron.espresso.ext.EventObserver
@@ -58,9 +59,23 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                 Toast.makeText(this@SignInActivity, it, Toast.LENGTH_SHORT).show()
             })
 
-            loginResult.observe(this@SignInActivity) { authResponse ->
+            userAuth.observe(this@SignInActivity) { authResponse ->
                 if (AuthHolder.set(this@SignInActivity, authResponse)) {
-                    startActivity(HomeActivity.getIntent(this@SignInActivity))
+                    val accessToken  = authResponse.accessToken
+                    val userId = authResponse.id
+
+                    if (accessToken != null && userId != null) {
+                        viewModel.getUserInfo("Bearer $accessToken", userId)
+                    }
+                }
+            }
+
+            userInfo.observe(this@SignInActivity) { userInfo ->
+                if (UserHolder.set(this@SignInActivity, userInfo)) {
+                    startActivity(HomeActivity.getIntent(this@SignInActivity).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    })
                 }
             }
         }
