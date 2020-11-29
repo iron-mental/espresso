@@ -1,10 +1,11 @@
 package com.iron.espresso.presentation.sign
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.iron.espresso.App
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
@@ -32,7 +33,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
         }
 
         signInViewModel.run {
-            checkType.observe(this@SignInActivity, Observer { type ->
+            checkType.observe(this@SignInActivity) { type ->
                 when (type) {
                     CheckType.CHECK_EMAIL_SUCCESS -> {
                         startFragment(SignInPasswordFragment())
@@ -51,7 +52,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                         Toast.makeText(App.instance.context(), "로그인 실패", Toast.LENGTH_SHORT).show()
                     }
                 }
-            })
+            }
 
             exitIdentifier.observe(this@SignInActivity) { isExit ->
                 if (isExit) exitFragment()
@@ -68,5 +69,10 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
     private fun exitFragment() {
         startActivity<IntroActivity>()
+    }
+
+    companion object {
+        fun getIntent(context: Context) =
+            Intent(context, SignInActivity::class.java)
     }
 }

@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.viewmodel
 
+import android.util.Patterns
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,8 +17,7 @@ class SignUpViewModel @ViewModelInject constructor(
     private val registerUser: RegisterUser,
     private val checkDuplicateEmail: CheckDuplicateEmail,
     private val checkDuplicateNickname: CheckDuplicateNickname
-) :
-    BaseViewModel() {
+) : BaseViewModel() {
 
     val signUpEmail = MutableLiveData<String>()
     val signUpNickname = MutableLiveData<String>()
@@ -28,18 +28,13 @@ class SignUpViewModel @ViewModelInject constructor(
     val checkType: LiveData<CheckType>
         get() = _checkType
 
-    private val _exitIdentifier = MutableLiveData<Boolean>()
-    val exitIdentifier: LiveData<Boolean>
-        get() = _exitIdentifier
-
-
     val checkEmail: (email: String) -> Unit = this::verifyEmailCheck
     val checkNickname: (email: String) -> Unit = this::verifyNicknameCheck
     val checkPassword: (email: String) -> Unit = this::verifyPasswordCheck
 
     fun verifyEmailCheck(email: String?) {
         email?.let {
-            if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 compositeDisposable += checkDuplicateEmail.invoke(email)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -62,7 +57,7 @@ class SignUpViewModel @ViewModelInject constructor(
 
     fun verifyNicknameCheck(nickname: String?) {
         nickname?.let {
-            if(nickname.length in 2..7){
+            if (nickname.length in 2..7) {
                 compositeDisposable += checkDuplicateNickname.invoke(nickname)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -76,7 +71,7 @@ class SignUpViewModel @ViewModelInject constructor(
                     }, {
                         _checkType.value = CheckType.CHECK_NICKNAME_FAIL
                     })
-            }else{
+            } else {
                 _checkType.value = CheckType.CHECK_NICKNAME_FAIL
             }
 
@@ -86,31 +81,28 @@ class SignUpViewModel @ViewModelInject constructor(
     fun verifyPasswordCheck(password: String?) {
         password?.let {
             if (password.length > 6) {
-                _checkType.value = CheckType.CHECK_PASSWORD_SUCCESS
+                registerUser(
+                    signUpEmail.value.orEmpty(),
+                    signUpPassword.value.orEmpty(),
+                    signUpNickname.value.orEmpty(),
+                )
             } else {
                 _checkType.value = CheckType.CHECK_PASSWORD_FAIL
             }
         }
     }
 
-    fun registerUser(userId: String, userPass: String, nickname: String) {
+    private fun registerUser(userId: String, userPass: String, nickname: String) {
         compositeDisposable += registerUser.invoke(userId, userPass, nickname)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Logger.d("$it")
-                _checkType.value = CheckType.CHECK_ALL_SUCCESS
+                _checkType.value =
+                    if (it.result) CheckType.CHECK_ALL_SUCCESS else CheckType.CHECK_ALL_FAIL
+
             }, {
                 Logger.d("$it")
             })
-    }
-
-    fun exitViewModel() {
-        _exitIdentifier.value = true
-    }
-
-    companion object {
-        const val EMPTY = ""
     }
 }
 

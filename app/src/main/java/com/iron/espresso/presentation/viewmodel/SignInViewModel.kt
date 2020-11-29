@@ -29,7 +29,7 @@ class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginU
 
     fun checkLogin(userId: String, userPass: String) {
 
-        compositeDisposable += loginUser(userId, userPass)
+        compositeDisposable += loginUser(userId, userPass, "나중에 넣기")
             .networkSchedulers()
             .subscribe({
                 if (it.result) {

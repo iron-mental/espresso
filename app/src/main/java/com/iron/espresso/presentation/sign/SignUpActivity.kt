@@ -1,5 +1,7 @@
 package com.iron.espresso.presentation.sign
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
@@ -24,20 +26,20 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
         binding.apply {
             vm = signUpViewModel
-            startFragment(SignUpEmailFragment())
+            startFragment(SignUpEmailFragment.newInstance())
         }
 
         signUpViewModel.run {
             checkType.observe(this@SignUpActivity) { type ->
                 when (type) {
                     CheckType.CHECK_EMAIL_SUCCESS -> {
-                        startFragment(SignUpNicknameFragment())
+                        startFragment(SignUpNicknameFragment.newInstance())
                     }
                     CheckType.CHECK_NICKNAME_SUCCESS -> {
-                        startFragment(SignUpPasswordFragment())
+                        startFragment(SignUpPasswordFragment.newInstance())
                     }
                     CheckType.CHECK_PASSWORD_SUCCESS -> {
-                        startActivity<HomeActivity>()
+
                     }
                     CheckType.CHECK_ALL_SUCCESS -> {
                         startActivity<HomeActivity>()
@@ -47,21 +49,43 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                     }
                 }
             }
-            exitIdentifier.observe(this@SignUpActivity) { isExit ->
-                if (isExit) exitFragment()
-            }
         }
     }
 
     private fun startFragment(fragment: Fragment) {
-        binding.containerSignUp.bringToFront()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container_sign_up, fragment)
+        val beforeFragment = supportFragmentManager.findFragmentById(R.id.container_sign_up)
+        val transaction = supportFragmentManager.beginTransaction()
+        if (beforeFragment != null) {
+            transaction.hide(beforeFragment)
+        }
+        transaction
+            .add(R.id.container_sign_up, fragment)
             .commit()
     }
 
-    private fun exitFragment() {
-        startActivity<IntroActivity>()
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.container_sign_up)
+        if (fragment != null) {
+            supportFragmentManager.beginTransaction()
+                .remove(fragment)
+                .commitNow()
+
+            val beforeFragment = supportFragmentManager.findFragmentById(R.id.container_sign_up)
+            if (beforeFragment != null) {
+                supportFragmentManager.beginTransaction()
+                    .show(beforeFragment)
+                    .commit()
+            } else {
+                super.onBackPressed()
+            }
+        } else {
+            super.onBackPressed()
+        }
     }
 
+    companion object {
+        fun getIntent(context: Context) =
+            Intent(context, SignUpActivity::class.java)
+    }
 }
+

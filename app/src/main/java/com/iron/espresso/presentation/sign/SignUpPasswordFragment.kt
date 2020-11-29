@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignUpPasswordBinding
@@ -27,7 +26,7 @@ class SignUpPasswordFragment :
             vm = signUpViewModel
         }
         signUpViewModel.run {
-            checkType.observe(viewLifecycleOwner, Observer { type ->
+            checkType.observe(viewLifecycleOwner, { type ->
                 when (type) {
                     CheckType.CHECK_PASSWORD_FAIL -> {
 
@@ -50,9 +49,14 @@ class SignUpPasswordFragment :
                 }
             }
             android.R.id.home -> {
-                signUpViewModel.exitViewModel()
+                activity?.finish()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    companion object {
+        fun newInstance() =
+            SignUpPasswordFragment()
     }
 }

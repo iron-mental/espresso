@@ -5,10 +5,6 @@
 
     <data>
 
-        <variable
-            name="VM"
-            type="com.iron.espresso.presentation.sign.IntroViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?android:selectableItemBackgroundBorderless"
-            android:onClick="@{() -> VM.startSignIn()}"
             android:paddingStart="25dp"
             android:paddingTop="20dp"
             android:paddingEnd="25dp"
@@ -59,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="2"
-            android:text="혼자하는 개발 공부 힘들었다면?\n개발자들이 개발자를 알고 만든\n‘터미널’ 에서 스터디를 시작해보세요."
+            android:text="@string/intro_explain"
             android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/sign_up_button"
@@ -75,7 +70,6 @@
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="25dp"
-            android:onClick="@{() -> VM.startSignUp()}"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="@string/intro_sign_up"

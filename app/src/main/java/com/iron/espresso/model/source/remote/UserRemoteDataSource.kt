@@ -17,8 +17,8 @@ import javax.inject.Inject
 class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi) :
     UserRemoteDataSource {
 
-    override fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>> =
-        userApi.login(LoginRequest(email, password))
+    override fun login(email: String, password: String, pushToken: String): Single<BaseResponse<UserAuthResponse>> =
+        userApi.login(LoginRequest(email, password, pushToken))
 
     override fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>> =
         userApi.getUser(bearerToken, id)
@@ -61,7 +61,7 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
 }
 
 data class RegisterUserRequest(val email: String, val password: String, val nickname: String)
-data class LoginRequest(val email: String, val password: String)
+data class LoginRequest(val email: String, val password: String, @SerializedName("push_token") val pushToken: String)
 data class ReIssuanceTokenRequest(@SerializedName("refresh_token") val refreshToken: String)
 
 data class ModifyUserRequest(
@@ -96,7 +96,7 @@ data class ModifyUserRequest(
 }
 
 interface UserRemoteDataSource {
-    fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>>
+    fun login(email: String, password: String, pushToken: String): Single<BaseResponse<UserAuthResponse>>
 
     fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>>
 

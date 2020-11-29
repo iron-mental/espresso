@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignUpNicknameBinding
@@ -18,7 +17,6 @@ class SignUpNicknameFragment :
 
     private val signUpViewModel by sharedViewModel<SignUpViewModel>()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -27,13 +25,13 @@ class SignUpNicknameFragment :
             vm = signUpViewModel
         }
         signUpViewModel.run {
-            checkType.observe(viewLifecycleOwner, Observer { type ->
+            checkType.observe(viewLifecycleOwner) { type ->
                 when (type) {
                     CheckType.CHECK_NICKNAME_FAIL -> {
 
                     }
                 }
-            })
+            }
         }
     }
 
@@ -50,9 +48,14 @@ class SignUpNicknameFragment :
                 }
             }
             android.R.id.home -> {
-                signUpViewModel.exitViewModel()
+                activity?.finish()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    companion object {
+        fun newInstance() =
+            SignUpNicknameFragment()
     }
 }

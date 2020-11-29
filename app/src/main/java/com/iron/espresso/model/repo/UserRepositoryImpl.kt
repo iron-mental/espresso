@@ -9,8 +9,8 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: UserRemoteDataSource) : UserRepository {
-    override fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>> =
-        userRemoteDataSource.login(email, password)
+    override fun login(email: String, password: String, pushToken: String): Single<BaseResponse<UserAuthResponse>> =
+        userRemoteDataSource.login(email, password, pushToken)
 
     override fun registerUser(email: String, password: String, nickname: String): Single<BaseResponse<Nothing>> =
         userRemoteDataSource.registerUser(email, password, nickname)
