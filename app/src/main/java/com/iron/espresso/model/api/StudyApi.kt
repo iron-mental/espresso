@@ -6,7 +6,7 @@ import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import io.reactivex.Single
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.http.*
 import java.io.File
 
@@ -51,7 +51,7 @@ data class RegisterStudyRequest(
                 addFormDataPart(
                     "image",
                     image.name,
-                    RequestBody.create(MultipartBody.FORM, image)
+                    image.asRequestBody(MultipartBody.FORM)
                 )
             }
 
@@ -100,7 +100,7 @@ data class ModifyStudyRequest(
                 addFormDataPart(
                     "image",
                     image.name,
-                    RequestBody.create(MultipartBody.FORM, image)
+                    image.asRequestBody(MultipartBody.FORM)
                 )
             }
 
@@ -117,7 +117,6 @@ interface StudyApi {
     @POST("/v1/study")
     fun registerStudy(
         @Header("Authorization") bearerToken: String,
-        @Path("id") id: Int,
         @Part body: MultipartBody
     ): Single<BaseResponse<Nothing>>
 
