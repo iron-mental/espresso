@@ -1,9 +1,13 @@
 package com.iron.espresso.presentation.home
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.google.android.material.tabs.TabLayout
+import com.iron.espresso.AuthHolder
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityHomeBinding
@@ -16,6 +20,8 @@ class HomeActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Logger.d("${AuthHolder.get(this)}")
 
         val homeTabList = resources.getStringArray(R.array.home_tab)
 
@@ -61,5 +67,10 @@ class HomeActivity :
                 getTabAt(2)?.setIcon(R.drawable.ic_baseline_settings_24)
             }
         }
+    }
+
+    companion object {
+        fun getIntent(context: Context) =
+            Intent(context, HomeActivity::class.java)
     }
 }

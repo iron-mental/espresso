@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySignUpBinding
-import com.iron.espresso.ext.startActivity
 import com.iron.espresso.presentation.home.HomeActivity
 import com.iron.espresso.presentation.viewmodel.CheckType
 import com.iron.espresso.presentation.viewmodel.SignUpViewModel
@@ -42,7 +41,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
                     }
                     CheckType.CHECK_ALL_SUCCESS -> {
-                        startActivity<HomeActivity>()
+                        startActivity(HomeActivity.getIntent(this@SignUpActivity))
                     }
                     CheckType.CHECK_ALL_FAIL -> {
 
