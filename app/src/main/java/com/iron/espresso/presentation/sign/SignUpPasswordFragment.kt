@@ -24,6 +24,8 @@ class SignUpPasswordFragment :
 
         binding.apply {
             vm = signUpViewModel
+
+            inputPwd.requestFocus()
         }
         signUpViewModel.run {
             checkType.observe(viewLifecycleOwner, { type ->

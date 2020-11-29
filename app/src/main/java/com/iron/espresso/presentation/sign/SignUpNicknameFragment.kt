@@ -23,6 +23,8 @@ class SignUpNicknameFragment :
 
         binding.apply {
             vm = signUpViewModel
+
+            inputNickName.requestFocus()
         }
         signUpViewModel.run {
             checkType.observe(viewLifecycleOwner) { type ->

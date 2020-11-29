@@ -49,7 +49,7 @@ class SignInEmailFragment :
                 }
             }
             android.R.id.home -> {
-                signInViewModel.exitViewModel()
+                activity?.finish()
             }
         }
         return super.onOptionsItemSelected(item)

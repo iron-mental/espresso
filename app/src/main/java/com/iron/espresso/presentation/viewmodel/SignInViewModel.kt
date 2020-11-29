@@ -23,12 +23,7 @@ class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginU
     val checkType: LiveData<CheckType>
         get() = _checkType
 
-    private val _exitIdentifier = MutableLiveData<Boolean>()
-    val exitIdentifier: LiveData<Boolean>
-        get() = _exitIdentifier
-
     fun checkLogin(userId: String, userPass: String) {
-
         compositeDisposable += loginUser(userId, userPass, "나중에 넣기")
             .networkSchedulers()
             .subscribe({
@@ -37,6 +32,9 @@ class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginU
                 } else {
                     _checkType.value = CheckType.CHECK_ALL_FAIL
                 }
+
+
+                it.data
                 Logger.d("$it")
             }, {
                 _checkType.value = CheckType.CHECK_ALL_FAIL
@@ -64,10 +62,4 @@ class SignInViewModel @ViewModelInject constructor(private val loginUser: LoginU
             }
         }
     }
-
-
-    fun exitViewModel() {
-        _exitIdentifier.value = true
-    }
-
 }

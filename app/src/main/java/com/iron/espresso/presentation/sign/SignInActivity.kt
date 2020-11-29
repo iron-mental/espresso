@@ -53,22 +53,38 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                     }
                 }
             }
-
-            exitIdentifier.observe(this@SignInActivity) { isExit ->
-                if (isExit) exitFragment()
-            }
         }
     }
 
     private fun startFragment(fragment: Fragment) {
-        binding.containerSignIn.bringToFront()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container_sign_in, fragment)
+        val beforeFragment = supportFragmentManager.findFragmentById(R.id.container_sign_in)
+        val transaction = supportFragmentManager.beginTransaction()
+        if (beforeFragment != null) {
+            transaction.hide(beforeFragment)
+        }
+        transaction
+            .add(R.id.container_sign_up, fragment)
             .commit()
     }
 
-    private fun exitFragment() {
-        startActivity<IntroActivity>()
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.container_sign_up)
+        if (fragment != null) {
+            supportFragmentManager.beginTransaction()
+                .remove(fragment)
+                .commitNow()
+
+            val beforeFragment = supportFragmentManager.findFragmentById(R.id.container_sign_in)
+            if (beforeFragment != null) {
+                supportFragmentManager.beginTransaction()
+                    .show(beforeFragment)
+                    .commit()
+            } else {
+                super.onBackPressed()
+            }
+        } else {
+            super.onBackPressed()
+        }
     }
 
     companion object {

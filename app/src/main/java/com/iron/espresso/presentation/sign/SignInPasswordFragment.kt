@@ -24,6 +24,7 @@ class SignInPasswordFragment :
 
         binding.apply {
             vm = signInViewModel
+            inputPwd.requestFocus()
         }
         signInViewModel.run {
             checkType.observe(viewLifecycleOwner, Observer { type ->
@@ -49,7 +50,7 @@ class SignInPasswordFragment :
                 }
             }
             android.R.id.home -> {
-                signInViewModel.exitViewModel()
+                activity?.finish()
             }
         }
         return super.onOptionsItemSelected(item)
