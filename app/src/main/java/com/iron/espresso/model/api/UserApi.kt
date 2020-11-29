@@ -45,7 +45,7 @@ interface UserApi {
     fun modifyUser(
         @Header("Authorization") bearerToken: String,
         @Path("id") id: Int,
-        @Part body: MultipartBody
+        @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
     @DELETE("/v1/user/{id}")

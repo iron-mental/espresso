@@ -28,7 +28,7 @@ data class RegisterStudyRequest(
     val snsWeb: String = "",
     val image: File? = null,
 ) {
-    fun toMultipartBody(): MultipartBody {
+    fun toMultipartBody(): List<MultipartBody.Part> {
         return MultipartBody.Builder().run {
             val latitude = latitude.toString()
             val longitude = longitude.toString()
@@ -36,17 +36,17 @@ data class RegisterStudyRequest(
             if (title.isNotEmpty()) addFormDataPart("title", title)
             if (introduce.isNotEmpty()) addFormDataPart("introduce", introduce)
             if (progress.isNotEmpty()) addFormDataPart("progress", progress)
-            if (studyTime.isNotEmpty()) addFormDataPart("studyTime", studyTime)
+            if (studyTime.isNotEmpty()) addFormDataPart("study_time", studyTime)
             if (latitude.isNotEmpty()) addFormDataPart("latitude", latitude)
             if (longitude.isNotEmpty()) addFormDataPart("longitude", longitude)
             if (sido.isNotEmpty()) addFormDataPart("sido", sido)
             if (sigungu.isNotEmpty()) addFormDataPart("sigungu", sigungu)
-            if (addressName.isNotEmpty()) addFormDataPart("addressName", addressName)
-            if (placeName.isNotEmpty()) addFormDataPart("placeName", placeName)
-            if (locationDetail.isNotEmpty()) addFormDataPart("locationDetail", locationDetail)
-            if (snsNotion.isNotEmpty()) addFormDataPart("snsNotion", snsNotion)
-            if (snsEverNote.isNotEmpty()) addFormDataPart("snsEverNote", snsEverNote)
-            if (snsWeb.isNotEmpty()) addFormDataPart("snsWeb", snsWeb)
+            if (addressName.isNotEmpty()) addFormDataPart("address_name", addressName)
+            if (placeName.isNotEmpty()) addFormDataPart("place_name", placeName)
+            if (locationDetail.isNotEmpty()) addFormDataPart("location_detail", locationDetail)
+            if (snsNotion.isNotEmpty()) addFormDataPart("sns_notion", snsNotion)
+            if (snsEverNote.isNotEmpty()) addFormDataPart("sns_ever_note", snsEverNote)
+            if (snsWeb.isNotEmpty()) addFormDataPart("sns_web", snsWeb)
             if (image != null) {
                 addFormDataPart(
                     "image",
@@ -55,7 +55,7 @@ data class RegisterStudyRequest(
                 )
             }
 
-            build()
+            build().parts
         }
     }
 }
@@ -79,23 +79,23 @@ data class ModifyStudyRequest(
     val snsWeb: String = "",
     val image: File? = null,
 ) {
-    fun toMultipartBody(): MultipartBody {
+    fun toMultipartBody(): List<MultipartBody.Part> {
         return MultipartBody.Builder().run {
             if (category.isNotEmpty()) addFormDataPart("category", category)
             if (title.isNotEmpty()) addFormDataPart("title", title)
             if (introduce.isNotEmpty()) addFormDataPart("introduce", introduce)
             if (progress.isNotEmpty()) addFormDataPart("progress", progress)
-            if (studyTime.isNotEmpty()) addFormDataPart("studyTime", studyTime)
+            if (studyTime.isNotEmpty()) addFormDataPart("study_time", studyTime)
             if (latitude != null) addFormDataPart("latitude", latitude.toString())
             if (longitude != null) addFormDataPart("longitude", longitude.toString())
             if (sido.isNotEmpty()) addFormDataPart("sido", sido)
             if (sigungu.isNotEmpty()) addFormDataPart("sigungu", sigungu)
-            if (addressName.isNotEmpty()) addFormDataPart("addressName", addressName)
-            if (placeName.isNotEmpty()) addFormDataPart("placeName", placeName)
-            if (locationDetail.isNotEmpty()) addFormDataPart("locationDetail", locationDetail)
-            if (snsNotion.isNotEmpty()) addFormDataPart("snsNotion", snsNotion)
-            if (snsEverNote.isNotEmpty()) addFormDataPart("snsEverNote", snsEverNote)
-            if (snsWeb.isNotEmpty()) addFormDataPart("snsWeb", snsWeb)
+            if (addressName.isNotEmpty()) addFormDataPart("address_name", addressName)
+            if (placeName.isNotEmpty()) addFormDataPart("place_name", placeName)
+            if (locationDetail.isNotEmpty()) addFormDataPart("location_detail", locationDetail)
+            if (snsNotion.isNotEmpty()) addFormDataPart("sns_notion", snsNotion)
+            if (snsEverNote.isNotEmpty()) addFormDataPart("sns_ever_note", snsEverNote)
+            if (snsWeb.isNotEmpty()) addFormDataPart("sns_web", snsWeb)
             if (image != null) {
                 addFormDataPart(
                     "image",
@@ -104,7 +104,7 @@ data class ModifyStudyRequest(
                 )
             }
 
-            build()
+            build().parts
         }
     }
 }
@@ -117,7 +117,7 @@ interface StudyApi {
     @POST("/v1/study")
     fun registerStudy(
         @Header("Authorization") bearerToken: String,
-        @Part body: MultipartBody
+        @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/study/{study_id}")
@@ -131,7 +131,7 @@ interface StudyApi {
     fun modifyStudy(
         @Header("Authorization") bearerToken: String,
         @Path("study_id") studyId: Int,
-        @Part body: MultipartBody
+        @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/user/{id}/study")

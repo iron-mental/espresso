@@ -19,13 +19,11 @@
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="zwhswglizn" />
 
-        <activity
-            android:name=".presentation.home.HomeActivity"
-            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".presentation.profile.ProfileActivity" />
 
         <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
-        <activity android:name=".presentation.home.HomeActivity">
+        <activity android:name=".presentation.home.HomeActivity"
+            android:windowSoftInputMode="adjustPan" >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
