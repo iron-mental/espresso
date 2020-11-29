@@ -12,6 +12,8 @@ object AuthHolder {
         Gson()
     }
 
+
+
     fun set(context: Context, authResponse: UserAuthResponse): Boolean {
         return PrefUtil.setString(
             context,
@@ -21,17 +23,24 @@ object AuthHolder {
         )
     }
 
-    fun get(context: Context): UserAuthResponse {
-        return userAuthResponse ?: gson.fromJson(
-            PrefUtil.getString(
+    fun get(context: Context): UserAuthResponse? {
+        return userAuthResponse ?: run {
+            val userAuthResponse = PrefUtil.getString(
                 context,
                 PrefUtil.Auth.FILE_NAME,
                 PrefUtil.Auth.AUTH_TOKEN
-            ),
-            UserAuthResponse::class.java
-        )
-            .also {
-                userAuthResponse = it
+            )
+
+            if (userAuthResponse != null) {
+                gson.fromJson(
+                    userAuthResponse,
+                    UserAuthResponse::class.java
+                ).also {
+                    this@AuthHolder.userAuthResponse = it
+                }
+            } else {
+                null
             }
+        }
     }
 }

@@ -1,12 +1,12 @@
 package com.iron.espresso.presentation.sign
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityIntroBinding
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,4 +22,10 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
             }
         }
     }
+
+    companion object {
+        fun getIntent(context: Context) =
+            Intent(context, IntroActivity::class.java)
+    }
+
 }

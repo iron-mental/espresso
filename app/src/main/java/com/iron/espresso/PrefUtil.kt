@@ -11,6 +11,10 @@ object PrefUtil {
         const val FILE_NAME = "PrefUtil:Auth"
         const val AUTH_TOKEN = "auth_token"
     }
+    object User {
+        const val FILE_NAME = "PrefUtil:User"
+        const val USER_INFO = "user_info"
+    }
 
     fun getBoolean(context: Context, fileName: String, key: String): Boolean {
         return getBoolean(context, fileName, key, false)
