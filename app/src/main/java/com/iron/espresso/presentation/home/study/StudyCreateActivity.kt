@@ -66,7 +66,7 @@ class StudyCreateActivity :
                 studyTime = binding.time.text.toString()
             }
 
-            viewModel.createStudy(registerStudyRequest).let { message ->
+            viewModel.createStudy(registerStudyRequest) { message ->
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
             }
         }

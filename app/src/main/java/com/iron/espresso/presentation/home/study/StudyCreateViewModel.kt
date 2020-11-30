@@ -3,15 +3,19 @@ package com.iron.espresso.presentation.home.study
 import android.annotation.SuppressLint
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.model.api.StudyApi
+import com.iron.espresso.model.response.BaseResponse
+import retrofit2.HttpException
 import java.io.File
 
-class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: StudyApi) : BaseViewModel() {
+class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
+    BaseViewModel() {
 
     val token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksImVtYWlsIjoicmhkdWRja3NAbmF2ZXIuY29tIiwibmlja25hbWUiOiLqs6DsmIHssKwiLCJpYXQiOjE2MDU4NDk0MzMsImV4cCI6MTYwNzE0NTQzMywiaXNzIjoidGVybWluYWwtc2VydmVyIiwic3ViIjoidXNlckluZm8tYWNjZXNzIn0.Eptf9T9Z_c-VmIUqLNV5CKAN-ftm1sZSwOzs91SrIr0"
@@ -70,9 +74,11 @@ class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: St
     }
 
     @SuppressLint("CheckResult")
-    fun createStudy(registerStudyRequest: RegisterStudyRequest): String {
+    fun createStudy(registerStudyRequest: RegisterStudyRequest, callback: (item: String) -> Unit) {
 
-        if (emptyCheck(registerStudyRequest) == "스터디가 등록되었습니다") {
+        val message = emptyCheck(registerStudyRequest)
+
+        if (message == "스터디가 등록되었습니다") {
             studyApi
                 .registerStudy(
                     bearerToken = "Bearer $token",
@@ -80,11 +86,22 @@ class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: St
                 )
                 .networkSchedulers()
                 .subscribe({
-                    Logger.d("$it")
+                    callback(message)
                 }, {
-                    Logger.d("$it")
+                    val error = it as? HttpException
+                    val errorBody = error?.response()?.errorBody()?.string()
+                    Logger.d("${error?.code()}")
+                    Logger.d("$errorBody")
+                    val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                    Logger.d("$errorResponse")
+                    if (errorResponse.message != null) {
+                        callback("${errorResponse.message}")
+                    } else {
+                        callback("error")
+                    }
                 })
+        } else {
+            callback(message)
         }
-        return emptyCheck(registerStudyRequest)
     }
 }
