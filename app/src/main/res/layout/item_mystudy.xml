@@ -11,7 +11,7 @@
 
         <variable
             name="myStudyItem"
-            type="com.iron.espresso.data.model.MyStudyItem" />
+            type="com.iron.espresso.model.response.study.MyStudyResponse" />
     </data>
 
 
@@ -39,7 +39,7 @@
             android:layout_marginStart="24dp"
             android:gravity="center_vertical"
             android:lineSpacingExtra="17sp"
-            android:text="@{myStudyItem.location}"
+            android:text="@{myStudyItem.sigungu}"
             android:textColor="#0047ab"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -52,7 +52,7 @@
             android:layout_height="35dp"
             android:gravity="center_vertical"
             android:lineSpacingExtra="19sp"
-            android:text="@{myStudyItem.name}"
+            android:text="@{myStudyItem.title}"
             android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="normal"
