@@ -1,10 +1,12 @@
 package com.iron.espresso.presentation.home.study
 
 import android.annotation.SuppressLint
+import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.iron.espresso.Logger
+import com.iron.espresso.R
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.ext.networkSchedulers
@@ -14,7 +16,10 @@ import com.iron.espresso.model.response.BaseResponse
 import retrofit2.HttpException
 import java.io.File
 
-class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
+class StudyCreateViewModel @ViewModelInject constructor(
+    private val studyApi: StudyApi,
+    private val context: Application
+) :
     BaseViewModel() {
 
     val token =
@@ -64,12 +69,12 @@ class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: St
 
     private fun emptyCheck(registerStudyRequest: RegisterStudyRequest): String {
         return when {
-            registerStudyRequest.title.isEmpty() -> "제목을 작성하세요"
-            registerStudyRequest.introduce.isEmpty() -> "소개를 작성하세요"
-            registerStudyRequest.progress.isEmpty() -> "진행을 작성하세요"
-            registerStudyRequest.addressName.isEmpty() -> "장소를 선택하세요"
-            registerStudyRequest.studyTime.isEmpty() -> "시간을 작성하세요"
-            else -> "스터디가 등록되었습니다"
+            registerStudyRequest.title.isEmpty() -> context.getString(R.string.empty_title)
+            registerStudyRequest.introduce.isEmpty() -> context.getString(R.string.empty_introduce)
+            registerStudyRequest.progress.isEmpty() -> context.getString(R.string.empty_progress)
+            registerStudyRequest.addressName.isEmpty() -> context.getString(R.string.empty_place)
+            registerStudyRequest.studyTime.isEmpty() -> context.getString(R.string.empty_time)
+            else -> context.getString(R.string.success_register)
         }
     }
 
@@ -78,7 +83,7 @@ class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: St
 
         val message = emptyCheck(registerStudyRequest)
 
-        if (message == "스터디가 등록되었습니다") {
+        if (message == context.getString(R.string.success_register)) {
             studyApi
                 .registerStudy(
                     bearerToken = "Bearer $token",
