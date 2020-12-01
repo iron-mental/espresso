@@ -95,8 +95,6 @@ class StudyCreateViewModel @ViewModelInject constructor(
                 }, {
                     val error = it as? HttpException
                     val errorBody = error?.response()?.errorBody()?.string()
-                    Logger.d("${error?.code()}")
-                    Logger.d("$errorBody")
                     val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
                     Logger.d("$errorResponse")
                     if (errorResponse.message != null) {
