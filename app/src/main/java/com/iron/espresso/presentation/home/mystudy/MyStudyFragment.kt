@@ -5,10 +5,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentMystudyBinding
+import com.iron.espresso.model.response.study.MyStudyResponse
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -29,9 +29,8 @@ class MyStudyFragment :
 
             myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
                 override fun onClick(view: View) {
-                    Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
                     startActivity(context?.let {
-                        StudyDetailActivity.getInstance(it, view.tag.toString())
+                        StudyDetailActivity.getInstance(it, view.tag as MyStudyResponse)
                     })
                 }
             })

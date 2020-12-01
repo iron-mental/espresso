@@ -23,7 +23,7 @@ class MyStudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             setVariable(BR.myStudyItem, item)
             executePendingBindings()
 
-            itemView.tag = item.title
+            itemView.tag = item
             itemView.setOnClickListener {
                 itemClickListener.onClick(it)
             }
