@@ -5,9 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
-import com.iron.espresso.data.model.NoticeItemType
-import com.iron.espresso.data.model.NoticeListItem
 import com.iron.espresso.databinding.ItemNoticeLayoutBinding
+import com.iron.espresso.model.response.notice.NoticeResponse
 
 class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(
@@ -18,9 +17,9 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         DataBindingUtil.bind<ItemNoticeLayoutBinding>(itemView)
 
     fun bind(
-        item: NoticeListItem,
-        nextItem: NoticeListItem?,
-        itemClickListener: (noticeItem: NoticeListItem) -> Unit
+        item: NoticeResponse,
+        nextItem: NoticeResponse?,
+        itemClickListener: (noticeItem: NoticeResponse) -> Unit
     ) {
         itemView.setOnClickListener {
             itemClickListener(item)
@@ -29,23 +28,23 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         binding?.run {
             title.text = item.title
             category.apply {
-                when (item.type) {
-                    NoticeItemType.HEADER -> {
+                when (item.pinned) {
+                    true -> {
                         text = context.getString(R.string.pined_true)
                         setBackgroundResource(R.color.theme_fc813e)
                     }
-                    NoticeItemType.ITEM -> {
+                    false -> {
                         text = context.getString(R.string.pined_false)
                         setBackgroundResource(R.color.colorCobaltBlue)
                     }
                 }
             }
-            date.text = item.date
-            content.text = item.content
+            date.text = item.updatedAt
+            content.text = item.contents
 
             divider.apply {
                 layoutParams.height =
-                    if (item.type == NoticeItemType.HEADER && nextItem?.type == NoticeItemType.ITEM) {
+                    if (item.pinned == true && nextItem?.pinned == false) {
                         resources.getDimension(R.dimen.diff_divide_height).toInt()
                     } else {
                         resources.getDimension(R.dimen.same_divide_height).toInt()
