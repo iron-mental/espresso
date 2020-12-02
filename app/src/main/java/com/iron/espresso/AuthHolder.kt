@@ -1,6 +1,5 @@
 package com.iron.espresso
 
-import android.content.Context
 import com.google.gson.Gson
 import com.iron.espresso.model.response.user.UserAuthResponse
 
@@ -12,21 +11,44 @@ object AuthHolder {
         Gson()
     }
 
+    val bearerToken: String
+        get() = get()?.accessToken?.let {
+            "Bearer $it"
+        } ?: run {
+            ""
+        }
 
+    private val accessToken: String
+        get() = get()?.accessToken.orEmpty()
 
-    fun set(context: Context, authResponse: UserAuthResponse): Boolean {
+    val refreshToken: String
+        get() = get()?.refreshToken.orEmpty()
+
+    val id: Int?
+        get() = get()?.id
+
+    fun set(authResponse: UserAuthResponse): Boolean {
+        userAuthResponse = authResponse
         return PrefUtil.setString(
-            context,
+            App.instance.context(),
             PrefUtil.Auth.FILE_NAME,
             PrefUtil.Auth.AUTH_TOKEN,
             gson.toJson(authResponse)
         )
     }
 
-    fun get(context: Context): UserAuthResponse? {
+    fun updateAccessToken(token: String): Boolean {
+        val newAuth = get()?.copy(accessToken = token)
+        if (newAuth != null) {
+            return set(newAuth)
+        }
+        return false
+    }
+
+    private fun get(): UserAuthResponse? {
         return userAuthResponse ?: run {
             val userAuthResponse = PrefUtil.getString(
-                context,
+                App.instance.context(),
                 PrefUtil.Auth.FILE_NAME,
                 PrefUtil.Auth.AUTH_TOKEN
             )

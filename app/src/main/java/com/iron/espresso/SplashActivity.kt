@@ -16,20 +16,17 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val userAuth = AuthHolder.get(this)
-        if (userAuth != null) {
-            val accessToken = userAuth.accessToken
-            val userId = userAuth.id
-            if (accessToken != null && userId != null) {
-                viewModel.checkTokenAndResult("Bearer $accessToken", userId)
-            }
+        val bearerToken = AuthHolder.bearerToken
+        val userId = AuthHolder.id
+        if (bearerToken.isNotEmpty() && userId != null) {
+            viewModel.checkTokenAndResult(bearerToken, userId)
         } else {
             startActivity(IntroActivity.getIntent(this))
             finish()
         }
 
         viewModel.userInfoResult.observe(this, { userResponse ->
-            UserHolder.set(this, userResponse)
+            UserHolder.set(userResponse)
             startActivity(HomeActivity.getIntent(this))
             finish()
         })

@@ -60,7 +60,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             })
 
             userAuth.observe(this@SignInActivity) { authResponse ->
-                if (AuthHolder.set(this@SignInActivity, authResponse)) {
+                if (AuthHolder.set(authResponse)) {
                     val accessToken  = authResponse.accessToken
                     val userId = authResponse.id
 
@@ -71,7 +71,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
             }
 
             userInfo.observe(this@SignInActivity) { userInfo ->
-                if (UserHolder.set(this@SignInActivity, userInfo)) {
+                if (UserHolder.set(userInfo)) {
                     startActivity(HomeActivity.getIntent(this@SignInActivity).apply {
                         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

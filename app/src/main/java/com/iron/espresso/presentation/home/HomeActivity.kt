@@ -6,8 +6,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.google.android.material.tabs.TabLayout
-import com.iron.espresso.AuthHolder
-import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityHomeBinding
@@ -20,8 +18,6 @@ class HomeActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Logger.d("${AuthHolder.get(this)}")
 
         val homeTabList = resources.getStringArray(R.array.home_tab)
 
