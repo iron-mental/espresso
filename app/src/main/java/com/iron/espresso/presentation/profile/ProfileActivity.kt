@@ -3,23 +3,24 @@ package com.iron.espresso.presentation.profile
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.iron.espresso.R
 import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.ActivityProfileBinding
+import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class ProfileActivity :
@@ -39,11 +40,19 @@ class ProfileActivity :
         setToolbarTitle(R.string.profile_title)
         setNavigationIcon(R.drawable.ic_back_24)
 
-        viewModel.avatarUrl.observe(this, Observer { avatarUrl ->
-            Glide.with(this)
-                .load(avatarUrl)
-                .into(binding.layoutHeader.profileImage)
-        })
+        viewModel.run {
+            avatarUrl.observe(this@ProfileActivity, { avatarUrl ->
+                Glide.with(this@ProfileActivity)
+                    .load(avatarUrl)
+                    .into(binding.layoutHeader.profileImage)
+            })
+
+            showLinkEvent.observe(this@ProfileActivity, EventObserver { url ->
+                CustomTabsIntent.Builder()
+                    .build()
+                    .launchUrl(this@ProfileActivity, Uri.parse(url))
+            })
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -80,6 +89,7 @@ class ProfileActivity :
                 Toast.makeText(this, "공유하기 클릭", Toast.LENGTH_SHORT).show()
             }
             R.id.edit_profile -> {
+                viewModel.enableEditMode()
                 Toast.makeText(this, "${item.title}", Toast.LENGTH_SHORT).show()
             }
             else -> {

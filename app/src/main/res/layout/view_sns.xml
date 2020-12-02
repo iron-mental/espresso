@@ -6,6 +6,7 @@
 
     <data>
 
+        <import type="com.iron.espresso.presentation.viewmodel.ProfileSns"/>
         <import type="com.iron.espresso.R" />
 
         <variable
@@ -18,6 +19,20 @@
         android:layout_height="wrap_content"
         android:paddingBottom="8dp"
         tools:background="@color/colorPrimaryDark">
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/info_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:goneIf="@{viewModel.isEditMode}"
+            app:constraint_referenced_ids="github_icon, linkedin_icon, web_icon" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/edt_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibleIf="@{viewModel.isEditMode}"
+            app:constraint_referenced_ids="github_input_view, linkedin_input_view, web_input_view" />
 
         <View
             android:id="@+id/divider"
@@ -40,6 +55,44 @@
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/github_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.GITHUB)}"
+            android:padding="4dp"
+            android:src="@drawable/github"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/linkedin_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.LINKED_IN)}"
+            android:padding="4dp"
+            android:src="@drawable/linked_in"
+            app:layout_constraintStart_toEndOf="@id/github_icon"
+            app:layout_constraintTop_toTopOf="@id/github_icon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/web_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.WEB)}"
+            android:padding="4dp"
+            android:src="@drawable/icon_web"
+            app:layout_constraintStart_toEndOf="@id/linkedin_icon"
+            app:layout_constraintTop_toTopOf="@id/github_icon" />
 
         <include
             android:id="@+id/github_input_view"
