@@ -30,9 +30,11 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         viewModel.value.showNoticeList(studyId)
 
         viewModel.value.noticeListItem.observe(viewLifecycleOwner, { noticeListItem ->
-            noticeList = noticeListItem
-            noticeAdapter.run {
-                setItemList(noticeList)
+            if (noticeListItem != null) {
+                noticeList = noticeListItem
+                noticeAdapter.run {
+                    setItemList(noticeList)
+                }
             }
         })
 

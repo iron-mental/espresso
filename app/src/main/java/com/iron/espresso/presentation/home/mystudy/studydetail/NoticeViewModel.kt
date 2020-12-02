@@ -21,7 +21,7 @@ class NoticeViewModel : BaseViewModel() {
     }
 
     @SuppressLint("CheckResult")
-    private fun getNoticeList(studyId: Int, callback: (data: NoticeListResponse) -> Unit) {
+    private fun getNoticeList(studyId: Int, callback: (data: NoticeListResponse?) -> Unit) {
 
         ApiModule.provideNoticeApi()
             .getNoticeList(
@@ -33,8 +33,8 @@ class NoticeViewModel : BaseViewModel() {
                 if (response.data != null) {
                     callback(response.data)
                 }
-            }, {
-                error(it)
-            })
+            }) {
+                callback(null)
+            }
     }
 }
