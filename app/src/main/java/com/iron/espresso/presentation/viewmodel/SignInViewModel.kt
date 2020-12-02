@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.domain.entity.User
 import com.iron.espresso.domain.usecase.LoginUser
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.model.response.user.UserAuthResponse
-import com.iron.espresso.model.response.user.UserResponse
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
 
 class SignInViewModel @ViewModelInject constructor(
@@ -33,8 +33,8 @@ class SignInViewModel @ViewModelInject constructor(
     private val _userAuth = MutableLiveData<UserAuthResponse>()
     val userAuth: LiveData<UserAuthResponse> get() = _userAuth
 
-    private val _userInfo = MutableLiveData<UserResponse>()
-    val userInfo: LiveData<UserResponse> get() = _userInfo
+    private val _userInfo = MutableLiveData<User>()
+    val userInfo: LiveData<User> get() = _userInfo
 
     fun checkLogin(userId: String, userPass: String) {
         compositeDisposable += loginUser(userId, userPass, "나중에 넣기")
@@ -58,7 +58,7 @@ class SignInViewModel @ViewModelInject constructor(
             .networkSchedulers()
             .subscribe({
                 if (it.result) {
-                    _userInfo.value = it.data
+                    _userInfo.value = it.data?.toUser()
                 } else {
                     _toastMessage.value = Event(it.message.orEmpty())
                 }

@@ -13,12 +13,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.iron.espresso.R
+import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.ActivityProfileBinding
 import com.iron.espresso.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.view_profile_header.view.*
 
 
 @AndroidEntryPoint
@@ -32,13 +32,17 @@ class ProfileActivity :
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
-        setTitle(R.string.profile_title)
+        UserHolder.get()?.let {
+            viewModel.setProfile(user = it)
+        }
+
+        setToolbarTitle(R.string.profile_title)
         setNavigationIcon(R.drawable.ic_back_24)
 
         viewModel.avatarUrl.observe(this, Observer { avatarUrl ->
             Glide.with(this)
                 .load(avatarUrl)
-                .into(binding.layoutHeader.profile_image)
+                .into(binding.layoutHeader.profileImage)
         })
     }
 
@@ -63,7 +67,7 @@ class ProfileActivity :
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.actions, menu)
+        inflater.inflate(R.menu.menu_profile, menu)
         return true
     }
 
@@ -75,8 +79,11 @@ class ProfileActivity :
             R.id.menu_item_share -> {
                 Toast.makeText(this, "공유하기 클릭", Toast.LENGTH_SHORT).show()
             }
-            else -> {
+            R.id.edit_profile -> {
                 Toast.makeText(this, "${item.title}", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+
             }
         }
         return true

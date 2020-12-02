@@ -2,23 +2,24 @@ package com.iron.espresso.presentation.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.iron.espresso.Logger
+import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.GithubUser
+import com.iron.espresso.domain.entity.User
 import com.iron.espresso.domain.usecase.GetGithubUser
 import com.iron.espresso.ext.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-class ProfileViewModel @ViewModelInject constructor(private val getGithubUser: GetGithubUser) :
-    ViewModel() {
+class ProfileViewModel @ViewModelInject constructor(
+    private val getGithubUser: GetGithubUser
+) :
+    BaseViewModel() {
 
-    private val compositeDisposable = CompositeDisposable()
 
-
+    val user = MutableLiveData<User>()
     private val githubId = MutableLiveData<String>()
 
     val avatarUrl = MutableLiveData<String>()
@@ -51,6 +52,11 @@ class ProfileViewModel @ViewModelInject constructor(private val getGithubUser: G
             }, {
                 Logger.d("$it")
             })
+    }
+
+
+    fun setProfile(user: User) {
+        this.user.value = user
     }
 
     companion object {
