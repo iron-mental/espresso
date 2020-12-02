@@ -1,45 +1,57 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:background="@color/colorPrimaryDark">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="8dp"
-        android:background="@color/theme_292929"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:text="활동 지역"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider" />
+        tools:background="@color/colorPrimaryDark">
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="강남, 사당, 이수 가능합니다."
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:background="@color/theme_292929"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/area"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="@{viewModel.user.address}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="강남, 사당, 이수 가능합니다." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

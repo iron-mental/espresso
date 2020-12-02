@@ -60,4 +60,9 @@
     <string name="address_hint">상세주소를 입력하세요 (건물명, 동/호수 등)</string>
     <string name="set_location">선택한 위치로 설정</string>
     <string name="next">다음</string>
+    <string name="edit">수정하기</string>
+    <string name="email">Email</string>
+    <string name="area">활동 지역</string>
+    <string name="sns">SNS</string>
+    <string name="project_add_button">+ 프로젝트 추가</string>
 </resources>

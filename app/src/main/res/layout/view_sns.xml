@@ -1,8 +1,11 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="com.iron.espresso.R" />
 
         <variable
@@ -32,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:text="SNS"
+            android:text="@string/sns"
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,40 +43,40 @@
 
         <include
             android:id="@+id/github_input_view"
-            hint="@{`Github Project URL`}"
-            icon="@{R.drawable.github}"
             layout="@layout/view_input_url"
-            title="@{`Github`}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/title"
+            bind:hint="@{`Github Project URL`}"
+            bind:icon="@{R.drawable.github}"
+            bind:title="@{`Github`}" />
 
 
         <include
             android:id="@+id/linkedin_input_view"
-            hint="@{`LinkedIn URL`}"
-            icon="@{R.drawable.linked_in}"
             layout="@layout/view_input_url"
-            title="@{`LinkedIn`}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/github_input_view" />
+            app:layout_constraintTop_toBottomOf="@id/github_input_view"
+            bind:hint="@{`LinkedIn URL`}"
+            bind:icon="@{R.drawable.linked_in}"
+            bind:title="@{`LinkedIn`}" />
 
         <include
             android:id="@+id/web_input_view"
-            hint="@{`URL (blog etc)`}"
-            icon="@{R.drawable.icon_web}"
             layout="@layout/view_input_url"
-            title="@{`Web`}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linkedin_input_view" />
+            app:layout_constraintTop_toBottomOf="@id/linkedin_input_view"
+            bind:hint="@{`URL (blog etc)`}"
+            bind:icon="@{R.drawable.icon_web}"
+            bind:title="@{`Web`}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

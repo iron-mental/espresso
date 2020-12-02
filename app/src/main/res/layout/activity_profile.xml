@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.iron.espresso.R" />
+
         <variable
             name="viewModel"
             type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
@@ -37,35 +42,39 @@
 
                 <include
                     android:id="@+id/layout_header"
-                    layout="@layout/view_profile_header" />
+                    layout="@layout/view_profile_header"
+                    bind:viewModel="@{viewModel}" />
 
                 <include
                     android:id="@+id/layout_career"
-                    layout="@layout/view_info" />
+                    layout="@layout/view_info"
+                    bind:title="@{`경력`}"
+                    bind:subTitle="@{viewModel.user.careerTitle}"
+                    bind:description="@{viewModel.user.careerContents}" />
 
                 <include
                     android:id="@+id/layout_project"
-                    layout="@layout/view_project" />
+                    layout="@layout/view_project"
+                    bind:viewModel="@{viewModel}" />
 
                 <include
                     android:id="@+id/layout_sns"
                     layout="@layout/view_sns"
-                    viewModel="@{viewModel}"/>
+                    bind:viewModel="@{viewModel}" />
 
                 <include
                     android:id="@+id/layout_email"
-                    layout="@layout/view_email" />
+                    layout="@layout/view_email"
+                    bind:viewModel="@{viewModel}" />
 
                 <include
                     android:id="@+id/layout_area"
-                    layout="@layout/view_area" />
-
+                    layout="@layout/view_area"
+                    bind:viewModel="@{viewModel}" />
 
             </LinearLayout>
 
-
         </ScrollView>
-
 
     </LinearLayout>
 </layout>
