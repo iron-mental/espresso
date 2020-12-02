@@ -39,7 +39,7 @@ class StudyDetailActivity :
 
                 override fun createFragment(position: Int): Fragment =
                     when (position) {
-                        0 -> NoticeFragment.newInstance()
+                        0 -> NoticeFragment.newInstance(intent.getIntExtra(STUDY_ID))
                         1 -> StudyInfoFragment.newInstance()
                         2 -> ChattingFragment.newInstance()
                         else -> error("Invalid position")
@@ -72,7 +72,7 @@ class StudyDetailActivity :
 
     companion object {
         private const val TOOLBAR_TITLE = "title"
-        private const val STUDY_ID = "studyId"
+        const val STUDY_ID = "studyId"
         fun getInstance(context: Context, item: MyStudyResponse) =
             Intent(context, StudyDetailActivity::class.java)
                 .putExtra(TOOLBAR_TITLE, item.title)

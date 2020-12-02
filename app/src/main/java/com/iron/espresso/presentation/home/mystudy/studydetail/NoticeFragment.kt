@@ -8,6 +8,7 @@ import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.data.model.NoticeListItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
+import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
 
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
@@ -48,8 +49,12 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
     }
 
     companion object {
-        fun newInstance() =
-            NoticeFragment()
+        fun newInstance(data: Int) =
+            NoticeFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(STUDY_ID, data)
+                }
+            }
     }
 }
 
