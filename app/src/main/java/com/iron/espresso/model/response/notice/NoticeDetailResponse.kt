@@ -17,7 +17,7 @@ data class NoticeDetailResponse(
     @SerializedName("leader_id")
     val leaderId: Int?,
     @SerializedName("leader_image")
-    val leaderImage: Boolean?,
+    val leaderImage: String?,
     @SerializedName("leader_nickname")
     val leaderNickname: String?,
     @SerializedName("updated_at")
