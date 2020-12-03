@@ -52,7 +52,7 @@ class NoticeDetailViewModel : BaseViewModel() {
     }
 
     @SuppressLint("CheckResult")
-    fun deleteNotice(studyId: Int, noticeId: Int, callback: (data: String) -> Unit) {
+    fun deleteNotice(studyId: Int, noticeId: Int, callback: (data: String?) -> Unit) {
         ApiModule.provideNoticeApi()
             .deleteNotice(
                 bearerToken = "Bearer $token",
@@ -65,7 +65,7 @@ class NoticeDetailViewModel : BaseViewModel() {
                     callback(it.message)
                 }
             }, {
-                Logger.d("$it")
+                callback(null)
             })
     }
 }

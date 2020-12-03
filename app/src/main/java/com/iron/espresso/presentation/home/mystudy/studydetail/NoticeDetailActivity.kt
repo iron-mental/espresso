@@ -63,9 +63,12 @@ class NoticeDetailActivity :
 
         binding.deleteButton.setOnClickListener {
             viewModel.deleteNotice(studyId, noticeId) { message ->
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                if (message != null) {
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                    setResult(RESULT_OK)
+                    onBackPressed()
+                }
             }
-            onBackPressed()
         }
 
 
