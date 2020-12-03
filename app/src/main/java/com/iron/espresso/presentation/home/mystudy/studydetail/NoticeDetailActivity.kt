@@ -2,11 +2,12 @@ package com.iron.espresso.presentation.home.mystudy.studydetail
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
@@ -29,6 +30,21 @@ class NoticeDetailActivity :
         val noticeId = intent.getIntExtra(NOTICE_ID, DEFAULT_VALUE)
 
         viewModel.showNotice(studyId, noticeId)
+
+        viewModel.notice.observe(this, Observer { notice ->
+            binding.run {
+                title.text = notice.title
+                writerName.text = notice.leaderNickname
+                content.text = notice.contents
+                date.text = notice.updatedAt
+
+                Glide.with(this@NoticeDetailActivity)
+                    .load(notice.leaderImage)
+                    .apply(RequestOptions.circleCropTransform())
+                    .error(R.drawable.dummy_image)
+                    .into(writerImage)
+            }
+        })
 
     }
 

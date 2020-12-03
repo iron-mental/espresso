@@ -48,12 +48,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/colorCobaltBlue"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
                         android:padding="3dp"
                         android:paddingStart="6dp"
-                        android:textAlignment="center"
                         android:paddingEnd="6dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="공지" />
@@ -63,13 +63,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:textColor="@color/white"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:text="모임 진행시 가이드 라인 입니다."
                         app:layout_constraintBottom_toBottomOf="@+id/category"
                         app:layout_constraintStart_toEndOf="@id/category"
-                        app:layout_constraintTop_toTopOf="@+id/category" />
+                        app:layout_constraintTop_toTopOf="@+id/category"
+                        tools:text="모임 진행시 가이드 라인 입니다." />
 
                     <ImageView
                         android:id="@+id/writer_image"
@@ -85,23 +85,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="윤여울"
-                        android:textStyle="bold"
                         android:textColor="@color/white"
                         android:textSize="12sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/date"
                         app:layout_constraintStart_toEndOf="@+id/writer_image"
-                        app:layout_constraintTop_toTopOf="@id/writer_image" />
+                        app:layout_constraintTop_toTopOf="@id/writer_image"
+                        tools:text="윤여울" />
 
                     <TextView
                         android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2020.8.27 목요일 오후 10:00"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@+id/writer_image"
                         app:layout_constraintStart_toStartOf="@+id/writer_name"
-                        app:layout_constraintTop_toBottomOf="@+id/writer_name" />
+                        app:layout_constraintTop_toBottomOf="@+id/writer_name"
+                        tools:text="2020.8.27 목요일 오후 10:00" />
 
                     <TextView
                         android:id="@+id/content"
@@ -109,7 +109,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="13dp"
                         android:textColor="@color/white"
-                        android:text="[모임 진행시 가이드 라인]\n
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/date"
+                        tools:text="[모임 진행시 가이드 라인]\n
 \n
 1. 스터디를 진행할 때 휴대폰은 매너모드로 설정해주세
 요\n
@@ -118,11 +122,7 @@
 거리두기를 권장하고 있습니다. 스터디 참여시 마스크를
 꼭 착용해 주세요\n
 \n
-3. 노트북 가져오세요"
-                        android:textSize="15sp"
-                        app:layout_constraintTop_toBottomOf="@+id/date"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+3. 노트북 가져오세요" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
