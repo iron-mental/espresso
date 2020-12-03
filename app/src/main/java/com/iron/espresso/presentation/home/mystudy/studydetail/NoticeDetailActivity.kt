@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
@@ -13,6 +14,8 @@ import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion
 
 class NoticeDetailActivity :
     BaseActivity<ActivityNoticeDetailBinding>(R.layout.activity_notice_detail) {
+
+    private val viewModel by viewModels<NoticeDetailViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
