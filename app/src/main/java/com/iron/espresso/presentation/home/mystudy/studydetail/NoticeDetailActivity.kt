@@ -2,9 +2,11 @@ package com.iron.espresso.presentation.home.mystudy.studydetail
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
@@ -25,6 +27,8 @@ class NoticeDetailActivity :
 
         val studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
         val noticeId = intent.getIntExtra(NOTICE_ID, DEFAULT_VALUE)
+
+        viewModel.showNotice(studyId, noticeId)
 
     }
 
