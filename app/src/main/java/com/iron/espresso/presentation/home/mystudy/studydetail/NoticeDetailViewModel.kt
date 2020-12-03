@@ -50,4 +50,20 @@ class NoticeDetailViewModel : BaseViewModel() {
                 Logger.d("$errorResponse")
             })
     }
+
+    @SuppressLint("CheckResult")
+    fun deleteNotice(studyId: Int, noticeId: Int) {
+        ApiModule.provideNoticeApi()
+            .deleteNotice(
+                bearerToken = "Bearer $token",
+                studyId = studyId,
+                noticeId = noticeId
+            )
+            .networkSchedulers()
+            .subscribe({
+                Logger.d("$it")
+            }, {
+                Logger.d("$it")
+            })
+    }
 }
