@@ -43,6 +43,19 @@ class NoticeDetailActivity :
                     .apply(RequestOptions.circleCropTransform())
                     .error(R.drawable.dummy_image)
                     .into(writerImage)
+
+                category.apply {
+                    when (notice.pinned) {
+                        true -> {
+                            text = context.getString(R.string.pined_true)
+                            setBackgroundResource(R.color.theme_fc813e)
+                        }
+                        false -> {
+                            text = context.getString(R.string.pined_false)
+                            setBackgroundResource(R.color.colorCobaltBlue)
+                        }
+                    }
+                }
             }
         })
 
