@@ -104,6 +104,7 @@
                         tools:text="2020.8.27 목요일 오후 10:00" />
 
                     <Button
+                        android:id="@+id/delete_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="임시 삭제 버튼"

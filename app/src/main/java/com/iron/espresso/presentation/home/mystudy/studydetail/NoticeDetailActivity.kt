@@ -56,8 +56,14 @@ class NoticeDetailActivity :
                         }
                     }
                 }
+
             }
         })
+
+        binding.deleteButton.setOnClickListener {
+            onBackPressed()
+        }
+
 
     }
 
