@@ -39,8 +39,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         })
 
         noticeAdapter.setItemClickListener { noticeItem: NoticeResponse ->
-            Toast.makeText(context, "onClick position: $noticeItem", Toast.LENGTH_SHORT).show()
-            startActivity(context?.let { NoticeDetailActivity.getInstance(it) })
+            startActivity(context?.let { NoticeDetailActivity.getInstance(it, noticeItem.id, studyId) })
         }
 
         binding.noticeList.adapter = noticeAdapter
