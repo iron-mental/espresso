@@ -49,7 +49,7 @@ class StudyFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.search_study -> {
-                startActivity(StudyListActivity.getInstance(requireContext()))
+                startActivity(SearchStudyActivity.getInstance(requireContext()))
             }
 
             R.id.add_study -> {
