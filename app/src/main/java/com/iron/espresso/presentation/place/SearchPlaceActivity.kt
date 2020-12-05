@@ -23,7 +23,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchPlaceActivity :
-    BaseActivity<ActivitySearchPlaceBinding>(R.layout.activity_search_place_detail) {
+    BaseActivity<ActivitySearchPlaceBinding>(R.layout.activity_search_place) {
 
     private lateinit var searchEditText: EditText
     private val placeAdapter = PlaceAdapter()

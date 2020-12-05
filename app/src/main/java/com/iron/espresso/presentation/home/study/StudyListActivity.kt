@@ -23,7 +23,7 @@ class StudyListActivity :
         setToolbarTitle(getString(R.string.study))
         setNavigationIcon(R.drawable.ic_back_24)
 
-        val studyTabList = resources.getStringArray(R.array.home_tab)
+        val studyTabList = resources.getStringArray(R.array.study_tab)
         studyTabList.forEach { title ->
             binding.topTab.addTab(binding.topTab.newTab().setText(title))
         }
