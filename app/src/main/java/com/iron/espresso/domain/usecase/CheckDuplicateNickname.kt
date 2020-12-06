@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 class CheckDuplicateNickname @Inject constructor(private val userRepository: UserRepository) {
     operator fun invoke(nickname: String): Single<Message> =
-        userRepository.checkDuplicateNickname(nickname).map { it.toMessage() }
+        userRepository.checkDuplicateNickname(nickname).map { Message(it.result, it.message.orEmpty()) }
 }

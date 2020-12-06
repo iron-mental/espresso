@@ -3,7 +3,6 @@ package com.iron.espresso.model.source.remote
 import com.google.gson.annotations.SerializedName
 import com.iron.espresso.model.api.UserApi
 import com.iron.espresso.model.response.BaseResponse
-import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
@@ -17,16 +16,16 @@ import javax.inject.Inject
 class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi) :
     UserRemoteDataSource {
 
-    override fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>> =
-        userApi.login(LoginRequest(email, password))
+    override fun login(email: String, password: String, pushToken: String): Single<BaseResponse<UserAuthResponse>> =
+        userApi.login(LoginRequest(email, password, pushToken))
 
     override fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>> =
         userApi.getUser(bearerToken, id)
 
-    override fun checkDuplicateEmail(email: String): Single<MessageResponse> =
+    override fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>> =
         userApi.checkDuplicateEmail(email)
 
-    override fun checkDuplicateNickname(nickname: String): Single<MessageResponse> =
+    override fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>> =
         userApi.checkDuplicateNickname(nickname)
 
     override fun registerUser(
@@ -61,7 +60,7 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
 }
 
 data class RegisterUserRequest(val email: String, val password: String, val nickname: String)
-data class LoginRequest(val email: String, val password: String)
+data class LoginRequest(val email: String, val password: String, @SerializedName("push_token") val pushToken: String)
 data class ReIssuanceTokenRequest(@SerializedName("refresh_token") val refreshToken: String)
 
 data class ModifyUserRequest(
@@ -96,7 +95,7 @@ data class ModifyUserRequest(
 }
 
 interface UserRemoteDataSource {
-    fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>>
+    fun login(email: String, password: String, pushToken: String): Single<BaseResponse<UserAuthResponse>>
 
     fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>>
 
@@ -106,9 +105,9 @@ interface UserRemoteDataSource {
         nickname: String
     ): Single<BaseResponse<Nothing>>
 
-    fun checkDuplicateEmail(email: String): Single<MessageResponse>
+    fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
 
-    fun checkDuplicateNickname(nickname: String): Single<MessageResponse>
+    fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>
 
     fun modifyUser(
         bearerToken: String,
