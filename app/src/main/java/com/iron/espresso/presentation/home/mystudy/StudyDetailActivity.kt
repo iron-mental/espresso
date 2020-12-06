@@ -23,9 +23,8 @@ class StudyDetailActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_study_detail)
 
-        setToolbarTitle(intent.extras?.getString(TOOLBAR_TITLE).orEmpty())
+        setToolbarTitle(intent.getStringExtra(TOOLBAR_TITLE))
         setNavigationIcon(R.drawable.ic_back_24)
 
         val studyDetailTabList = resources.getStringArray(R.array.study_detail_tab)
@@ -72,7 +71,7 @@ class StudyDetailActivity :
     }
 
     companion object {
-        const val TOOLBAR_TITLE = "title"
+        private const val TOOLBAR_TITLE = "title"
         fun getInstance(context: Context, title: String) =
             Intent(context, StudyDetailActivity::class.java).putExtra(TOOLBAR_TITLE, title)
     }

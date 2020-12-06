@@ -1,44 +1,31 @@
 package com.iron.espresso.presentation.sign
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityIntroBinding
-import com.iron.espresso.ext.startActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro) {
-
-    private val introViewModel by viewModel<IntroViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.apply {
-            vm = introViewModel
-        }
+        binding.run {
+            signInButton.setOnClickListener {
+                startActivity(SignInActivity.getIntent(this@IntroActivity))
+            }
 
-        introViewModel.run {
-            clickTypeIdentifier.observe(this@IntroActivity, Observer { type ->
-                when (type) {
-                    SignType.TYPE_SIGN_IN -> {
-                        startActivity<SignInActivity>()
-                    }
-                    SignType.TYPE_SIGN_UP -> {
-                        startActivity<SignUpActivity>()
-                    }
-                }
-            })
+            signUpButton.setOnClickListener {
+                startActivity(SignUpActivity.getIntent(this@IntroActivity))
+            }
         }
     }
 
-    private fun startFragment(fragment: Fragment) {
-        binding.containerIntroView.bringToFront()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container_intro_view, fragment)
-            .addToBackStack(null)
-            .commit()
+    companion object {
+        fun getIntent(context: Context) =
+            Intent(context, IntroActivity::class.java)
     }
+
 }

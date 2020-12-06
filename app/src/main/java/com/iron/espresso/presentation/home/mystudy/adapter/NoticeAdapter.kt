@@ -8,9 +8,9 @@ import com.iron.espresso.presentation.home.mystudy.adapter.viewholder.NoticeView
 class NoticeAdapter :
     RecyclerView.Adapter<NoticeViewHolder>() {
 
-    private lateinit var itemClickListener: (title: String) -> Unit
+    private lateinit var itemClickListener: (noticeItem: NoticeListItem) -> Unit
 
-    fun setItemClickListener(listener: (title: String) -> Unit) {
+    fun setItemClickListener(listener: (noticeItem: NoticeListItem) -> Unit) {
         itemClickListener = listener
     }
 

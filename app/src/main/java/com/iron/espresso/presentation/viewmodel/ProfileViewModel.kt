@@ -13,7 +13,8 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-class ProfileViewModel @ViewModelInject constructor(private val getGithubUser: GetGithubUser) : ViewModel() {
+class ProfileViewModel @ViewModelInject constructor(private val getGithubUser: GetGithubUser) :
+    ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
