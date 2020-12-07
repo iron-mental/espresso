@@ -18,7 +18,7 @@ interface UserApi {
         @Body body: LoginRequest
     ): Single<BaseResponse<UserAuthResponse>>
 
-    @GET("/v1/user/{id}}")
+    @GET("/v1/user/{id}")
     fun getUser(
         @Header("Authorization") bearerToken: String,
         @Path("id") id: Int
@@ -40,11 +40,12 @@ interface UserApi {
     ): Single<BaseResponse<Nothing>>
 
     @Multipart
+    @PATCH("/v1/user/{id}")
     @PUT("/v1/user/{id}")
     fun modifyUser(
         @Header("Authorization") bearerToken: String,
         @Path("id") id: Int,
-        @Part body: MultipartBody
+        @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
     @DELETE("/v1/user/{id}")

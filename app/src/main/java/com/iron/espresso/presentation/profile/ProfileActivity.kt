@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.profile
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -26,6 +27,7 @@ class ProfileActivity :
 
     private val viewModel by viewModels<ProfileViewModel>()
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel

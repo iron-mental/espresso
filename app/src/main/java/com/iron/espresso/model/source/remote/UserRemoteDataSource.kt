@@ -10,12 +10,14 @@ import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import javax.inject.Inject
 
 
-class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSource {
+class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi) :
+    UserRemoteDataSource {
 
-    override fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>> =
-        userApi.login(LoginRequest(email, password))
+    override fun login(email: String, password: String, pushToken: String): Single<BaseResponse<UserAuthResponse>> =
+        userApi.login(LoginRequest(email, password, pushToken))
 
     override fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>> =
         userApi.getUser(bearerToken, id)
@@ -58,7 +60,7 @@ class UserRemoteDataSourceImpl(private val userApi: UserApi) : UserRemoteDataSou
 }
 
 data class RegisterUserRequest(val email: String, val password: String, val nickname: String)
-data class LoginRequest(val email: String, val password: String)
+data class LoginRequest(val email: String, val password: String, @SerializedName("push_token") val pushToken: String)
 data class ReIssuanceTokenRequest(@SerializedName("refresh_token") val refreshToken: String)
 
 data class ModifyUserRequest(
@@ -71,7 +73,7 @@ data class ModifyUserRequest(
     val snsLinkedIn: String = "",
     val snsWeb: String = ""
 ) {
-    fun toMultipartBody(): MultipartBody {
+    fun toMultipartBody(): List<MultipartBody.Part> {
         return MultipartBody.Builder().run {
             if (introduce.isNotEmpty()) addFormDataPart("introduce", introduce)
             if (location.isNotEmpty()) addFormDataPart("location", location)
@@ -87,13 +89,13 @@ data class ModifyUserRequest(
                     RequestBody.create(MultipartBody.FORM, image)
                 )
             }
-            build()
+            build().parts
         }
     }
 }
 
 interface UserRemoteDataSource {
-    fun login(email: String, password: String): Single<BaseResponse<UserAuthResponse>>
+    fun login(email: String, password: String, pushToken: String): Single<BaseResponse<UserAuthResponse>>
 
     fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>>
 

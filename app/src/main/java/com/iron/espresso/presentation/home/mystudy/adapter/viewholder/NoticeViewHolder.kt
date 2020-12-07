@@ -20,10 +20,10 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     fun bind(
         item: NoticeListItem,
         nextItem: NoticeListItem?,
-        itemClickListener: (title: String) -> Unit
+        itemClickListener: (noticeItem: NoticeListItem) -> Unit
     ) {
         itemView.setOnClickListener {
-            itemClickListener(item.title)
+            itemClickListener(item)
         }
 
         binding?.run {
