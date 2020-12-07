@@ -5,6 +5,7 @@ import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseViewModel
@@ -22,8 +23,6 @@ class StudyCreateViewModel @ViewModelInject constructor(
 ) :
     BaseViewModel() {
 
-    val token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksImVtYWlsIjoicmhkdWRja3NAbmF2ZXIuY29tIiwibmlja25hbWUiOiLqs6DsmIHssKwiLCJpYXQiOjE2MDU4NDk0MzMsImV4cCI6MTYwNzE0NTQzMywiaXNzIjoidGVybWluYWwtc2VydmVyIiwic3ViIjoidXNlckluZm8tYWNjZXNzIn0.Eptf9T9Z_c-VmIUqLNV5CKAN-ftm1sZSwOzs91SrIr0"
 
     val registerStudyRequest = MutableLiveData<RegisterStudyRequest>().apply {
         value = RegisterStudyRequest(
@@ -86,7 +85,7 @@ class StudyCreateViewModel @ViewModelInject constructor(
         if (message == context.getString(R.string.success_register)) {
             studyApi
                 .registerStudy(
-                    bearerToken = "Bearer $token",
+                    bearerToken = AuthHolder.bearerToken,
                     body = registerStudyRequest.toMultipartBody()
                 )
                 .networkSchedulers()
