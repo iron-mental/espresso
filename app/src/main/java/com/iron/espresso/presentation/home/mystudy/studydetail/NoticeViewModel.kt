@@ -1,14 +1,15 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail
 
 import android.annotation.SuppressLint
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.model.api.NoticeApi
 import com.iron.espresso.model.response.notice.NoticeListResponse
 
-class NoticeViewModel : BaseViewModel() {
+class NoticeViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi): BaseViewModel() {
 
     val noticeListItem = MutableLiveData<NoticeListResponse>()
 
@@ -21,7 +22,7 @@ class NoticeViewModel : BaseViewModel() {
     @SuppressLint("CheckResult")
     private fun getNoticeList(studyId: Int, callback: (data: NoticeListResponse?) -> Unit) {
 
-        ApiModule.provideNoticeApi()
+        noticeApi
             .getNoticeList(
                 bearerToken = AuthHolder.bearerToken,
                 studyId = studyId
