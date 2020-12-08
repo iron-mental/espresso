@@ -1,6 +1,7 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail
 
 import android.annotation.SuppressLint
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
@@ -13,20 +14,12 @@ import retrofit2.HttpException
 
 class NoticeDetailViewModel : BaseViewModel() {
 
-    val notice = MutableLiveData<NoticeDetailResponse>()
-
-    fun showNotice(studyId: Int, noticeId: Int) {
-        getNotice(studyId, noticeId) { data ->
-            notice.value = data
-        }
-    }
+    private val _notice = MutableLiveData<NoticeDetailResponse>()
+    val notice: LiveData<NoticeDetailResponse>
+        get() = _notice
 
     @SuppressLint("CheckResult")
-    private fun getNotice(
-        studyId: Int,
-        noticeId: Int,
-        callback: (data: NoticeDetailResponse) -> Unit
-    ) {
+    fun showNotice(studyId: Int, noticeId: Int) {
         ApiModule.provideNoticeApi()
             .getNotice(
                 bearerToken = AuthHolder.bearerToken,
@@ -36,7 +29,7 @@ class NoticeDetailViewModel : BaseViewModel() {
             .networkSchedulers()
             .subscribe({
                 if (it.data != null) {
-                    callback(it.data)
+                    _notice.value = it.data
                 }
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
