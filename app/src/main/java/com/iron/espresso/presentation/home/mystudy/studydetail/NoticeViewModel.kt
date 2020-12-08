@@ -1,27 +1,25 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail
 
 import android.annotation.SuppressLint
-import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
+import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.networkSchedulers
-import com.iron.espresso.model.api.NoticeApi
+import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.response.notice.NoticeListResponse
+import retrofit2.HttpException
 
 class NoticeViewModel : BaseViewModel() {
 
-    val noticeListItem = MutableLiveData<NoticeListResponse>()
-
-    fun showNoticeList(studyId: Int) {
-        getNoticeList(studyId) { data ->
-            noticeListItem.value = data
-        }
-    }
+    private val _noticeListItem = MutableLiveData<NoticeListResponse>()
+    val noticeListItem: LiveData<NoticeListResponse>
+        get() = _noticeListItem
 
     @SuppressLint("CheckResult")
-    private fun getNoticeList(studyId: Int, callback: (data: NoticeListResponse?) -> Unit) {
+    fun showNoticeList(studyId: Int) {
 
         ApiModule.provideNoticeApi()
             .getNoticeList(
@@ -31,10 +29,15 @@ class NoticeViewModel : BaseViewModel() {
             .networkSchedulers()
             .subscribe({ response ->
                 if (response.data != null) {
-                    callback(response.data)
+                    _noticeListItem.value = response.data
                 }
+                Logger.d("$response")
             }) {
-                callback(null)
+                Logger.d("$it")
+                val errorResponse = (it as? HttpException)?.toErrorResponse()
+                if (errorResponse != null) {
+                    Logger.d("$errorResponse")
+                }
             }
     }
 }
