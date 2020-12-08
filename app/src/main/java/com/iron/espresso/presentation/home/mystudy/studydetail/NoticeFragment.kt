@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentNoticeBinding
@@ -18,18 +19,16 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
     private val noticeAdapter = NoticeAdapter()
     private lateinit var noticeList: NoticeListResponse
 
-    private val viewModel by lazy {
-        requireActivity().viewModels<NoticeViewModel>()
-    }
+    private val viewModel by viewModels<NoticeViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val studyId = arguments?.getInt(STUDY_ID) ?: DEFAULT_VALUE
 
-        viewModel.value.showNoticeList(studyId)
+        viewModel.showNoticeList(studyId)
 
-        viewModel.value.noticeListItem.observe(viewLifecycleOwner, { noticeListItem ->
+        viewModel.noticeListItem.observe(viewLifecycleOwner, { noticeListItem ->
             if (noticeListItem != null) {
                 noticeList = noticeListItem
                 noticeAdapter.run {
