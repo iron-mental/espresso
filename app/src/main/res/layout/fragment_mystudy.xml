@@ -33,7 +33,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appbar"
-            bind:replaceAll="@{VM.movieList}"
+            bind:replaceAll="@{VM.studyList}"
             tools:listitem="@layout/item_mystudy" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

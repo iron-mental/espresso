@@ -10,25 +10,18 @@ import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.response.study.MyStudyListResponse
 import com.iron.espresso.model.response.study.MyStudyResponse
 import retrofit2.HttpException
 
 class MyStudyViewModel : BaseViewModel() {
 
-    private val _movieList =
+    private val _studyList =
         MutableLiveData<List<MyStudyResponse>>()
-    val movieList: LiveData<List<MyStudyResponse>>
-        get() = _movieList
-
-    fun showMyStudyList() {
-        getMyStudyList { item ->
-            _movieList.value = item
-        }
-    }
+    val studyList: LiveData<List<MyStudyResponse>>
+        get() = _studyList
 
     @SuppressLint("CheckResult")
-    private fun getMyStudyList(callback: (item: MyStudyListResponse) -> Unit) {
+    fun showMyStudyList() {
         ApiModule.provideStudyApi()
             .getMyStudyList(
                 bearerToken = AuthHolder.bearerToken,
@@ -37,7 +30,7 @@ class MyStudyViewModel : BaseViewModel() {
             .networkSchedulers()
             .subscribe({
                 if (it.data != null) {
-                    callback(it.data)
+                    _studyList.value = it.data
                 }
                 Log.d("TAG", "성공 : $it")
             }, {
