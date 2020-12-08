@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <variable
-            name="VM"
-            type="com.iron.espresso.presentation.sign.IntroViewModel" />
 
     </data>
 
@@ -24,16 +21,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
+        <TextView
             android:id="@+id/sign_in_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@android:color/white"
-            android:onClick="@{() -> VM.startSignIn()}"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:paddingStart="25dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="25dp"
+            android:paddingBottom="20dp"
             android:text="@string/intro_sign_in"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:textSize="15sp"
             app:cornerRadius="50dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +41,7 @@
             android:id="@+id/cover"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/intro_dummy_image"
+            android:src="@drawable/intro_bg"
             app:layout_constraintBottom_toTopOf="@id/sign_up_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".4"
@@ -52,50 +50,35 @@
             app:layout_constraintVertical_bias=".1" />
 
         <TextView
-            android:id="@+id/explain1"
+            android:id="@+id/explain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/intro_explain1"
+            android:lineSpacingMultiplier="2"
+            android:text="@string/intro_explain"
+            android:textAlignment="center"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/sign_up_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cover"
-            app:layout_constraintVertical_bias=".3" />
-
-        <TextView
-            android:id="@+id/explain2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/intro_explain2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/explain1" />
-
-        <TextView
-            android:id="@+id/explain3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/intro_explain3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/explain2" />
-
+            app:layout_constraintVertical_bias=".4" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_up_button"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/colorCobaltBlue"
-            android:onClick="@{() -> VM.startSignUp()}"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="25dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="@string/intro_sign_up"
-            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/colorCobaltBlue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent=".9" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

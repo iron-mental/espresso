@@ -1,5 +1,7 @@
 package com.iron.espresso.presentation.home
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -61,5 +63,10 @@ class HomeActivity :
                 getTabAt(2)?.setIcon(R.drawable.ic_baseline_settings_24)
             }
         }
+    }
+
+    companion object {
+        fun getIntent(context: Context) =
+            Intent(context, HomeActivity::class.java)
     }
 }
