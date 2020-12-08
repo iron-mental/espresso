@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.mystudy.adapter
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.model.response.study.MyStudyResponse
@@ -9,7 +8,7 @@ import com.iron.espresso.presentation.home.mystudy.adapter.viewholder.MyStudyVie
 class MyStudyAdapter : RecyclerView.Adapter<MyStudyViewHolder>() {
 
     interface ItemClickListener {
-        fun onClick(view: View)
+        fun onClick(item: MyStudyResponse)
     }
 
     private lateinit var itemClickListener: ItemClickListener
