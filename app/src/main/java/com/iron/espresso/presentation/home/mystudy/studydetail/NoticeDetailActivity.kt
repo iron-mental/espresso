@@ -13,8 +13,9 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class NoticeDetailActivity :
     BaseActivity<ActivityNoticeDetailBinding>(R.layout.activity_notice_detail) {
 
