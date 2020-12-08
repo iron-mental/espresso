@@ -4,11 +4,15 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.iron.espresso.AuthHolder
+import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.response.study.MyStudyListResponse
 import com.iron.espresso.model.response.study.MyStudyResponse
+import retrofit2.HttpException
 
 class MyStudyViewModel : BaseViewModel() {
 
@@ -16,10 +20,6 @@ class MyStudyViewModel : BaseViewModel() {
         MutableLiveData<List<MyStudyResponse>>()
     val movieList: LiveData<List<MyStudyResponse>>
         get() = _movieList
-
-    private val token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksImVtYWlsIjoicmhkdWRja3NAbmF2ZXIuY29tIiwibmlja25hbWUiOiLqs6DsmIHssKwiLCJpYXQiOjE2MDU4NDk0MzMsImV4cCI6MTYwNzE0NTQzMywiaXNzIjoidGVybWluYWwtc2VydmVyIiwic3ViIjoidXNlckluZm8tYWNjZXNzIn0.Eptf9T9Z_c-VmIUqLNV5CKAN-ftm1sZSwOzs91SrIr0"
-
 
     fun showMyStudyList() {
         getMyStudyList { item ->
@@ -31,7 +31,7 @@ class MyStudyViewModel : BaseViewModel() {
     private fun getMyStudyList(callback: (item: MyStudyListResponse) -> Unit) {
         ApiModule.provideStudyApi()
             .getMyStudyList(
-                bearerToken = "Bearer $token",
+                bearerToken = AuthHolder.bearerToken,
                 userId = 19
             )
             .networkSchedulers()
@@ -41,7 +41,8 @@ class MyStudyViewModel : BaseViewModel() {
                 }
                 Log.d("TAG", "성공 : $it")
             }, {
-                Log.d("TAG", "실패 : $it")
+                val errorResponse = (it as HttpException).toErrorResponse()
+                Logger.d("$errorResponse")
             })
     }
 
