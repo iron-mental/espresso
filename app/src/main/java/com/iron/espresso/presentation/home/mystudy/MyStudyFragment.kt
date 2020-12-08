@@ -28,9 +28,9 @@ class MyStudyFragment :
             myStudyViewModel.showMyStudyList()
 
             myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
-                override fun onClick(view: View) {
+                override fun onClick(item: MyStudyResponse) {
                     startActivity(context?.let {
-                        StudyDetailActivity.getInstance(it, view.tag as MyStudyResponse)
+                        StudyDetailActivity.getInstance(it, item.title, item.id)
                     })
                 }
             })
