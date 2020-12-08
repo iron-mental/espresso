@@ -12,12 +12,14 @@ import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
+import com.iron.espresso.data.model.StudyItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.load
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
 class StudyCreateActivity :
@@ -66,11 +68,18 @@ class StudyCreateActivity :
         binding.buttonSignUp.setOnClickListener {
 
             viewModel.createStudy(
-                binding.title.text.toString(),
-                binding.introduce.text.toString(),
-                binding.proceed.text.toString(),
-                binding.time.text.toString(),
-                localItem
+                StudyItem(
+                    category = "android",
+                    title = binding.title.text.toString(),
+                    introduce = binding.introduce.text.toString(),
+                    progress = binding.proceed.text.toString(),
+                    studyTime = binding.time.text.toString(),
+                    localItem = localItem,
+                    snsNotion = "https://www.notion.so/product",
+                    snsEverNote = "https://www.evernote.com/",
+                    snsWeb = "https://norancom.tistory.com/7",
+                    image = File("/storage/0000-0000/DCIM/Camera/20201120_190322.jpg")
+                )
             )
         }
     }
