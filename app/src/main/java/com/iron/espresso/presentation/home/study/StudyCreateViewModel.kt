@@ -4,16 +4,15 @@ import android.annotation.SuppressLint
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.model.api.StudyApi
-import com.iron.espresso.model.response.BaseResponse
 import retrofit2.HttpException
 
 class StudyCreateViewModel @ViewModelInject constructor(
@@ -96,10 +95,8 @@ class StudyCreateViewModel @ViewModelInject constructor(
                 .subscribe({
                     _snackBarText.value = Event(message)
                 }, {
-                    val error = it as? HttpException
-                    val errorBody = error?.response()?.errorBody()?.string()
-                    val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-                    if (errorResponse.message != null) {
+                    val errorResponse = (it as? HttpException)?.toErrorResponse()
+                    if (errorResponse?.message != null) {
                         _toastMessage.value = Event("${errorResponse.message}")
                     } else {
                         _toastMessage.value = Event("error")
