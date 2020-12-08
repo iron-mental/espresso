@@ -13,8 +13,8 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
+import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.load
-import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +25,7 @@ class StudyCreateActivity :
 
     private val viewModel: StudyCreateViewModel by viewModels()
 
-    private lateinit var registerStudyRequest: RegisterStudyRequest
+    private var localItem: LocalItem? = null
 
     private val image by lazy {
         intent.getIntExtra(KEY, 0)
@@ -50,25 +50,28 @@ class StudyCreateActivity :
             startActivityForResult(SearchPlaceActivity.getInstance(this), REQ_CODE)
         }
 
-        viewModel.registerStudyRequest.observe(this) { registerStudyRequest ->
-            this.registerStudyRequest = registerStudyRequest
-            binding.placeDetail.text = registerStudyRequest.addressName
+        viewModel.localItem.observe(this) { localItem ->
+            binding.placeDetail.text = localItem.addressName
         }
+
+        viewModel.snackBarMessage.observe(this, EventObserver { message ->
+            Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
+        })
+
+        viewModel.toastMessage.observe(this, EventObserver { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        })
 
 
         binding.buttonSignUp.setOnClickListener {
 
-            registerStudyRequest.run {
-                category = "ios"
-                title = binding.title.text.toString()
-                introduce = binding.introduce.text.toString()
-                progress = binding.proceed.text.toString()
-                studyTime = binding.time.text.toString()
-            }
-
-            viewModel.createStudy(registerStudyRequest) { message ->
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-            }
+            viewModel.createStudy(
+                binding.title.text.toString(),
+                binding.introduce.text.toString(),
+                binding.proceed.text.toString(),
+                binding.time.text.toString(),
+                localItem
+            )
         }
     }
 
@@ -77,7 +80,7 @@ class StudyCreateActivity :
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQ_CODE && resultCode == RESULT_OK) {
-            val localItem = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
+            localItem = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
             viewModel.addItems(localItem)
             Log.d(LOCAL_ITEM, localItem.toString())
         }

@@ -1,109 +1,112 @@
 package com.iron.espresso.presentation.home.study
 
 import android.annotation.SuppressLint
-import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.iron.espresso.AuthHolder
-import com.iron.espresso.Logger
-import com.iron.espresso.R
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.LocalItem
+import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
 import retrofit2.HttpException
-import java.io.File
 
 class StudyCreateViewModel @ViewModelInject constructor(
-    private val studyApi: StudyApi,
-    private val context: Application
+    private val studyApi: StudyApi
 ) :
     BaseViewModel() {
 
+    private val _localItem = MutableLiveData<LocalItem>()
+    val localItem: LiveData<LocalItem>
+        get() = _localItem
 
-    val registerStudyRequest = MutableLiveData<RegisterStudyRequest>().apply {
-        value = RegisterStudyRequest(
-            category = "",
-            title = "",
-            introduce = "",
-            progress = "",
-            studyTime = "",
-            latitude = 0.0,
-            longitude = 0.0,
-            sido = "",
-            sigungu = "",
-            addressName = "",
-            placeName = "",
-            locationDetail = "",
-            snsNotion = "",
-            snsEverNote = "",
-            snsWeb = "",
-            image = File("/storage/0000-0000/DCIM/Camera/20201120_190322.jpg")
-        )
+    private val _snackBarText = MutableLiveData<Event<ValidationInputText>>()
+    val snackBarMessage: LiveData<Event<ValidationInputText>>
+        get() = _snackBarText
+
+    fun addItems(localItem: LocalItem?) {
+        if (localItem != null) {
+            _localItem.value = LocalItem(
+                lat = localItem.lat,
+                lng = localItem.lng,
+                sido = localItem.sido,
+                sigungu = localItem.sigungu,
+                addressName = localItem.addressName,
+                placeName = localItem.placeName,
+                locationDetail = localItem.locationDetail
+            )
+        }
     }
 
-    fun addItems(localItem: LocalItem) {
-        registerStudyRequest.value = RegisterStudyRequest(
-            category = "",
-            title = "",
-            introduce = "",
-            progress = "",
-            studyTime = "",
-            latitude = localItem.lat,
-            longitude = localItem.lng,
-            sido = localItem.sido,
-            sigungu = localItem.sigungu,
-            addressName = localItem.addressName,
-            placeName = localItem.placeName,
-            locationDetail = localItem.locationDetail,
-            snsNotion = "",
-            snsEverNote = "",
-            snsWeb = "",
-            image = File("/storage/0000-0000/DCIM/Camera/20201120_190322.jpg")
-        )
-    }
-
-    private fun emptyCheck(registerStudyRequest: RegisterStudyRequest): String {
+    private fun emptyCheck(
+        title: String,
+        introduce: String,
+        proceed: String,
+        time: String,
+        localItem: LocalItem?
+    ): ValidationInputText {
         return when {
-            registerStudyRequest.title.isEmpty() -> context.getString(R.string.empty_title)
-            registerStudyRequest.introduce.isEmpty() -> context.getString(R.string.empty_introduce)
-            registerStudyRequest.progress.isEmpty() -> context.getString(R.string.empty_progress)
-            registerStudyRequest.addressName.isEmpty() -> context.getString(R.string.empty_place)
-            registerStudyRequest.studyTime.isEmpty() -> context.getString(R.string.empty_time)
-            else -> context.getString(R.string.success_register)
+            title.isEmpty() -> ValidationInputText.EMPTY_TITLE
+            introduce.isEmpty() -> ValidationInputText.EMPTY_INTRODUCE
+            proceed.isEmpty() -> ValidationInputText.EMPTY_PROGRESS
+            time.isEmpty() -> ValidationInputText.EMPTY_TIME
+            (localItem == null) -> ValidationInputText.EMPTY_PLACE
+            else -> ValidationInputText.SUCCESS
         }
     }
 
     @SuppressLint("CheckResult")
-    fun createStudy(registerStudyRequest: RegisterStudyRequest, callback: (item: String) -> Unit) {
-
-        val message = emptyCheck(registerStudyRequest)
-
-        if (message == context.getString(R.string.success_register)) {
+    fun createStudy(
+        title: String,
+        introduce: String,
+        proceed: String,
+        time: String,
+        localItem: LocalItem?
+    ) {
+        val message = emptyCheck(title, introduce, proceed, time, localItem)
+        if (message == ValidationInputText.SUCCESS && localItem != null) {
             studyApi
                 .registerStudy(
                     bearerToken = AuthHolder.bearerToken,
-                    body = registerStudyRequest.toMultipartBody()
+                    body = RegisterStudyRequest(
+                        category = "android",
+                        title = title,
+                        introduce = introduce,
+                        progress = proceed,
+                        studyTime = time,
+                        latitude = localItem.lat,
+                        longitude = localItem.lng,
+                        sido = localItem.sido,
+                        sigungu = localItem.sigungu,
+                        addressName = localItem.addressName,
+                        placeName = localItem.placeName,
+                        locationDetail = localItem.locationDetail,
+                        snsNotion = "",
+                        snsEverNote = "",
+                        snsWeb = "",
+                        image = null,
+                    ).toMultipartBody()
                 )
                 .networkSchedulers()
                 .subscribe({
-                    callback(message)
+                    _snackBarText.value = Event(message)
                 }, {
                     val error = it as? HttpException
                     val errorBody = error?.response()?.errorBody()?.string()
                     val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-                    Logger.d("$errorResponse")
                     if (errorResponse.message != null) {
-                        callback("${errorResponse.message}")
+                        _toastMessage.value = Event("${errorResponse.message}")
                     } else {
-                        callback("error")
+                        _toastMessage.value = Event("error")
                     }
                 })
         } else {
-            callback(message)
+            _snackBarText.value = Event(message)
         }
     }
 }

@@ -11,11 +11,11 @@ import retrofit2.http.*
 import java.io.File
 
 data class RegisterStudyRequest(
-    var category: String,
-    var title: String,
-    var introduce: String,
-    var progress: String,
-    var studyTime: String,
+    val category: String,
+    val title: String,
+    val introduce: String,
+    val progress: String,
+    val studyTime: String,
     val latitude: Double,
     val longitude: Double,
     val sido: String,
