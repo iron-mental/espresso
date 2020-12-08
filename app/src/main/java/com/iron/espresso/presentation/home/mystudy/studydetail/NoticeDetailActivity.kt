@@ -14,8 +14,9 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class NoticeDetailActivity :
     BaseActivity<ActivityNoticeDetailBinding>(R.layout.activity_notice_detail) {
 
@@ -46,15 +47,12 @@ class NoticeDetailActivity :
                     .into(writerImage)
 
                 category.apply {
-                    when (notice.pinned) {
-                        true -> {
-                            text = context.getString(R.string.pined_true)
-                            setBackgroundResource(R.color.theme_fc813e)
-                        }
-                        false -> {
-                            text = context.getString(R.string.pined_false)
-                            setBackgroundResource(R.color.colorCobaltBlue)
-                        }
+                    if (notice.pinned != null && notice.pinned) {
+                        text = context.getString(R.string.pined_true)
+                        setBackgroundResource(R.color.theme_fc813e)
+                    } else {
+                        text = context.getString(R.string.pined_false)
+                        setBackgroundResource(R.color.colorCobaltBlue)
                     }
                 }
 

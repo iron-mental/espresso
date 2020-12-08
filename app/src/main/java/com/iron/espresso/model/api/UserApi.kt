@@ -1,7 +1,6 @@
 package com.iron.espresso.model.api
 
 import com.iron.espresso.model.response.BaseResponse
-import com.iron.espresso.model.response.MessageResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
@@ -19,7 +18,7 @@ interface UserApi {
         @Body body: LoginRequest
     ): Single<BaseResponse<UserAuthResponse>>
 
-    @GET("/v1/user/{id}}")
+    @GET("/v1/user/{id}")
     fun getUser(
         @Header("Authorization") bearerToken: String,
         @Path("id") id: Int
@@ -33,14 +32,15 @@ interface UserApi {
     @GET("/v1/user/check-email/{email}")
     fun checkDuplicateEmail(
         @Path("email") email: String
-    ): Single<MessageResponse>
+    ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/user/check-nickname/{nickname}")
     fun checkDuplicateNickname(
-        @Path("nickname") nickname: String
-    ): Single<MessageResponse>
+        @Query("nickname") nickname: String
+    ): Single<BaseResponse<Nothing>>
 
     @Multipart
+    @PATCH("/v1/user/{id}")
     @PUT("/v1/user/{id}")
     fun modifyUser(
         @Header("Authorization") bearerToken: String,

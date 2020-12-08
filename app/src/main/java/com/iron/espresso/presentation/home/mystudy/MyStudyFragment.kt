@@ -5,17 +5,18 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentMystudyBinding
 import com.iron.espresso.model.response.study.MyStudyResponse
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MyStudyFragment :
     BaseFragment<FragmentMystudyBinding>(R.layout.fragment_mystudy) {
 
-    private val myStudyViewModel by sharedViewModel<MyStudyViewModel>()
+    private val myStudyViewModel by viewModels<MyStudyViewModel>()
 
     private val myStudyAdapter by lazy { MyStudyAdapter() }
 
@@ -27,10 +28,14 @@ class MyStudyFragment :
             vm = myStudyViewModel
             myStudyViewModel.showMyStudyList()
 
+            myStudyViewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
+                myStudyAdapter.replaceAll(studyList)
+            })
+
             myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
-                override fun onClick(view: View) {
+                override fun onClick(item: MyStudyResponse) {
                     startActivity(context?.let {
-                        StudyDetailActivity.getInstance(it, view.tag as MyStudyResponse)
+                        StudyDetailActivity.getInstance(it, item.title, item.id)
                     })
                 }
             })

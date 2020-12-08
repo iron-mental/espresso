@@ -7,6 +7,6 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class LoginUser @Inject constructor(private val userRepository: UserRepository) {
-    operator fun invoke(email: String, userPass: String): Single<BaseResponse<UserAuthResponse>> =
-        userRepository.login(email, userPass)
+    operator fun invoke(email: String, userPass: String, pushToken: String): Single<BaseResponse<UserAuthResponse>> =
+        userRepository.login(email, userPass, pushToken)
 }

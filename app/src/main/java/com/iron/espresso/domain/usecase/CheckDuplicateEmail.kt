@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 class CheckDuplicateEmail @Inject constructor(private val userRepository: UserRepository) {
     operator fun invoke(email: String): Single<Message> =
-        userRepository.checkDuplicateEmail(email).map { it.toMessage() }
+        userRepository.checkDuplicateEmail(email).map { Message(it.result, it.message.orEmpty()) }
 }
