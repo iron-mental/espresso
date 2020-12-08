@@ -11,9 +11,7 @@ import com.iron.espresso.model.response.notice.NoticeResponse
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
     private val noticeAdapter = NoticeAdapter()

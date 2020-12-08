@@ -5,11 +5,12 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.model.api.NoticeApi
 import com.iron.espresso.model.response.notice.NoticeListResponse
 
-class NoticeViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi): BaseViewModel() {
+class NoticeViewModel : BaseViewModel() {
 
     val noticeListItem = MutableLiveData<NoticeListResponse>()
 
@@ -22,7 +23,7 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
     @SuppressLint("CheckResult")
     private fun getNoticeList(studyId: Int, callback: (data: NoticeListResponse?) -> Unit) {
 
-        noticeApi
+        ApiModule.provideNoticeApi()
             .getNoticeList(
                 bearerToken = AuthHolder.bearerToken,
                 studyId = studyId
