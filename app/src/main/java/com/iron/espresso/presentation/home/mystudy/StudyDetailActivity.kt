@@ -14,6 +14,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
+import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeCreateActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 
@@ -62,6 +63,11 @@ class StudyDetailActivity :
             android.R.id.home -> {
                 onBackPressed()
             }
+
+            R.id.create_notice -> {
+                startActivity(NoticeCreateActivity.getInstance(this))
+            }
+
             else -> {
                 Toast.makeText(this, "${item.title}", Toast.LENGTH_SHORT).show()
             }
