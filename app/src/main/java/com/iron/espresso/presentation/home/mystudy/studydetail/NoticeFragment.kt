@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
@@ -13,6 +14,7 @@ import com.iron.espresso.model.response.notice.NoticeResponse
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
+import org.koin.android.ext.android.bind
 
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
@@ -35,6 +37,9 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
                 noticeAdapter.run {
                     setItemList(noticeList)
                 }
+            } else {
+                binding.emptyView.isVisible = true
+                binding.noticeList.isVisible = false
             }
         })
 
