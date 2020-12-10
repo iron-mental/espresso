@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.mystudy.studydetail
+package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -81,7 +81,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
             }
             R.id.create_notice -> {
                 startActivityForResult(
-                    NoticeCreateActivity.getInstance(requireContext(),studyId),
+                    NoticeCreateActivity.getInstance(requireContext(), studyId),
                     REQUEST_CREATE_CODE
                 )
             }

@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.mystudy.studydetail
+package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
 import android.annotation.SuppressLint
 import androidx.hilt.lifecycle.ViewModelInject
