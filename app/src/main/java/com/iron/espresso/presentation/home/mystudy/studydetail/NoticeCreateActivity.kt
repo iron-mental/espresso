@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeItem
@@ -17,7 +18,7 @@ import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion
 class NoticeCreateActivity :
     BaseActivity<ActivityNoticeCreateBinding>(R.layout.activity_notice_create) {
 
-    private lateinit var noticeItem: NoticeItem
+    private val viewModel by viewModels<NoticeCreateViewModel>()
     private var studyId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,17 +54,16 @@ class NoticeCreateActivity :
                 onBackPressed()
             }
             R.id.create_notice -> {
-                binding.run {
-                    noticeItem = NoticeItem(
-                        title = title.text.toString(),
-                        contents = content.text.toString(),
+                viewModel.createNotice(
+                    studyId, NoticeItem(
+                        title = binding.title.text.toString(),
+                        contents = binding.content.text.toString(),
                         pinned = false
                     )
-                }
-                Toast.makeText(this, "공지사항 작성이 완료됐습니다", Toast.LENGTH_SHORT).show()
-                val intent = Intent().putExtra(NOTICE_ITEM, noticeItem)
+                )
 
-                setResult(RESULT_OK, intent)
+                Toast.makeText(this, "공지사항 작성이 완료됐습니다", Toast.LENGTH_SHORT).show()
+                setResult(RESULT_OK)
                 finish()
             }
         }

@@ -67,8 +67,6 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         if (requestCode == REQUEST_DELETE_CODE && resultCode == RESULT_OK) {
             viewModel.showNoticeList(studyId)
         } else if (requestCode == REQUEST_CREATE_CODE && resultCode == RESULT_OK) {
-            val noticeItem = data?.getSerializableExtra(NOTICE_ITEM) as NoticeItem
-            Toast.makeText(context, "$noticeItem", Toast.LENGTH_SHORT).show()
         }
     }
 
