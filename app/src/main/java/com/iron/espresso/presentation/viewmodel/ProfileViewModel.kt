@@ -3,13 +3,18 @@ package com.iron.espresso.presentation.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.GithubUser
 import com.iron.espresso.domain.entity.User
 import com.iron.espresso.domain.usecase.GetGithubUser
 import com.iron.espresso.ext.Event
+import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
+import com.iron.espresso.model.api.ProjectApi
+import com.iron.espresso.model.response.project.ProjectListResponse
+import com.iron.espresso.presentation.profile.ProjectItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -20,7 +25,8 @@ enum class ProfileSns {
 }
 
 class ProfileViewModel @ViewModelInject constructor(
-    private val getGithubUser: GetGithubUser
+    private val getGithubUser: GetGithubUser,
+    private val projectApi: ProjectApi
 ) :
     BaseViewModel() {
 
@@ -62,8 +68,29 @@ class ProfileViewModel @ViewModelInject constructor(
             }, {
                 Logger.d("$it")
             })
+
+
+        getProjectList()
     }
 
+    private val _projectItemList = MutableLiveData<List<ProjectItem>>()
+    val projectItemList: LiveData<List<ProjectItem>> get() = _projectItemList
+
+    private fun getProjectList() {
+        val id = AuthHolder.id ?: return
+        compositeDisposable += projectApi.getProjectList(AuthHolder.bearerToken, id)
+            .networkSchedulers()
+            .subscribe({ response ->
+                Logger.d("$response")
+                if (response.result) {
+                    response.data?.let { projectListResponse: ProjectListResponse ->
+                        _projectItemList.value = projectListResponse.map { it.toProjectItem() }
+                    }
+                }
+            }, {
+                Logger.d("$it")
+            })
+    }
 
     private fun getProfileImage(userId: String) {
         compositeDisposable += getGithubUser(userId)

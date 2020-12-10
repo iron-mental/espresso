@@ -3,6 +3,7 @@ package com.iron.espresso.model.response.project
 
 import com.google.gson.annotations.SerializedName
 import com.iron.espresso.domain.entity.Project
+import com.iron.espresso.presentation.profile.ProjectItem
 
 data class ProjectResponse(
     @SerializedName("id")
@@ -20,7 +21,7 @@ data class ProjectResponse(
     @SerializedName("created_at")
     val createdAt: String?
 ) {
-    fun toProject() : Project =
+    fun toProject(): Project =
         Project(
             id ?: -1,
             title.orEmpty(),
@@ -29,5 +30,15 @@ data class ProjectResponse(
             snsAppstore.orEmpty(),
             snsPlaystore.orEmpty(),
             createdAt.orEmpty()
+        )
+
+    fun toProjectItem(): ProjectItem =
+        ProjectItem(
+            id ?: -1,
+            title.orEmpty(),
+            contents.orEmpty(),
+            snsGithub.orEmpty(),
+            snsAppstore.orEmpty(),
+            snsPlaystore.orEmpty()
         )
 }

@@ -40,10 +40,19 @@
                 android:orientation="vertical"
                 android:paddingBottom="40dp">
 
+
                 <include
                     android:id="@+id/layout_header"
                     layout="@layout/view_profile_header"
                     bind:viewModel="@{viewModel}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/theme_292929"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <include
                     android:id="@+id/layout_career"
@@ -52,9 +61,17 @@
                     bind:subTitle="@{viewModel.user.careerTitle}"
                     bind:description="@{viewModel.user.careerContents}" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/theme_292929"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <include
                     android:id="@+id/layout_project"
-                    layout="@layout/view_project"
+                    layout="@layout/view_project_list"
                     bind:viewModel="@{viewModel}" />
 
                 <include

@@ -23,16 +23,6 @@
         android:paddingBottom="8dp"
         tools:background="@color/colorPrimaryDark">
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:background="@color/theme_292929"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -42,20 +32,21 @@
             android:text="@{title}"
             android:textColor="@color/white"
             android:textSize="12sp"
+            android:visibleIf="@{!title.empty}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/sub_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:text="@{subTitle}"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="OO대학교 4학년 재학중" />
 
