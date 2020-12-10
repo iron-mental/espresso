@@ -20,6 +20,18 @@ class NoticeCreateActivity :
 
         setToolbarTitle("공지사항 작성 화면")
         setNavigationIcon(R.drawable.ic_back_24)
+
+        binding.category.setOnClickListener {
+            binding.category.apply {
+                if (text.toString() == context.getString(R.string.pined_false)) {
+                    text = context.getString(R.string.pined_true)
+                    setBackgroundResource(R.color.theme_fc813e)
+                } else {
+                    text = context.getString(R.string.pined_false)
+                    setBackgroundResource(R.color.colorCobaltBlue)
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -52,7 +52,7 @@
                         android:padding="3dp"
                         android:paddingStart="6dp"
                         android:paddingEnd="6dp"
-                        android:text="공지"
+                        android:text="@string/pined_false"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="12sp"
