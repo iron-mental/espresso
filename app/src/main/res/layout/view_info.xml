@@ -38,19 +38,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/career_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="@string/empty_career"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:visibleIf="@{subTitle.length() == 0 &amp;&amp; description.length() == 0}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
-
-        <TextView
             android:id="@+id/sub_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,7 +50,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="OO대학교 4학년 재학중" />
-
 
         <TextView
             android:id="@+id/description"
@@ -80,7 +66,6 @@
             tools:text="경력에 대한 짧은 소개가 들어가는 중입니다. 경력에 대한
 짧은 소개가 들어가는 중입니다. 경력에 대한 짧은 소개가
 들어가는 중입니다. " />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
