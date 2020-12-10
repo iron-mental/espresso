@@ -7,12 +7,15 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeModifyBinding
 
 class NoticeModifyActivity :
     BaseActivity<ActivityNoticeModifyBinding>(R.layout.activity_notice_modify) {
+
+    private val viewModel by viewModels<NoticeModifyViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
