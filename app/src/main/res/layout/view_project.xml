@@ -5,7 +5,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="com.iron.espresso.presentation.viewmodel.ProfileSns"/>
         <import type="com.iron.espresso.R" />
+
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
 
         <variable
             name="item"
@@ -17,12 +22,63 @@
         android:layout_height="wrap_content"
         tools:background="@color/colorPrimaryDark">
 
-
         <include
             android:id="@+id/info_view"
             layout="@layout/view_info"
             bind:subTitle="@{item.title}"
             bind:description="@{item.contents}"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/info_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:goneIf="@{viewModel.isEditMode}"
+            app:constraint_referenced_ids="github_icon, appstore_icon, playstore_icon" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/edt_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibleIf="@{viewModel.isEditMode}"
+            app:constraint_referenced_ids="github_input_view, appstore_input_view, playstore_input_view" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/github_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.GITHUB, item.githubUrl)}"
+            android:padding="4dp"
+            android:src="@drawable/github"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/info_view" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appstore_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.APP_STORE, item.appStoreUrl)}"
+            android:padding="4dp"
+            android:src="@drawable/app_store"
+            app:layout_constraintStart_toEndOf="@id/github_icon"
+            app:layout_constraintTop_toTopOf="@id/github_icon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/playstore_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.PLAY_STORE, item.playStoreUrl)}"
+            android:padding="4dp"
+            android:src="@drawable/play_store"
+            app:layout_constraintStart_toEndOf="@id/appstore_icon"
+            app:layout_constraintTop_toTopOf="@id/github_icon" />
+
 
         <include
             android:id="@+id/github_input_view"

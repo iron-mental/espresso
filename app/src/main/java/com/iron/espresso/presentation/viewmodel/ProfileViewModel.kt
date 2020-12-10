@@ -21,7 +21,7 @@ import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 enum class ProfileSns {
-    GITHUB, LINKED_IN, WEB
+    GITHUB, LINKED_IN, WEB, APP_STORE, PLAY_STORE
 }
 
 class ProfileViewModel @ViewModelInject constructor(
@@ -41,11 +41,17 @@ class ProfileViewModel @ViewModelInject constructor(
         PublishSubject.create()
     }
 
-    val clickSns: (sns: ProfileSns) -> Unit = {
-        val snsLink = when (it) {
-            ProfileSns.GITHUB -> user.value?.snsGithub
-            ProfileSns.LINKED_IN -> user.value?.snsLinkedin
-            ProfileSns.WEB -> user.value?.snsWeb
+    val clickSns: (sns: ProfileSns, url: String) -> Unit = { sns, url ->
+        Logger.d("$url")
+        val snsLink = if (url.isEmpty()) {
+            when (sns) {
+                ProfileSns.GITHUB -> user.value?.snsGithub
+                ProfileSns.LINKED_IN -> user.value?.snsLinkedin
+                ProfileSns.WEB -> user.value?.snsWeb
+                else -> ""
+            }
+        } else {
+            url
         }
 
         if (!snsLink.isNullOrEmpty()) {
@@ -55,6 +61,9 @@ class ProfileViewModel @ViewModelInject constructor(
 
     private val _showLinkEvent = MutableLiveData<Event<String>>()
     val showLinkEvent: LiveData<Event<String>> get() = _showLinkEvent
+
+    private val _projectItemList = MutableLiveData<List<ProjectItem>>()
+    val projectItemList: LiveData<List<ProjectItem>> get() = _projectItemList
 
     init {
         githubId.observeForever {
@@ -69,15 +78,12 @@ class ProfileViewModel @ViewModelInject constructor(
                 Logger.d("$it")
             })
 
-
         getProjectList()
     }
 
-    private val _projectItemList = MutableLiveData<List<ProjectItem>>()
-    val projectItemList: LiveData<List<ProjectItem>> get() = _projectItemList
-
     private fun getProjectList() {
         val id = AuthHolder.id ?: return
+
         compositeDisposable += projectApi.getProjectList(AuthHolder.bearerToken, id)
             .networkSchedulers()
             .subscribe({ response ->

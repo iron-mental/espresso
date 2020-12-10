@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -19,7 +18,6 @@ import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.ActivityProfileBinding
-import com.iron.espresso.databinding.ViewProjectBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,19 +48,26 @@ class ProfileActivity :
             })
 
             showLinkEvent.observe(this@ProfileActivity, EventObserver { url ->
-                CustomTabsIntent.Builder()
-                    .build()
-                    .launchUrl(this@ProfileActivity, Uri.parse(url))
+                if (url.startsWith("http://") || url.startsWith("https://")) {
+                    CustomTabsIntent.Builder()
+                        .build()
+                        .launchUrl(this@ProfileActivity, Uri.parse(url))
+                }
             })
 
             projectItemList.observe(this@ProfileActivity, { projectItemList ->
                 projectItemList.forEach { item ->
-                    val projectBinding =
-                        ViewProjectBinding.inflate(LayoutInflater.from(this@ProfileActivity))
-
-                    projectBinding.item = item
-                    binding.layoutProject.projectListContainer.addView(projectBinding.root)
+//                    val projectBinding =
+//                        ViewProjectBinding.inflate(LayoutInflater.from(this@ProfileActivity))
+//
+//                    projectBinding.viewModel = viewModel
+//                    projectBinding.item = item
+//                    binding.layoutProject.projectListContainer.addView(projectBinding.root)
                 }
+            })
+
+            isEditMode.observe(this@ProfileActivity, {
+
             })
         }
     }
