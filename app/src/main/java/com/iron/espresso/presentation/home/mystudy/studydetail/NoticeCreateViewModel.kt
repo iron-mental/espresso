@@ -1,6 +1,7 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail
 
 import android.annotation.SuppressLint
+import androidx.hilt.lifecycle.ViewModelInject
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
@@ -9,10 +10,12 @@ import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.toErrorResponse
+import com.iron.espresso.model.api.NoticeApi
 import com.iron.espresso.model.api.RegisterNoticeRequest
 import retrofit2.HttpException
 
-class NoticeCreateViewModel : BaseViewModel() {
+class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
+    BaseViewModel() {
 
 
     private fun emptyCheck(noticeItem: NoticeItem): Boolean {
@@ -29,7 +32,7 @@ class NoticeCreateViewModel : BaseViewModel() {
         val message = emptyCheck(noticeItem)
 
         if (message) {
-            ApiModule.provideNoticeApi()
+            noticeApi
                 .registerNotice(
                     bearerToken = AuthHolder.bearerToken,
                     studyId = studyId,
