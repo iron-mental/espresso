@@ -12,6 +12,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeCreateBinding
+import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
 
@@ -40,6 +41,10 @@ class NoticeCreateActivity :
                 }
             }
         }
+
+        viewModel.toastMessage.observe(this, EventObserver { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -61,8 +66,6 @@ class NoticeCreateActivity :
                         pinned = false
                     )
                 )
-
-                Toast.makeText(this, "공지사항 작성이 완료됐습니다", Toast.LENGTH_SHORT).show()
                 setResult(RESULT_OK)
                 finish()
             }
@@ -71,7 +74,6 @@ class NoticeCreateActivity :
     }
 
     companion object {
-        const val NOTICE_ITEM = "NoticeItem"
         fun getInstance(context: Context, studyId: Int) =
             Intent(context, NoticeCreateActivity::class.java).apply {
                 putExtra(STUDY_ID, studyId)

@@ -12,14 +12,12 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
-import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
 import com.iron.espresso.model.response.notice.NoticeListResponse
 import com.iron.espresso.model.response.notice.NoticeResponse
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
-import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeCreateActivity.Companion.NOTICE_ITEM
 
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
@@ -67,6 +65,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         if (requestCode == REQUEST_DELETE_CODE && resultCode == RESULT_OK) {
             viewModel.showNoticeList(studyId)
         } else if (requestCode == REQUEST_CREATE_CODE && resultCode == RESULT_OK) {
+            viewModel.showNoticeList(studyId)
         }
     }
 
