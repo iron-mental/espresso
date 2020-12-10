@@ -87,7 +87,7 @@ class NoticeDetailActivity :
                 onBackPressed()
             }
             R.id.modify_notice -> {
-                Toast.makeText(this, "공지사항 수정 버튼", Toast.LENGTH_SHORT).show()
+                startActivity(NoticeModifyActivity.getInstance(this))
             }
         }
         return true
