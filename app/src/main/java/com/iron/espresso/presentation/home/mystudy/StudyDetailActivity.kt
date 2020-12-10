@@ -65,7 +65,7 @@ class StudyDetailActivity :
             }
 
             R.id.create_notice -> {
-                startActivity(NoticeCreateActivity.getInstance(this))
+                startActivityForResult(NoticeCreateActivity.getInstance(this), DEFAULT_VALUE)
             }
 
             else -> {

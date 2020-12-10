@@ -9,11 +9,13 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeCreateBinding
-import com.iron.espresso.presentation.place.SearchPlaceDetailActivity
 
 class NoticeCreateActivity :
     BaseActivity<ActivityNoticeCreateBinding>(R.layout.activity_notice_create) {
+
+    private lateinit var noticeItem: NoticeItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +48,17 @@ class NoticeCreateActivity :
                 onBackPressed()
             }
             R.id.create_notice -> {
+                binding.run {
+                    noticeItem = NoticeItem(
+                        title = title.text.toString(),
+                        contents = content.text.toString(),
+                        pinned = false
+                    )
+                }
                 Toast.makeText(this, "공지사항 작성이 완료됐습니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent().putExtra(NOTICE_ITEM, noticeItem)
+
+                setResult(RESULT_OK, intent)
                 finish()
             }
         }
@@ -54,6 +66,7 @@ class NoticeCreateActivity :
     }
 
     companion object {
+        private const val NOTICE_ITEM = "NoticeItem"
         fun getInstance(context: Context) =
             Intent(context, NoticeCreateActivity::class.java)
     }
