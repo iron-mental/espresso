@@ -84,7 +84,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
             }
             R.id.create_notice -> {
                 startActivityForResult(
-                    NoticeCreateActivity.getInstance(requireContext()),
+                    NoticeCreateActivity.getInstance(requireContext(),studyId),
                     REQUEST_CREATE_CODE
                 )
             }

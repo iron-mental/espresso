@@ -11,17 +11,22 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeCreateBinding
+import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
+import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
 
 class NoticeCreateActivity :
     BaseActivity<ActivityNoticeCreateBinding>(R.layout.activity_notice_create) {
 
     private lateinit var noticeItem: NoticeItem
+    private var studyId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setToolbarTitle("공지사항 작성 화면")
         setNavigationIcon(R.drawable.ic_back_24)
+
+        studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
 
         binding.category.setOnClickListener {
             binding.category.apply {
@@ -67,7 +72,9 @@ class NoticeCreateActivity :
 
     companion object {
         const val NOTICE_ITEM = "NoticeItem"
-        fun getInstance(context: Context) =
-            Intent(context, NoticeCreateActivity::class.java)
+        fun getInstance(context: Context, studyId: Int) =
+            Intent(context, NoticeCreateActivity::class.java).apply {
+                putExtra(STUDY_ID, studyId)
+            }
     }
 }
