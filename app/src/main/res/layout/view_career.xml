@@ -1,6 +1,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -8,6 +9,7 @@
         <variable
             name="viewModel"
             type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,40 +24,46 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:text="@string/area"
+            android:text="경력"
             android:textColor="@color/white"
             android:textSize="12sp"
+            android:visibleIf="@{title.length() > 0}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <include
+            layout="@layout/view_info"
+            android:goneIf="@{viewModel.isEditMode}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            bind:description="@{viewModel.user.careerContents}"
+            bind:subTitle="@{viewModel.user.careerTitle}" />
+
+        <include
+            layout="@layout/view_info_edit"
+            android:visibleIf="@{viewModel.isEditMode}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            bind:viewModel="@{viewModel}" />
+
+
         <TextView
-            android:id="@+id/area_empty"
+            android:id="@+id/career_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:text="@string/empty_area"
+            android:text="@string/empty_career"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:goneIf="@{viewModel.user.address.length() > 0 || viewModel.isEditMode}"
+            android:visibleIf="@{viewModel.user.careerTitle.length() == 0 &amp;&amp; viewModel.user.careerContents.length() == 0 &amp;&amp; !viewModel.isEditMode}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
-
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@{viewModel.user.address}"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            tools:text="강남, 사당, 이수 가능합니다." />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

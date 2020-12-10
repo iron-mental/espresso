@@ -65,6 +65,9 @@ class ProfileViewModel @ViewModelInject constructor(
     private val _projectItemList = MutableLiveData<List<ProjectItem>>()
     val projectItemList: LiveData<List<ProjectItem>> get() = _projectItemList
 
+    val careerTitle = MutableLiveData<String>()
+    val careerContents = MutableLiveData<String>()
+
     init {
         githubId.observeForever {
             githubIdSubject.onNext(it)
@@ -112,6 +115,9 @@ class ProfileViewModel @ViewModelInject constructor(
 
     fun setProfile(user: User) {
         this.user.value = user
+
+        careerTitle.value = user.careerTitle
+        careerContents.value = user.careerContents
     }
 
     fun enableEditMode() {

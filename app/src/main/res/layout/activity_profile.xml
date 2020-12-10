@@ -7,8 +7,6 @@
 
     <data>
 
-        <import type="com.iron.espresso.R" />
-
         <variable
             name="viewModel"
             type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
@@ -56,10 +54,8 @@
 
                 <include
                     android:id="@+id/layout_career"
-                    layout="@layout/view_info"
-                    bind:title="@{`경력`}"
-                    bind:subTitle="@{viewModel.user.careerTitle}"
-                    bind:description="@{viewModel.user.careerContents}" />
+                    layout="@layout/view_career"
+                    bind:viewModel="@{viewModel}"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -74,15 +70,39 @@
                     layout="@layout/view_project_list"
                     bind:viewModel="@{viewModel}" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/theme_292929"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <include
                     android:id="@+id/layout_sns"
                     layout="@layout/view_sns"
                     bind:viewModel="@{viewModel}" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/theme_292929"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <include
                     android:id="@+id/layout_email"
                     layout="@layout/view_email"
                     bind:viewModel="@{viewModel}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/theme_292929"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <include
                     android:id="@+id/layout_area"

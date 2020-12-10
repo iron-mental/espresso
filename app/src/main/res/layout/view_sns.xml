@@ -28,16 +28,6 @@
             android:visibleIf="@{viewModel.isEditMode}"
             app:constraint_referenced_ids="github_input_view, linkedin_input_view, web_input_view" />
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:background="@color/theme_292929"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -48,7 +38,7 @@
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/sns_empty"
