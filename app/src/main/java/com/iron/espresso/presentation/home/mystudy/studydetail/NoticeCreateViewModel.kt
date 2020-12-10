@@ -14,27 +14,44 @@ import retrofit2.HttpException
 
 class NoticeCreateViewModel : BaseViewModel() {
 
+
+    private fun emptyCheck(noticeItem: NoticeItem): Boolean {
+        return when {
+            noticeItem.title.isEmpty() -> false
+            noticeItem.contents.isEmpty() -> false
+            else -> true
+        }
+    }
+
     @SuppressLint("CheckResult")
     fun createNotice(studyId: Int, noticeItem: NoticeItem) {
-        ApiModule.provideNoticeApi()
-            .registerNotice(
-                bearerToken = AuthHolder.bearerToken,
-                studyId = studyId,
-                body = RegisterNoticeRequest(
-                    title = noticeItem.title,
-                    contents = noticeItem.contents,
-                    pinned = noticeItem.pinned
+
+        val message = emptyCheck(noticeItem)
+
+        if (message) {
+            ApiModule.provideNoticeApi()
+                .registerNotice(
+                    bearerToken = AuthHolder.bearerToken,
+                    studyId = studyId,
+                    body = RegisterNoticeRequest(
+                        title = noticeItem.title,
+                        contents = noticeItem.contents,
+                        pinned = noticeItem.pinned
+                    )
                 )
-            )
-            .networkSchedulers()
-            .subscribe({
-                Logger.d("$it")
-            }, {
-                val errorResponse = (it as HttpException).toErrorResponse()
-                if (errorResponse.message != null) {
-                    _toastMessage.value = Event(errorResponse.message)
-                }
-                Logger.d("$it")
-            })
+                .networkSchedulers()
+                .subscribe({
+                    _toastMessage.value = Event("임시 스터디 등록 성공")
+                    Logger.d("$it")
+                }, {
+                    val errorResponse = (it as HttpException).toErrorResponse()
+                    if (errorResponse.message != null) {
+                        _toastMessage.value = Event(errorResponse.message)
+                    }
+                    Logger.d("$it")
+                })
+        } else {
+            _toastMessage.value = Event("임시 스터 등록 실패")
+        }
     }
 }

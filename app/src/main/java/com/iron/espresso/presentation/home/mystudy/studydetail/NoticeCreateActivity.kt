@@ -44,6 +44,10 @@ class NoticeCreateActivity :
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            if (message == "임시 스터디 등록 성공") {
+                setResult(RESULT_OK)
+                finish()
+            }
         })
     }
 
@@ -66,8 +70,6 @@ class NoticeCreateActivity :
                         pinned = false
                     )
                 )
-                setResult(RESULT_OK)
-                finish()
             }
         }
         return true
