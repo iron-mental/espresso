@@ -3,6 +3,8 @@ package com.iron.espresso.presentation.home.mystudy.studydetail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -73,10 +75,19 @@ class NoticeDetailActivity :
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu_notice_modify, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
+            }
+            R.id.modify_notice -> {
+                Toast.makeText(this, "공지사항 수정 버튼", Toast.LENGTH_SHORT).show()
             }
         }
         return true
