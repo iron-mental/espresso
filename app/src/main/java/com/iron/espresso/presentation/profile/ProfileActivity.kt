@@ -56,18 +56,17 @@ class ProfileActivity :
             })
 
             projectItemList.observe(this@ProfileActivity, { projectItemList ->
-                projectItemList.forEach { item ->
-//                    val projectBinding =
-//                        ViewProjectBinding.inflate(LayoutInflater.from(this@ProfileActivity))
-//
-//                    projectBinding.viewModel = viewModel
-//                    projectBinding.item = item
-//                    binding.layoutProject.projectListContainer.addView(projectBinding.root)
-                }
+
             })
 
             isEditMode.observe(this@ProfileActivity, {
+                if (it) {
+                    setToolbarTitle(R.string.profile_edit_title)
+                } else {
+                    setToolbarTitle(R.string.profile_title)
+                }
 
+                invalidateOptionsMenu()
             })
         }
     }
@@ -82,7 +81,14 @@ class ProfileActivity :
 
     private fun setMenuItems(menu: Menu) {
         val groupId = 0
-        val set = MenuSet.ICON_SHARE
+        val set =
+        if (viewModel.isEditMode.value == true) {
+            MenuSet.ICON_DONE
+        } else {
+            MenuSet.ICON_SHARE
+        }
+
+
 
         if (menu.findItem(set.menuId) == null) {
             menu.add(groupId, set.menuId, 0, set.titleResId)
@@ -93,7 +99,12 @@ class ProfileActivity :
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_profile, menu)
+
+        if (viewModel.isEditMode.value == true) {
+            menu?.clear()
+        } else {
+            inflater.inflate(R.menu.menu_profile, menu)
+        }
         return true
     }
 
@@ -104,6 +115,9 @@ class ProfileActivity :
             }
             R.id.menu_item_share -> {
                 Toast.makeText(this, "공유하기 클릭", Toast.LENGTH_SHORT).show()
+            }
+            R.id.menu_item_share -> {
+                Toast.makeText(this, "수정 완료 클릭", Toast.LENGTH_SHORT).show()
             }
             R.id.edit_profile -> {
                 viewModel.enableEditMode()

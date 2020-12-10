@@ -43,7 +43,9 @@
 
 
     <string name="profile_title">프로필</string>
+    <string name="profile_edit_title">프로필 수정</string>
     <string name="share">공유하기</string>
+    <string name="done">완료</string>
 
     <string name="pined_true">필독</string>
     <string name="pined_false">공지</string>
