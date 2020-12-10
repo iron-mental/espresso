@@ -25,7 +25,7 @@ class MyStudyViewModel : BaseViewModel() {
         ApiModule.provideStudyApi()
             .getMyStudyList(
                 bearerToken = AuthHolder.bearerToken,
-                userId = 19
+                userId = AuthHolder.id ?: -1
             )
             .networkSchedulers()
             .subscribe({
