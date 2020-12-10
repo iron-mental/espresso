@@ -66,7 +66,7 @@ class NoticeCreateActivity :
     }
 
     companion object {
-        private const val NOTICE_ITEM = "NoticeItem"
+        const val NOTICE_ITEM = "NoticeItem"
         fun getInstance(context: Context) =
             Intent(context, NoticeCreateActivity::class.java)
     }

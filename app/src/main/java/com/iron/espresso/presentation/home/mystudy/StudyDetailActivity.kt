@@ -12,9 +12,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeCreateActivity
+import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeCreateActivity.Companion.NOTICE_ITEM
 import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 
@@ -73,6 +75,14 @@ class StudyDetailActivity :
             }
         }
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == DEFAULT_VALUE && resultCode == RESULT_OK) {
+            val noticeItem = data?.getSerializableExtra(NOTICE_ITEM) as NoticeItem
+        }
     }
 
     companion object {
