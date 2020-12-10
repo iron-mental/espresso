@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeCreateBinding
+import com.iron.espresso.presentation.place.SearchPlaceDetailActivity
 
 class NoticeCreateActivity :
     BaseActivity<ActivityNoticeCreateBinding>(R.layout.activity_notice_create) {
