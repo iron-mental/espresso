@@ -5,18 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
-import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
-import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeCreateActivity
-import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeCreateActivity.Companion.NOTICE_ITEM
 import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 
@@ -58,31 +53,6 @@ class StudyDetailActivity :
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.actions, menu)
         return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-            }
-
-            R.id.create_notice -> {
-                startActivityForResult(NoticeCreateActivity.getInstance(this), DEFAULT_VALUE)
-            }
-
-            else -> {
-                Toast.makeText(this, "${item.title}", Toast.LENGTH_SHORT).show()
-            }
-        }
-        return true
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == DEFAULT_VALUE && resultCode == RESULT_OK) {
-            val noticeItem = data?.getSerializableExtra(NOTICE_ITEM) as NoticeItem
-        }
     }
 
     companion object {
