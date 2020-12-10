@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
@@ -24,6 +25,9 @@ class NoticeDetailActivity :
     BaseActivity<ActivityNoticeDetailBinding>(R.layout.activity_notice_detail) {
 
     private val viewModel by viewModels<NoticeDetailViewModel>()
+    private var studyId = -1
+    private var noticeId = -1
+    private lateinit var noticeItem: NoticeItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +35,8 @@ class NoticeDetailActivity :
         setToolbarTitle(TOOLBAR_TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
 
-        val studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
-        val noticeId = intent.getIntExtra(NOTICE_ID, DEFAULT_VALUE)
+        studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
+        noticeId = intent.getIntExtra(NOTICE_ID, DEFAULT_VALUE)
 
         viewModel.showNotice(studyId, noticeId)
 
@@ -58,6 +62,11 @@ class NoticeDetailActivity :
                         setBackgroundResource(R.color.colorCobaltBlue)
                     }
                 }
+                noticeItem = NoticeItem(
+                    title.text.toString(),
+                    content.text.toString(),
+                    false
+                )
 
             }
         })
@@ -87,7 +96,7 @@ class NoticeDetailActivity :
                 onBackPressed()
             }
             R.id.modify_notice -> {
-                startActivity(NoticeModifyActivity.getInstance(this))
+                startActivity(NoticeModifyActivity.getInstance(this, studyId, noticeId, noticeItem))
             }
         }
         return true
@@ -95,7 +104,7 @@ class NoticeDetailActivity :
 
     companion object {
         const val TOOLBAR_TITLE = "공지사항 상세 화면"
-        private const val NOTICE_ID = "noticeId"
+        const val NOTICE_ID = "noticeId"
         fun getInstance(context: Context, noticeId: Int?, studyId: Int) =
             Intent(context, NoticeDetailActivity::class.java).apply {
                 putExtra(NOTICE_ID, noticeId)
