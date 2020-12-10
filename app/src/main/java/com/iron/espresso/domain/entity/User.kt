@@ -14,4 +14,7 @@ data class User(
     val snsWeb: String,
     val emailVerified: Boolean,
     val createdAt: String
-)
+) {
+    val isSnsEmpty: Boolean
+        get() = snsGithub.isEmpty() && snsLinkedin.isEmpty() && snsWeb.isEmpty()
+}
