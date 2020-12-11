@@ -53,7 +53,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
                     noticeItem.id,
                     studyId
                 )
-            }, REQUEST_DELETE_CODE)
+            }, REQUEST_DETAIL_CODE)
         }
 
         binding.noticeList.adapter = noticeAdapter
@@ -62,7 +62,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (requestCode == REQUEST_DELETE_CODE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_DETAIL_CODE && resultCode == RESULT_OK) {
             viewModel.showNoticeList(studyId)
         } else if (requestCode == REQUEST_CREATE_CODE && resultCode == RESULT_OK) {
             viewModel.showNoticeList(studyId)
@@ -94,7 +94,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
     }
 
     companion object {
-        private const val REQUEST_DELETE_CODE = 1
+        private const val REQUEST_DETAIL_CODE = 1
         private const val REQUEST_CREATE_CODE = 2
         fun newInstance(data: Int) =
             NoticeFragment().apply {

@@ -96,13 +96,30 @@ class NoticeDetailActivity :
                 onBackPressed()
             }
             R.id.modify_notice -> {
-                startActivity(NoticeModifyActivity.getInstance(this, studyId, noticeId, noticeItem))
+                startActivityForResult(
+                    NoticeModifyActivity.getInstance(
+                        this,
+                        studyId,
+                        noticeId,
+                        noticeItem
+                    ), REQUEST_MODIFY_CODE
+                )
             }
         }
         return true
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_MODIFY_CODE && resultCode == RESULT_OK) {
+            viewModel.showNotice(studyId, noticeId)
+            setResult(RESULT_OK)
+        }
+    }
+
     companion object {
+        const val REQUEST_MODIFY_CODE = 3
         const val TOOLBAR_TITLE = "공지사항 상세 화면"
         const val NOTICE_ID = "noticeId"
         fun getInstance(context: Context, noticeId: Int?, studyId: Int) =

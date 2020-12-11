@@ -66,6 +66,7 @@ class NoticeModifyActivity :
         viewModel.toastMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
             if (message == "임시 공지사항 수정 성공") {
+                setResult(RESULT_OK)
                 onBackPressed()
             }
         })
