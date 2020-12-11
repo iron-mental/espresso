@@ -25,6 +25,7 @@ class NoticeModifyActivity :
     private var studyId = -1
     private var noticeId = -1
     private lateinit var noticeItem: NoticeItem
+    private var pinned = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +48,17 @@ class NoticeModifyActivity :
                     text = context.getString(R.string.pined_false)
                     setBackgroundResource(R.color.colorCobaltBlue)
                 }
+                setOnClickListener {
+                    if (text == context.getString(R.string.pined_false)) {
+                        text = context.getString(R.string.pined_true)
+                        setBackgroundResource(R.color.theme_fc813e)
+                        pinned = true
+                    } else {
+                        text = context.getString(R.string.pined_false)
+                        setBackgroundResource(R.color.colorCobaltBlue)
+                        pinned = false
+                    }
+                }
             }
         }
     }
@@ -65,7 +77,13 @@ class NoticeModifyActivity :
             R.id.create_notice -> {
                 Toast.makeText(this, "수정완료", Toast.LENGTH_SHORT).show()
 
-                viewModel.modifyNotice(studyId, noticeId, noticeItem)
+                viewModel.modifyNotice(
+                    studyId, noticeId, NoticeItem(
+                        binding.title.text.toString(),
+                        binding.content.text.toString(),
+                        pinned
+                    )
+                )
             }
         }
         return true

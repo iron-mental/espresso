@@ -7,10 +7,13 @@ import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.ModifyNoticeRequest
 import com.iron.espresso.model.api.NoticeApi
+import retrofit2.HttpException
 
-class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) : BaseViewModel() {
+class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
+    BaseViewModel() {
 
     @SuppressLint("CheckResult")
     fun modifyNotice(studyId: Int, noticeId: Int, noticeItem: NoticeItem) {
@@ -29,7 +32,9 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
             .subscribe({
                 Logger.d("$it")
             }, {
-                Logger.d("$it")
+                val errorResponse = (it as? HttpException)?.toErrorResponse()
+
+                Logger.d("$errorResponse")
             })
     }
 }

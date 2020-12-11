@@ -65,7 +65,7 @@ class NoticeDetailActivity :
                 noticeItem = NoticeItem(
                     title.text.toString(),
                     content.text.toString(),
-                    false
+                    notice.pinned ?: false
                 )
 
             }
