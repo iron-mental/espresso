@@ -6,6 +6,7 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.NoticeItem
+import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.ModifyNoticeRequest
@@ -33,6 +34,11 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
                 Logger.d("$it")
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
+                if (errorResponse != null) {
+                    _toastMessage.value = Event("${errorResponse.message}")
+                } else {
+                    _toastMessage.value = Event("임시 공지사항 수정 성공")
+                }
 
                 Logger.d("$errorResponse")
             })

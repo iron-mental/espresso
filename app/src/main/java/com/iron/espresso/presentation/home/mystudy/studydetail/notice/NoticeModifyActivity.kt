@@ -12,6 +12,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeModifyBinding
+import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
 import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeDetailActivity.Companion.NOTICE_ID
@@ -61,6 +62,13 @@ class NoticeModifyActivity :
                 }
             }
         }
+
+        viewModel.toastMessage.observe(this, EventObserver { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            if (message == "임시 공지사항 수정 성공") {
+                onBackPressed()
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -75,7 +83,6 @@ class NoticeModifyActivity :
                 onBackPressed()
             }
             R.id.create_notice -> {
-                Toast.makeText(this, "수정완료", Toast.LENGTH_SHORT).show()
 
                 viewModel.modifyNotice(
                     studyId, noticeId, NoticeItem(
