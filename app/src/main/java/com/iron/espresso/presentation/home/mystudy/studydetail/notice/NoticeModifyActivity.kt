@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeItem
@@ -25,7 +26,6 @@ class NoticeModifyActivity :
     private val viewModel by viewModels<NoticeModifyViewModel>()
     private var studyId = -1
     private var noticeId = -1
-    private lateinit var noticeItem: NoticeItem
     private var pinned = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,31 +36,26 @@ class NoticeModifyActivity :
 
         studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
         noticeId = intent.getIntExtra(NOTICE_ID, DEFAULT_VALUE)
-        noticeItem = intent.getSerializableExtra(NOTICE_ITEM) as NoticeItem
+        val noticeItem = intent.getSerializableExtra(NOTICE_ITEM) as NoticeItem
 
         binding.run {
             title.setText(noticeItem.title)
             content.setText(noticeItem.contents)
-            category.apply {
-                if (noticeItem.pinned) {
-                    text = context.getString(R.string.pined_true)
-                    setBackgroundResource(R.color.theme_fc813e)
-                } else {
-                    text = context.getString(R.string.pined_false)
-                    setBackgroundResource(R.color.colorCobaltBlue)
-                }
-                setOnClickListener {
-                    if (text == context.getString(R.string.pined_false)) {
-                        text = context.getString(R.string.pined_true)
-                        setBackgroundResource(R.color.theme_fc813e)
-                        pinned = true
-                    } else {
-                        text = context.getString(R.string.pined_false)
-                        setBackgroundResource(R.color.colorCobaltBlue)
-                        pinned = false
-                    }
-                }
+        }
+
+        viewModel.pinnedCheck(noticeItem.pinned)
+
+        viewModel.pinned.observe(this, Observer { pinned ->
+            this.pinned = pinned.pinned
+
+            binding.category.apply {
+                text = resources.getString(pinned.title)
+                setBackgroundResource(pinned.color)
             }
+        })
+
+        binding.category.setOnClickListener {
+            viewModel.changePinned(pinned)
         }
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
