@@ -5,16 +5,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayout
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyListBinding
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
-import com.iron.espresso.presentation.home.study.model.StudyListItem
 
 class StudyListActivity :
     BaseActivity<ActivityStudyListBinding>(R.layout.activity_study_list) {
 
+    private val viewModel by viewModels<StudyListViewModel>()
     private val studyListAdapter = StudyListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,24 +42,25 @@ class StudyListActivity :
             }
         })
 
-        val studyList = mutableListOf<StudyListItem>().apply {
-            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
-            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
-            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
-            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
-            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
-            add(StudyListItem("안드로이드 스터디", "강남역 윙스터디", "강남구", "10/27", "", ""))
+        viewModel.getStudyList()
 
-        }
+        viewModel.studyList.observe(this, Observer { studyList ->
+
+            studyListAdapter.apply {
+                setItemList(studyList)
+                itemClickListener = { title ->
+                    Toast.makeText(
+                        this@StudyListActivity,
+                        "onClick title: $title",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
+        })
 
         binding.studyList.adapter = studyListAdapter
-        studyListAdapter.apply {
-            setItemList(studyList)
-            itemClickListener = { title ->
-                Toast.makeText(this@StudyListActivity, "onClick title: $title", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

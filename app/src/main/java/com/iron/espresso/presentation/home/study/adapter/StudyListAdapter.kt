@@ -2,15 +2,16 @@ package com.iron.espresso.presentation.home.study.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.iron.espresso.presentation.home.study.model.StudyListItem
+import com.iron.espresso.model.response.study.StudyListResponse
+import com.iron.espresso.model.response.study.StudyResponse
 
 class StudyListAdapter :
     RecyclerView.Adapter<StudyListViewHolder>() {
 
     lateinit var itemClickListener: (title: String) -> Unit
-    private val studyList = mutableListOf<StudyListItem>()
+    private val studyList = mutableListOf<StudyResponse>()
 
-    fun setItemList(studyList: List<StudyListItem>) {
+    fun setItemList(studyList: StudyListResponse) {
         this.studyList.clear()
         this.studyList.addAll(studyList)
         notifyDataSetChanged()

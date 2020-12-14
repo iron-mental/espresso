@@ -9,7 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.iron.espresso.R
 import com.iron.espresso.databinding.ItemStudyListBinding
-import com.iron.espresso.presentation.home.study.model.StudyListItem
+import com.iron.espresso.model.response.study.StudyResponse
 
 class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(
@@ -19,24 +19,26 @@ class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemStudyListBinding>(itemView)
 
-    fun bind(item: StudyListItem, itemClickListener: (title: String) -> Unit) {
+    fun bind(item: StudyResponse, itemClickListener: (title: String) -> Unit) {
         itemView.setOnClickListener {
-            itemClickListener(item.title)
+            item.title?.let { title -> itemClickListener(title) }
         }
         binding?.run {
             title.text = item.title
-            caption.text = item.caption
-            location.text = item.location
-            date.text = item.date
+            caption.text = item.introduce
+            location.text = item.sigungu
+            date.text = item.createdAt
 
             Glide.with(itemView)
-                .load("https://appsamurai.com/wp-content/uploads/2017/07/android-and-ios-development.jpg")
+                .load(item.image)
                 .transform(CenterCrop(), RoundedCorners(30))
+                .error(R.drawable.dummy_image)
                 .into(image)
 
             Glide.with(itemView)
-                .load("https://www.leaders.kr/news/photo/201709/54250_45831_2657.jpg")
+                .load(item.leaderImage)
                 .circleCrop()
+                .error(R.drawable.dummy_image)
                 .into(profileImage)
         }
     }
