@@ -19,12 +19,12 @@ class StudyListViewModel : BaseViewModel() {
         get() = _studyList
 
     @SuppressLint("CheckResult")
-    fun getStudyList() {
+    fun getStudyList(category: String, sort: String) {
         ApiModule.provideStudyApi()
             .getStudyList(
                 bearerToken = AuthHolder.bearerToken,
-                category = "android",
-                sort = "new"
+                category = category,
+                sort = sort
             )
             .networkSchedulers()
             .subscribe({

@@ -32,7 +32,7 @@ class StudyListActivity :
 
         binding.topTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                Toast.makeText(this@StudyListActivity, tab?.text, Toast.LENGTH_SHORT).show()
+                viewModel.getStudyList("android", checkTab(tab?.text.toString()))
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -42,7 +42,7 @@ class StudyListActivity :
             }
         })
 
-        viewModel.getStudyList()
+        viewModel.getStudyList("android", "new")
 
         viewModel.studyList.observe(this, Observer { studyList ->
 
@@ -61,6 +61,14 @@ class StudyListActivity :
 
         binding.studyList.adapter = studyListAdapter
 
+    }
+
+    private fun checkTab(tab: String): String {
+        return if (tab == "최신") {
+            "new"
+        } else {
+            "length"
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
