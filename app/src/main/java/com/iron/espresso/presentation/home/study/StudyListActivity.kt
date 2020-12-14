@@ -12,7 +12,9 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyListBinding
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StudyListActivity :
     BaseActivity<ActivityStudyListBinding>(R.layout.activity_study_list) {
 
@@ -53,8 +55,7 @@ class StudyListActivity :
                         this@StudyListActivity,
                         "onClick title: $title",
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                 }
             }
         })
