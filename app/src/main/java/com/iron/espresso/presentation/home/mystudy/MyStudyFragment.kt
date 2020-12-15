@@ -35,7 +35,7 @@ class MyStudyFragment :
             myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
                 override fun onClick(item: MyStudyResponse) {
                     startActivity(context?.let {
-                        StudyDetailActivity.getInstance(it, item.title, item.id)
+                        MyStudyDetailActivity.getInstance(it, item.title, item.id)
                     })
                 }
             })

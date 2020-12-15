@@ -30,7 +30,7 @@
             android:value="zwhswglizn" />
 
         <activity android:name=".presentation.profile.ProfileActivity" />
-        <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
+        <activity android:name=".presentation.home.mystudy.MyStudyDetailActivity" />
         <activity
             android:name=".presentation.home.HomeActivity"
             android:windowSoftInputMode="adjustPan" />

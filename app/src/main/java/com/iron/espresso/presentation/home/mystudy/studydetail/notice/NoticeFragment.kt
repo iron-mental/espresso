@@ -15,8 +15,8 @@ import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentNoticeBinding
 import com.iron.espresso.model.response.notice.NoticeListResponse
 import com.iron.espresso.model.response.notice.NoticeResponse
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity.Companion.DEFAULT_VALUE
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity.Companion.STUDY_ID
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
 
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
