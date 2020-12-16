@@ -56,6 +56,7 @@ class StudyListActivity :
                         "onClick title: $title",
                         Toast.LENGTH_SHORT
                     ).show()
+                    startActivity(StudyDetailActivity.getInstance(this@StudyListActivity))
                 }
             }
         })
