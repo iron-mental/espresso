@@ -81,6 +81,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/introduce_detail"
                         android:layout_width="224dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
@@ -170,6 +171,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/proceed_detail"
                         android:layout_width="285dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
@@ -207,6 +209,7 @@ Swift의 기본을 다집니다.
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/time_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"

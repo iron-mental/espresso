@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
@@ -21,6 +22,13 @@ class StudyDetailActivity :
         setNavigationIcon(R.drawable.ic_back_24)
 
         viewModel.getStudy(193)
+
+        viewModel.studyDetail.observe(this, Observer { studyDetail ->
+            binding.introduceDetail.text = studyDetail.introduce
+            binding.proceedDetail.text = studyDetail.progress
+            binding.timeDetail.text = studyDetail.studyTime
+            binding.placeDetail.text = studyDetail.locationResponse?.addressName
+        })
 
     }
 
