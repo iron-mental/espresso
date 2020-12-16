@@ -29,5 +29,5 @@ data class StudyDetailResponse(
     @SerializedName("location")
     val locationResponse: LocationResponse?,
     @SerializedName("Authority")
-    val authority: Int?
+    val authority: String?
 )
