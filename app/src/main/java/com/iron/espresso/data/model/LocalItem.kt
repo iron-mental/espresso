@@ -8,6 +8,6 @@ data class LocalItem(
     val sido: String,
     val sigungu: String,
     val addressName: String,
-    val placeName: String?,
-    var locationDetail: String?
+    val placeName: String = "",
+    var locationDetail: String = ""
 ): Serializable
