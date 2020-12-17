@@ -3,7 +3,11 @@ package com.iron.espresso.presentation.home.mystudy.studydetail
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
@@ -14,7 +18,6 @@ import com.iron.espresso.model.response.notice.NoticeResponse
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
-import org.koin.android.ext.android.bind
 
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
@@ -50,7 +53,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
                     noticeItem.id,
                     studyId
                 )
-            }, REQUEST_CODE)
+            }, REQUEST_DELETE_CODE)
         }
 
         binding.noticeList.adapter = noticeAdapter
@@ -59,14 +62,40 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_DELETE_CODE && resultCode == RESULT_OK) {
+            viewModel.showNoticeList(studyId)
+        } else if (requestCode == REQUEST_CREATE_CODE && resultCode == RESULT_OK) {
             viewModel.showNoticeList(studyId)
         }
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_notice, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                activity?.finish()
+            }
+            R.id.create_notice -> {
+                startActivityForResult(
+                    NoticeCreateActivity.getInstance(requireContext(),studyId),
+                    REQUEST_CREATE_CODE
+                )
+            }
+
+            else -> {
+                Toast.makeText(context, "${item.title}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return true
     }
 
     companion object {
-        private const val REQUEST_CODE = 1
+        private const val REQUEST_DELETE_CODE = 1
+        private const val REQUEST_CREATE_CODE = 2
         fun newInstance(data: Int) =
             NoticeFragment().apply {
                 arguments = Bundle().apply {
