@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -129,25 +129,22 @@
                         app:layout_constraintStart_toEndOf="@+id/member"
                         app:layout_constraintTop_toTopOf="@+id/member" />
 
-                    <ImageView
-                        android:id="@id/member_image"
-                        android:layout_width="46dp"
-                        android:layout_height="46dp"
-                        android:layout_marginTop="12dp"
-                        android:src="@drawable/ic_github"
-                        app:layout_constraintStart_toStartOf="@+id/member"
-                        app:layout_constraintTop_toBottomOf="@+id/member" />
-
-                    <TextView
+                    <HorizontalScrollView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="고양이"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="@+id/member_image"
-                        app:layout_constraintStart_toStartOf="@+id/member_image"
-                        app:layout_constraintTop_toBottomOf="@+id/member_image" />
+                        android:overScrollMode="never"
+                        android:scrollbars="none"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/member">
 
+                        <LinearLayout
+                            android:id="@+id/member_container"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp" />
+                    </HorizontalScrollView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
