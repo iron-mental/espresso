@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentMystudyBinding
@@ -24,17 +25,20 @@ class MyStudyFragment :
 
         binding.run {
             rvMyStudy.adapter = myStudyAdapter
-            vm = myStudyViewModel
             myStudyViewModel.showMyStudyList()
-
-            myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
-                override fun onClick(item: MyStudyResponse) {
-                    startActivity(context?.let {
-                        StudyDetailActivity.getInstance(it, item.title, item.id)
-                    })
-                }
-            })
         }
+
+        myStudyViewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
+            myStudyAdapter.replaceAll(studyList)
+        })
+
+        myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
+            override fun onClick(item: MyStudyResponse) {
+                startActivity(context?.let {
+                    StudyDetailActivity.getInstance(it, item.title, item.id)
+                })
+            }
+        })
 
     }
 
