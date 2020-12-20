@@ -28,10 +28,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="21dp"
+            android:fontFamily="@font/noto_sans_bold"
             android:text="@{viewModel.user.nickname}"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_image" />
@@ -42,15 +42,30 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="16dp"
+            android:text="@{viewModel.user.introduce}"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:text="@{viewModel.user.introduce}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_name"
             app:layout_constraintWidth_percent=".6"
-            tools:text="안드로이드 앱 개발 공부중입니다. 사실 때려치고 카페차려서 취미로 개발하고 싶네요." />
+            tools:text="안드로이드 앱 개발 공부중입니다. 취미로 개발하고 싶네요." />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:fontFamily="@font/noto_sans_bold"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="10dp"
+            android:text="수정"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
