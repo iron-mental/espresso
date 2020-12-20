@@ -6,16 +6,18 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentMystudyBinding
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyStudyFragment :
     BaseFragment<FragmentMystudyBinding>(R.layout.fragment_mystudy) {
 
-    private val myStudyViewModel by sharedViewModel<MyStudyViewModel>()
+    private val myStudyViewModel by activityViewModels<MyStudyViewModel>()
 
     private val myStudyAdapter by lazy { MyStudyAdapter() }
 

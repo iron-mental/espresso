@@ -6,6 +6,10 @@
 
     <data>
         <import type="com.iron.espresso.R" />
+
+        <variable
+            name="item"
+            type="com.iron.espresso.presentation.profile.ProjectItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

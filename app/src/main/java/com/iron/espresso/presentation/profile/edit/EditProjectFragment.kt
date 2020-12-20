@@ -16,6 +16,8 @@ class EditProjectFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.viewModel = viewModel
     }
     companion object {
         fun newInstance() =
