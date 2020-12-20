@@ -3,7 +3,6 @@ package com.iron.espresso.presentation.profile
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -32,8 +31,6 @@ class ProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.viewModel = viewModel
-
         UserHolder.get()?.let {
             viewModel.setProfile(user = it)
         }
@@ -44,6 +41,7 @@ class ProfileFragment :
             avatarUrl.observe(viewLifecycleOwner, { avatarUrl ->
                 Glide.with(requireContext())
                     .load(avatarUrl)
+                    .optionalCircleCrop()
                     .into(binding.layoutHeader.profileImage)
             })
 
@@ -61,6 +59,8 @@ class ProfileFragment :
         }
 
         binding.run {
+            this.viewModel = this@ProfileFragment.viewModel
+
             layoutHeader.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 showFragment(EditProfileHeaderFragment.newInstance())
             }
@@ -106,11 +106,6 @@ class ProfileFragment :
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_profile, menu)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -118,9 +113,6 @@ class ProfileFragment :
             }
             R.id.menu_item_share -> {
                 Toast.makeText(requireContext(), "공유하기 클릭", Toast.LENGTH_SHORT).show()
-            }
-            R.id.edit_profile -> {
-                Toast.makeText(requireContext(), "${item.title}", Toast.LENGTH_SHORT).show()
             }
             else -> {
 
