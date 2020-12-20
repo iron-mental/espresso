@@ -53,7 +53,6 @@
             tools:text="안드로이드 앱 개발 공부중입니다. 취미로 개발하고 싶네요." />
 
         <include
-            android:id="@+id/edt_button"
             layout="@layout/view_edit_button"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

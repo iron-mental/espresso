@@ -58,7 +58,6 @@
             tools:text="강남, 사당, 이수 가능합니다." />
 
         <include
-            android:id="@+id/edt_button"
             layout="@layout/view_edit_button"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -86,7 +86,6 @@
             app:layout_constraintTop_toTopOf="@id/github_icon" />
 
         <include
-            android:id="@+id/edt_button"
             layout="@layout/view_edit_button"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
