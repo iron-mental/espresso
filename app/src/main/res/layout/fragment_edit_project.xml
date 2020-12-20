@@ -6,6 +6,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.profile.edit.EditProjectViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

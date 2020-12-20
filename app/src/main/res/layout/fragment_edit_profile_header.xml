@@ -4,7 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.profile.edit.EditProfileHeaderViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,7 +14,6 @@
         android:layout_height="match_parent"
         android:paddingStart="12dp"
         android:paddingEnd="12dp">
-
 
         <ImageView
             android:id="@+id/profile_image"
@@ -27,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="21dp"
-            android:text="@{viewModel.user.nickname}"
+            android:text="@{viewModel.nickname}"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -43,7 +44,7 @@
             android:layout_marginBottom="16dp"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:text="@{viewModel.user.introduce}"
+            android:text="@{viewModel.introduce}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_name"
