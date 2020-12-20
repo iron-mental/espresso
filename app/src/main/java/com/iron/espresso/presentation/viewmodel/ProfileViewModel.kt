@@ -35,8 +35,6 @@ class ProfileViewModel @ViewModelInject constructor(
 
     val avatarUrl = MutableLiveData<String>()
 
-    val isEditMode = MutableLiveData(false)
-
     private val githubIdSubject: PublishSubject<String> by lazy {
         PublishSubject.create()
     }
@@ -118,10 +116,6 @@ class ProfileViewModel @ViewModelInject constructor(
 
         careerTitle.value = user.careerTitle
         careerContents.value = user.careerContents
-    }
-
-    fun enableEditMode() {
-        isEditMode.value = true
     }
 
     companion object {

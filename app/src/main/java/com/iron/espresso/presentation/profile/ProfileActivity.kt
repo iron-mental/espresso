@@ -58,16 +58,6 @@ class ProfileActivity :
             projectItemList.observe(this@ProfileActivity, { projectItemList ->
 
             })
-
-            isEditMode.observe(this@ProfileActivity, {
-                if (it) {
-                    setToolbarTitle(R.string.profile_edit_title)
-                } else {
-                    setToolbarTitle(R.string.profile_title)
-                }
-
-                invalidateOptionsMenu()
-            })
         }
     }
 
@@ -81,12 +71,7 @@ class ProfileActivity :
 
     private fun setMenuItems(menu: Menu) {
         val groupId = 0
-        val set =
-        if (viewModel.isEditMode.value == true) {
-            MenuSet.ICON_DONE
-        } else {
-            MenuSet.ICON_SHARE
-        }
+        val set = MenuSet.ICON_SHARE
 
 
 
@@ -100,11 +85,7 @@ class ProfileActivity :
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
 
-        if (viewModel.isEditMode.value == true) {
-            menu?.clear()
-        } else {
-            inflater.inflate(R.menu.menu_profile, menu)
-        }
+        inflater.inflate(R.menu.menu_profile, menu)
         return true
     }
 
@@ -120,7 +101,6 @@ class ProfileActivity :
                 Toast.makeText(this, "수정 완료 클릭", Toast.LENGTH_SHORT).show()
             }
             R.id.edit_profile -> {
-                viewModel.enableEditMode()
                 Toast.makeText(this, "${item.title}", Toast.LENGTH_SHORT).show()
             }
             else -> {

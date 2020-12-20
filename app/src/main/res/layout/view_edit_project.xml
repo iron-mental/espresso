@@ -1,0 +1,99 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.iron.espresso.R" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@color/colorPrimaryDark">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/project_title_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/title"
+            android:textColorHint="@color/theme_d1d1cf"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                tools:text="프로젝트 터미널" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/project_contents_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/contents"
+            android:textColorHint="@color/theme_d1d1cf"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/project_title_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:minHeight="100dp"
+                tools:text="프로젝트에 대한 짧은 소개가 들어가는 중입니다. " />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <include
+
+            android:id="@+id/github_input_view"
+            layout="@layout/view_input_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/project_contents_layout"
+            bind:hint="@{`Github Project URL`}"
+            bind:icon="@{R.drawable.github}"
+            bind:title="@{`Github`}"
+            bind:url="@{item.githubUrl}" />
+
+        <include
+            android:id="@+id/appstore_input_view"
+            layout="@layout/view_input_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/github_input_view"
+            bind:hint="@{`App Store URL`}"
+            bind:icon="@{R.drawable.app_store}"
+            bind:title="@{`App Store`}"
+            bind:url="@{item.appStoreUrl}" />
+
+        <include
+            android:id="@+id/playstore_input_view"
+            layout="@layout/view_input_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appstore_input_view"
+            bind:hint="@{`PlayStore URL`}"
+            bind:icon="@{R.drawable.play_store}"
+            bind:title="@{`PlayStore`}"
+            bind:url="@{item.playStoreUrl}" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

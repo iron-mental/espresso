@@ -35,7 +35,7 @@
             android:id="@+id/project_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:goneIf="@{viewModel.projectItemList.size() > 0 || viewModel.isEditMode}"
+            android:goneIf="@{viewModel.projectItemList.size() > 0}"
             android:padding="20dp"
             android:text="@string/empty_project"
             android:textColor="@color/white"
@@ -74,20 +74,6 @@
                 bind:viewModel="@{viewModel}"
                 bind:item="@{viewModel.projectItemList.get(2)}"/>
         </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/project_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            android:text="@string/project_add_button"
-            android:visibleIf="@{viewModel.isEditMode &amp;&amp; viewModel.projectItemList.size() &lt; 3}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/project_list_container" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

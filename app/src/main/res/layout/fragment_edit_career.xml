@@ -1,26 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        tools:background="@color/colorPrimaryDark">
+        android:layout_height="match_parent"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/career_title_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:hint="@string/title"
             android:textColorHint="@color/theme_d1d1cf"
             android:textSize="12sp"
@@ -32,7 +30,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
-                android:text="@{viewModel.user.careerTitle}"
                 tools:text="OO대학교 4학년 재학중" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,11 +38,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:hint="@string/contents"
             android:textColorHint="@color/theme_d1d1cf"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/career_title_layout">
@@ -53,9 +48,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="100dp"
                 android:imeOptions="actionDone"
-                android:text="@{viewModel.user.careerContents}"
+                android:minHeight="100dp"
                 tools:text="경력에 대한 짧은 소개가 들어가는 중입니다. " />
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -21,13 +21,6 @@
         android:paddingBottom="8dp"
         tools:background="@color/colorPrimaryDark">
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/edt_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibleIf="@{viewModel.isEditMode}"
-            app:constraint_referenced_ids="github_input_view, linkedin_input_view, web_input_view" />
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -44,7 +37,7 @@
             android:id="@+id/sns_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibleIf="@{viewModel.user.snsEmpty &amp;&amp; !viewModel.isEditMode}"
+            android:visibleIf="@{viewModel.user.snsEmpty}"
             android:padding="20dp"
             android:text="@string/empty_sns"
             android:textColor="@color/white"
@@ -63,7 +56,7 @@
             android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.GITHUB, viewModel.user.snsGithub)}"
             android:padding="4dp"
             android:src="@drawable/github"
-            android:visibleIf="@{!viewModel.isEditMode &amp;&amp; viewModel.user.snsGithub.length() > 0}"
+            android:visibleIf="@{viewModel.user.snsGithub.length() > 0}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
@@ -76,7 +69,7 @@
             android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.LINKED_IN, viewModel.user.snsLinkedin)}"
             android:padding="4dp"
             android:src="@drawable/linked_in"
-            android:visibleIf="@{!viewModel.isEditMode &amp;&amp; viewModel.user.snsLinkedin.length() > 0}"
+            android:visibleIf="@{viewModel.user.snsLinkedin.length() > 0}"
             app:layout_constraintStart_toEndOf="@id/github_icon"
             app:layout_constraintTop_toTopOf="@id/github_icon" />
 
@@ -89,7 +82,7 @@
             android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.WEB, viewModel.user.snsWeb)}"
             android:padding="4dp"
             android:src="@drawable/icon_web"
-            android:visibleIf="@{!viewModel.isEditMode &amp;&amp; viewModel.user.snsWeb.length() > 0}"
+            android:visibleIf="@{viewModel.user.snsWeb.length() > 0}"
             app:layout_constraintStart_toEndOf="@id/linkedin_icon"
             app:layout_constraintTop_toTopOf="@id/github_icon" />
 

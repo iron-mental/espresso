@@ -36,7 +36,7 @@
             android:text="@string/empty_area"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:goneIf="@{viewModel.user.address.length() > 0 || viewModel.isEditMode}"
+            android:goneIf="@{viewModel.user.address.length() > 0}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
