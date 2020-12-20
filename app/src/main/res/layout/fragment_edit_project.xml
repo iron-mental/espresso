@@ -40,25 +40,26 @@
                         android:id="@+id/project_first"
                         layout="@layout/view_edit_project"
                         android:visibleIf="@{viewModel.projectItemList.size() > 0}"
-                        bind:item="@{viewModel.projectItemList.get(0)}" />
+                        bind:item="@{viewModel.firstItem}" />
 
                     <include
                         android:id="@+id/project_seconds"
                         layout="@layout/view_edit_project"
                         android:visibleIf="@{viewModel.projectItemList.size() > 1}"
-                        bind:item="@{viewModel.projectItemList.get(1)}" />
+                        bind:item="@{viewModel.secondItem}" />
 
                     <include
                         android:id="@+id/project_third"
                         layout="@layout/view_edit_project"
                         android:visibleIf="@{viewModel.projectItemList.size() > 2}"
-                        bind:item="@{viewModel.projectItemList.get(2)}" />
+                        bind:item="@{viewModel.thirdItem}" />
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/project_add_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{_ -> viewModel.addProject()}"
                     android:layout_margin="20dp"
                     android:text="@string/project_add_button"
                     android:textColor="@color/white"
