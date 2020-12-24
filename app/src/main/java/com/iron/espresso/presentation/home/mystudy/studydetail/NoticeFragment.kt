@@ -14,7 +14,6 @@ import com.iron.espresso.model.response.notice.NoticeResponse
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
-import org.koin.android.ext.android.bind
 
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
@@ -44,13 +43,13 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         })
 
         noticeAdapter.setItemClickListener { noticeItem: NoticeResponse ->
-            startActivityForResult(context?.let {
+            startActivityForResult(
                 NoticeDetailActivity.getInstance(
-                    it,
+                    requireContext(),
                     noticeItem.id,
                     studyId
-                )
-            }, REQUEST_CODE)
+                ), REQUEST_CODE
+            )
         }
 
         binding.noticeList.adapter = noticeAdapter

@@ -67,7 +67,7 @@ class NoticeDetailActivity :
         binding.deleteButton.setOnClickListener {
             viewModel.deleteNotice(studyId, noticeId)
             setResult(RESULT_OK)
-            onBackPressed()
+            finish()
         }
 
 
