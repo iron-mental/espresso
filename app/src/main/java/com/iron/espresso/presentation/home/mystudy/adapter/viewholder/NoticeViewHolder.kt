@@ -28,15 +28,13 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         binding?.run {
             title.text = item.title
             category.apply {
-                when (item.pinned) {
-                    true -> {
-                        text = context.getString(R.string.pined_true)
-                        setBackgroundResource(R.color.theme_fc813e)
-                    }
-                    false -> {
-                        text = context.getString(R.string.pined_false)
-                        setBackgroundResource(R.color.colorCobaltBlue)
-                    }
+                if (item.pinned == true) {
+                    text = context.getString(R.string.pined_true)
+                    setBackgroundResource(R.color.theme_fc813e)
+                }
+                else if (item.pinned == false) {
+                    text = context.getString(R.string.pined_false)
+                    setBackgroundResource(R.color.colorCobaltBlue)
                 }
             }
             date.text = item.updatedAt
