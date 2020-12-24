@@ -2,21 +2,21 @@ package com.iron.espresso.presentation.home.mystudy.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.iron.espresso.data.model.NoticeListItem
+import com.iron.espresso.model.response.notice.NoticeResponse
 import com.iron.espresso.presentation.home.mystudy.adapter.viewholder.NoticeViewHolder
 
 class NoticeAdapter :
     RecyclerView.Adapter<NoticeViewHolder>() {
 
-    private lateinit var itemClickListener: (noticeItem: NoticeListItem) -> Unit
+    private lateinit var itemClickListener: (noticeItem: NoticeResponse) -> Unit
 
-    fun setItemClickListener(listener: (noticeItem: NoticeListItem) -> Unit) {
+    fun setItemClickListener(listener: (noticeItem: NoticeResponse) -> Unit) {
         itemClickListener = listener
     }
 
-    private val noticeList = mutableListOf<NoticeListItem>()
+    private val noticeList = mutableListOf<NoticeResponse>()
 
-    fun setItemList(noticeList: List<NoticeListItem>) {
+    fun setItemList(noticeList: List<NoticeResponse>) {
         this.noticeList.clear()
         this.noticeList.addAll(noticeList)
         notifyDataSetChanged()

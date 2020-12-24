@@ -14,8 +14,12 @@ data class NoticeDetailResponse(
     val contents: String?,
     @SerializedName("pinned")
     val pinned: Boolean?,
-    @SerializedName("created_at")
-    val createdAt: String?,
+    @SerializedName("leader_id")
+    val leaderId: Int?,
+    @SerializedName("leader_image")
+    val leaderImage: String?,
+    @SerializedName("leader_nickname")
+    val leaderNickname: String?,
     @SerializedName("updated_at")
     val updatedAt: String?
 )
