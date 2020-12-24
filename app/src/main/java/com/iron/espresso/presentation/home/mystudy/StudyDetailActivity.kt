@@ -72,7 +72,7 @@ class StudyDetailActivity :
     companion object {
         private const val TOOLBAR_TITLE = "title"
         private const val STUDY_ID = "studyId"
-        fun getInstance(context: Context, title: String?, id: Int?) =
+        fun getInstance(context: Context, title: String, id: Int) =
             Intent(context, StudyDetailActivity::class.java)
                 .putExtra(TOOLBAR_TITLE, title)
                 .putExtra(STUDY_ID, id)
