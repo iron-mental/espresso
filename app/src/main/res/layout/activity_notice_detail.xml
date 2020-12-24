@@ -103,6 +103,16 @@
                         app:layout_constraintTop_toBottomOf="@+id/writer_name"
                         tools:text="2020.8.27 목요일 오후 10:00" />
 
+                    <Button
+                        android:id="@+id/delete_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="임시 삭제 버튼"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/writer_image"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/writer_image" />
+
                     <TextView
                         android:id="@+id/content"
                         android:layout_width="wrap_content"

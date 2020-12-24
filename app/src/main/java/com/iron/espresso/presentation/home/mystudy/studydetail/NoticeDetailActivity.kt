@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -11,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
+import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +28,8 @@ class NoticeDetailActivity :
         setToolbarTitle(TOOLBAR_TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
 
-        val studyId = intent.getIntExtra(StudyDetailActivity.STUDY_ID, StudyDetailActivity.DEFAULT_VALUE)
+        val studyId =
+            intent.getIntExtra(StudyDetailActivity.STUDY_ID, StudyDetailActivity.DEFAULT_VALUE)
         val noticeId = intent.getIntExtra(NOTICE_ID, StudyDetailActivity.DEFAULT_VALUE)
 
         viewModel.showNotice(studyId, noticeId)
@@ -53,8 +56,20 @@ class NoticeDetailActivity :
                         setBackgroundResource(R.color.colorCobaltBlue)
                     }
                 }
+
             }
         })
+
+        viewModel.toastMessage.observe(this, EventObserver { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        })
+
+        binding.deleteButton.setOnClickListener {
+            viewModel.deleteNotice(studyId, noticeId)
+            setResult(RESULT_OK)
+            finish()
+        }
+
 
     }
 

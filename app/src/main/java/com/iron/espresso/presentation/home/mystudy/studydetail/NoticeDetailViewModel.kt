@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
@@ -35,6 +36,26 @@ class NoticeDetailViewModel @ViewModelInject constructor(private val noticeApi: 
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
                 Logger.d("$errorResponse")
+            })
+    }
+
+    fun deleteNotice(studyId: Int, noticeId: Int) {
+        compositeDisposable += noticeApi
+            .deleteNotice(
+                bearerToken = AuthHolder.bearerToken,
+                studyId = studyId,
+                noticeId = noticeId
+            )
+            .networkSchedulers()
+            .subscribe({
+                if (it.message != null) {
+                    _toastMessage.value = Event(it.message)
+                }
+            }, {
+                val errorResponse = (it as? HttpException)?.toErrorResponse()
+                if (errorResponse?.message != null) {
+                    _toastMessage.value = Event(errorResponse.message)
+                }
             })
     }
 }
