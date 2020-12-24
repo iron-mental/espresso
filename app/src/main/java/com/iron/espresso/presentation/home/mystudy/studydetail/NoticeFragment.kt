@@ -10,7 +10,9 @@ import com.iron.espresso.model.response.notice.NoticeListResponse
 import com.iron.espresso.model.response.notice.NoticeResponse
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
     private val noticeAdapter = NoticeAdapter()
@@ -36,13 +38,9 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         })
 
         noticeAdapter.setItemClickListener { noticeItem: NoticeResponse ->
-            startActivity(context?.let {
-                NoticeDetailActivity.getInstance(
-                    it,
-                    noticeItem.id,
-                    studyId
-                )
-            })
+            startActivity(
+                NoticeDetailActivity.getInstance(requireContext(), noticeItem.id, studyId)
+            )
         }
 
         binding.noticeList.adapter = noticeAdapter
