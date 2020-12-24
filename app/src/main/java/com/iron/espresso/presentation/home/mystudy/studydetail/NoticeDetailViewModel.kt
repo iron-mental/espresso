@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail
 
-import android.annotation.SuppressLint
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,9 +8,9 @@ import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.NoticeApi
-import com.iron.espresso.model.response.Label
 import com.iron.espresso.model.response.notice.NoticeDetailResponse
 import retrofit2.HttpException
 
@@ -22,9 +21,8 @@ class NoticeDetailViewModel @ViewModelInject constructor(private val noticeApi: 
     val notice: LiveData<NoticeDetailResponse>
         get() = _notice
 
-    @SuppressLint("CheckResult")
     fun showNotice(studyId: Int, noticeId: Int) {
-        noticeApi
+        compositeDisposable += noticeApi
             .getNotice(
                 bearerToken = AuthHolder.bearerToken,
                 studyId = studyId,
@@ -41,9 +39,8 @@ class NoticeDetailViewModel @ViewModelInject constructor(private val noticeApi: 
             })
     }
 
-    @SuppressLint("CheckResult")
     fun deleteNotice(studyId: Int, noticeId: Int) {
-        noticeApi
+        compositeDisposable += noticeApi
             .deleteNotice(
                 bearerToken = AuthHolder.bearerToken,
                 studyId = studyId,

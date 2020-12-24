@@ -45,7 +45,7 @@ data class RegisterStudyRequest(
             if (placeName.isNotEmpty()) addFormDataPart("place_name", placeName)
             if (locationDetail.isNotEmpty()) addFormDataPart("location_detail", locationDetail)
             if (snsNotion.isNotEmpty()) addFormDataPart("sns_notion", snsNotion)
-            if (snsEverNote.isNotEmpty()) addFormDataPart("sns_ever_note", snsEverNote)
+            if (snsEverNote.isNotEmpty()) addFormDataPart("sns_evernote", snsEverNote)
             if (snsWeb.isNotEmpty()) addFormDataPart("sns_web", snsWeb)
             if (image != null) {
                 addFormDataPart(
@@ -54,7 +54,6 @@ data class RegisterStudyRequest(
                     image.asRequestBody(MultipartBody.FORM)
                 )
             }
-
             build().parts
         }
     }
@@ -94,7 +93,7 @@ data class ModifyStudyRequest(
             if (placeName.isNotEmpty()) addFormDataPart("place_name", placeName)
             if (locationDetail.isNotEmpty()) addFormDataPart("location_detail", locationDetail)
             if (snsNotion.isNotEmpty()) addFormDataPart("sns_notion", snsNotion)
-            if (snsEverNote.isNotEmpty()) addFormDataPart("sns_ever_note", snsEverNote)
+            if (snsEverNote.isNotEmpty()) addFormDataPart("sns_evernote", snsEverNote)
             if (snsWeb.isNotEmpty()) addFormDataPart("sns_web", snsWeb)
             if (image != null) {
                 addFormDataPart(
