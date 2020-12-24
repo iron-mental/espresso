@@ -5,17 +5,20 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentMystudyBinding
+import com.iron.espresso.model.response.study.MyStudyResponse
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyStudyFragment :
     BaseFragment<FragmentMystudyBinding>(R.layout.fragment_mystudy) {
 
-    private val myStudyViewModel by sharedViewModel<MyStudyViewModel>()
+    private val myStudyViewModel by viewModels<MyStudyViewModel>()
 
     private val myStudyAdapter by lazy { MyStudyAdapter() }
 
@@ -24,18 +27,22 @@ class MyStudyFragment :
 
         binding.run {
             rvMyStudy.adapter = myStudyAdapter
-            vm = myStudyViewModel
             myStudyViewModel.showMyStudyList()
-
-            myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
-                override fun onClick(view: View) {
-                    Toast.makeText(context, view.tag.toString(), Toast.LENGTH_SHORT).show()
-                    startActivity(context?.let {
-                        StudyDetailActivity.getInstance(it, view.tag.toString())
-                    })
-                }
-            })
         }
+
+        myStudyViewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
+            myStudyAdapter.replaceAll(studyList)
+        })
+
+        myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
+            override fun onClick(item: MyStudyResponse) {
+                if (item.title != null && item.id != null) {
+                    startActivity(
+                        StudyDetailActivity.getInstance(requireContext(), item.title, item.id)
+                    )
+                }
+            }
+        })
 
     }
 

@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -72,7 +71,10 @@ class StudyDetailActivity :
 
     companion object {
         private const val TOOLBAR_TITLE = "title"
-        fun getInstance(context: Context, title: String) =
-            Intent(context, StudyDetailActivity::class.java).putExtra(TOOLBAR_TITLE, title)
+        private const val STUDY_ID = "studyId"
+        fun getInstance(context: Context, title: String, id: Int) =
+            Intent(context, StudyDetailActivity::class.java)
+                .putExtra(TOOLBAR_TITLE, title)
+                .putExtra(STUDY_ID, id)
     }
 }
