@@ -12,8 +12,8 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
-import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
+import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

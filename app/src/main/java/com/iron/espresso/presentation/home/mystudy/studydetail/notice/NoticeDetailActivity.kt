@@ -1,8 +1,10 @@
-package com.iron.espresso.presentation.home.mystudy.studydetail
+package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -11,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
@@ -21,6 +24,9 @@ class NoticeDetailActivity :
     BaseActivity<ActivityNoticeDetailBinding>(R.layout.activity_notice_detail) {
 
     private val viewModel by viewModels<NoticeDetailViewModel>()
+    private var studyId = -1
+    private var noticeId = -1
+    private lateinit var noticeItem: NoticeItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +34,9 @@ class NoticeDetailActivity :
         setToolbarTitle(TOOLBAR_TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
 
-        val studyId =
+        studyId =
             intent.getIntExtra(StudyDetailActivity.STUDY_ID, StudyDetailActivity.DEFAULT_VALUE)
-        val noticeId = intent.getIntExtra(NOTICE_ID, StudyDetailActivity.DEFAULT_VALUE)
+        noticeId = intent.getIntExtra(NOTICE_ID, StudyDetailActivity.DEFAULT_VALUE)
 
         viewModel.showNotice(studyId, noticeId)
 
@@ -56,6 +62,11 @@ class NoticeDetailActivity :
                         setBackgroundResource(R.color.colorCobaltBlue)
                     }
                 }
+                noticeItem = NoticeItem(
+                    title.text.toString(),
+                    content.text.toString(),
+                    notice.pinned ?: false
+                )
 
             }
         })
@@ -73,18 +84,44 @@ class NoticeDetailActivity :
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu_notice_modify, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
             }
+            R.id.modify_notice -> {
+                startActivityForResult(
+                    NoticeModifyActivity.getInstance(
+                        this,
+                        studyId,
+                        noticeId,
+                        noticeItem
+                    ), REQUEST_MODIFY_CODE
+                )
+            }
         }
         return true
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_MODIFY_CODE && resultCode == RESULT_OK) {
+            viewModel.showNotice(studyId, noticeId)
+            setResult(RESULT_OK)
+        }
+    }
+
     companion object {
-        const val TOOLBAR_TITLE = "공지사항 상세 화면"
-        private const val NOTICE_ID = "noticeId"
+        private const val REQUEST_MODIFY_CODE = 3
+        private const val TOOLBAR_TITLE = "공지사항 상세 화면"
+        const val NOTICE_ID = "noticeId"
         fun getInstance(context: Context, noticeId: Int?, studyId: Int) =
             Intent(context, NoticeDetailActivity::class.java).apply {
                 putExtra(NOTICE_ID, noticeId)
