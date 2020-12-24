@@ -16,7 +16,9 @@ import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.NoticeFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StudyDetailActivity :
     BaseActivity<ActivityStudyDetailBinding>(R.layout.activity_study_detail) {
 
@@ -38,7 +40,7 @@ class StudyDetailActivity :
 
                 override fun createFragment(position: Int): Fragment =
                     when (position) {
-                        0 -> NoticeFragment.newInstance()
+                        0 -> NoticeFragment.newInstance(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
                         1 -> StudyInfoFragment.newInstance()
                         2 -> ChattingFragment.newInstance()
                         else -> error("Invalid position")
@@ -71,7 +73,8 @@ class StudyDetailActivity :
 
     companion object {
         private const val TOOLBAR_TITLE = "title"
-        private const val STUDY_ID = "studyId"
+        const val DEFAULT_VALUE = 0
+        const val STUDY_ID = "studyId"
         fun getInstance(context: Context, title: String, id: Int) =
             Intent(context, StudyDetailActivity::class.java)
                 .putExtra(TOOLBAR_TITLE, title)

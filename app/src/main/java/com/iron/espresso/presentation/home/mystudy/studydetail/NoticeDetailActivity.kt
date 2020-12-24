@@ -4,19 +4,58 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
+import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class NoticeDetailActivity :
     BaseActivity<ActivityNoticeDetailBinding>(R.layout.activity_notice_detail) {
+
+    private val viewModel by viewModels<NoticeDetailViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setToolbarTitle(TOOLBAR_TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
+
+        val studyId = intent.getIntExtra(StudyDetailActivity.STUDY_ID, StudyDetailActivity.DEFAULT_VALUE)
+        val noticeId = intent.getIntExtra(NOTICE_ID, StudyDetailActivity.DEFAULT_VALUE)
+
+        viewModel.showNotice(studyId, noticeId)
+
+        viewModel.notice.observe(this, Observer { notice ->
+            binding.run {
+                title.text = notice.title
+                writerName.text = notice.leaderNickname
+                content.text = notice.contents
+                date.text = notice.updatedAt
+
+                Glide.with(this@NoticeDetailActivity)
+                    .load(notice.leaderImage)
+                    .apply(RequestOptions.circleCropTransform())
+                    .error(R.drawable.dummy_image)
+                    .into(writerImage)
+
+                category.apply {
+                    if (notice.pinned != null && notice.pinned) {
+                        text = context.getString(R.string.pined_true)
+                        setBackgroundResource(R.color.theme_fc813e)
+                    } else {
+                        text = context.getString(R.string.pined_false)
+                        setBackgroundResource(R.color.colorCobaltBlue)
+                    }
+                }
+            }
+        })
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -30,7 +69,11 @@ class NoticeDetailActivity :
 
     companion object {
         const val TOOLBAR_TITLE = "공지사항 상세 화면"
-        fun getInstance(context: Context) =
-            Intent(context, NoticeDetailActivity::class.java)
+        private const val NOTICE_ID = "noticeId"
+        fun getInstance(context: Context, noticeId: Int?, studyId: Int) =
+            Intent(context, NoticeDetailActivity::class.java).apply {
+                putExtra(NOTICE_ID, noticeId)
+                putExtra(StudyDetailActivity.STUDY_ID, studyId)
+            }
     }
 }

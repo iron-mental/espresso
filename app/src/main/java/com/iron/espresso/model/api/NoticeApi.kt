@@ -27,17 +27,17 @@ interface NoticeApi {
         @Body body: RegisterNoticeRequest
     ): Single<BaseResponse<Nothing>>
 
-    @GET("/v1/study/{study_id}/notice/")
-    fun getNotice(
-        @Header("Authorization") bearerToken: String,
-        @Path("study_id") studyId: Int
-    ): Single<BaseResponse<NoticeDetailResponse>>
-
     @GET("/v1/study/{study_id}/notice/{notice_id}")
-    fun getNoticeList(
+    fun getNotice(
         @Header("Authorization") bearerToken: String,
         @Path("study_id") studyId: Int,
         @Path("notice_id") noticeId: Int
+    ): Single<BaseResponse<NoticeDetailResponse>>
+
+    @GET("/v1/study/{study_id}/notice/")
+    fun getNoticeList(
+        @Header("Authorization") bearerToken: String,
+        @Path("study_id") studyId: Int
     ): Single<BaseResponse<NoticeListResponse>>
 
     @GET("/v1/study/1/notice/paging/list")
