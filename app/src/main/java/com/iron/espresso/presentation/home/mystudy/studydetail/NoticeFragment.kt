@@ -8,8 +8,7 @@ import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentNoticeBinding
 import com.iron.espresso.model.response.notice.NoticeListResponse
 import com.iron.espresso.model.response.notice.NoticeResponse
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
+import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
 
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
@@ -22,7 +21,8 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val studyId = arguments?.getInt(STUDY_ID) ?: DEFAULT_VALUE
+        val studyId =
+            arguments?.getInt(StudyDetailActivity.STUDY_ID) ?: StudyDetailActivity.DEFAULT_VALUE
 
         viewModel.showNoticeList(studyId)
 
@@ -36,7 +36,13 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         })
 
         noticeAdapter.setItemClickListener { noticeItem: NoticeResponse ->
-            startActivity(context?.let { NoticeDetailActivity.getInstance(it, noticeItem.id, studyId) })
+            startActivity(context?.let {
+                NoticeDetailActivity.getInstance(
+                    it,
+                    noticeItem.id,
+                    studyId
+                )
+            })
         }
 
         binding.noticeList.adapter = noticeAdapter
@@ -47,7 +53,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         fun newInstance(data: Int) =
             NoticeFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(STUDY_ID, data)
+                    putInt(StudyDetailActivity.STUDY_ID, data)
                 }
             }
     }
