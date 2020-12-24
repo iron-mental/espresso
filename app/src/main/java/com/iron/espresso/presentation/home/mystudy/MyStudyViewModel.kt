@@ -9,12 +9,14 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.study.MyStudyResponse
 import retrofit2.HttpException
 
-class MyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyApi): BaseViewModel() {
+class MyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
+    BaseViewModel() {
 
     private val _studyList =
         MutableLiveData<List<MyStudyResponse>>()
@@ -23,7 +25,7 @@ class MyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyA
 
     @SuppressLint("CheckResult")
     fun showMyStudyList() {
-        studyApi
+        compositeDisposable += studyApi
             .getMyStudyList(
                 bearerToken = AuthHolder.bearerToken,
                 userId = AuthHolder.id ?: -1
