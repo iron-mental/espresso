@@ -14,9 +14,7 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeModifyBinding
 import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
-import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeDetailActivity.Companion.NOTICE_ID
+import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,8 +32,8 @@ class NoticeModifyActivity :
         setToolbarTitle("공지사항 수정 화면")
         setNavigationIcon(R.drawable.ic_back_24)
 
-        studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
-        noticeId = intent.getIntExtra(NOTICE_ID, DEFAULT_VALUE)
+        studyId = intent.getIntExtra(StudyDetailActivity.STUDY_ID, StudyDetailActivity.DEFAULT_VALUE)
+        noticeId = intent.getIntExtra(NoticeDetailActivity.NOTICE_ID, StudyDetailActivity.DEFAULT_VALUE)
         val noticeItem = intent.getSerializableExtra(NOTICE_ITEM) as NoticeItem
 
         binding.run {
@@ -97,8 +95,8 @@ class NoticeModifyActivity :
         private const val NOTICE_ITEM = "noticeItem"
         fun getInstance(context: Context, studyId: Int, noticeId: Int, noticeItem: NoticeItem) =
             Intent(context, NoticeModifyActivity::class.java).apply {
-                putExtra(STUDY_ID, studyId)
-                putExtra(NOTICE_ID, noticeId)
+                putExtra(StudyDetailActivity.STUDY_ID, studyId)
+                putExtra(NoticeDetailActivity.NOTICE_ID, noticeId)
                 putExtra(NOTICE_ITEM, noticeItem)
             }
     }
