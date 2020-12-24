@@ -12,7 +12,9 @@ import com.iron.espresso.databinding.ActivityHomeBinding
 import com.iron.espresso.presentation.home.mystudy.MyStudyFragment
 import com.iron.espresso.presentation.home.setting.SettingFragment
 import com.iron.espresso.presentation.home.study.StudyFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity :
     BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
