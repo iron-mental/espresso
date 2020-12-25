@@ -137,7 +137,7 @@ class ImagePickerFragment : BottomSheetDialogFragment() {
                 val resultUri = data?.getParcelableExtra(CropImage.CROP_IMAGE_EXTRA_RESULT) as? Uri
 
                 val uriListData = Intent().apply {
-                    putExtra(ARG_IMAGE_URI, arrayOf(resultUri))
+                    putExtra(ARG_IMAGE_URI, resultUri)
                 }
                 targetFragment?.onActivityResult(
                     targetRequestCode,
