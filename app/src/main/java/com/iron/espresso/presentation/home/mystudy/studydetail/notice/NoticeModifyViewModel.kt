@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.data.model.NoticeItemType
@@ -18,6 +19,10 @@ import retrofit2.HttpException
 
 class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
     BaseViewModel() {
+
+    private val _snackBarText = MutableLiveData<Event<ValidationInputText>>()
+    val snackBarMessage: LiveData<Event<ValidationInputText>>
+        get() = _snackBarText
 
     private val _pinned = MutableLiveData<NoticeItemType>()
     val pinned: LiveData<NoticeItemType>
@@ -60,7 +65,7 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
                 if (errorResponse != null) {
                     _toastMessage.value = Event("${errorResponse.message}")
                 } else {
-                    _toastMessage.value = Event("임시 공지사항 수정 성공")
+                    _snackBarText.value = Event(ValidationInputText.REGISTER_NOTICE)
                 }
 
                 Logger.d("$errorResponse")

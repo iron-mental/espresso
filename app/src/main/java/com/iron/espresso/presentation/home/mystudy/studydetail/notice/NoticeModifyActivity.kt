@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeModifyBinding
@@ -32,8 +33,10 @@ class NoticeModifyActivity :
         setToolbarTitle("공지사항 수정 화면")
         setNavigationIcon(R.drawable.ic_back_24)
 
-        studyId = intent.getIntExtra(StudyDetailActivity.STUDY_ID, StudyDetailActivity.DEFAULT_VALUE)
-        noticeId = intent.getIntExtra(NoticeDetailActivity.NOTICE_ID, StudyDetailActivity.DEFAULT_VALUE)
+        studyId =
+            intent.getIntExtra(StudyDetailActivity.STUDY_ID, StudyDetailActivity.DEFAULT_VALUE)
+        noticeId =
+            intent.getIntExtra(NoticeDetailActivity.NOTICE_ID, StudyDetailActivity.DEFAULT_VALUE)
         val noticeItem = intent.getSerializableExtra(NOTICE_ITEM) as NoticeItem
 
         binding.run {
@@ -58,7 +61,11 @@ class NoticeModifyActivity :
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-            if (message == "임시 공지사항 수정 성공") {
+        })
+
+        viewModel.snackBarMessage.observe(this, EventObserver { message ->
+            Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
+            if (message == ValidationInputText.REGISTER_NOTICE) {
                 setResult(RESULT_OK)
                 onBackPressed()
             }
