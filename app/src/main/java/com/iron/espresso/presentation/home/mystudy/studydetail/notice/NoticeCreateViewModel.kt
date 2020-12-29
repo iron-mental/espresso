@@ -2,11 +2,13 @@ package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
 import android.annotation.SuppressLint
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.NoticeItem
-import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.toErrorResponse
@@ -17,12 +19,15 @@ import retrofit2.HttpException
 class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
     BaseViewModel() {
 
+    private val _snackBarText = MutableLiveData<Event<ValidationInputText>>()
+    val snackBarMessage: LiveData<Event<ValidationInputText>>
+        get() = _snackBarText
 
-    private fun emptyCheck(noticeItem: NoticeItem): Boolean {
+    private fun emptyCheck(noticeItem: NoticeItem): ValidationInputText {
         return when {
-            noticeItem.title.isEmpty() -> false
-            noticeItem.contents.isEmpty() -> false
-            else -> true
+            noticeItem.title.isEmpty() -> ValidationInputText.EMPTY_TITLE
+            noticeItem.contents.isEmpty() -> ValidationInputText.EMPTY_CONTENTS
+            else -> ValidationInputText.REGISTER_NOTICE
         }
     }
 
@@ -31,7 +36,7 @@ class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: 
 
         val message = emptyCheck(noticeItem)
 
-        if (message) {
+        if (message == ValidationInputText.REGISTER_NOTICE) {
             noticeApi
                 .registerNotice(
                     bearerToken = AuthHolder.bearerToken,
@@ -44,7 +49,7 @@ class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: 
                 )
                 .networkSchedulers()
                 .subscribe({
-                    _toastMessage.value = Event("임시 스터디 등록 성공")
+                    _snackBarText.value = Event(message)
                     Logger.d("$it")
                 }, {
                     val errorResponse = (it as HttpException).toErrorResponse()
@@ -54,7 +59,7 @@ class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: 
                     Logger.d("$it")
                 })
         } else {
-            _toastMessage.value = Event("임시 스터 등록 실패")
+            _snackBarText.value = Event(message)
         }
     }
 }

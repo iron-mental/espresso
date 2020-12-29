@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.iron.espresso.R
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeCreateBinding
@@ -44,12 +45,16 @@ class NoticeCreateActivity :
             }
         }
 
-        viewModel.toastMessage.observe(this, EventObserver { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-            if (message == "임시 스터디 등록 성공") {
+        viewModel.snackBarMessage.observe(this, EventObserver { message ->
+            Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
+            if (message == ValidationInputText.REGISTER_NOTICE) {
                 setResult(RESULT_OK)
                 finish()
             }
+        })
+
+        viewModel.toastMessage.observe(this, EventObserver { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         })
     }
 
