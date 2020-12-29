@@ -37,6 +37,9 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
                 if (errorResponse != null) {
                     Logger.d("$errorResponse")
+                    if (errorResponse.data == null) {
+                        _noticeListItem.value = null
+                    }
                 }
             }
     }

@@ -8,7 +8,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
@@ -42,9 +41,11 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
                 noticeAdapter.run {
                     setItemList(noticeList)
                 }
+                binding.emptyView.visibility = View.GONE
+                binding.noticeList.visibility = View.VISIBLE
             } else {
-                binding.emptyView.isVisible = true
-                binding.noticeList.isVisible = false
+                binding.emptyView.visibility = View.VISIBLE
+                binding.noticeList.visibility = View.GONE
             }
         })
 
