@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.study
+package com.iron.espresso.presentation.home.study.list
 
 import android.annotation.SuppressLint
 import androidx.hilt.lifecycle.ViewModelInject
@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.StudyApi

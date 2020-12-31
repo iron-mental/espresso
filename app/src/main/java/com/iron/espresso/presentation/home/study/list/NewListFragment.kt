@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentNewListBinding
-import com.iron.espresso.presentation.home.study.StudyListViewModel
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

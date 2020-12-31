@@ -1,18 +1,14 @@
-package com.iron.espresso.presentation.home.study
+package com.iron.espresso.presentation.home.study.list
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyListBinding
-import com.iron.espresso.presentation.home.study.list.LocationFragment
-import com.iron.espresso.presentation.home.study.list.NewListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

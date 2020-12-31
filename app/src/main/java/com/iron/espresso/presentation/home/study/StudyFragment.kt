@@ -11,6 +11,7 @@ import com.iron.espresso.databinding.FragmentStudyBinding
 import com.iron.espresso.presentation.StudyCategoryItem
 import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
+import com.iron.espresso.presentation.home.study.list.StudyListActivity
 
 class StudyFragment :
     BaseFragment<FragmentStudyBinding>(R.layout.fragment_study),
