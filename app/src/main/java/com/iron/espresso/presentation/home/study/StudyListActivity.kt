@@ -6,26 +6,33 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyListBinding
-import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
+import com.iron.espresso.presentation.home.study.list.LocationFragment
+import com.iron.espresso.presentation.home.study.list.NewListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class StudyListActivity :
     BaseActivity<ActivityStudyListBinding>(R.layout.activity_study_list) {
 
-    private val viewModel by viewModels<StudyListViewModel>()
-    private val studyListAdapter = StudyListAdapter()
+    private var newListFragment: Fragment? = null
+    private var locationFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setToolbarTitle(getString(R.string.study))
         setNavigationIcon(R.drawable.ic_back_24)
+
+        val fragmentManager = supportFragmentManager
+
+        newListFragment = NewListFragment.newInstance()
+        fragmentManager.beginTransaction()
+            .replace(R.id.study_list_container, newListFragment!!).commit()
 
         val studyTabList = resources.getStringArray(R.array.study_tab)
         studyTabList.forEach { title ->
@@ -34,7 +41,40 @@ class StudyListActivity :
 
         binding.topTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewModel.getStudyList("android", checkTab(tab?.text.toString()))
+                when (tab?.position) {
+                    0 -> {
+                        if (newListFragment == null) {
+                            newListFragment = NewListFragment.newInstance()
+                            fragmentManager.beginTransaction()
+                                .add(R.id.study_list_container, newListFragment!!).commit()
+                        }
+
+                        if (newListFragment != null) {
+                            fragmentManager.beginTransaction()
+                                .show(newListFragment!!).commit()
+                        }
+                        if (locationFragment != null) {
+                            fragmentManager.beginTransaction()
+                                .hide(locationFragment!!).commit()
+                        }
+                    }
+                    1 -> {
+                        if (locationFragment == null) {
+                            locationFragment = LocationFragment.newInstance()
+                            fragmentManager.beginTransaction()
+                                .add(R.id.study_list_container, locationFragment!!).commit()
+                        }
+
+                        if (newListFragment != null) {
+                            fragmentManager.beginTransaction()
+                                .hide(newListFragment!!).commit()
+                        }
+                        if (locationFragment != null) {
+                            fragmentManager.beginTransaction()
+                                .show(locationFragment!!).commit()
+                        }
+                    }
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -43,33 +83,6 @@ class StudyListActivity :
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
-
-        viewModel.getStudyList("android", "new")
-
-        viewModel.studyList.observe(this, Observer { studyList ->
-
-            studyListAdapter.apply {
-                setItemList(studyList)
-                itemClickListener = { title ->
-                    Toast.makeText(
-                        this@StudyListActivity,
-                        "onClick title: $title",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        })
-
-        binding.studyList.adapter = studyListAdapter
-
-    }
-
-    private fun checkTab(tab: String): String {
-        return if (tab == "최신") {
-            "new"
-        } else {
-            "length"
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
