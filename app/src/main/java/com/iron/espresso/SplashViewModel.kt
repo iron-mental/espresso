@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.User
+import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
@@ -18,6 +19,9 @@ class SplashViewModel @ViewModelInject constructor(private val userRemoteDataSou
 
     private val _userInfoResult = MutableLiveData<User>()
     val userInfoResult: LiveData<User> get() = _userInfoResult
+
+    private val _failedEvent = MutableLiveData<Event<Unit>>()
+    val failedEvent: LiveData<Event<Unit>> get() = _failedEvent
 
     fun checkTokenAndResult(bearerToken: String, userId: Int) {
         compositeDisposable += userRemoteDataSource.getUser(bearerToken, userId)
@@ -34,6 +38,8 @@ class SplashViewModel @ViewModelInject constructor(private val userRemoteDataSou
 
                 if (errorResponse != null && errorResponse.code == ErrorCode.JWT_EXPIRED) {
                     reIssuanceAccessToken(bearerToken, AuthHolder.refreshToken)
+                } else {
+                    _failedEvent.value = Event(Unit)
                 }
             })
     }
@@ -53,6 +59,7 @@ class SplashViewModel @ViewModelInject constructor(private val userRemoteDataSou
                      }
                  }
             }, {
+                _failedEvent.value = Event(Unit)
                 Logger.d("$it")
             })
     }
