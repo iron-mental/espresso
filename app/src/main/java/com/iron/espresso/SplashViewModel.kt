@@ -8,7 +8,7 @@ import com.iron.espresso.domain.entity.User
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.response.Label
+import com.iron.espresso.model.response.ErrorCode
 import com.iron.espresso.model.source.remote.ReIssuanceTokenRequest
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import retrofit2.HttpException
@@ -32,7 +32,7 @@ class SplashViewModel @ViewModelInject constructor(private val userRemoteDataSou
 
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
 
-                if (errorResponse != null && errorResponse.label == Label.JWT_EXPIRED.value) {
+                if (errorResponse != null && errorResponse.code == ErrorCode.JWT_EXPIRED) {
                     reIssuanceAccessToken(bearerToken, AuthHolder.refreshToken)
                 }
             })
