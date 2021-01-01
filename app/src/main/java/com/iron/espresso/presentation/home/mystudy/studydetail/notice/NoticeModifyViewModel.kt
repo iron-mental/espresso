@@ -7,7 +7,6 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
@@ -28,7 +27,7 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
     val pinned: LiveData<NoticeItemType>
         get() = _pinned
 
-    fun pinnedCheck(pinned: Boolean) {
+    fun initPin(pinned: Boolean) {
         if (pinned) {
             _pinned.value = NoticeItemType.HEADER
         } else {
@@ -36,24 +35,24 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
         }
     }
 
-    fun changePinned(pinned: Boolean) {
-        if (pinned) {
+    fun changePinned() {
+        if (_pinned.value == NoticeItemType.HEADER) {
             _pinned.value = NoticeItemType.ITEM
         } else {
             _pinned.value = NoticeItemType.HEADER
         }
     }
 
-    fun modifyNotice(studyId: Int, noticeId: Int, noticeItem: NoticeItem) {
+    fun modifyNotice(studyId: Int, noticeId: Int, title: String, contents: String) {
         compositeDisposable += noticeApi
             .modifyNotice(
                 bearerToken = AuthHolder.bearerToken,
                 studyId = studyId,
                 noticeId = noticeId,
                 body = ModifyNoticeRequest(
-                    title = noticeItem.title,
-                    contents = noticeItem.contents,
-                    pinned = noticeItem.pinned
+                    title = title,
+                    contents = contents,
+                    pinned = _pinned.value == NoticeItemType.HEADER
                 )
             )
             .networkSchedulers()

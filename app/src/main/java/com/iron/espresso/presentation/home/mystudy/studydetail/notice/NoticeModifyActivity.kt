@@ -25,7 +25,6 @@ class NoticeModifyActivity :
     private val viewModel by viewModels<NoticeModifyViewModel>()
     private var studyId = -1
     private var noticeId = -1
-    private var pinned = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +43,9 @@ class NoticeModifyActivity :
             content.setText(noticeItem.contents)
         }
 
-        viewModel.pinnedCheck(noticeItem.pinned)
+        viewModel.initPin(noticeItem.pinned)
 
         viewModel.pinned.observe(this, Observer { pinned ->
-            this.pinned = pinned.pinned
 
             binding.category.apply {
                 text = resources.getString(pinned.title)
@@ -56,7 +54,7 @@ class NoticeModifyActivity :
         })
 
         binding.category.setOnClickListener {
-            viewModel.changePinned(pinned)
+            viewModel.changePinned()
         }
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
@@ -86,11 +84,9 @@ class NoticeModifyActivity :
             R.id.create_notice -> {
 
                 viewModel.modifyNotice(
-                    studyId, noticeId, NoticeItem(
-                        binding.title.text.toString(),
-                        binding.content.text.toString(),
-                        pinned
-                    )
+                    studyId, noticeId,
+                    binding.title.text.toString(),
+                    binding.content.text.toString()
                 )
             }
         }
