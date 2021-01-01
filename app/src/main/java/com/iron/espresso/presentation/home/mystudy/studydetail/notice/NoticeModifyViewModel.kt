@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
-import android.annotation.SuppressLint
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +11,7 @@ import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.ModifyNoticeRequest
 import com.iron.espresso.model.api.NoticeApi
@@ -44,9 +44,8 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
         }
     }
 
-    @SuppressLint("CheckResult")
     fun modifyNotice(studyId: Int, noticeId: Int, noticeItem: NoticeItem) {
-        noticeApi
+        compositeDisposable += noticeApi
             .modifyNotice(
                 bearerToken = AuthHolder.bearerToken,
                 studyId = studyId,

@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.mystudy
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -23,7 +22,6 @@ class MyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyA
     val studyList: LiveData<List<MyStudyResponse>>
         get() = _studyList
 
-    @SuppressLint("CheckResult")
     fun showMyStudyList() {
         compositeDisposable += studyApi
             .getMyStudyList(
