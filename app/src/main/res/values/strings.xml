@@ -68,6 +68,7 @@
     <string name="empty_time">시간을 작성하세요</string>
     <string name="register_study">스터디가 등록되었습니다</string>
     <string name="register_notice">공지사항이 등록되었습니다</string>
+    <string name="modify_notice">공지사항이 수정되었습니다</string>
 
     <string name="next">다음</string>
 </resources>

@@ -11,4 +11,5 @@ enum class ValidationInputText(@Resource val resId: Int) {
     EMPTY_PLACE(R.string.empty_place),
     REGISTER_STUDY(R.string.register_study),
     REGISTER_NOTICE(R.string.register_notice),
+    MODIFY_NOTICE(R.string.modify_notice)
 }

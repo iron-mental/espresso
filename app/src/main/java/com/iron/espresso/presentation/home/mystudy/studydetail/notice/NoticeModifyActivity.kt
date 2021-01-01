@@ -63,9 +63,9 @@ class NoticeModifyActivity :
 
         viewModel.snackBarMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
-            if (message == ValidationInputText.REGISTER_NOTICE) {
+            if (message == ValidationInputText.MODIFY_NOTICE) {
                 setResult(RESULT_OK)
-                onBackPressed()
+                finish()
             }
         })
     }

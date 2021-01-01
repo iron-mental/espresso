@@ -58,12 +58,11 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
             .networkSchedulers()
             .subscribe({
                 Logger.d("$it")
+                _snackBarText.value = Event(ValidationInputText.MODIFY_NOTICE)
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
                 if (errorResponse != null) {
                     _toastMessage.value = Event("${errorResponse.message}")
-                } else {
-                    _snackBarText.value = Event(ValidationInputText.REGISTER_NOTICE)
                 }
 
                 Logger.d("$errorResponse")
