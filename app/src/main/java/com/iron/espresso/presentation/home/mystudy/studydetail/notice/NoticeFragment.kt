@@ -36,16 +36,16 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         viewModel.showNoticeList(studyId)
 
         viewModel.noticeListItem.observe(viewLifecycleOwner, { noticeListItem ->
-            if (noticeListItem != null) {
+            if (noticeListItem.isNullOrEmpty()) {
+                binding.emptyView.visibility = View.VISIBLE
+                binding.noticeList.visibility = View.GONE
+            } else {
                 noticeList = noticeListItem
                 noticeAdapter.run {
                     setItemList(noticeList)
                 }
                 binding.emptyView.visibility = View.GONE
                 binding.noticeList.visibility = View.VISIBLE
-            } else {
-                binding.emptyView.visibility = View.VISIBLE
-                binding.noticeList.visibility = View.GONE
             }
         })
 
