@@ -1,8 +1,12 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.iron.espresso.presentation.viewmodel.ProfileSns" />
+
         <import type="com.iron.espresso.R" />
 
         <variable
@@ -16,64 +20,72 @@
         android:paddingBottom="8dp"
         tools:background="@color/colorPrimaryDark">
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:background="@color/theme_292929"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:text="SNS"
+            android:text="@string/sns"
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/github_input_view"
-            hint="@{`Github Project URL`}"
-            icon="@{R.drawable.github}"
-            layout="@layout/view_input_url"
-            title="@{`Github`}"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/sns_empty"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibleIf="@{viewModel.user.snsEmpty}"
+            android:padding="20dp"
+            android:text="@string/empty_sns"
+            android:textColor="@color/white"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/github_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.GITHUB, viewModel.user.snsGithub)}"
+            android:padding="4dp"
+            android:src="@drawable/github"
+            android:visibleIf="@{viewModel.user.snsGithub.length() > 0}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/linkedin_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.LINKED_IN, viewModel.user.snsLinkedin)}"
+            android:padding="4dp"
+            android:src="@drawable/linked_in"
+            android:visibleIf="@{viewModel.user.snsLinkedin.length() > 0}"
+            app:layout_constraintStart_toEndOf="@id/github_icon"
+            app:layout_constraintTop_toTopOf="@id/github_icon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/web_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.WEB, viewModel.user.snsWeb)}"
+            android:padding="4dp"
+            android:src="@drawable/icon_web"
+            android:visibleIf="@{viewModel.user.snsWeb.length() > 0}"
+            app:layout_constraintStart_toEndOf="@id/linkedin_icon"
+            app:layout_constraintTop_toTopOf="@id/github_icon" />
 
         <include
-            android:id="@+id/linkedin_input_view"
-            hint="@{`LinkedIn URL`}"
-            icon="@{R.drawable.linked_in}"
-            layout="@layout/view_input_url"
-            title="@{`LinkedIn`}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/github_input_view" />
-
-        <include
-            android:id="@+id/web_input_view"
-            hint="@{`URL (blog etc)`}"
-            icon="@{R.drawable.icon_web}"
-            layout="@layout/view_input_url"
-            title="@{`Web`}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linkedin_input_view" />
-
+            layout="@layout/view_edit_button"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
