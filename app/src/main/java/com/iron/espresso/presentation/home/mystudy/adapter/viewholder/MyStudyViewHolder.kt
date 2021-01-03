@@ -6,8 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.BR
 import com.iron.espresso.R
-import com.iron.espresso.data.model.MyStudyItem
 import com.iron.espresso.databinding.ItemMystudyBinding
+import com.iron.espresso.model.response.study.MyStudyResponse
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
 
 class MyStudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
@@ -18,14 +18,13 @@ class MyStudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemMystudyBinding>(itemView)
 
-    fun bind(item: MyStudyItem, itemClickListener: MyStudyAdapter.ItemClickListener) {
+    fun bind(item: MyStudyResponse, itemClickListener: MyStudyAdapter.ItemClickListener) {
         binding?.run {
             setVariable(BR.myStudyItem, item)
             executePendingBindings()
 
-            itemView.tag = item.name
             itemView.setOnClickListener {
-                itemClickListener.onClick(it)
+                itemClickListener.onClick(item)
             }
         }
     }
