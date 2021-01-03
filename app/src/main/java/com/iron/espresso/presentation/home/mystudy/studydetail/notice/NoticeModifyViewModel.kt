@@ -23,23 +23,23 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
     val snackBarMessage: LiveData<Event<ValidationInputText>>
         get() = _snackBarText
 
-    private val _pinned = MutableLiveData<NoticeItemType>()
-    val pinned: LiveData<NoticeItemType>
-        get() = _pinned
+    private val _pinnedType = MutableLiveData<NoticeItemType>()
+    val pinnedType: LiveData<NoticeItemType>
+        get() = _pinnedType
 
     fun initPin(pinned: Boolean) {
         if (pinned) {
-            _pinned.value = NoticeItemType.HEADER
+            _pinnedType.value = NoticeItemType.HEADER
         } else {
-            _pinned.value = NoticeItemType.ITEM
+            _pinnedType.value = NoticeItemType.ITEM
         }
     }
 
     fun changePinned() {
-        if (_pinned.value == NoticeItemType.HEADER) {
-            _pinned.value = NoticeItemType.ITEM
+        if (_pinnedType.value == NoticeItemType.HEADER) {
+            _pinnedType.value = NoticeItemType.ITEM
         } else {
-            _pinned.value = NoticeItemType.HEADER
+            _pinnedType.value = NoticeItemType.HEADER
         }
     }
 
@@ -52,7 +52,7 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
                 body = ModifyNoticeRequest(
                     title = title,
                     contents = contents,
-                    pinned = _pinned.value == NoticeItemType.HEADER
+                    pinned = _pinnedType.value == NoticeItemType.HEADER
                 )
             )
             .networkSchedulers()

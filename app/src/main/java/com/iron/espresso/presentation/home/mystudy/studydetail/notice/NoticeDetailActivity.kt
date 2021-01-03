@@ -53,21 +53,22 @@ class NoticeDetailActivity :
                     .error(R.drawable.dummy_image)
                     .into(writerImage)
 
-                category.apply {
-                    if (notice.pinned != null && notice.pinned) {
-                        text = context.getString(R.string.pined_true)
-                        setBackgroundResource(R.color.theme_fc813e)
-                    } else {
-                        text = context.getString(R.string.pined_false)
-                        setBackgroundResource(R.color.colorCobaltBlue)
-                    }
-                }
-                noticeItem = NoticeItem(
-                    title.text.toString(),
-                    content.text.toString(),
-                    notice.pinned ?: false
-                )
+                if (notice.pinned != null) {
+                    viewModel.initPin(notice.pinned)
 
+                    noticeItem = NoticeItem(
+                        title.text.toString(),
+                        content.text.toString(),
+                        notice.pinned
+                    )
+                }
+            }
+        })
+
+        viewModel.pinnedType.observe(this, Observer { pinned ->
+            binding.category.apply {
+                text = resources.getString(pinned.title)
+                setBackgroundResource(pinned.color)
             }
         })
 

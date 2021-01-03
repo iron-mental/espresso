@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
@@ -20,6 +21,18 @@ class NoticeDetailViewModel @ViewModelInject constructor(private val noticeApi: 
     private val _notice = MutableLiveData<NoticeDetailResponse>()
     val notice: LiveData<NoticeDetailResponse>
         get() = _notice
+
+    private val _pinnedType = MutableLiveData<NoticeItemType>()
+    val pinnedType: LiveData<NoticeItemType>
+        get() = _pinnedType
+
+    fun initPin(pinned: Boolean) {
+        if (pinned) {
+            _pinnedType.value = NoticeItemType.HEADER
+        } else {
+            _pinnedType.value = NoticeItemType.ITEM
+        }
+    }
 
     fun showNotice(studyId: Int, noticeId: Int) {
         compositeDisposable += noticeApi

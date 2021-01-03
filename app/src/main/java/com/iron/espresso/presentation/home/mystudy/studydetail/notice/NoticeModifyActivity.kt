@@ -45,7 +45,7 @@ class NoticeModifyActivity :
 
         viewModel.initPin(noticeItem.pinned)
 
-        viewModel.pinned.observe(this, Observer { pinned ->
+        viewModel.pinnedType.observe(this, Observer { pinned ->
 
             binding.category.apply {
                 text = resources.getString(pinned.title)

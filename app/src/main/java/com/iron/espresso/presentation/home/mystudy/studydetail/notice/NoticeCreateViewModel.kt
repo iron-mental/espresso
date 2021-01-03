@@ -7,7 +7,7 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.data.model.NoticeItem
+import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
@@ -23,17 +23,33 @@ class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: 
     val snackBarMessage: LiveData<Event<ValidationInputText>>
         get() = _snackBarText
 
-    private fun emptyCheck(noticeItem: NoticeItem): ValidationInputText {
+    private val _pinnedType = MutableLiveData<NoticeItemType>()
+    val pinnedType: LiveData<NoticeItemType>
+        get() = _pinnedType
+
+    fun initPin() {
+        _pinnedType.value = NoticeItemType.ITEM
+    }
+
+    fun changePinned() {
+        if (_pinnedType.value == NoticeItemType.HEADER) {
+            _pinnedType.value = NoticeItemType.ITEM
+        } else {
+            _pinnedType.value = NoticeItemType.HEADER
+        }
+    }
+
+    private fun emptyCheck(title: String, contents: String): ValidationInputText {
         return when {
-            noticeItem.title.isEmpty() -> ValidationInputText.EMPTY_TITLE
-            noticeItem.contents.isEmpty() -> ValidationInputText.EMPTY_CONTENTS
+            title.isEmpty() -> ValidationInputText.EMPTY_TITLE
+            contents.isEmpty() -> ValidationInputText.EMPTY_CONTENTS
             else -> ValidationInputText.REGISTER_NOTICE
         }
     }
 
-    fun createNotice(studyId: Int, noticeItem: NoticeItem) {
+    fun createNotice(studyId: Int, title: String, contents: String) {
 
-        val message = emptyCheck(noticeItem)
+        val message = emptyCheck(title, contents)
 
         if (message == ValidationInputText.REGISTER_NOTICE) {
             compositeDisposable += noticeApi
@@ -41,9 +57,9 @@ class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: 
                     bearerToken = AuthHolder.bearerToken,
                     studyId = studyId,
                     body = RegisterNoticeRequest(
-                        title = noticeItem.title,
-                        contents = noticeItem.contents,
-                        pinned = noticeItem.pinned
+                        title = title,
+                        contents = contents,
+                        pinned = _pinnedType.value == NoticeItemType.HEADER
                     )
                 )
                 .networkSchedulers()

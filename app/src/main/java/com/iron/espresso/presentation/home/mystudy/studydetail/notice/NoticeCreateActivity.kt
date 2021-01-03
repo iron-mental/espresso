@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
@@ -33,16 +34,17 @@ class NoticeCreateActivity :
 
         studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
 
-        binding.category.setOnClickListener {
+        viewModel.initPin()
+
+        viewModel.pinnedType.observe(this, Observer { pinned ->
             binding.category.apply {
-                if (text.toString() == context.getString(R.string.pined_false)) {
-                    text = context.getString(R.string.pined_true)
-                    setBackgroundResource(R.color.theme_fc813e)
-                } else {
-                    text = context.getString(R.string.pined_false)
-                    setBackgroundResource(R.color.colorCobaltBlue)
-                }
+                text = resources.getString(pinned.title)
+                setBackgroundResource(pinned.color)
             }
+        })
+
+        binding.category.setOnClickListener {
+            viewModel.changePinned()
         }
 
         viewModel.snackBarMessage.observe(this, EventObserver { message ->
@@ -71,11 +73,9 @@ class NoticeCreateActivity :
             }
             R.id.create_notice -> {
                 viewModel.createNotice(
-                    studyId, NoticeItem(
-                        title = binding.title.text.toString(),
-                        contents = binding.content.text.toString(),
-                        pinned = false
-                    )
+                    studyId = studyId,
+                    title = binding.title.text.toString(),
+                    contents = binding.content.text.toString()
                 )
             }
         }
