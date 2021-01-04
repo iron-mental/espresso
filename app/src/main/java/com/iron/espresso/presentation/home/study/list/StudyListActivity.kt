@@ -15,9 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class StudyListActivity :
     BaseActivity<ActivityStudyListBinding>(R.layout.activity_study_list) {
 
-    private var newListFragment: Fragment? = null
-    private var locationFragment: Fragment? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,9 +23,8 @@ class StudyListActivity :
 
         val fragmentManager = supportFragmentManager
 
-        newListFragment = NewListFragment.newInstance()
         fragmentManager.beginTransaction()
-            .replace(R.id.study_list_container, newListFragment!!).commit()
+            .replace(R.id.study_list_container, NewListFragment.newInstance(), "최신").commit()
 
         val studyTabList = resources.getStringArray(R.array.study_tab)
         studyTabList.forEach { title ->
@@ -37,39 +33,27 @@ class StudyListActivity :
 
         binding.topTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0 -> {
-                        if (newListFragment == null) {
-                            newListFragment = NewListFragment.newInstance()
-                            fragmentManager.beginTransaction()
-                                .add(R.id.study_list_container, newListFragment!!).commit()
-                        }
 
-                        if (newListFragment != null) {
-                            fragmentManager.beginTransaction()
-                                .show(newListFragment!!).commit()
-                        }
-                        if (locationFragment != null) {
-                            fragmentManager.beginTransaction()
-                                .hide(locationFragment!!).commit()
-                        }
-                    }
-                    1 -> {
-                        if (locationFragment == null) {
-                            locationFragment = LocationFragment.newInstance()
-                            fragmentManager.beginTransaction()
-                                .add(R.id.study_list_container, locationFragment!!).commit()
-                        }
+                val addFragment = getFragment(tab?.position ?: 0)
 
-                        if (newListFragment != null) {
-                            fragmentManager.beginTransaction()
-                                .hide(newListFragment!!).commit()
-                        }
-                        if (locationFragment != null) {
-                            fragmentManager.beginTransaction()
-                                .show(locationFragment!!).commit()
-                        }
+                val hideFragment = fragmentManager.fragments.find {
+                    if (tab?.position == 0) {
+                        it is LocationFragment
+                    } else {
+                        it is NewListFragment
                     }
+                }
+                if (hideFragment != null) {
+                    fragmentManager.beginTransaction()
+                        .hide(hideFragment).commit()
+                }
+
+                val findFragment = fragmentManager.findFragmentByTag("${tab?.text}")
+                if (findFragment == null) {
+                    fragmentManager.beginTransaction()
+                        .add(R.id.study_list_container, addFragment, "${tab?.text}").commit()
+                } else {
+                    fragmentManager.beginTransaction().show(findFragment).commit()
                 }
             }
 
@@ -79,6 +63,14 @@ class StudyListActivity :
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
+    }
+
+    private fun getFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> NewListFragment.newInstance()
+            1 -> LocationFragment.newInstance()
+            else -> error("")
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
