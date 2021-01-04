@@ -7,12 +7,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
-import com.iron.espresso.databinding.FragmentNewListBinding
+import com.iron.espresso.databinding.FragmentLocationBinding
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LocationFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_new_list) {
+class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment_location) {
 
     private val viewModel by viewModels<StudyListViewModel>()
     private val studyListAdapter = StudyListAdapter()
