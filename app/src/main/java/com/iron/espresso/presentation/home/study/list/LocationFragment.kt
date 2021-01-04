@@ -22,7 +22,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
 
         binding.studyList.adapter = studyListAdapter
 
-        viewModel.getStudyList("android", "length")
+        viewModel.getStudyList("android", SORT_LENGTH)
 
         viewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
 
@@ -40,7 +40,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
 
         binding.swipeRefresh.apply {
             setOnRefreshListener {
-                viewModel.getStudyList("android", "length")
+                viewModel.getStudyList("android", SORT_LENGTH)
 
                 this.isRefreshing = false
             }
@@ -48,6 +48,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
     }
 
     companion object {
+        private const val SORT_LENGTH = "length"
         fun newInstance() =
             LocationFragment()
     }

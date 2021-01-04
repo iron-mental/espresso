@@ -22,7 +22,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
 
         binding.studyList.adapter = studyListAdapter
 
-        viewModel.getStudyList("android", "new")
+        viewModel.getStudyList("android", SORT_NEW)
 
         viewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
 
@@ -40,7 +40,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
 
         binding.swipeRefresh.apply {
             setOnRefreshListener {
-                viewModel.getStudyList("android", "new")
+                viewModel.getStudyList("android", SORT_NEW)
 
                 this.isRefreshing = false
             }
@@ -48,6 +48,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
     }
 
     companion object {
+        private const val SORT_NEW = "new"
         fun newInstance() =
             NewListFragment()
     }
