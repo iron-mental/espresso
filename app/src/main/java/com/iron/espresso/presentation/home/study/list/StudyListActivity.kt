@@ -24,7 +24,11 @@ class StudyListActivity :
         val fragmentManager = supportFragmentManager
 
         fragmentManager.beginTransaction()
-            .replace(R.id.study_list_container, NewListFragment.newInstance(), "최신").commit()
+            .replace(
+                R.id.study_list_container,
+                NewListFragment.newInstance(),
+                resources.getString(R.string.recency)
+            ).commit()
 
         val studyTabList = resources.getStringArray(R.array.study_tab)
         studyTabList.forEach { title ->
