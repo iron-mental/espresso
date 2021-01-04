@@ -37,6 +37,14 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
                 }
             }
         })
+
+        binding.swipeRefresh.apply {
+            setOnRefreshListener {
+                viewModel.getStudyList("android", "new")
+
+                this.isRefreshing = false
+            }
+        }
     }
 
     companion object {

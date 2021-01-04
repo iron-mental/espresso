@@ -37,6 +37,14 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
                 }
             }
         })
+
+        binding.swipeRefresh.apply {
+            setOnRefreshListener {
+                viewModel.getStudyList("android", "length")
+
+                this.isRefreshing = false
+            }
+        }
     }
 
     companion object {
