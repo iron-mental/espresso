@@ -2,6 +2,7 @@ package com.iron.espresso.model.response.study
 
 
 import com.google.gson.annotations.SerializedName
+import com.iron.espresso.data.model.StudyItem
 
 data class StudyResponse(
     @SerializedName("id")
@@ -22,4 +23,7 @@ data class StudyResponse(
     val distance: Double?,
     @SerializedName("members")
     val members: Int?
-)
+) {
+    fun toStudyItem() =
+        StudyItem(id, title, introduce, image, sigungu, leaderImage, createdAt, distance, members)
+}
