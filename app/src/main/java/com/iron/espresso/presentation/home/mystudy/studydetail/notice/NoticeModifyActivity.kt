@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
-import com.iron.espresso.data.model.NoticeItem
+import com.iron.espresso.data.model.NoticeDetailItem
 import com.iron.espresso.databinding.ActivityNoticeModifyBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
@@ -34,9 +34,12 @@ class NoticeModifyActivity :
 
         studyId =
             intent.getIntExtra(StudyDetailActivity.STUDY_ID, StudyDetailActivity.DEFAULT_VALUE)
-        noticeId =
-            intent.getIntExtra(NoticeDetailActivity.NOTICE_ID, StudyDetailActivity.DEFAULT_VALUE)
-        val noticeItem = intent.getSerializableExtra(NOTICE_ITEM) as NoticeItem
+
+        val noticeItem = intent.getSerializableExtra(NOTICE_ITEM) as NoticeDetailItem
+
+        if (noticeItem.id != null) {
+            noticeId = noticeItem.id
+        }
 
         binding.run {
             title.setText(noticeItem.title)
@@ -96,10 +99,13 @@ class NoticeModifyActivity :
 
     companion object {
         private const val NOTICE_ITEM = "noticeItem"
-        fun getInstance(context: Context, studyId: Int, noticeId: Int, noticeItem: NoticeItem) =
+        fun getInstance(
+            context: Context,
+            studyId: Int,
+            noticeItem: NoticeDetailItem
+        ) =
             Intent(context, NoticeModifyActivity::class.java).apply {
                 putExtra(StudyDetailActivity.STUDY_ID, studyId)
-                putExtra(NoticeDetailActivity.NOTICE_ID, noticeId)
                 putExtra(NOTICE_ITEM, noticeItem)
             }
     }

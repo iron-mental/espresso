@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
-import com.iron.espresso.data.model.NoticeItem
+import com.iron.espresso.data.model.NoticeDetailItem
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
@@ -26,7 +26,7 @@ class NoticeDetailActivity :
     private val viewModel by viewModels<NoticeDetailViewModel>()
     private var studyId = -1
     private var noticeId = -1
-    private lateinit var noticeItem: NoticeItem
+    private lateinit var noticeItem: NoticeDetailItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,14 +56,7 @@ class NoticeDetailActivity :
                 if (notice.pinned != null) {
                     viewModel.initPin(notice.pinned)
 
-                    noticeItem = NoticeItem(
-                        id = noticeId,
-                        title = title.text.toString(),
-                        contents = content.text.toString(),
-                        pinned = notice.pinned,
-                        createdAt = "",
-                        updatedAt = ""
-                    )
+                    noticeItem = notice
                 }
             }
         })
@@ -104,7 +97,6 @@ class NoticeDetailActivity :
                     NoticeModifyActivity.getInstance(
                         this,
                         studyId,
-                        noticeId,
                         noticeItem
                     ), REQUEST_MODIFY_CODE
                 )
