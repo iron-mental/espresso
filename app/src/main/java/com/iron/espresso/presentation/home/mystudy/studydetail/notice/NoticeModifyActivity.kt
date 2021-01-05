@@ -43,7 +43,7 @@ class NoticeModifyActivity :
             content.setText(noticeItem.contents)
         }
 
-        viewModel.initPin(noticeItem.pinned)
+        viewModel.initPin(noticeItem.pinned ?: false)
 
         viewModel.pinnedType.observe(this, Observer { pinned ->
 

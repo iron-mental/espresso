@@ -57,9 +57,12 @@ class NoticeDetailActivity :
                     viewModel.initPin(notice.pinned)
 
                     noticeItem = NoticeItem(
-                        title.text.toString(),
-                        content.text.toString(),
-                        notice.pinned
+                        id = noticeId,
+                        title = title.text.toString(),
+                        contents = content.text.toString(),
+                        pinned = notice.pinned,
+                        createdAt = "",
+                        updatedAt = ""
                     )
                 }
             }
