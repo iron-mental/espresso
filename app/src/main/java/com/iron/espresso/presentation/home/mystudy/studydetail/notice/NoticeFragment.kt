@@ -11,9 +11,8 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
-import com.iron.espresso.model.response.notice.NoticeListResponse
-import com.iron.espresso.model.response.notice.NoticeResponse
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
     private val noticeAdapter = NoticeAdapter()
-    private lateinit var noticeList: NoticeListResponse
     private var studyId = 0
 
     private val viewModel by viewModels<NoticeViewModel>()
@@ -40,16 +38,15 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
                 binding.emptyView.visibility = View.VISIBLE
                 binding.noticeList.visibility = View.GONE
             } else {
-                noticeList = noticeListItem
                 noticeAdapter.run {
-                    setItemList(noticeList)
+                    setItemList(noticeListItem)
                 }
                 binding.emptyView.visibility = View.GONE
                 binding.noticeList.visibility = View.VISIBLE
             }
         })
 
-        noticeAdapter.setItemClickListener { noticeItem: NoticeResponse ->
+        noticeAdapter.setItemClickListener { noticeItem: NoticeItem ->
             startActivityForResult(
                 NoticeDetailActivity.getInstance(
                     requireContext(),

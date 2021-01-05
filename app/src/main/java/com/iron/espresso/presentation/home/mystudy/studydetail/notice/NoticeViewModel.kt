@@ -6,18 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.NoticeApi
-import com.iron.espresso.model.response.notice.NoticeListResponse
 import retrofit2.HttpException
 
 class NoticeViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
     BaseViewModel() {
 
-    private val _noticeListItem = MutableLiveData<NoticeListResponse>()
-    val noticeListItem: LiveData<NoticeListResponse>
+    private val _noticeListItem = MutableLiveData<List<NoticeItem>>()
+    val noticeListItem: LiveData<List<NoticeItem>>
         get() = _noticeListItem
 
     fun showNoticeList(studyId: Int) {
@@ -29,7 +29,9 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
             .networkSchedulers()
             .subscribe({ response ->
                 if (response.data != null) {
-                    _noticeListItem.value = response.data
+                    _noticeListItem.value = response.data.map {
+                        it.toNoticeItem()
+                    }
                 }
                 Logger.d("$response")
             }) {
