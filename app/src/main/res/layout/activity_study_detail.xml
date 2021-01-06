@@ -261,6 +261,34 @@ Swift의 기본을 다집니다.
                         app:layout_constraintTop_toBottomOf="@id/place"
                         tools:text="장소" />
 
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/map"
+                        android:name="com.naver.maps.map.MapFragment"
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        android:padding="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/place_detail" />
+
+                    <View
+                        android:id="@+id/guideline"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/map"
+                        app:layout_constraintEnd_toEndOf="@+id/map"
+                        app:layout_constraintStart_toStartOf="@+id/map"
+                        app:layout_constraintTop_toTopOf="@+id/map" />
+
+                    <ImageView
+                        android:id="@+id/marker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_location_24"
+                        app:layout_constraintBottom_toTopOf="@+id/guideline"
+                        app:layout_constraintEnd_toEndOf="@+id/map"
+                        app:layout_constraintStart_toStartOf="@+id/map" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>

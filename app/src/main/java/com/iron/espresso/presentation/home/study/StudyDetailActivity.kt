@@ -15,6 +15,9 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.item_member.view.member_image
 import kotlinx.android.synthetic.main.item_member.view.member_nickname
@@ -78,6 +81,26 @@ class StudyDetailActivity :
                         .into(memberView.member_image)
                 }
                 binding.memberContainer.addView(memberView)
+            }
+
+            val fm = supportFragmentManager
+            val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
+                ?: MapFragment.newInstance().also {
+                    fm.beginTransaction().add(R.id.map, it).commit()
+                }
+
+            mapFragment.getMapAsync { naverMap ->
+                studyDetail.locationResponse?.let {
+                    if (it.longitude != null && it.latitude != null) {
+                        naverMap.cameraPosition = CameraPosition(
+                            LatLng(
+                                it.longitude.toDouble(),
+                                it.latitude.toDouble()
+                            ), 16.0
+                        )
+                    }
+                }
+
             }
         })
     }
