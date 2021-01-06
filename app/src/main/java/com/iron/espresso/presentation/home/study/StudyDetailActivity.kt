@@ -61,19 +61,22 @@ class StudyDetailActivity :
 
                 memberView.member_nickname.text = memberList.nickname
 
-                Glide.with(this)
-                    .load(
-                        GlideUrl(
-                            memberList.image,
-                            LazyHeaders.Builder()
-                                .addHeader("Authorization", AuthHolder.bearerToken)
-                                .build()
+                if (memberList.image.isNullOrEmpty()) {
+                    memberView.member_image.setImageResource(R.drawable.dummy_image)
+                } else {
+                    Glide.with(this)
+                        .load(
+                            GlideUrl(
+                                memberList.image,
+                                LazyHeaders.Builder()
+                                    .addHeader("Authorization", AuthHolder.bearerToken)
+                                    .build()
+                            )
                         )
-                    )
-                    .apply(RequestOptions.circleCropTransform())
-                    .error(R.drawable.dummy_image)
-                    .into(memberView.member_image)
-
+                        .apply(RequestOptions.circleCropTransform())
+                        .error(R.drawable.dummy_image)
+                        .into(memberView.member_image)
+                }
                 binding.memberContainer.addView(memberView)
             }
         })
