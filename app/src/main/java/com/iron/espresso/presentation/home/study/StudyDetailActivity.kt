@@ -15,9 +15,11 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.item_member.view.member_image
 import kotlinx.android.synthetic.main.item_member.view.member_nickname
 
+@AndroidEntryPoint
 class StudyDetailActivity :
     BaseActivity<ActivityStudyDetailBinding>(R.layout.activity_study_detail) {
 
