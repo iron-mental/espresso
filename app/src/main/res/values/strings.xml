@@ -60,4 +60,10 @@
     <string name="address_hint">상세주소를 입력하세요 (건물명, 동/호수 등)</string>
     <string name="set_location">선택한 위치로 설정</string>
     <string name="next">다음</string>
+
+    <string name="join_study">스터디 참여하기</string>
+    <string name="member_list">구성원</string>
+    <string name="study_proceed">스터디 진행</string>
+    <string name="time">시간</string>
+    <string name="place">장소</string>
 </resources>

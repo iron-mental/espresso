@@ -74,7 +74,7 @@
                         android:backgroundTint="@color/colorCobaltBlue"
                         android:lineSpacingExtra="27sp"
                         android:padding="8dp"
-                        android:text="스터디 참여하기"
+                        android:text="@string/join_study"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -87,14 +87,14 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingExtra="11sp"
-                        android:text="안녕하세요 Swift를 정복하기 위한
-스터디에 함께 할 분을 모집중입니다.
-열심히 하실 분이라면 언제든 환영합니다.
-아래의 노션링크도 참고해주세요"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/introduce" />
+                        app:layout_constraintTop_toBottomOf="@id/introduce"
+                        tools:text="안녕하세요 Swift를 정복하기 위한
+스터디에 함께 할 분을 모집중입니다.
+열심히 하실 분이라면 언제든 환영합니다.
+아래의 노션링크도 참고해주세요" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -111,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:lineSpacingExtra="24sp"
-                        android:text="구성원"
+                        android:text="@string/member_list"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -161,7 +161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:lineSpacingExtra="24sp"
-                        android:text="스터디 진행"
+                        android:text="@string/study_proceed"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -174,16 +174,16 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingExtra="11sp"
-                        android:text="진행은 이렇게 저렇게 합니다. 1주차는 Swift의 문법
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/proceed"
+                        tools:text="진행은 이렇게 저렇게 합니다. 1주차는 Swift의 문법
 에 대해서 공부하고 직접 코드를 작성하며 ~~ 해서
 진행은 이렇게 저렇게 합니다. 1주차는 Swift의 문법
 에 대해서 공부하고 직접 코드를 작성하며 ~~ 해서
 Swift의 기본을 다집니다.
-"
-                        android:textSize="14sp"
-                        android:textStyle="normal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/proceed" />
+" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -199,7 +199,7 @@ Swift의 기본을 다집니다.
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:lineSpacingExtra="24sp"
-                        android:text="시간"
+                        android:text="@string/time"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -212,11 +212,11 @@ Swift의 기본을 다집니다.
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingExtra="11sp"
-                        android:text="시간"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/time" />
+                        app:layout_constraintTop_toBottomOf="@id/time"
+                        tools:text="시간" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -234,7 +234,7 @@ Swift의 기본을 다집니다.
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:lineSpacingExtra="24sp"
-                        android:text="장소"
+                        android:text="@string/place"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -247,11 +247,11 @@ Swift의 기본을 다집니다.
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingExtra="11sp"
-                        android:text="장소"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/place" />
+                        app:layout_constraintTop_toBottomOf="@id/place"
+                        tools:text="장소" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
