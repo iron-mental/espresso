@@ -37,8 +37,24 @@ class StudyDetailActivity :
             binding.introduceDetail.text = studyDetail.introduce
             binding.proceedDetail.text = studyDetail.progress
             binding.timeDetail.text = studyDetail.studyTime
-            binding.placeDetail.text = studyDetail.locationResponse?.addressName
+            binding.placeDetail.text = studyDetail.locationResponse?.run {
+                "$addressName $placeName"
+            }
+            binding.numberMember.text = studyDetail.participateResponse?.size.toString()
 
+            Glide.with(this)
+                .load(
+                    GlideUrl(
+                        studyDetail.image,
+                        LazyHeaders.Builder()
+                            .addHeader("Authorization", AuthHolder.bearerToken)
+                            .build()
+                    )
+                )
+                .error(R.drawable.dummy_image)
+                .into(binding.image)
+
+            /* 구성원 수 만큼 동적 생성 */
             studyDetail.participateResponse?.forEach { memberList ->
                 val memberView = LayoutInflater.from(this)
                     .inflate(R.layout.item_member, binding.memberContainer, false)
