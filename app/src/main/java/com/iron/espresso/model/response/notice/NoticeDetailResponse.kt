@@ -25,14 +25,14 @@ data class NoticeDetailResponse(
     val updatedAt: String?
 ) {
     fun toNoticeDetailItem() = NoticeDetailItem(
-        id,
-        studyId,
-        title,
-        contents,
-        pinned,
-        leaderId,
-        leaderImage,
-        leaderNickname,
-        updatedAt
+        id = id ?: -1,
+        studyId = studyId ?: -1,
+        title = title.orEmpty(),
+        contents = contents.orEmpty(),
+        pinned = pinned ?: false,
+        leaderId = leaderId ?: -1,
+        leaderImage = leaderImage,
+        leaderNickname = leaderNickname.orEmpty(),
+        updatedAt = updatedAt.orEmpty()
     )
 }

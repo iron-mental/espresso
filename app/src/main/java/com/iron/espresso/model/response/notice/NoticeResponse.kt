@@ -18,6 +18,12 @@ data class NoticeResponse(
     @SerializedName("updated_at")
     val updatedAt: String?
 ) {
-    fun toNoticeItem() =
-        NoticeItem(id, title, contents, pinned, createdAt, updatedAt)
+    fun toNoticeItem() = NoticeItem(
+        id = id ?: -1,
+        title = title.orEmpty(),
+        contents = contents.orEmpty(),
+        pinned = pinned ?: false,
+        createdAt = createdAt.orEmpty(),
+        updatedAt = updatedAt.orEmpty()
+    )
 }
