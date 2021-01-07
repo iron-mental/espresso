@@ -18,7 +18,7 @@ object ApiModule {
     private const val BASE_URL = "https://api.github.com"
     private const val BASE_V3_HEADER = "Accept: application/vnd.github.v3+json"
 
-    private const val API_URL = "http://3.35.154.27:3000"
+    private const val API_URL = "https://www.terminal-study.tk"
     private const val KAKAO_URL = "https://dapi.kakao.com/"
 
     private fun getLoggingClient() =
