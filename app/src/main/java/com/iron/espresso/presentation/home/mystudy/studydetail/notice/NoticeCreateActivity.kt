@@ -83,7 +83,7 @@ class NoticeCreateActivity :
     }
 
     companion object {
-        fun getInstance(context: Context, studyId: Int) =
+        fun getIntent(context: Context, studyId: Int) =
             Intent(context, NoticeCreateActivity::class.java).apply {
                 putExtra(STUDY_ID, studyId)
             }

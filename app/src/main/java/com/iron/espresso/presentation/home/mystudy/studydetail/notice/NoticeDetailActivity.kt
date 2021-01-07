@@ -94,7 +94,7 @@ class NoticeDetailActivity :
             }
             R.id.modify_notice -> {
                 startActivityForResult(
-                    NoticeModifyActivity.getInstance(
+                    NoticeModifyActivity.getIntent(
                         this,
                         studyId,
                         noticeItem
@@ -118,7 +118,7 @@ class NoticeDetailActivity :
         private const val REQUEST_MODIFY_CODE = 3
         private const val TOOLBAR_TITLE = "공지사항 상세 화면"
         const val NOTICE_ID = "noticeId"
-        fun getInstance(context: Context, noticeId: Int?, studyId: Int) =
+        fun getIntent(context: Context, noticeId: Int?, studyId: Int) =
             Intent(context, NoticeDetailActivity::class.java).apply {
                 putExtra(NOTICE_ID, noticeId)
                 putExtra(StudyDetailActivity.STUDY_ID, studyId)

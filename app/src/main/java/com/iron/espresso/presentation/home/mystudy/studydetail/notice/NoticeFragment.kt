@@ -48,7 +48,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
 
         noticeAdapter.setItemClickListener { noticeItem: NoticeItem ->
             startActivityForResult(
-                NoticeDetailActivity.getInstance(
+                NoticeDetailActivity.getIntent(
                     requireContext(),
                     noticeItem.id,
                     studyId
@@ -80,7 +80,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
             }
             R.id.create_notice -> {
                 startActivityForResult(
-                    NoticeCreateActivity.getInstance(requireContext(), studyId),
+                    NoticeCreateActivity.getIntent(requireContext(), studyId),
                     REQUEST_CREATE_CODE
                 )
             }

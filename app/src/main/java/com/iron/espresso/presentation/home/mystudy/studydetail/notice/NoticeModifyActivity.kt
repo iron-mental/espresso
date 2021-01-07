@@ -99,7 +99,7 @@ class NoticeModifyActivity :
 
     companion object {
         private const val NOTICE_ITEM = "noticeItem"
-        fun getInstance(
+        fun getIntent(
             context: Context,
             studyId: Int,
             noticeItem: NoticeDetailItem
