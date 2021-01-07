@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
-import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeCreateBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
@@ -47,7 +46,7 @@ class NoticeCreateActivity :
             viewModel.changePinned()
         }
 
-        viewModel.snackBarMessage.observe(this, EventObserver { message ->
+        viewModel.emptyCheckMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
             if (message == ValidationInputText.REGISTER_NOTICE) {
                 setResult(RESULT_OK)

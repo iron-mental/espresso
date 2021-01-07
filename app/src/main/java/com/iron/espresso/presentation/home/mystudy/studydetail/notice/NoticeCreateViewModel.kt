@@ -19,9 +19,9 @@ import retrofit2.HttpException
 class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
     BaseViewModel() {
 
-    private val _snackBarText = MutableLiveData<Event<ValidationInputText>>()
-    val snackBarMessage: LiveData<Event<ValidationInputText>>
-        get() = _snackBarText
+    private val _emptyCheckMessage = MutableLiveData<Event<ValidationInputText>>()
+    val emptyCheckMessage: LiveData<Event<ValidationInputText>>
+        get() = _emptyCheckMessage
 
     private val _pinnedType = MutableLiveData<NoticeItemType>()
     val pinnedType: LiveData<NoticeItemType>
@@ -64,7 +64,7 @@ class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: 
                 )
                 .networkSchedulers()
                 .subscribe({
-                    _snackBarText.value = Event(message)
+                    _emptyCheckMessage.value = Event(message)
                     Logger.d("$it")
                 }, {
                     val errorResponse = (it as HttpException).toErrorResponse()
@@ -74,7 +74,7 @@ class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: 
                     Logger.d("$it")
                 })
         } else {
-            _snackBarText.value = Event(message)
+            _emptyCheckMessage.value = Event(message)
         }
     }
 }
