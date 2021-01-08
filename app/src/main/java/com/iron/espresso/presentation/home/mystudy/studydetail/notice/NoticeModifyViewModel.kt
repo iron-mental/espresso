@@ -19,9 +19,9 @@ import retrofit2.HttpException
 class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
     BaseViewModel() {
 
-    private val _snackBarText = MutableLiveData<Event<ValidationInputText>>()
-    val snackBarMessage: LiveData<Event<ValidationInputText>>
-        get() = _snackBarText
+    private val _emptyCheckMessage = MutableLiveData<Event<ValidationInputText>>()
+    val emptyCheckMessage: LiveData<Event<ValidationInputText>>
+        get() = _emptyCheckMessage
 
     private val _pinnedType = MutableLiveData<NoticeItemType>()
     val pinnedType: LiveData<NoticeItemType>
@@ -43,29 +43,44 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
         }
     }
 
-    fun modifyNotice(studyId: Int, noticeId: Int, title: String, contents: String) {
-        compositeDisposable += noticeApi
-            .modifyNotice(
-                bearerToken = AuthHolder.bearerToken,
-                studyId = studyId,
-                noticeId = noticeId,
-                body = ModifyNoticeRequest(
-                    title = title,
-                    contents = contents,
-                    pinned = _pinnedType.value == NoticeItemType.HEADER
-                )
-            )
-            .networkSchedulers()
-            .subscribe({
-                Logger.d("$it")
-                _snackBarText.value = Event(ValidationInputText.MODIFY_NOTICE)
-            }, {
-                val errorResponse = (it as? HttpException)?.toErrorResponse()
-                if (errorResponse != null) {
-                    _toastMessage.value = Event("${errorResponse.message}")
-                }
+    private fun emptyCheck(title: String, contents: String): ValidationInputText {
+        return when {
+            title.isEmpty() -> ValidationInputText.EMPTY_TITLE
+            contents.isEmpty() -> ValidationInputText.EMPTY_CONTENTS
+            else -> ValidationInputText.REGISTER_NOTICE
+        }
+    }
 
-                Logger.d("$errorResponse")
-            })
+    fun modifyNotice(studyId: Int, noticeId: Int, title: String, contents: String) {
+
+        val message = emptyCheck(title, contents)
+
+        if (message == ValidationInputText.REGISTER_NOTICE) {
+            compositeDisposable += noticeApi
+                .modifyNotice(
+                    bearerToken = AuthHolder.bearerToken,
+                    studyId = studyId,
+                    noticeId = noticeId,
+                    body = ModifyNoticeRequest(
+                        title = title,
+                        contents = contents,
+                        pinned = _pinnedType.value == NoticeItemType.HEADER
+                    )
+                )
+                .networkSchedulers()
+                .subscribe({
+                    Logger.d("$it")
+                    _emptyCheckMessage.value = Event(ValidationInputText.MODIFY_NOTICE)
+                }, {
+                    val errorResponse = (it as? HttpException)?.toErrorResponse()
+                    if (errorResponse != null) {
+                        _toastMessage.value = Event("${errorResponse.message}")
+                    }
+
+                    Logger.d("$errorResponse")
+                })
+        } else {
+            _emptyCheckMessage.value = Event(message)
+        }
     }
 }

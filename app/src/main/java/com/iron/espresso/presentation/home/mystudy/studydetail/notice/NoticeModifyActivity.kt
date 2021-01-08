@@ -61,7 +61,7 @@ class NoticeModifyActivity :
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         })
 
-        viewModel.snackBarMessage.observe(this, EventObserver { message ->
+        viewModel.emptyCheckMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
             if (message == ValidationInputText.MODIFY_NOTICE) {
                 setResult(RESULT_OK)

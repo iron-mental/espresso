@@ -53,11 +53,8 @@ class NoticeDetailActivity :
                     .error(R.drawable.dummy_image)
                     .into(writerImage)
 
-                if (notice.pinned != null) {
-                    viewModel.initPin(notice.pinned)
-
-                    noticeItem = notice
-                }
+                viewModel.initPin(notice.pinned)
+                noticeItem = notice
             }
         })
 
@@ -70,12 +67,14 @@ class NoticeDetailActivity :
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            if (message == resources.getString(R.string.delete_notice)) {
+                setResult(RESULT_OK)
+                finish()
+            }
         })
 
         binding.deleteButton.setOnClickListener {
             viewModel.deleteNotice(studyId, noticeId)
-            setResult(RESULT_OK)
-            finish()
         }
 
 
