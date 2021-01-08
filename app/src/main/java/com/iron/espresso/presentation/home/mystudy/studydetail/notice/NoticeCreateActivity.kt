@@ -28,7 +28,7 @@ class NoticeCreateActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle("공지사항 작성 화면")
+        setToolbarTitle(resources.getString(R.string.notice_create))
         setNavigationIcon(R.drawable.ic_back_24)
 
         studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)

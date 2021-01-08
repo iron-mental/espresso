@@ -27,10 +27,10 @@ class NoticeDetailViewModel @ViewModelInject constructor(private val noticeApi: 
         get() = _pinnedType
 
     fun initPin(pinned: Boolean) {
-        if (pinned) {
-            _pinnedType.value = NoticeItemType.HEADER
+        _pinnedType.value = if (pinned) {
+            NoticeItemType.HEADER
         } else {
-            _pinnedType.value = NoticeItemType.ITEM
+            NoticeItemType.ITEM
         }
     }
 

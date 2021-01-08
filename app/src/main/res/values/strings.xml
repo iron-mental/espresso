@@ -70,5 +70,10 @@
     <string name="register_notice">공지사항이 등록되었습니다</string>
     <string name="modify_notice">공지사항이 수정되었습니다</string>
 
+
+    <string name="notice_create">공지사항 작성화면</string>
+    <string name="notice_modify">공지사항 수정화면</string>
+    <string name="notice_detail">공지사항 상세화면</string>
+
     <string name="next">다음</string>
 </resources>

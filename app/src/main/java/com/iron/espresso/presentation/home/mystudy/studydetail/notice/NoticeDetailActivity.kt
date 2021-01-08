@@ -31,7 +31,7 @@ class NoticeDetailActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle(TOOLBAR_TITLE)
+        setToolbarTitle(resources.getString(R.string.notice_detail))
         setNavigationIcon(R.drawable.ic_back_24)
 
         studyId =
@@ -116,7 +116,6 @@ class NoticeDetailActivity :
 
     companion object {
         private const val REQUEST_MODIFY_CODE = 3
-        private const val TOOLBAR_TITLE = "공지사항 상세 화면"
         const val NOTICE_ID = "noticeId"
         fun getIntent(context: Context, noticeId: Int?, studyId: Int) =
             Intent(context, NoticeDetailActivity::class.java).apply {

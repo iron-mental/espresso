@@ -29,17 +29,14 @@ class NoticeModifyActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle("공지사항 수정 화면")
+        setToolbarTitle(resources.getString(R.string.notice_modify))
         setNavigationIcon(R.drawable.ic_back_24)
 
         studyId =
             intent.getIntExtra(StudyDetailActivity.STUDY_ID, StudyDetailActivity.DEFAULT_VALUE)
 
         val noticeItem = intent.getSerializableExtra(NOTICE_ITEM) as NoticeDetailItem
-
-        if (noticeItem.id != null) {
-            noticeId = noticeItem.id
-        }
+        noticeId = noticeItem.id
 
         binding.run {
             title.setText(noticeItem.title)

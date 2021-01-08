@@ -32,10 +32,10 @@ class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: 
     }
 
     fun changePinned() {
-        if (_pinnedType.value == NoticeItemType.HEADER) {
-            _pinnedType.value = NoticeItemType.ITEM
+        _pinnedType.value = if (_pinnedType.value == NoticeItemType.HEADER) {
+            NoticeItemType.ITEM
         } else {
-            _pinnedType.value = NoticeItemType.HEADER
+            NoticeItemType.HEADER
         }
     }
 
