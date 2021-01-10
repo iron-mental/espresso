@@ -21,7 +21,7 @@ class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
     fun bind(item: StudyItem, itemClickListener: (title: String) -> Unit) {
         itemView.setOnClickListener {
-            item.title?.let { title -> itemClickListener(title) }
+            itemClickListener(item.title)
         }
         binding?.run {
             title.text = item.title

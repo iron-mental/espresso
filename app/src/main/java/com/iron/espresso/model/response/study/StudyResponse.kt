@@ -24,6 +24,15 @@ data class StudyResponse(
     @SerializedName("members")
     val members: Int?
 ) {
-    fun toStudyItem() =
-        StudyItem(id, title, introduce, image, sigungu, leaderImage, createdAt, distance, members)
+    fun toStudyItem() = StudyItem(
+        id = id ?: -1,
+        title = title.orEmpty(),
+        introduce = introduce.orEmpty(),
+        image = image,
+        sigungu = sigungu.orEmpty(),
+        leaderImage = leaderImage,
+        createdAt = createdAt.orEmpty(),
+        distance = distance ?: -1.0,
+        members = members ?: -1
+    )
 }
