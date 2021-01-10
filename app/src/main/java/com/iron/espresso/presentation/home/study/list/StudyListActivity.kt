@@ -28,7 +28,8 @@ class StudyListActivity :
                 R.id.study_list_container,
                 NewListFragment.newInstance(),
                 resources.getString(R.string.recency)
-            ).commit()
+            )
+            .commit()
 
         val studyTabList = resources.getStringArray(R.array.study_tab)
         studyTabList.forEach { title ->
@@ -38,10 +39,11 @@ class StudyListActivity :
         binding.topTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
 
-                val addFragment = getFragment(tab?.position ?: 0)
+                tab?.position ?: return
+                val addFragment = getFragment(tab.position)
 
                 val hideFragment = fragmentManager.fragments.find {
-                    if (tab?.position == 0) {
+                    if (tab.position == 0) {
                         it is LocationFragment
                     } else {
                         it is NewListFragment
@@ -52,10 +54,10 @@ class StudyListActivity :
                         .hide(hideFragment).commit()
                 }
 
-                val findFragment = fragmentManager.findFragmentByTag("${tab?.text}")
+                val findFragment = fragmentManager.findFragmentByTag("${tab.text}")
                 if (findFragment == null) {
                     fragmentManager.beginTransaction()
-                        .add(R.id.study_list_container, addFragment, "${tab?.text}").commit()
+                        .add(R.id.study_list_container, addFragment, "${tab.text}").commit()
                 } else {
                     fragmentManager.beginTransaction().show(findFragment).commit()
                 }
@@ -73,7 +75,7 @@ class StudyListActivity :
         return when (position) {
             0 -> NewListFragment.newInstance()
             1 -> LocationFragment.newInstance()
-            else -> error("")
+            else -> error("Invalid position")
         }
     }
 
@@ -87,7 +89,7 @@ class StudyListActivity :
     }
 
     companion object {
-        fun getInstance(context: Context) =
+        fun getIntent(context: Context) =
             Intent(context, StudyListActivity::class.java)
     }
 }

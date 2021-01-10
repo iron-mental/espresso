@@ -29,7 +29,7 @@ class StudyFragment :
         val button = Button(context).apply {
             text = "스터디 리스트"
             setOnClickListener {
-                startActivity(StudyListActivity.getInstance(context))
+                startActivity(StudyListActivity.getIntent(context))
             }
         }
         (view as ViewGroup).addView(button)
