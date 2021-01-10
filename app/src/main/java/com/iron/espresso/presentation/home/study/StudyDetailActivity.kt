@@ -40,10 +40,10 @@ class StudyDetailActivity :
             binding.introduceDetail.text = studyDetail.introduce
             binding.proceedDetail.text = studyDetail.progress
             binding.timeDetail.text = studyDetail.studyTime
-            binding.placeDetail.text = studyDetail.locationResponse?.run {
+            binding.placeDetail.text = studyDetail.locationItem.run {
                 "$addressName $placeName"
             }
-            binding.numberMember.text = studyDetail.participateResponse?.size.toString()
+            binding.numberMember.text = studyDetail.participateItem.size.toString()
 
             Glide.with(this)
                 .load(
@@ -58,7 +58,7 @@ class StudyDetailActivity :
                 .into(binding.image)
 
             /* 구성원 수 만큼 동적 생성 */
-            studyDetail.participateResponse?.forEach { memberList ->
+            studyDetail.participateItem.forEach { memberList ->
                 val memberView = LayoutInflater.from(this)
                     .inflate(R.layout.item_member, binding.memberContainer, false)
 
@@ -90,17 +90,12 @@ class StudyDetailActivity :
                 }
 
             mapFragment.getMapAsync { naverMap ->
-                studyDetail.locationResponse?.let {
-                    if (it.longitude != null && it.latitude != null) {
-                        naverMap.cameraPosition = CameraPosition(
-                            LatLng(
-                                it.longitude.toDouble(),
-                                it.latitude.toDouble()
-                            ), 16.0
-                        )
-                    }
-                }
-
+                naverMap.cameraPosition = CameraPosition(
+                    LatLng(
+                        studyDetail.locationItem.longitude.toDouble(),
+                        studyDetail.locationItem.latitude.toDouble()
+                    ), 16.0
+                )
             }
         })
     }
