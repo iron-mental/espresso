@@ -1,17 +1,17 @@
 package com.iron.espresso.presentation.profile.edit
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.model.api.UserApi
 
-class EditProfileHeaderViewModel @ViewModelInject constructor() :
+class EditProfileHeaderViewModel @ViewModelInject constructor(private val api: UserApi) :
     BaseViewModel() {
 
-    private val _nickname = MutableLiveData<String>()
-    val nickname: LiveData<String> get() = _nickname
+    val nickname = MutableLiveData<String>()
+    val introduce = MutableLiveData<String>()
 
-    private val _introduce = MutableLiveData<String>()
-    val introduce: LiveData<String> get() = _introduce
+
+
 
 }

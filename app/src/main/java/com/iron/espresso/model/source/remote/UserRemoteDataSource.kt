@@ -35,12 +35,41 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     ): Single<BaseResponse<Nothing>> =
         userApi.registerUser(RegisterUserRequest(email, password, nickname))
 
-    override fun modifyUser(
+    override fun modifyUserImage(
         bearerToken: String,
         id: Int,
-        request: ModifyUserRequest
+        imageRequest: ModifyUserImageRequest
     ): Single<BaseResponse<Nothing>> =
-        userApi.modifyUser(bearerToken, id, request.toMultipartBody())
+        userApi.modifyUserImage(bearerToken, id, imageRequest.toMultipartBody()!!)
+
+
+    override fun modifyUserInfo(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserInfoRequest
+    ): Single<BaseResponse<Nothing>> =
+        userApi.modifyUserInfo(bearerToken, id, request)
+
+    override fun modifyUserCareer(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserCareerRequest
+    ): Single<BaseResponse<Nothing>> =
+        userApi.modifyUserCareer(bearerToken, id, request)
+
+    override fun modifyUserSns(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserSnsRequest
+    ): Single<BaseResponse<Nothing>> =
+        userApi.modifyUserSns(bearerToken, id, request)
+
+    override fun modifyUserLocation(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserLocationRequest
+    ): Single<BaseResponse<Nothing>> =
+        userApi.modifyUserLocation(bearerToken, id, request)
 
     override fun deleteUser(bearerToken: String, id: Int): Single<BaseResponse<Nothing>> =
         userApi.deleteUser(bearerToken, id)
@@ -63,36 +92,46 @@ data class RegisterUserRequest(val email: String, val password: String, val nick
 data class LoginRequest(val email: String, val password: String, @SerializedName("push_token") val pushToken: String)
 data class ReIssuanceTokenRequest(@SerializedName("refresh_token") val refreshToken: String)
 
-data class ModifyUserRequest(
-    val image: File? = null,
-    val introduce: String = "",
-    val location: String = "",
-    val careerTitle: String = "",
-    val careerContents: String = "",
-    val snsGithub: String = "",
-    val snsLinkedIn: String = "",
-    val snsWeb: String = ""
+data class ModifyUserImageRequest(
+    val image: File? = null
 ) {
-    fun toMultipartBody(): List<MultipartBody.Part> {
-        return MultipartBody.Builder().run {
-            if (introduce.isNotEmpty()) addFormDataPart("introduce", introduce)
-            if (location.isNotEmpty()) addFormDataPart("location", location)
-            if (careerTitle.isNotEmpty()) addFormDataPart("career_title", careerTitle)
-            if (careerContents.isNotEmpty()) addFormDataPart("career_contents", careerContents)
-            if (snsGithub.isNotEmpty()) addFormDataPart("sns_github", snsGithub)
-            if (snsLinkedIn.isNotEmpty()) addFormDataPart("sns_linkedin", snsLinkedIn)
-            if (snsWeb.isNotEmpty()) addFormDataPart("sns_web", snsWeb)
-            if (image != null) {
-                addFormDataPart(
-                    "image",
-                    image.name,
-                    RequestBody.create(MultipartBody.FORM, image)
-                )
-            }
-            build().parts
+    fun toMultipartBody(): MultipartBody.Part? {
+        return if (image != null) {
+            MultipartBody.Part.createFormData(
+                "image",
+                image.name,
+                RequestBody.create(MultipartBody.FORM, image)
+            )
+        } else {
+            null
         }
     }
 }
+data class ModifyUserInfoRequest(
+    @SerializedName("nickname") val nickname: String,
+    @SerializedName("introduce") val introduce: String
+)
+
+data class ModifyUserCareerRequest(
+    @SerializedName("career_title") val careerTitle: String,
+    @SerializedName("career_contents") val careerContents: String
+)
+
+data class ModifyUserSnsRequest(
+    @SerializedName("sns_github") val githubUrl: String,
+    @SerializedName("sns_linkedin") val linkedInUrl: String,
+    @SerializedName("sns_web") val webUrl: String
+)
+
+data class ModifyUserLocationRequest(
+    @SerializedName("latitude") val latitude: Double,
+    @SerializedName("longitude") val longitude: Double,
+    @SerializedName("sido") val sido: String,
+    @SerializedName("sigungu") val sigungu: String,
+)
+
+
+
 
 interface UserRemoteDataSource {
     fun login(email: String, password: String, pushToken: String): Single<BaseResponse<UserAuthResponse>>
@@ -109,12 +148,6 @@ interface UserRemoteDataSource {
 
     fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>
 
-    fun modifyUser(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserRequest
-    ): Single<BaseResponse<Nothing>>
-
     fun deleteUser(bearerToken: String, id: Int): Single<BaseResponse<Nothing>>
 
     fun verifyEmail(bearerToken: String, id: Int): Single<BaseResponse<Nothing>>
@@ -125,4 +158,36 @@ interface UserRemoteDataSource {
         bearerToken: String,
         refreshToken: ReIssuanceTokenRequest
     ): Single<BaseResponse<AccessTokenResponse>>
+
+    fun modifyUserImage(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserImageRequest
+    ): Single<BaseResponse<Nothing>>
+
+    fun modifyUserInfo(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserInfoRequest
+    ): Single<BaseResponse<Nothing>>
+
+    fun modifyUserCareer(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserCareerRequest
+    ): Single<BaseResponse<Nothing>>
+
+    fun modifyUserSns(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserSnsRequest
+    ): Single<BaseResponse<Nothing>>
+
+    fun modifyUserLocation(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserLocationRequest
+    ): Single<BaseResponse<Nothing>>
+
+
 }
