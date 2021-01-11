@@ -1,5 +1,8 @@
 package com.iron.espresso.presentation.profile.edit
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -7,10 +10,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.FragmentEditProfileHeaderBinding
+import com.wswon.picker.ImagePickerFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,6 +29,10 @@ class EditProfileHeaderFragment :
 
         baseActivity?.setToolbarTitle("사진 및 정보 수정")
         binding.viewModel = viewModel
+
+        binding.profileImage.setOnClickListener {
+            showImagePicker()
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -54,7 +63,32 @@ class EditProfileHeaderFragment :
         return true
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQ_IMAGE_PICKER -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val imageUri =
+                        data?.getParcelableExtra<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
+                    Logger.d("$imageUri")
+                    binding.profileImage.setImageURI(imageUri)
+                }
+            }
+        }
+    }
+
+
+    private fun showImagePicker() {
+        val imagePickerFragment = ImagePickerFragment()
+        imagePickerFragment.setTargetFragment(this, REQ_IMAGE_PICKER)
+        imagePickerFragment.show(parentFragmentManager, DIALOG_TAG)
+    }
+
     companion object {
+        private const val REQ_IMAGE_PICKER = 100
+        private const val DIALOG_TAG = "IMAGE_PICKER"
+
         fun newInstance() =
             EditProfileHeaderFragment()
     }

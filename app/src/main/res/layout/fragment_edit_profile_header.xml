@@ -19,6 +19,8 @@
             android:id="@+id/profile_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:background="@drawable/circle_shape"
+            android:src="@drawable/ic_person_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
