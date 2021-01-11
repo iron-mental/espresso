@@ -6,38 +6,24 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.domain.entity.GithubUser
 import com.iron.espresso.domain.entity.User
-import com.iron.espresso.domain.usecase.GetGithubUser
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.model.api.ProjectApi
 import com.iron.espresso.model.response.project.ProjectListResponse
 import com.iron.espresso.presentation.profile.ProjectItem
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
 
 enum class ProfileSns {
     GITHUB, LINKED_IN, WEB, APP_STORE, PLAY_STORE
 }
 
 class ProfileViewModel @ViewModelInject constructor(
-    private val getGithubUser: GetGithubUser,
     private val projectApi: ProjectApi
 ) :
     BaseViewModel() {
 
     val user = MutableLiveData<User>()
-    private val githubId = MutableLiveData<String>()
-
-    val avatarUrl = MutableLiveData<String>()
-
-    private val githubIdSubject: PublishSubject<String> by lazy {
-        PublishSubject.create()
-    }
 
     val clickSns: (sns: ProfileSns, url: String) -> Unit = { sns, url ->
         Logger.d("$url")
@@ -64,21 +50,7 @@ class ProfileViewModel @ViewModelInject constructor(
     val projectItemList: LiveData<List<ProjectItem>> get() = _projectItemList
 
     init {
-        githubId.observeForever {
-            githubIdSubject.onNext(it)
-        }
-
-        compositeDisposable += githubIdSubject
-            .debounce(DEBOUNCE_TIME, TimeUnit.MILLISECONDS)
-            .subscribe({ githubId ->
-                getProfileImage(githubId)
-            }, {
-                Logger.d("$it")
-            })
-
         getProjectList()
-
-        githubId.value ="wswon"
     }
 
     private fun getProjectList() {
@@ -93,17 +65,6 @@ class ProfileViewModel @ViewModelInject constructor(
 //                        _projectItemList.value = projectListResponse.map { it.toProjectItem() }
                     }
                 }
-            }, {
-                Logger.d("$it")
-            })
-    }
-
-    private fun getProfileImage(userId: String) {
-        compositeDisposable += getGithubUser(userId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ response: GithubUser ->
-                avatarUrl.value = response.avatarUrl
             }, {
                 Logger.d("$it")
             })
