@@ -33,18 +33,16 @@ class ProfileFragment :
 
         UserHolder.get()?.let {
             viewModel.setProfile(user = it)
+
+            Glide.with(requireContext())
+                .load(it.image)
+                .optionalCircleCrop()
+                .into(binding.layoutHeader.profileImage)
         }
 
         baseActivity?.setToolbarTitle(R.string.profile_title)
 
         viewModel.run {
-            avatarUrl.observe(viewLifecycleOwner, { avatarUrl ->
-                Glide.with(requireContext())
-                    .load(avatarUrl)
-                    .optionalCircleCrop()
-                    .into(binding.layoutHeader.profileImage)
-            })
-
             showLinkEvent.observe(viewLifecycleOwner, EventObserver { url ->
                 if (url.startsWith("http://") || url.startsWith("https://")) {
                     CustomTabsIntent.Builder()

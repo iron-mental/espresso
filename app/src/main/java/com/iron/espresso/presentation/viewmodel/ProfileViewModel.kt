@@ -74,10 +74,6 @@ class ProfileViewModel @ViewModelInject constructor(
     fun setProfile(user: User) {
         this.user.value = user
     }
-
-    companion object {
-        private const val DEBOUNCE_TIME = 500L
-    }
 }
 
 
