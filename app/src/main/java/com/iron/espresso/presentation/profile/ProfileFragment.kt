@@ -12,6 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
 import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseFragment
@@ -35,7 +38,14 @@ class ProfileFragment :
             viewModel.setProfile(user = it)
 
             Glide.with(requireContext())
-                .load(it.image)
+                .load(
+                    GlideUrl(
+                        it.image,
+                        LazyHeaders.Builder()
+                            .addHeader("Authorization", AuthHolder.bearerToken)
+                            .build()
+                    )
+                )
                 .optionalCircleCrop()
                 .into(binding.layoutHeader.profileImage)
         }
