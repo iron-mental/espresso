@@ -34,7 +34,7 @@ class StudyDetailActivity :
         setToolbarTitle("스터디 상세화면")
         setNavigationIcon(R.drawable.ic_back_24)
 
-        viewModel.getStudy(2)
+        viewModel.getStudy(163)
 
         viewModel.studyDetail.observe(this, Observer { studyDetail ->
             binding.introduceDetail.text = studyDetail.introduce
@@ -47,12 +47,16 @@ class StudyDetailActivity :
 
             Glide.with(this)
                 .load(
-                    GlideUrl(
-                        studyDetail.image,
-                        LazyHeaders.Builder()
-                            .addHeader("Authorization", AuthHolder.bearerToken)
-                            .build()
-                    )
+                    if (studyDetail.image.isNullOrEmpty()) {
+                        R.drawable.dummy_image
+                    } else {
+                        GlideUrl(
+                            studyDetail.image,
+                            LazyHeaders.Builder()
+                                .addHeader("Authorization", AuthHolder.bearerToken)
+                                .build()
+                        )
+                    }
                 )
                 .error(R.drawable.dummy_image)
                 .into(binding.image)
@@ -64,22 +68,23 @@ class StudyDetailActivity :
 
                 memberView.member_nickname.text = memberList.nickname
 
-                if (memberList.image.isNullOrEmpty()) {
-                    memberView.member_image.setImageResource(R.drawable.dummy_image)
-                } else {
-                    Glide.with(this)
-                        .load(
+                Glide.with(this)
+                    .load(
+                        if (memberList.image.isNullOrEmpty()) {
+                            R.drawable.dummy_image
+                        } else {
                             GlideUrl(
                                 memberList.image,
                                 LazyHeaders.Builder()
                                     .addHeader("Authorization", AuthHolder.bearerToken)
                                     .build()
                             )
-                        )
-                        .apply(RequestOptions.circleCropTransform())
-                        .error(R.drawable.dummy_image)
-                        .into(memberView.member_image)
-                }
+                        }
+                    )
+                    .apply(RequestOptions.circleCropTransform())
+                    .error(R.drawable.dummy_image)
+                    .into(memberView.member_image)
+
                 binding.memberContainer.addView(memberView)
             }
 
