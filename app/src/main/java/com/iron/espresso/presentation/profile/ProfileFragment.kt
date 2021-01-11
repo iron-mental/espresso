@@ -11,16 +11,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
 import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.FragmentProfileBinding
 import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.setCircleImage
 import com.iron.espresso.presentation.profile.edit.*
 import com.iron.espresso.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,17 +34,7 @@ class ProfileFragment :
         UserHolder.get()?.let {
             viewModel.setProfile(user = it)
 
-            Glide.with(requireContext())
-                .load(
-                    GlideUrl(
-                        it.image,
-                        LazyHeaders.Builder()
-                            .addHeader("Authorization", AuthHolder.bearerToken)
-                            .build()
-                    )
-                )
-                .optionalCircleCrop()
-                .into(binding.layoutHeader.profileImage)
+            binding.layoutHeader.profileImage.setCircleImage(it.image)
         }
 
         baseActivity?.setToolbarTitle(R.string.profile_title)
@@ -70,7 +57,12 @@ class ProfileFragment :
             this.viewModel = this@ProfileFragment.viewModel
 
             layoutHeader.root.findViewById<View>(R.id.edt_button).setOnClickListener {
-                showFragment(EditProfileHeaderFragment.newInstance())
+                val user = this@ProfileFragment.viewModel.user.value ?: return@setOnClickListener
+                showFragment(EditProfileHeaderFragment.newInstance(
+                    user.image,
+                    user.nickname,
+                    user.introduce
+                ))
             }
             layoutCareer.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 showFragment(EditCareerFragment.newInstance())

@@ -9,12 +9,12 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.FragmentEditProfileHeaderBinding
 import com.iron.espresso.ext.checkReadStoragePermission
+import com.iron.espresso.ext.setCircleImage
 import com.wswon.picker.ImagePickerFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +29,13 @@ class EditProfileHeaderFragment :
         super.onViewCreated(view, savedInstanceState)
 
         baseActivity?.setToolbarTitle("사진 및 정보 수정")
+
+        arguments?.let {args ->
+            binding.profileImage.setCircleImage(args.getString(ARG_IMAGE_URL).orEmpty())
+            viewModel.nickname.value = args.getString(ARG_NICKNAME)
+            viewModel.introduce.value = args.getString(ARG_INTRODUCE)
+        }
+
         binding.viewModel = viewModel
 
         binding.profileImage.setOnClickListener {
@@ -75,7 +82,7 @@ class EditProfileHeaderFragment :
                 if (resultCode == Activity.RESULT_OK) {
                     val imageUri =
                         data?.getParcelableExtra<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
-                    Logger.d("$imageUri")
+
                     binding.profileImage.setImageURI(imageUri)
 
                     if (imageUri != null) {
@@ -96,7 +103,21 @@ class EditProfileHeaderFragment :
         private const val REQ_IMAGE_PICKER = 100
         private const val DIALOG_TAG = "IMAGE_PICKER"
 
-        fun newInstance() =
-            EditProfileHeaderFragment()
+        private const val ARG_IMAGE_URL = "arg_image_url"
+        private const val ARG_NICKNAME = "arg_nickname"
+        private const val ARG_INTRODUCE = "arg_introduce"
+
+        fun newInstance(
+            imageUrl: String,
+            nickname: String,
+            introduce: String
+        ) =
+            EditProfileHeaderFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_IMAGE_URL, imageUrl)
+                    putString(ARG_NICKNAME, nickname)
+                    putString(ARG_INTRODUCE, introduce)
+                }
+            }
     }
 }
