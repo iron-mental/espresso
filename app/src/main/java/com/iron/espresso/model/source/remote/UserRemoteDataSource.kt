@@ -38,9 +38,9 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     override fun modifyUserImage(
         bearerToken: String,
         id: Int,
-        imageRequest: ModifyUserImageRequest
+        request: ModifyUserImageRequest
     ): Single<BaseResponse<Nothing>> =
-        userApi.modifyUserImage(bearerToken, id, imageRequest.toMultipartBody()!!)
+        userApi.modifyUserImage(bearerToken, id, request.toMultipartBody()!!)
 
 
     override fun modifyUserInfo(

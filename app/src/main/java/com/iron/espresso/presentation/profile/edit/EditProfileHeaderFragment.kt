@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.iron.espresso.Logger
@@ -33,7 +32,7 @@ class EditProfileHeaderFragment :
         binding.viewModel = viewModel
 
         binding.profileImage.setOnClickListener {
-             checkReadStoragePermission(requireContext()) { isSuccess ->
+            checkReadStoragePermission(requireContext()) { isSuccess ->
                 if (isSuccess) {
                     showImagePicker()
                 }
@@ -60,7 +59,7 @@ class EditProfileHeaderFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_item_done -> {
-                Toast.makeText(requireContext(), "수정 완료 클릭", Toast.LENGTH_SHORT).show()
+                viewModel.modifyInfo()
             }
             else -> {
 
@@ -68,7 +67,6 @@ class EditProfileHeaderFragment :
         }
         return true
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -79,6 +77,10 @@ class EditProfileHeaderFragment :
                         data?.getParcelableExtra<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
                     Logger.d("$imageUri")
                     binding.profileImage.setImageURI(imageUri)
+
+                    if (imageUri != null) {
+                        viewModel.setImageUri(imageUri)
+                    }
                 }
             }
         }
