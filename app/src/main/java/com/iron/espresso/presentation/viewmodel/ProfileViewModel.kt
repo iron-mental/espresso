@@ -90,7 +90,7 @@ class ProfileViewModel @ViewModelInject constructor(
                 Logger.d("$response")
                 if (response.result) {
                     response.data?.let { projectListResponse: ProjectListResponse ->
-                        _projectItemList.value = projectListResponse.map { it.toProjectItem() }
+//                        _projectItemList.value = projectListResponse.map { it.toProjectItem() }
                     }
                 }
             }, {

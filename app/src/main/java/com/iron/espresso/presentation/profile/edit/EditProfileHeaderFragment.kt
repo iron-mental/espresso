@@ -15,8 +15,10 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.FragmentEditProfileHeaderBinding
+import com.iron.espresso.ext.checkReadStoragePermission
 import com.wswon.picker.ImagePickerFragment
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class EditProfileHeaderFragment :
@@ -31,7 +33,11 @@ class EditProfileHeaderFragment :
         binding.viewModel = viewModel
 
         binding.profileImage.setOnClickListener {
-            showImagePicker()
+             checkReadStoragePermission(requireContext()) { isSuccess ->
+                if (isSuccess) {
+                    showImagePicker()
+                }
+            }
         }
     }
 
@@ -77,7 +83,6 @@ class EditProfileHeaderFragment :
             }
         }
     }
-
 
     private fun showImagePicker() {
         val imagePickerFragment = ImagePickerFragment()

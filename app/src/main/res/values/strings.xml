@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
     <string name="app_name">terminal</string>
 
     <string name="setting">설정</string>
@@ -81,4 +82,6 @@
     <string name="empty_area">아직 추가한 활동지역이 없습니다.</string>
     <string name="contents">내용</string>
     <string name="title">타이틀</string>
+    <string name="read_storage_permission_title">사진 선택</string>
+    <string name="read_storage_permission_contents">사진 접근 권한에 동의해주세요.</string>
 </resources>
