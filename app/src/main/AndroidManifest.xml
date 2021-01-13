@@ -45,7 +45,7 @@
         <activity
             android:name=".presentation.sign.SignUpActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".presentation.home.study.StudyListActivity" />
+        <activity android:name=".presentation.home.study.list.StudyListActivity" />
         <activity android:name=".presentation.home.setting.SettingProfileActivity" />
         <activity android:name=".presentation.home.setting.SettingPolicyActivity" />
         <activity android:name=".presentation.home.setting.SettingTermsActivity" />

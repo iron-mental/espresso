@@ -8,7 +8,7 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.LocalItem
-import com.iron.espresso.data.model.StudyItem
+import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.toErrorResponse
@@ -44,42 +44,42 @@ class StudyCreateViewModel @ViewModelInject constructor(
     }
 
     private fun emptyCheck(
-        studyItem: StudyItem
+        createStudyItem: CreateStudyItem
     ): ValidationInputText {
         return when {
-            studyItem.title.isEmpty() -> ValidationInputText.EMPTY_TITLE
-            studyItem.introduce.isEmpty() -> ValidationInputText.EMPTY_INTRODUCE
-            studyItem.progress.isEmpty() -> ValidationInputText.EMPTY_PROGRESS
-            studyItem.studyTime.isEmpty() -> ValidationInputText.EMPTY_TIME
-            (studyItem.localItem == null) -> ValidationInputText.EMPTY_PLACE
+            createStudyItem.title.isEmpty() -> ValidationInputText.EMPTY_TITLE
+            createStudyItem.introduce.isEmpty() -> ValidationInputText.EMPTY_INTRODUCE
+            createStudyItem.progress.isEmpty() -> ValidationInputText.EMPTY_PROGRESS
+            createStudyItem.studyTime.isEmpty() -> ValidationInputText.EMPTY_TIME
+            (createStudyItem.localItem == null) -> ValidationInputText.EMPTY_PLACE
             else -> ValidationInputText.REGISTER_STUDY
         }
     }
 
     @SuppressLint("CheckResult")
-    fun createStudy(studyItem: StudyItem) {
-        val message = emptyCheck(studyItem)
-        if (message == ValidationInputText.REGISTER_STUDY && studyItem.localItem != null) {
+    fun createStudy(createStudyItem: CreateStudyItem) {
+        val message = emptyCheck(createStudyItem)
+        if (message == ValidationInputText.REGISTER_STUDY && createStudyItem.localItem != null) {
             studyApi
                 .registerStudy(
                     bearerToken = AuthHolder.bearerToken,
                     body = RegisterStudyRequest(
                         category = "android",
-                        title = studyItem.title,
-                        introduce = studyItem.introduce,
-                        progress = studyItem.progress,
-                        studyTime = studyItem.studyTime,
-                        latitude = studyItem.localItem.lat,
-                        longitude = studyItem.localItem.lng,
-                        sido = studyItem.localItem.sido,
-                        sigungu = studyItem.localItem.sigungu,
-                        addressName = studyItem.localItem.addressName,
-                        placeName = studyItem.localItem.placeName,
-                        locationDetail = studyItem.localItem.locationDetail,
-                        snsNotion = studyItem.snsNotion,
-                        snsEverNote = studyItem.snsEverNote,
-                        snsWeb = studyItem.snsWeb,
-                        image = studyItem.image,
+                        title = createStudyItem.title,
+                        introduce = createStudyItem.introduce,
+                        progress = createStudyItem.progress,
+                        studyTime = createStudyItem.studyTime,
+                        latitude = createStudyItem.localItem.lat,
+                        longitude = createStudyItem.localItem.lng,
+                        sido = createStudyItem.localItem.sido,
+                        sigungu = createStudyItem.localItem.sigungu,
+                        addressName = createStudyItem.localItem.addressName,
+                        placeName = createStudyItem.localItem.placeName,
+                        locationDetail = createStudyItem.localItem.locationDetail,
+                        snsNotion = createStudyItem.snsNotion,
+                        snsEverNote = createStudyItem.snsEverNote,
+                        snsWeb = createStudyItem.snsWeb,
+                        image = createStudyItem.image,
                     ).toMultipartBody()
                 )
                 .networkSchedulers()

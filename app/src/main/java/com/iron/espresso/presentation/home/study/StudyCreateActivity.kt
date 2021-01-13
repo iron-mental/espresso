@@ -12,7 +12,7 @@ import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
-import com.iron.espresso.data.model.StudyItem
+import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.load
@@ -68,7 +68,7 @@ class StudyCreateActivity :
         binding.buttonSignUp.setOnClickListener {
 
             viewModel.createStudy(
-                StudyItem(
+                CreateStudyItem(
                     category = "android",
                     title = binding.title.text.toString(),
                     introduce = binding.introduce.text.toString(),
