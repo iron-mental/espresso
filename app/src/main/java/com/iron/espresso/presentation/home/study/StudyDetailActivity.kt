@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -66,7 +68,7 @@ class StudyDetailActivity :
                 val memberView = LayoutInflater.from(this)
                     .inflate(R.layout.item_member, binding.memberContainer, false)
 
-                memberView.member_nickname.text = memberList.nickname
+                memberView.findViewById<TextView>(R.id.member_nickname).text = memberList.nickname
 
                 Glide.with(this)
                     .load(

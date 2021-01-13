@@ -16,11 +16,12 @@ data class ParticipateResponse(
     @SerializedName("leader")
     val leader: Boolean?
 ) {
-    fun toParticipateItem() = ParticipateItem(
-        id = id ?: -1,
-        userId = userId ?: -1,
-        nickname = nickname.orEmpty(),
-        image = image,
-        leader = leader ?: false
-    )
+    fun toParticipateItem() =
+        ParticipateItem(
+            id = id ?: -1,
+            userId = userId ?: -1,
+            nickname = nickname.orEmpty(),
+            image = image,
+            leader = leader ?: false
+        )
 }

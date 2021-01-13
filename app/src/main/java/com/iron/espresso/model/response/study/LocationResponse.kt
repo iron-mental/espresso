@@ -16,12 +16,12 @@ data class LocationResponse(
     @SerializedName("location_detail")
     val locationDetail: String?
 ) {
-    fun toLocationItem() = LocationItem(
-        latitude = latitude.orEmpty(),
-        longitude = longitude.orEmpty(),
-        addressName = addressName.orEmpty(),
-        placeName = placeName,
-        locationDetail = locationDetail
-    )
-
+    fun toLocationItem() =
+        LocationItem(
+            latitude = latitude.orEmpty(),
+            longitude = longitude.orEmpty(),
+            addressName = addressName.orEmpty(),
+            placeName = placeName,
+            locationDetail = locationDetail
+        )
 }
