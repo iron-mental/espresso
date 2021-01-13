@@ -38,32 +38,27 @@ class StudyListActivity :
 
         binding.topTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-
-                tab?.position ?: return
-                val addFragment = getFragment(tab.position)
-
-                val hideFragment = fragmentManager.fragments.find {
-                    if (tab.position == 0) {
-                        it is LocationFragment
-                    } else {
-                        it is NewListFragment
-                    }
-                }
-                if (hideFragment != null) {
-                    fragmentManager.beginTransaction()
-                        .hide(hideFragment).commit()
-                }
-
+                tab ?: return
                 val findFragment = fragmentManager.findFragmentByTag("${tab.text}")
                 if (findFragment == null) {
+                    val addFragment = getFragment(tab.position)
                     fragmentManager.beginTransaction()
                         .add(R.id.study_list_container, addFragment, "${tab.text}").commit()
                 } else {
-                    fragmentManager.beginTransaction().show(findFragment).commit()
+                    fragmentManager.beginTransaction()
+                        .show(findFragment)
+                        .commit()
                 }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab ?: return
+                val hideFragment = fragmentManager.findFragmentByTag("${tab.text}")
+                if (hideFragment != null) {
+                    fragmentManager.beginTransaction()
+                        .hide(hideFragment)
+                        .commit()
+                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
