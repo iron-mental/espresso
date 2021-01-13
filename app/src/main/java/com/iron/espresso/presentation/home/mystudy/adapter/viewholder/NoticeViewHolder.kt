@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ItemNoticeLayoutBinding
-import com.iron.espresso.model.response.notice.NoticeResponse
 
 class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(
@@ -17,9 +17,9 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         DataBindingUtil.bind<ItemNoticeLayoutBinding>(itemView)
 
     fun bind(
-        item: NoticeResponse,
-        nextItem: NoticeResponse?,
-        itemClickListener: (noticeItem: NoticeResponse) -> Unit
+        item: NoticeItem,
+        nextItem: NoticeItem?,
+        itemClickListener: (noticeItem: NoticeItem) -> Unit
     ) {
         itemView.setOnClickListener {
             itemClickListener(item)

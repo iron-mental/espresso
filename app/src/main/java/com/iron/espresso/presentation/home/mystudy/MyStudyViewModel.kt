@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
+import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
@@ -31,8 +32,10 @@ class MyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyA
                 if (it.data != null) {
                     _studyList.value = it.data
                 }
+                Logger.d("$it")
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
+                Logger.d("$errorResponse")
             })
     }
 }

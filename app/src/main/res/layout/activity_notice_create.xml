@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -66,7 +61,7 @@
                         android:layout_marginStart="8dp"
                         android:background="@drawable/bg_round"
                         android:backgroundTint="@color/theme_292929"
-                        android:hint="제목을 작성하세요"
+                        android:hint="@string/empty_title"
                         android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="@color/white"
@@ -77,28 +72,22 @@
                         app:layout_constraintStart_toEndOf="@id/category"
                         app:layout_constraintTop_toTopOf="@+id/category" />
 
-                    <LinearLayout
+                    <EditText
+                        android:id="@+id/content"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:background="@drawable/bg_round"
                         android:backgroundTint="@color/theme_292929"
+                        android:gravity="top"
+                        android:hint="@string/empty_contents"
                         android:minHeight="200dp"
+                        android:padding="10dp"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/title">
-
-                        <EditText
-                            android:id="@+id/content"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="내용을 작성하세요"
-                            android:padding="5dp"
-                            android:textColor="@color/white"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
+                        app:layout_constraintTop_toBottomOf="@+id/title" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,13 +8,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
-import com.iron.espresso.model.response.notice.NoticeListResponse
-import com.iron.espresso.model.response.notice.NoticeResponse
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
     private val noticeAdapter = NoticeAdapter()
-    private lateinit var noticeList: NoticeListResponse
     private var studyId = 0
 
     private val viewModel by viewModels<NoticeViewModel>()
@@ -37,20 +34,21 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         viewModel.showNoticeList(studyId)
 
         viewModel.noticeListItem.observe(viewLifecycleOwner, { noticeListItem ->
-            if (noticeListItem != null) {
-                noticeList = noticeListItem
-                noticeAdapter.run {
-                    setItemList(noticeList)
-                }
+            if (noticeListItem.isNullOrEmpty()) {
+                binding.emptyView.visibility = View.VISIBLE
+                binding.noticeList.visibility = View.GONE
             } else {
-                binding.emptyView.isVisible = true
-                binding.noticeList.isVisible = false
+                noticeAdapter.run {
+                    setItemList(noticeListItem)
+                }
+                binding.emptyView.visibility = View.GONE
+                binding.noticeList.visibility = View.VISIBLE
             }
         })
 
-        noticeAdapter.setItemClickListener { noticeItem: NoticeResponse ->
+        noticeAdapter.setItemClickListener { noticeItem: NoticeItem ->
             startActivityForResult(
-                NoticeDetailActivity.getInstance(
+                NoticeDetailActivity.getIntent(
                     requireContext(),
                     noticeItem.id,
                     studyId
@@ -82,7 +80,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
             }
             R.id.create_notice -> {
                 startActivityForResult(
-                    NoticeCreateActivity.getInstance(requireContext(), studyId),
+                    NoticeCreateActivity.getIntent(requireContext(), studyId),
                     REQUEST_CREATE_CODE
                 )
             }

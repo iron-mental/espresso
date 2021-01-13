@@ -63,11 +63,21 @@
     <string name="set_location">선택한 위치로 설정</string>
 
     <string name="empty_title">제목을 작성하세요</string>
+    <string name="empty_contents">내용을 작성하세요</string>
     <string name="empty_introduce">소개를 작성하세요</string>
     <string name="empty_progress">진행을 작성하세요</string>
     <string name="empty_place">장소를 선택하세요</string>
     <string name="empty_time">시간을 작성하세요</string>
-    <string name="success_register">스터디가 등록되었습니다</string>
+    <string name="register_study">스터디가 등록되었습니다</string>
+    <string name="register_notice">공지사항이 등록되었습니다</string>
+    <string name="modify_notice">공지사항이 수정되었습니다</string>
+    <string name="delete_notice">공지사항이 삭제되었습니다</string>
+    <string name="empty_notice">공지사항이 없습니다</string>
+
+
+    <string name="notice_create">공지사항 작성화면</string>
+    <string name="notice_modify">공지사항 수정화면</string>
+    <string name="notice_detail">공지사항 상세화면</string>
 
     <string name="next">다음</string>
     <string name="edit">수정하기</string>

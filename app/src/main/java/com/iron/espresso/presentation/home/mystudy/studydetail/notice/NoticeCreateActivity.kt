@@ -8,9 +8,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.iron.espresso.R
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
-import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ActivityNoticeCreateBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
@@ -27,29 +28,34 @@ class NoticeCreateActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle("공지사항 작성 화면")
+        setToolbarTitle(resources.getString(R.string.notice_create))
         setNavigationIcon(R.drawable.ic_back_24)
 
         studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
 
-        binding.category.setOnClickListener {
+        viewModel.initPin()
+
+        viewModel.pinnedType.observe(this, Observer { pinned ->
             binding.category.apply {
-                if (text.toString() == context.getString(R.string.pined_false)) {
-                    text = context.getString(R.string.pined_true)
-                    setBackgroundResource(R.color.theme_fc813e)
-                } else {
-                    text = context.getString(R.string.pined_false)
-                    setBackgroundResource(R.color.colorCobaltBlue)
-                }
+                text = resources.getString(pinned.title)
+                setBackgroundResource(pinned.color)
             }
+        })
+
+        binding.category.setOnClickListener {
+            viewModel.changePinned()
         }
 
-        viewModel.toastMessage.observe(this, EventObserver { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-            if (message == "임시 스터디 등록 성공") {
+        viewModel.emptyCheckMessage.observe(this, EventObserver { message ->
+            Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
+            if (message == ValidationInputText.REGISTER_NOTICE) {
                 setResult(RESULT_OK)
                 finish()
             }
+        })
+
+        viewModel.toastMessage.observe(this, EventObserver { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         })
     }
 
@@ -66,11 +72,9 @@ class NoticeCreateActivity :
             }
             R.id.create_notice -> {
                 viewModel.createNotice(
-                    studyId, NoticeItem(
-                        title = binding.title.text.toString(),
-                        contents = binding.content.text.toString(),
-                        pinned = false
-                    )
+                    studyId = studyId,
+                    title = binding.title.text.toString(),
+                    contents = binding.content.text.toString()
                 )
             }
         }
@@ -78,7 +82,7 @@ class NoticeCreateActivity :
     }
 
     companion object {
-        fun getInstance(context: Context, studyId: Int) =
+        fun getIntent(context: Context, studyId: Int) =
             Intent(context, NoticeCreateActivity::class.java).apply {
                 putExtra(STUDY_ID, studyId)
             }

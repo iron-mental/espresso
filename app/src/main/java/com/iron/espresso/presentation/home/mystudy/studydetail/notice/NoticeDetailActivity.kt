@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
-import com.iron.espresso.data.model.NoticeItem
+import com.iron.espresso.data.model.NoticeDetailItem
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
@@ -26,12 +26,12 @@ class NoticeDetailActivity :
     private val viewModel by viewModels<NoticeDetailViewModel>()
     private var studyId = -1
     private var noticeId = -1
-    private lateinit var noticeItem: NoticeItem
+    private lateinit var noticeItem: NoticeDetailItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle(TOOLBAR_TITLE)
+        setToolbarTitle(resources.getString(R.string.notice_detail))
         setNavigationIcon(R.drawable.ic_back_24)
 
         studyId =
@@ -53,32 +53,28 @@ class NoticeDetailActivity :
                     .error(R.drawable.dummy_image)
                     .into(writerImage)
 
-                category.apply {
-                    if (notice.pinned != null && notice.pinned) {
-                        text = context.getString(R.string.pined_true)
-                        setBackgroundResource(R.color.theme_fc813e)
-                    } else {
-                        text = context.getString(R.string.pined_false)
-                        setBackgroundResource(R.color.colorCobaltBlue)
-                    }
-                }
-                noticeItem = NoticeItem(
-                    title.text.toString(),
-                    content.text.toString(),
-                    notice.pinned ?: false
-                )
+                viewModel.initPin(notice.pinned)
+                noticeItem = notice
+            }
+        })
 
+        viewModel.pinnedType.observe(this, Observer { pinned ->
+            binding.category.apply {
+                text = resources.getString(pinned.title)
+                setBackgroundResource(pinned.color)
             }
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            if (message == resources.getString(R.string.delete_notice)) {
+                setResult(RESULT_OK)
+                finish()
+            }
         })
 
         binding.deleteButton.setOnClickListener {
             viewModel.deleteNotice(studyId, noticeId)
-            setResult(RESULT_OK)
-            finish()
         }
 
 
@@ -97,10 +93,9 @@ class NoticeDetailActivity :
             }
             R.id.modify_notice -> {
                 startActivityForResult(
-                    NoticeModifyActivity.getInstance(
+                    NoticeModifyActivity.getIntent(
                         this,
                         studyId,
-                        noticeId,
                         noticeItem
                     ), REQUEST_MODIFY_CODE
                 )
@@ -120,9 +115,8 @@ class NoticeDetailActivity :
 
     companion object {
         private const val REQUEST_MODIFY_CODE = 3
-        private const val TOOLBAR_TITLE = "공지사항 상세 화면"
         const val NOTICE_ID = "noticeId"
-        fun getInstance(context: Context, noticeId: Int?, studyId: Int) =
+        fun getIntent(context: Context, noticeId: Int?, studyId: Int) =
             Intent(context, NoticeDetailActivity::class.java).apply {
                 putExtra(NOTICE_ID, noticeId)
                 putExtra(StudyDetailActivity.STUDY_ID, studyId)

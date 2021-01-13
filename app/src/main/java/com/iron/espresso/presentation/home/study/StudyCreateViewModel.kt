@@ -52,14 +52,14 @@ class StudyCreateViewModel @ViewModelInject constructor(
             studyItem.progress.isEmpty() -> ValidationInputText.EMPTY_PROGRESS
             studyItem.studyTime.isEmpty() -> ValidationInputText.EMPTY_TIME
             (studyItem.localItem == null) -> ValidationInputText.EMPTY_PLACE
-            else -> ValidationInputText.SUCCESS
+            else -> ValidationInputText.REGISTER_STUDY
         }
     }
 
     @SuppressLint("CheckResult")
     fun createStudy(studyItem: StudyItem) {
         val message = emptyCheck(studyItem)
-        if (message == ValidationInputText.SUCCESS && studyItem.localItem != null) {
+        if (message == ValidationInputText.REGISTER_STUDY && studyItem.localItem != null) {
             studyApi
                 .registerStudy(
                     bearerToken = AuthHolder.bearerToken,
