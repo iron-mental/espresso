@@ -12,7 +12,9 @@ import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentMystudyBinding
 import com.iron.espresso.model.response.study.MyStudyResponse
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyStudyFragment :
     BaseFragment<FragmentMystudyBinding>(R.layout.fragment_mystudy) {
 
@@ -25,21 +27,22 @@ class MyStudyFragment :
 
         binding.run {
             rvMyStudy.adapter = myStudyAdapter
-            vm = myStudyViewModel
             myStudyViewModel.showMyStudyList()
-
-            myStudyViewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
-                myStudyAdapter.replaceAll(studyList)
-            })
-
-            myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
-                override fun onClick(item: MyStudyResponse) {
-                    startActivity(context?.let {
-                        StudyDetailActivity.getInstance(it, item.title, item.id)
-                    })
-                }
-            })
         }
+
+        myStudyViewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
+            myStudyAdapter.replaceAll(studyList)
+        })
+
+        myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
+            override fun onClick(item: MyStudyResponse) {
+                if (item.title != null && item.id != null) {
+                    startActivity(
+                        StudyDetailActivity.getInstance(requireContext(), item.title, item.id)
+                    )
+                }
+            }
+        })
 
     }
 

@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.iron.espresso.R
+import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.data.model.StudyItem
 import com.iron.espresso.databinding.ItemStudyListBinding
 

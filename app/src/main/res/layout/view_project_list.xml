@@ -1,0 +1,82 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.iron.espresso.R" />
+
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        tools:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:text="프로젝트"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/project_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:goneIf="@{viewModel.projectItemList.size() > 0}"
+            android:padding="20dp"
+            android:text="@string/empty_project"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <LinearLayout
+            android:id="@+id/project_list_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/project_empty">
+
+            <include
+                android:id="@+id/project_first"
+                layout="@layout/view_project"
+                android:visibleIf="@{viewModel.projectItemList.size() > 0}"
+                bind:viewModel="@{viewModel}"
+                bind:item="@{viewModel.projectItemList.get(0)}"/>
+
+            <include
+                android:id="@+id/project_seconds"
+                layout="@layout/view_project"
+                android:visibleIf="@{viewModel.projectItemList.size() > 1}"
+                bind:viewModel="@{viewModel}"
+                bind:item="@{viewModel.projectItemList.get(1)}"/>
+
+            <include
+                android:id="@+id/project_third"
+                layout="@layout/view_project"
+                android:visibleIf="@{viewModel.projectItemList.size() > 2}"
+                bind:viewModel="@{viewModel}"
+                bind:item="@{viewModel.projectItemList.get(2)}"/>
+        </LinearLayout>
+
+
+        <include
+            layout="@layout/view_edit_button"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

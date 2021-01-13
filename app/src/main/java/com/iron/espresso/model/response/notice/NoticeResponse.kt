@@ -2,6 +2,7 @@ package com.iron.espresso.model.response.notice
 
 
 import com.google.gson.annotations.SerializedName
+import com.iron.espresso.data.model.NoticeItem
 
 data class NoticeResponse(
     @SerializedName("id")
@@ -16,4 +17,13 @@ data class NoticeResponse(
     val createdAt: String?,
     @SerializedName("updated_at")
     val updatedAt: String?
-)
+) {
+    fun toNoticeItem() = NoticeItem(
+        id = id ?: -1,
+        title = title.orEmpty(),
+        contents = contents.orEmpty(),
+        pinned = pinned ?: false,
+        createdAt = createdAt.orEmpty(),
+        updatedAt = updatedAt.orEmpty()
+    )
+}

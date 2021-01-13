@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -63,9 +59,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:textColor="@color/white"
                         android:textSize="13sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:textColor="@color/white"
+                        android:text="모임 진행시 가이드 라인 입니다."
                         app:layout_constraintBottom_toBottomOf="@+id/category"
                         app:layout_constraintStart_toEndOf="@id/category"
                         app:layout_constraintTop_toTopOf="@+id/category"
@@ -85,6 +82,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
+                        android:text="윤여울"
+                        android:fontFamily="@font/noto_sans_bold"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:textStyle="bold"

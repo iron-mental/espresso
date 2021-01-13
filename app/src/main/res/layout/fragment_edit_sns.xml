@@ -1,0 +1,58 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.iron.espresso.R" />
+
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.profile.edit.EditSnsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
+
+        <include
+            android:id="@+id/github_input_view"
+            layout="@layout/view_input_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:hint="@{`Github Project URL`}"
+            bind:icon="@{R.drawable.github}"
+            bind:title="@{`Github`}" />
+
+
+        <include
+            android:id="@+id/linkedin_input_view"
+            layout="@layout/view_input_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/github_input_view"
+            bind:hint="@{`LinkedIn URL`}"
+            bind:icon="@{R.drawable.linked_in}"
+            bind:title="@{`LinkedIn`}" />
+
+        <include
+            android:id="@+id/web_input_view"
+            layout="@layout/view_input_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linkedin_input_view"
+            bind:hint="@{`URL (blog etc)`}"
+            bind:icon="@{R.drawable.icon_web}"
+            bind:title="@{`Web`}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

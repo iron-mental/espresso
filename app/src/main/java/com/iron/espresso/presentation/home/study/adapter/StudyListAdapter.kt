@@ -2,6 +2,7 @@ package com.iron.espresso.presentation.home.study.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.data.model.StudyItem
 
 class StudyListAdapter :

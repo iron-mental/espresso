@@ -28,7 +28,7 @@
             android:lineSpacingExtra="16sp"
             android:text="@string/sign_up_nickname_explain"
             android:textSize="24sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/noto_sans_bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appbar"

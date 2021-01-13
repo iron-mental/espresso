@@ -1,14 +1,16 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
-import android.annotation.SuppressLint
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.data.model.NoticeItem
-import com.iron.espresso.di.ApiModule
+import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.NoticeApi
 import com.iron.espresso.model.api.RegisterNoticeRequest
@@ -17,34 +19,52 @@ import retrofit2.HttpException
 class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
     BaseViewModel() {
 
+    private val _emptyCheckMessage = MutableLiveData<Event<ValidationInputText>>()
+    val emptyCheckMessage: LiveData<Event<ValidationInputText>>
+        get() = _emptyCheckMessage
 
-    private fun emptyCheck(noticeItem: NoticeItem): Boolean {
-        return when {
-            noticeItem.title.isEmpty() -> false
-            noticeItem.contents.isEmpty() -> false
-            else -> true
+    private val _pinnedType = MutableLiveData<NoticeItemType>()
+    val pinnedType: LiveData<NoticeItemType>
+        get() = _pinnedType
+
+    fun initPin() {
+        _pinnedType.value = NoticeItemType.ITEM
+    }
+
+    fun changePinned() {
+        _pinnedType.value = if (_pinnedType.value == NoticeItemType.HEADER) {
+            NoticeItemType.ITEM
+        } else {
+            NoticeItemType.HEADER
         }
     }
 
-    @SuppressLint("CheckResult")
-    fun createNotice(studyId: Int, noticeItem: NoticeItem) {
+    private fun emptyCheck(title: String, contents: String): ValidationInputText {
+        return when {
+            title.isEmpty() -> ValidationInputText.EMPTY_TITLE
+            contents.isEmpty() -> ValidationInputText.EMPTY_CONTENTS
+            else -> ValidationInputText.REGISTER_NOTICE
+        }
+    }
 
-        val message = emptyCheck(noticeItem)
+    fun createNotice(studyId: Int, title: String, contents: String) {
 
-        if (message) {
-            noticeApi
+        val message = emptyCheck(title, contents)
+
+        if (message == ValidationInputText.REGISTER_NOTICE) {
+            compositeDisposable += noticeApi
                 .registerNotice(
                     bearerToken = AuthHolder.bearerToken,
                     studyId = studyId,
                     body = RegisterNoticeRequest(
-                        title = noticeItem.title,
-                        contents = noticeItem.contents,
-                        pinned = noticeItem.pinned
+                        title = title,
+                        contents = contents,
+                        pinned = _pinnedType.value == NoticeItemType.HEADER
                     )
                 )
                 .networkSchedulers()
                 .subscribe({
-                    _toastMessage.value = Event("임시 스터디 등록 성공")
+                    _emptyCheckMessage.value = Event(message)
                     Logger.d("$it")
                 }, {
                     val errorResponse = (it as HttpException).toErrorResponse()
@@ -54,7 +74,7 @@ class NoticeCreateViewModel @ViewModelInject constructor(private val noticeApi: 
                     Logger.d("$it")
                 })
         } else {
-            _toastMessage.value = Event("임시 스터 등록 실패")
+            _emptyCheckMessage.value = Event(message)
         }
     }
 }

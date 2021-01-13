@@ -17,6 +17,10 @@
             name="hint"
             type="String" />
 
+        <variable
+            name="url"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,6 +72,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@{url}"
                 android:imeOptions="actionDone" />
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,26 +1,26 @@
 package com.iron.espresso
 
 import com.google.gson.Gson
-import com.iron.espresso.model.response.user.UserResponse
+import com.iron.espresso.domain.entity.User
 
 object UserHolder {
-    private var user: UserResponse? = null
+    private var user: User? = null
 
     private val gson by lazy {
         Gson()
     }
 
-    fun set(userResponse: UserResponse): Boolean {
-        user = userResponse
+    fun set(user: User): Boolean {
+        this.user = user
         return PrefUtil.setString(
             App.instance.context(),
             PrefUtil.User.FILE_NAME,
             PrefUtil.User.USER_INFO,
-            gson.toJson(userResponse)
+            gson.toJson(user)
         )
     }
 
-    fun get(): UserResponse? {
+    fun get(): User? {
         return user ?: run {
             val user = PrefUtil.getString(
                 App.instance.context(),
@@ -31,7 +31,7 @@ object UserHolder {
             if (user != null) {
                 gson.fromJson(
                     user,
-                    UserResponse::class.java
+                    User::class.java
                 ).also {
                     this@UserHolder.user = it
                 }
