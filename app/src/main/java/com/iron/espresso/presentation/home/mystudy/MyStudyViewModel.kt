@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.mystudy
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,7 +32,7 @@ class MyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyA
                 if (it.data != null) {
                     _studyList.value = it.data
                 }
-                Log.d("TAG", "성공 : $it")
+                Logger.d("$it")
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
                 Logger.d("$errorResponse")

@@ -82,7 +82,7 @@
                         android:lineSpacingExtra="24sp"
                         android:text="스터디 소개"
                         android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -93,7 +93,7 @@
                         android:lineSpacingExtra="27sp"
                         android:text="안드로이드"
                         android:textSize="13sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,7 +130,7 @@
                         android:lineSpacingExtra="24sp"
                         android:text="스터디 진행"
                         android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -169,7 +169,7 @@ Swift의 기본을 다집니다.
                         android:lineSpacingExtra="24sp"
                         android:text="장소"
                         android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -203,7 +203,7 @@ Swift의 기본을 다집니다.
                         android:lineSpacingExtra="24sp"
                         android:text="시간"
                         android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

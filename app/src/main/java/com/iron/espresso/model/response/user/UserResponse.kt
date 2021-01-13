@@ -2,6 +2,7 @@ package com.iron.espresso.model.response.user
 
 
 import com.google.gson.annotations.SerializedName
+import com.iron.espresso.domain.entity.User
 
 data class UserResponse(
     @SerializedName("id")
@@ -30,4 +31,22 @@ data class UserResponse(
     val emailVerified: Boolean?,
     @SerializedName("created_at")
     val createdAt: String?
-)
+) {
+
+    fun toUser() =
+        User(
+            id = id ?: -1,
+            nickname = nickname.orEmpty(),
+            email = email.orEmpty(),
+            image = image.orEmpty(),
+            introduce = introduce.orEmpty(),
+            address = address.orEmpty(),
+            careerTitle = careerTitle.orEmpty(),
+            careerContents = careerContents.orEmpty(),
+            snsGithub = snsGithub.orEmpty(),
+            snsLinkedin = snsLinkedin.orEmpty(),
+            snsWeb = snsWeb.orEmpty(),
+            emailVerified = emailVerified ?: false,
+            createdAt = createdAt.orEmpty(),
+        )
+}
