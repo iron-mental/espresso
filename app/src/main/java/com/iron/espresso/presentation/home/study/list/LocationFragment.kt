@@ -26,20 +26,12 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
         viewModel.getStudyList("android", SORT_LENGTH)
 
         viewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
-
-            studyListAdapter.apply {
-                setItemList(studyList)
-                itemClickListener = { title ->
-                    Toast.makeText(
-                        context,
-                        "onClick title: $title",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    startActivity(StudyDetailActivity.getInstance(requireContext()))
-
-                }
-            }
+            studyListAdapter.setItemList(studyList)
         })
+
+        studyListAdapter.setItemClickListener { studyItem ->
+            startActivity(StudyDetailActivity.getInstance(requireContext(), studyItem.id))
+        }
 
         binding.swipeRefresh.apply {
             setOnRefreshListener {

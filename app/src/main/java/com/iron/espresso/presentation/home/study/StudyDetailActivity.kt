@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
@@ -22,7 +21,6 @@ import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.item_member.view.member_image
-import kotlinx.android.synthetic.main.item_member.view.member_nickname
 
 @AndroidEntryPoint
 class StudyDetailActivity :
@@ -36,7 +34,8 @@ class StudyDetailActivity :
         setToolbarTitle("스터디 상세화면")
         setNavigationIcon(R.drawable.ic_back_24)
 
-        viewModel.getStudy(163)
+        val studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
+        viewModel.getStudy(studyId)
 
         viewModel.studyDetail.observe(this, Observer { studyDetail ->
             binding.introduceDetail.text = studyDetail.introduce
@@ -117,7 +116,11 @@ class StudyDetailActivity :
     }
 
     companion object {
-        fun getInstance(context: Context) =
+        private const val STUDY_ID = "studyId"
+        private const val DEFAULT_VALUE = -1
+
+        fun getInstance(context: Context, studyId: Int) =
             Intent(context, StudyDetailActivity::class.java)
+                .putExtra(STUDY_ID, studyId)
     }
 }
