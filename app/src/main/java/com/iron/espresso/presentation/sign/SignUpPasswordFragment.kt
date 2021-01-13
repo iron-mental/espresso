@@ -5,22 +5,23 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignUpPasswordBinding
 import com.iron.espresso.presentation.viewmodel.CheckType
 import com.iron.espresso.presentation.viewmodel.SignUpViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpPasswordFragment :
     BaseFragment<FragmentSignUpPasswordBinding>(R.layout.fragment_sign_up_password) {
 
-    private val signUpViewModel by sharedViewModel<SignUpViewModel>()
+    private val signUpViewModel by activityViewModels<SignUpViewModel>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.apply {
             vm = signUpViewModel

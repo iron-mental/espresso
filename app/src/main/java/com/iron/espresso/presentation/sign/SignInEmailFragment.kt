@@ -5,18 +5,20 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignInEmailBinding
 import com.iron.espresso.presentation.viewmodel.CheckType
 import com.iron.espresso.presentation.viewmodel.SignInViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignInEmailFragment :
     BaseFragment<FragmentSignInEmailBinding>(R.layout.fragment_sign_in_email) {
 
-    private val signInViewModel by sharedViewModel<SignInViewModel>()
+    private val signInViewModel by activityViewModels<SignInViewModel>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

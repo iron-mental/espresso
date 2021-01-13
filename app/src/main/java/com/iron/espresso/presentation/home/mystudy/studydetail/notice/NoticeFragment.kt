@@ -8,21 +8,19 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
-import com.iron.espresso.model.response.notice.NoticeListResponse
-import com.iron.espresso.model.response.notice.NoticeResponse
-import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity.Companion.DEFAULT_VALUE
-import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity.Companion.STUDY_ID
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
     private val noticeAdapter = NoticeAdapter()
-    private lateinit var noticeList: NoticeListResponse
     private var studyId = 0
 
     private val viewModel by viewModels<NoticeViewModel>()
@@ -30,32 +28,33 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        studyId = arguments?.getInt(STUDY_ID) ?: DEFAULT_VALUE
+        studyId =
+            arguments?.getInt(MyStudyDetailActivity.STUDY_ID) ?: MyStudyDetailActivity.DEFAULT_VALUE
 
         viewModel.showNoticeList(studyId)
 
         viewModel.noticeListItem.observe(viewLifecycleOwner, { noticeListItem ->
-            if (noticeListItem != null) {
-                noticeList = noticeListItem
-                noticeAdapter.run {
-                    setItemList(noticeList)
-                }
+            if (noticeListItem.isNullOrEmpty()) {
+                binding.emptyView.visibility = View.VISIBLE
+                binding.noticeList.visibility = View.GONE
             } else {
-                binding.emptyView.isVisible = true
-                binding.noticeList.isVisible = false
+                noticeAdapter.run {
+                    setItemList(noticeListItem)
+                }
+                binding.emptyView.visibility = View.GONE
+                binding.noticeList.visibility = View.VISIBLE
             }
         })
 
-        noticeAdapter.setItemClickListener { noticeItem: NoticeResponse ->
-            startActivityForResult(context?.let {
-                NoticeDetailActivity.getInstance(
-                    it,
+        noticeAdapter.setItemClickListener { noticeItem: NoticeItem ->
+            startActivityForResult(
+                NoticeDetailActivity.getIntent(
+                    requireContext(),
                     noticeItem.id,
                     studyId
-                )
-            }, REQUEST_DETAIL_CODE)
+                ), REQUEST_DETAIL_CODE
+            )
         }
-
         binding.noticeList.adapter = noticeAdapter
 
     }
@@ -81,7 +80,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
             }
             R.id.create_notice -> {
                 startActivityForResult(
-                    NoticeCreateActivity.getInstance(requireContext(), studyId),
+                    NoticeCreateActivity.getIntent(requireContext(), studyId),
                     REQUEST_CREATE_CODE
                 )
             }
@@ -99,7 +98,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         fun newInstance(data: Int) =
             NoticeFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(STUDY_ID, data)
+                    putInt(MyStudyDetailActivity.STUDY_ID, data)
                 }
             }
     }

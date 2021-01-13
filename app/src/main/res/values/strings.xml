@@ -43,7 +43,9 @@
 
 
     <string name="profile_title">프로필</string>
+    <string name="profile_edit_title">프로필 수정</string>
     <string name="share">공유하기</string>
+    <string name="done">완료</string>
 
     <string name="pined_true">필독</string>
     <string name="pined_false">공지</string>
@@ -59,6 +61,24 @@
     <string name="search_hint">스터디명 분류(키워드) 등</string>
     <string name="address_hint">상세주소를 입력하세요 (건물명, 동/호수 등)</string>
     <string name="set_location">선택한 위치로 설정</string>
+
+    <string name="empty_title">제목을 작성하세요</string>
+    <string name="empty_contents">내용을 작성하세요</string>
+    <string name="empty_introduce">소개를 작성하세요</string>
+    <string name="empty_progress">진행을 작성하세요</string>
+    <string name="empty_place">장소를 선택하세요</string>
+    <string name="empty_time">시간을 작성하세요</string>
+    <string name="register_study">스터디가 등록되었습니다</string>
+    <string name="register_notice">공지사항이 등록되었습니다</string>
+    <string name="modify_notice">공지사항이 수정되었습니다</string>
+    <string name="delete_notice">공지사항이 삭제되었습니다</string>
+    <string name="empty_notice">공지사항이 없습니다</string>
+
+
+    <string name="notice_create">공지사항 작성화면</string>
+    <string name="notice_modify">공지사항 수정화면</string>
+    <string name="notice_detail">공지사항 상세화면</string>
+
     <string name="next">다음</string>
 
     <string name="join_study">스터디 참여하기</string>
@@ -66,4 +86,17 @@
     <string name="study_proceed">스터디 진행</string>
     <string name="time">시간</string>
     <string name="place">장소</string>
+
+    <string name="edit">수정하기</string>
+    <string name="email">Email</string>
+    <string name="area">활동 지역</string>
+    <string name="sns">SNS</string>
+    <string name="project_add_button">+ 프로젝트 추가</string>
+    <string name="empty_career">아직 추가한 경력이 없습니다.</string>
+    <string name="empty_project">아직 추가한 프로젝트가 없습니다.</string>
+    <string name="empty_sns">아직 추가한 SNS가 없습니다.</string>
+    <string name="empty_area">아직 추가한 활동지역이 없습니다.</string>
+    <string name="contents">내용</string>
+    <string name="title">타이틀</string>
+
 </resources>

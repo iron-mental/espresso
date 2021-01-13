@@ -1,29 +1,27 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
-import android.annotation.SuppressLint
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
+import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.di.ApiModule
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.ext.plusAssign
+import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.NoticeApi
-import com.iron.espresso.model.response.notice.NoticeListResponse
+import retrofit2.HttpException
 
-class NoticeViewModel : BaseViewModel() {
+class NoticeViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
+    BaseViewModel() {
 
-    val noticeListItem = MutableLiveData<NoticeListResponse>()
+    private val _noticeListItem = MutableLiveData<List<NoticeItem>>()
+    val noticeListItem: LiveData<List<NoticeItem>>
+        get() = _noticeListItem
 
     fun showNoticeList(studyId: Int) {
-        getNoticeList(studyId) { data ->
-            noticeListItem.value = data
-        }
-    }
-
-    @SuppressLint("CheckResult")
-    private fun getNoticeList(studyId: Int, callback: (data: NoticeListResponse?) -> Unit) {
-
-        ApiModule.provideNoticeApi()
+        compositeDisposable += noticeApi
             .getNoticeList(
                 bearerToken = AuthHolder.bearerToken,
                 studyId = studyId
@@ -31,10 +29,17 @@ class NoticeViewModel : BaseViewModel() {
             .networkSchedulers()
             .subscribe({ response ->
                 if (response.data != null) {
-                    callback(response.data)
+                    _noticeListItem.value = response.data.map {
+                        it.toNoticeItem()
+                    }
                 }
+                Logger.d("$response")
             }) {
-                callback(null)
+                Logger.d("$it")
+                val errorResponse = (it as? HttpException)?.toErrorResponse()
+                if (errorResponse != null) {
+                    Logger.d("$errorResponse")
+                }
             }
     }
 }

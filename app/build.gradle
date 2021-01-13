@@ -40,6 +40,8 @@ android {
 }
 
 dependencies {
+    implementation project(":picker")
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -55,11 +57,6 @@ dependencies {
     //RxJava2 : https://github.com/ReactiveX/RxJava
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
-
-    //Koin lib : https://github.com/InsertKoinIO/koin
-    implementation "org.koin:koin-androidx-scope:$koinVersion"
-    implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
-    implementation "org.koin:koin-androidx-ext:$koinVersion"
 
     //Retrofit
     implementation "com.google.code.gson:gson:$gsonVersion"
@@ -82,4 +79,6 @@ dependencies {
     // 네이버 지도 SDK
     implementation 'com.naver.maps:map-sdk:3.10.0'
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.0.1'
 }
