@@ -20,9 +20,9 @@ class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemStudyListBinding>(itemView)
 
-    fun bind(item: StudyItem, itemClickListener: (title: String) -> Unit) {
+    fun bind(item: StudyItem, itemClickListener: (studyItem: StudyItem) -> Unit) {
         itemView.setOnClickListener {
-            itemClickListener(item.title)
+            itemClickListener(item)
         }
         binding?.run {
             title.text = item.title
