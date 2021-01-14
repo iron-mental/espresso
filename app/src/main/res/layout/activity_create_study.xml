@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="com.iron.espresso.R" />
     </data>
 
     <LinearLayout
@@ -54,12 +56,13 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
-                        android:id="@+id/title"
+                        android:id="@+id/title_input_view"
                         android:layout_width="283dp"
                         android:layout_height="54dp"
                         android:background="@drawable/bg_round"
                         android:backgroundTint="@color/white"
                         android:gravity="center"
+                        android:singleLine="true"
                         android:textColor="@color/black"
                         app:layout_constraintBottom_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -98,6 +101,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
+                        android:id="@+id/introduce_input_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
@@ -106,7 +110,7 @@
                         android:background="@drawable/bg_round"
                         android:backgroundTint="@color/theme_292929"
                         android:gravity="top"
-                        android:hint="스터디 소개를 입력하세요"
+                        android:hint="@string/empty_introduce"
                         android:lineSpacingExtra="11sp"
                         android:padding="10dp"
                         android:textSize="14sp"
@@ -117,6 +121,33 @@
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <include
+                    android:id="@+id/notion_input_view"
+                    layout="@layout/view_input_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:hint="@{`Notion URL`}"
+                    bind:icon="@{R.drawable.notion}"
+                    bind:title="@{`Notion`}" />
+
+                <include
+                    android:id="@+id/evernote_input_view"
+                    layout="@layout/view_input_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:hint="@{`EverNote URL`}"
+                    bind:icon="@{R.drawable.ever_note}"
+                    bind:title="@{`EverNote`}" />
+
+                <include
+                    android:id="@+id/web_input_view"
+                    layout="@layout/view_input_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:hint="@{`URL (blog etc)`}"
+                    bind:icon="@{R.drawable.icon_web}"
+                    bind:title="@{`Web`}" />
 
                 <include layout="@layout/view_divider" />
 
@@ -138,6 +169,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
+                        android:id="@+id/proceed_input_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
@@ -146,7 +178,7 @@
                         android:background="@drawable/bg_round"
                         android:backgroundTint="@color/theme_292929"
                         android:gravity="top"
-                        android:hint="스터디 진행을 입력하세요"
+                        android:hint="@string/empty_progress"
                         android:lineSpacingExtra="11sp"
                         android:padding="10dp"
                         android:textSize="14sp"
@@ -184,7 +216,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:lineSpacingExtra="11sp"
-                        android:text="장소를 선택하세요"
+                        android:text="@string/empty_place"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
@@ -212,6 +244,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
+                        android:id="@+id/time_input_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
@@ -220,7 +253,7 @@
                         android:background="@drawable/bg_round"
                         android:backgroundTint="@color/theme_292929"
                         android:gravity="top"
-                        android:hint="시간을 입력하세요"
+                        android:hint="@string/empty_time"
                         android:lineSpacingExtra="11sp"
                         android:padding="10dp"
                         android:textSize="14sp"

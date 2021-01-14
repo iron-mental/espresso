@@ -43,7 +43,7 @@ class StudyCreateActivity :
             supportPostponeEnterTransition()
         }
 
-        ObjectAnimator.ofFloat(binding.title, View.ALPHA, 0.2f, 1.0f).apply {
+        ObjectAnimator.ofFloat(binding.titleInputView, View.ALPHA, 0.2f, 1.0f).apply {
             duration = 1500
             start()
         }
@@ -70,10 +70,10 @@ class StudyCreateActivity :
             viewModel.createStudy(
                 CreateStudyItem(
                     category = "android",
-                    title = binding.title.text.toString(),
-                    introduce = binding.introduce.text.toString(),
-                    progress = binding.proceed.text.toString(),
-                    studyTime = binding.time.text.toString(),
+                    title = binding.titleInputView.text.toString(),
+                    introduce = binding.introduceInputView.text.toString(),
+                    progress = binding.proceedInputView.text.toString(),
+                    studyTime = binding.timeInputView.text.toString(),
                     localItem = localItem,
                     snsNotion = "https://www.notion.so/product",
                     snsEverNote = "https://www.evernote.com/",
