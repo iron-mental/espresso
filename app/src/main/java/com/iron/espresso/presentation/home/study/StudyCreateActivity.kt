@@ -20,13 +20,12 @@ import com.iron.espresso.ext.load
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 
 @AndroidEntryPoint
 class StudyCreateActivity :
     BaseActivity<ActivityCreateStudyBinding>(R.layout.activity_create_study) {
 
-    private val viewModel: StudyCreateViewModel by viewModels()
+    private val viewModel by viewModels<StudyCreateViewModel>()
 
     private var localItem: LocalItem? = null
 
@@ -59,7 +58,7 @@ class StudyCreateActivity :
             binding.placeDetailInputView.setText(localItem.locationDetail)
         }
 
-        viewModel.snackBarMessage.observe(this, EventObserver { message ->
+        viewModel.emptyCheckMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
             if (message == ValidationInputText.REGISTER_STUDY) {
                 finish()
@@ -117,7 +116,7 @@ class StudyCreateActivity :
         private const val KEY = "key"
         private const val REQ_CODE = 0
 
-        fun getInstance(context: Context, item: Int) =
+        fun getIntent(context: Context, item: Int) =
             Intent(context, StudyCreateActivity::class.java).apply {
                 putExtra(KEY, item)
             }
