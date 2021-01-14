@@ -53,7 +53,9 @@ class StudyCreateActivity :
         }
 
         viewModel.localItem.observe(this) { localItem ->
-            binding.placeDetail.text = localItem.addressName
+            val placeDetailText = localItem.addressName + " " + localItem.placeName
+            binding.placeDetail.text = placeDetailText
+            binding.placeDetailInputView.setText(localItem.locationDetail)
         }
 
         viewModel.snackBarMessage.observe(this, EventObserver { message ->
@@ -66,6 +68,7 @@ class StudyCreateActivity :
 
 
         binding.buttonSignUp.setOnClickListener {
+            localItem?.locationDetail = binding.placeDetailInputView.text.toString()
 
             viewModel.createStudy(
                 CreateStudyItem(

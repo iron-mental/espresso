@@ -211,16 +211,39 @@
 
                     <TextView
                         android:id="@+id/place_detail"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
                         android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/theme_292929"
                         android:lineSpacingExtra="11sp"
+                        android:padding="10dp"
                         android:text="@string/empty_place"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/place" />
+
+                    <EditText
+                        android:id="@+id/place_detail_input_View"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginTop="5dp"
+                        android:padding="10dp"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/theme_292929"
+                        android:hint="상세주소를 입력하세요"
+                        android:lineSpacingExtra="11sp"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/place_detail" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
