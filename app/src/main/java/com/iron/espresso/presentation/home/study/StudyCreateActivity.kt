@@ -78,7 +78,7 @@ class StudyCreateActivity :
                     snsNotion = "https://www.notion.so/product",
                     snsEverNote = "https://www.evernote.com/",
                     snsWeb = "https://norancom.tistory.com/7",
-                    image = File("/storage/self/primary/DCIM/Camera/20180319_124025.jpg")
+                    image = null
                 )
             )
         }
