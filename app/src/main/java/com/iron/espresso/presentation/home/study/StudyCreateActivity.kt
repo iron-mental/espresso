@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.iron.espresso.R
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.data.model.CreateStudyItem
@@ -60,6 +61,9 @@ class StudyCreateActivity :
 
         viewModel.snackBarMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
+            if (message == ValidationInputText.REGISTER_STUDY) {
+                finish()
+            }
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
