@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ItemNoticeLayoutBinding
-import com.iron.espresso.model.response.notice.NoticeResponse
 
 class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(
@@ -17,9 +17,9 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         DataBindingUtil.bind<ItemNoticeLayoutBinding>(itemView)
 
     fun bind(
-        item: NoticeResponse,
-        nextItem: NoticeResponse?,
-        itemClickListener: (noticeItem: NoticeResponse) -> Unit
+        item: NoticeItem,
+        nextItem: NoticeItem?,
+        itemClickListener: (noticeItem: NoticeItem) -> Unit
     ) {
         itemView.setOnClickListener {
             itemClickListener(item)
@@ -28,15 +28,13 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         binding?.run {
             title.text = item.title
             category.apply {
-                when (item.pinned) {
-                    true -> {
-                        text = context.getString(R.string.pined_true)
-                        setBackgroundResource(R.color.theme_fc813e)
-                    }
-                    false -> {
-                        text = context.getString(R.string.pined_false)
-                        setBackgroundResource(R.color.colorCobaltBlue)
-                    }
+                if (item.pinned == true) {
+                    text = context.getString(R.string.pined_true)
+                    setBackgroundResource(R.color.theme_fc813e)
+                }
+                else if (item.pinned == false) {
+                    text = context.getString(R.string.pined_false)
+                    setBackgroundResource(R.color.colorCobaltBlue)
                 }
             }
             date.text = item.updatedAt

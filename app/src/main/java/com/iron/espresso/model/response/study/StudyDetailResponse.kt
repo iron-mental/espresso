@@ -2,6 +2,8 @@ package com.iron.espresso.model.response.study
 
 
 import com.google.gson.annotations.SerializedName
+import com.iron.espresso.data.model.LocationItem
+import com.iron.espresso.data.model.StudyDetailItem
 
 data class StudyDetailResponse(
     @SerializedName("participate")
@@ -29,5 +31,30 @@ data class StudyDetailResponse(
     @SerializedName("location")
     val locationResponse: LocationResponse?,
     @SerializedName("Authority")
-    val authority: Int?
-)
+    val authority: String?
+) {
+    fun toStudyDetailItem() =
+        StudyDetailItem(
+            participateItem = participateResponse?.map {
+                it.toParticipateItem()
+            }.orEmpty(),
+            id = id ?: -1,
+            category = category.orEmpty(),
+            title = title.orEmpty(),
+            introduce = introduce.orEmpty(),
+            image = image,
+            progress = progress.orEmpty(),
+            studyTime = studyTime.orEmpty(),
+            snsNotion = snsNotion,
+            snsEvernote = snsEvernote,
+            snsWeb = snsWeb,
+            locationItem = (locationResponse?.toLocationItem()) ?: LocationItem(
+                latitude = "",
+                longitude = "",
+                addressName = "",
+                placeName = null,
+                locationDetail = null
+            ),
+            authority = authority
+        )
+}

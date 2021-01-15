@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
+import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.data.model.StudyItem
 import com.iron.espresso.databinding.ItemStudyListBinding
 
@@ -22,9 +23,9 @@ class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemStudyListBinding>(itemView)
 
-    fun bind(item: StudyItem, itemClickListener: (title: String) -> Unit) {
+    fun bind(item: StudyItem, itemClickListener: (studyItem: StudyItem) -> Unit) {
         itemView.setOnClickListener {
-            itemClickListener(item.title)
+            itemClickListener(item)
         }
         binding?.run {
             title.text = item.title

@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentLocationBinding
+import com.iron.espresso.presentation.home.study.StudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,18 +26,12 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
         viewModel.getStudyList("android", SORT_LENGTH)
 
         viewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
-
-            studyListAdapter.apply {
-                setItemList(studyList)
-                itemClickListener = { title ->
-                    Toast.makeText(
-                        context,
-                        "onClick title: $title",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+            studyListAdapter.setItemList(studyList)
         })
+
+        studyListAdapter.setItemClickListener { studyItem ->
+            startActivity(StudyDetailActivity.getInstance(requireContext(), studyItem.id))
+        }
 
         binding.swipeRefresh.apply {
             setOnRefreshListener {

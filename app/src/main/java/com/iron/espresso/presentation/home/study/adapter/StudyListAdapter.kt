@@ -7,8 +7,12 @@ import com.iron.espresso.data.model.StudyItem
 class StudyListAdapter :
     RecyclerView.Adapter<StudyListViewHolder>() {
 
-    lateinit var itemClickListener: (title: String) -> Unit
+    private lateinit var itemClickListener: (studyItem: StudyItem) -> Unit
     private val studyList = mutableListOf<StudyItem>()
+
+    fun setItemClickListener(listener: (studyItem: StudyItem) -> Unit) {
+        itemClickListener = listener
+    }
 
     fun setItemList(studyList: List<StudyItem>) {
         this.studyList.clear()

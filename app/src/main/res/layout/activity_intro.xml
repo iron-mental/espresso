@@ -75,7 +75,7 @@
             android:text="@string/intro_sign_up"
             android:textColor="@color/white"
             android:textSize="24sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/noto_sans_bold"
             app:backgroundTint="@color/colorCobaltBlue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

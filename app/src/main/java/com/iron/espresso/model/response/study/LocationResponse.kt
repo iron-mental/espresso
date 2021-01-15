@@ -2,6 +2,7 @@ package com.iron.espresso.model.response.study
 
 
 import com.google.gson.annotations.SerializedName
+import com.iron.espresso.data.model.LocationItem
 
 data class LocationResponse(
     @SerializedName("latitude")
@@ -14,4 +15,13 @@ data class LocationResponse(
     val placeName: String?,
     @SerializedName("location_detail")
     val locationDetail: String?
-)
+) {
+    fun toLocationItem() =
+        LocationItem(
+            latitude = latitude.orEmpty(),
+            longitude = longitude.orEmpty(),
+            addressName = addressName.orEmpty(),
+            placeName = placeName,
+            locationDetail = locationDetail
+        )
+}

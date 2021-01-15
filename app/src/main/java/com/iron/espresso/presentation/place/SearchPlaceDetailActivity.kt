@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivitySearchPlaceDetailBinding
-    private val viewModel = viewModels<SearchPlaceDetailViewModel>()
+    private val viewModel by viewModels<SearchPlaceDetailViewModel>()
     private lateinit var localItem: LocalItem
 
 
@@ -44,7 +44,7 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
 
-        var gesturing = false
+        var isGesturing = false
         val placeItems = intent.getSerializableExtra(PLACE_ITEM) as Place
         var placeName = placeItems.placeName
 
@@ -54,8 +54,8 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
         //카메라 이동할 때
         naverMap.addOnCameraChangeListener { reason, _ ->
             if (reason == REASON_GESTURE) {
-                if (gesturing) { // 로직 한번만 실
-                    gesturing = false
+                if (isGesturing) { // 로직 한번만 실
+                    isGesturing = false
                     ObjectAnimator.ofFloat(binding.marker, "translationY", -25f).apply {
                         binding.marker.drawable.alpha = 50
                         duration = 100
@@ -76,17 +76,16 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                     start()
                 }
             }
-
-            viewModel.value.searchCoord(
+            viewModel.searchCoord(
                 naverMap.cameraPosition.target.longitude,
                 naverMap.cameraPosition.target.latitude,
                 placeName
             )
 
-            gesturing = true
+            isGesturing = true
         }
 
-        viewModel.value.sendLocalItem.observe(this) { localItem ->
+        viewModel.sendLocalItem.observe(this) { localItem ->
             this.localItem = localItem
             binding.address.text = localItem.addressName
         }
