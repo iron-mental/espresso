@@ -25,12 +25,16 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
         get() = _scrollItem
 
     private val allList = mutableListOf<NoticeItem>()
+    private var moreItemSize = -1
     private var totalSize = -1
     private var itemCount = -1
+    private var loading = false
 
     private fun firstItemResult(noticeList: List<NoticeItem>): List<NoticeItem> {
         val list: MutableList<NoticeItem> = mutableListOf()
+        moreItemSize = VISIBLE_ITEM_SIZE
         itemCount = 0
+        loading = false
         allList.clear()
         allList.addAll(noticeList)
         totalSize = noticeList.size
@@ -38,11 +42,39 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
         return if (totalSize <= VISIBLE_ITEM_SIZE) {
             noticeList
         } else {
+            loading = true
             for (i in 0 until VISIBLE_ITEM_SIZE) {
                 itemCount++
                 list.add(allList[i])
             }
             list
+        }
+    }
+
+    private fun scrollMoreItem(): String {
+        val list = mutableListOf<Int>()
+        moreItemSize += VISIBLE_ITEM_SIZE
+        return when {
+            moreItemSize <= totalSize -> {
+                for (i in itemCount until itemCount + VISIBLE_ITEM_SIZE) {
+                    itemCount++
+                    list.add(allList[i].id)
+                }
+                list.joinToString(",")
+            }
+            moreItemSize > totalSize -> {
+                loading = false
+                for (i in itemCount until allList.size) {
+                    itemCount++
+                    list.add(allList[i].id)
+                }
+
+                list.joinToString(",")
+            }
+            else -> {
+                loading = false
+                error("validation error")
+            }
         }
     }
 
@@ -72,20 +104,22 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
     }
 
     fun showNoticeListPaging() {
-        compositeDisposable += noticeApi
-            .getNoticeList(
-                bearerToken = AuthHolder.bearerToken,
-                noticeIds = "600,601,602,603"
-            )
-            .networkSchedulers()
-            .subscribe({
-                _scrollItem.value = it.data?.map { noticeResponse ->
-                    noticeResponse.toNoticeItem()
-                }
-                Logger.d("$it")
-            }, {
-                Logger.d("$it")
-            })
+        if (loading) {
+            compositeDisposable += noticeApi
+                .getNoticeList(
+                    bearerToken = AuthHolder.bearerToken,
+                    noticeIds = scrollMoreItem()
+                )
+                .networkSchedulers()
+                .subscribe({
+                    _scrollItem.value = it.data?.map { noticeResponse ->
+                        noticeResponse.toNoticeItem()
+                    }
+                    Logger.d("$it")
+                }, {
+                    Logger.d("$it")
+                })
+        }
     }
 
     companion object {
