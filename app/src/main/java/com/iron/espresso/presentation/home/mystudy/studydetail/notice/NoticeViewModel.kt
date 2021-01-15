@@ -20,6 +20,28 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
     val noticeListItem: LiveData<List<NoticeItem>>
         get() = _noticeListItem
 
+    private val allList = mutableListOf<NoticeItem>()
+    private var totalSize = -1
+    private var itemCount = -1
+
+    private fun firstItemResult(noticeList: List<NoticeItem>): List<NoticeItem> {
+        val list: MutableList<NoticeItem> = mutableListOf()
+        itemCount = 0
+        allList.clear()
+        allList.addAll(noticeList)
+        totalSize = noticeList.size
+
+        return if (totalSize <= VISIBLE_ITEM_SIZE) {
+            noticeList
+        } else {
+            for (i in 0 until VISIBLE_ITEM_SIZE) {
+                itemCount++
+                list.add(allList[i])
+            }
+            list
+        }
+    }
+
     fun showNoticeList(studyId: Int) {
         compositeDisposable += noticeApi
             .getNoticeList(
@@ -29,9 +51,11 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
             .networkSchedulers()
             .subscribe({ response ->
                 if (response.data != null) {
-                    _noticeListItem.value = response.data.map {
-                        it.toNoticeItem()
-                    }
+                    _noticeListItem.value = firstItemResult(
+                        response.data.map {
+                            it.toNoticeItem()
+                        }
+                    )
                 }
                 Logger.d("$response")
             }) {
@@ -41,5 +65,9 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
                     Logger.d("$errorResponse")
                 }
             }
+    }
+
+    companion object {
+        private const val VISIBLE_ITEM_SIZE = 10
     }
 }
