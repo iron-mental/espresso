@@ -67,6 +67,21 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
             }
     }
 
+    fun showNoticeListPaging() {
+        compositeDisposable += noticeApi
+            .getNoticeList(
+                bearerToken = AuthHolder.bearerToken,
+                noticeIds = "600,601,602,603"
+            )
+            .networkSchedulers()
+            .subscribe({
+
+                Logger.d("$it")
+            }, {
+                Logger.d("$it")
+            })
+    }
+
     companion object {
         private const val VISIBLE_ITEM_SIZE = 10
     }
