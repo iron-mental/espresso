@@ -20,6 +20,10 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
     val noticeListItem: LiveData<List<NoticeItem>>
         get() = _noticeListItem
 
+    private val _scrollItem = MutableLiveData<List<NoticeItem>>()
+    val scrollItem: LiveData<List<NoticeItem>>
+        get() = _scrollItem
+
     private val allList = mutableListOf<NoticeItem>()
     private var totalSize = -1
     private var itemCount = -1
@@ -75,7 +79,9 @@ class NoticeViewModel @ViewModelInject constructor(private val noticeApi: Notice
             )
             .networkSchedulers()
             .subscribe({
-
+                _scrollItem.value = it.data?.map { noticeResponse ->
+                    noticeResponse.toNoticeItem()
+                }
                 Logger.d("$it")
             }, {
                 Logger.d("$it")

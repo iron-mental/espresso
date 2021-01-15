@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
@@ -40,12 +41,14 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
                 binding.emptyView.visibility = View.VISIBLE
                 binding.noticeList.visibility = View.GONE
             } else {
-                noticeAdapter.run {
-                    setItemList(noticeListItem)
-                }
+                noticeAdapter.setItemList(noticeListItem)
                 binding.emptyView.visibility = View.GONE
                 binding.noticeList.visibility = View.VISIBLE
             }
+        })
+
+        viewModel.scrollItem.observe(viewLifecycleOwner, Observer {
+            noticeAdapter.setScrollItem(it)
         })
 
         noticeAdapter.setItemClickListener { noticeItem: NoticeItem ->
