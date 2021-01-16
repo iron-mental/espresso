@@ -108,8 +108,8 @@ data class ModifyUserImageRequest(
     }
 }
 data class ModifyUserInfoRequest(
-    @SerializedName("nickname") val nickname: String,
-    @SerializedName("introduce") val introduce: String
+    @SerializedName("nickname") val nickname: String? = null,
+    @SerializedName("introduce") val introduce: String? = null
 )
 
 data class ModifyUserCareerRequest(

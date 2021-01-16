@@ -31,16 +31,15 @@ class EditProfileHeaderFragment :
         super.onViewCreated(view, savedInstanceState)
 
         baseActivity?.setToolbarTitle("사진 및 정보 수정")
+        setupView()
+        setupViewModel()
+    }
 
-        arguments?.let {args ->
-            binding.profileImage.setCircleImage(args.getString(ARG_IMAGE_URL).orEmpty())
-            viewModel.nickname.value = args.getString(ARG_NICKNAME)
-            viewModel.introduce.value = args.getString(ARG_INTRODUCE)
-        }
-
+    private fun setupView() {
         binding.run {
             this.viewModel = this@EditProfileHeaderFragment.viewModel
 
+            profileImage.setCircleImage(arguments?.getString(ARG_IMAGE_URL).orEmpty())
             profileImage.setOnClickListener {
                 checkReadStoragePermission(requireContext()) { isSuccess ->
                     if (isSuccess) {
@@ -49,10 +48,23 @@ class EditProfileHeaderFragment :
                 }
             }
         }
+    }
 
-        viewModel.toastMessage.observe(viewLifecycleOwner, EventObserver {
-            toast(it)
-        })
+    private fun setupViewModel() {
+        with(viewModel) {
+            arguments?.let { args ->
+                initProfileData(args.getString(ARG_NICKNAME).orEmpty(), args.getString(ARG_INTRODUCE).orEmpty())
+            }
+
+            toastMessage.observe(viewLifecycleOwner, EventObserver {
+                toast(it)
+            })
+
+            successEvent.observe(viewLifecycleOwner, EventObserver {
+                toast("수정 완료")
+                activity?.onBackPressed()
+            })
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

@@ -21,6 +21,8 @@ import io.reactivex.Single
 class EditProfileHeaderViewModel @ViewModelInject constructor(private val remoteDataSource: UserRemoteDataSource) :
     BaseViewModel() {
 
+    private var initNickName = ""
+    private var initIntroduce = ""
     val nickname = MutableLiveData<String>()
     val introduce = MutableLiveData<String>()
 
@@ -33,7 +35,19 @@ class EditProfileHeaderViewModel @ViewModelInject constructor(private val remote
         profileImage = imageUri
     }
 
+    fun initProfileData(nickname: String, introduce: String) {
+        initNickName = nickname
+        initIntroduce = introduce
+        this.nickname.value = nickname
+        this.introduce.value = introduce
+    }
+
     fun modifyInfo() {
+        if (nickname.value.isNullOrEmpty()) {
+            _toastMessage.value = Event("이름은 비워둘 수 없습니다.")
+            return
+        }
+
         val imageFile = profileImage?.toFile()
         val nickname = nickname.value.orEmpty()
         val introduce = introduce.value.orEmpty()
@@ -54,11 +68,18 @@ class EditProfileHeaderViewModel @ViewModelInject constructor(private val remote
                     ModifyUserImageRequest(imageFile)
                 )
             }
-            modifyJobList += remoteDataSource.modifyUserInfo(
-                bearerToken,
-                id,
-                ModifyUserInfoRequest(nickname, introduce)
-            )
+
+            if (initNickName != nickname
+                && initIntroduce != introduce) {
+                modifyJobList += remoteDataSource.modifyUserInfo(
+                    bearerToken,
+                    id,
+                    ModifyUserInfoRequest(
+                        if (initNickName != nickname) nickname else null,
+                        introduce
+                    )
+                )
+            }
 
             compositeDisposable += Single.zip(modifyJobList) { arr ->
                 arr.map {
