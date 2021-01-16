@@ -3,15 +3,20 @@ package com.iron.espresso.presentation.profile.edit
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
+import com.iron.espresso.ext.toErrorResponse
+import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.source.remote.ModifyUserImageRequest
 import com.iron.espresso.model.source.remote.ModifyUserInfoRequest
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
+import io.reactivex.Single
 
 class EditProfileHeaderViewModel @ViewModelInject constructor(private val remoteDataSource: UserRemoteDataSource) :
     BaseViewModel() {
@@ -19,6 +24,8 @@ class EditProfileHeaderViewModel @ViewModelInject constructor(private val remote
     val nickname = MutableLiveData<String>()
     val introduce = MutableLiveData<String>()
 
+    private val _successEvent = MutableLiveData<Event<Unit>>()
+    val successEvent: LiveData<Event<Unit>> get() = _successEvent
 
     private var profileImage: Uri? = null
 
@@ -38,30 +45,46 @@ class EditProfileHeaderViewModel @ViewModelInject constructor(private val remote
             && id != -1
         ) {
 
+            val modifyJobList = mutableListOf<Single<BaseResponse<Nothing>>>()
+
             if (imageFile != null) {
-                compositeDisposable += remoteDataSource.modifyUserImage(
+                modifyJobList += remoteDataSource.modifyUserImage(
                     bearerToken,
                     id,
                     ModifyUserImageRequest(imageFile)
                 )
-                    .networkSchedulers()
-                    .subscribe({
-                        Logger.d("$it")
-                    }, {
-                        Logger.d("$it")
-                    })
             }
-
-            compositeDisposable += remoteDataSource.modifyUserInfo(
+            modifyJobList += remoteDataSource.modifyUserInfo(
                 bearerToken,
                 id,
                 ModifyUserInfoRequest(nickname, introduce)
             )
+
+            compositeDisposable += Single.zip(modifyJobList) { arr ->
+                arr.map {
+                    it as BaseResponse<*>
+                }
+            }
                 .networkSchedulers()
-                .subscribe({
-                    Logger.d("$it")
+                .subscribe({ responseList ->
+                    Logger.d("$responseList")
+                    val isSuccess = responseList.firstOrNull { it.result } != null
+                    if (isSuccess) {
+                        _successEvent.value = Event(Unit)
+                    } else {
+                        val failedMessage = responseList.firstOrNull { it.result }?.message
+                        if (!failedMessage.isNullOrEmpty()) {
+                            _toastMessage.value = Event(failedMessage)
+                        }
+                    }
+
                 }, {
-                    Logger.d("$it")
+                    it.toErrorResponse()?.let { errorResponse ->
+                        Logger.d("$errorResponse")
+                        if (!errorResponse.message.isNullOrEmpty()) {
+                            _toastMessage.value = Event(errorResponse.message)
+                        }
+                    }
                 })
         }
     }

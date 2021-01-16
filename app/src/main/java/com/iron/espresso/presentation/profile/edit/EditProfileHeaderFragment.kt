@@ -13,8 +13,10 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.FragmentEditProfileHeaderBinding
+import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.checkReadStoragePermission
 import com.iron.espresso.ext.setCircleImage
+import com.iron.espresso.ext.toast
 import com.wswon.picker.ImagePickerFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,15 +38,21 @@ class EditProfileHeaderFragment :
             viewModel.introduce.value = args.getString(ARG_INTRODUCE)
         }
 
-        binding.viewModel = viewModel
+        binding.run {
+            this.viewModel = this@EditProfileHeaderFragment.viewModel
 
-        binding.profileImage.setOnClickListener {
-            checkReadStoragePermission(requireContext()) { isSuccess ->
-                if (isSuccess) {
-                    showImagePicker()
+            profileImage.setOnClickListener {
+                checkReadStoragePermission(requireContext()) { isSuccess ->
+                    if (isSuccess) {
+                        showImagePicker()
+                    }
                 }
             }
         }
+
+        viewModel.toastMessage.observe(viewLifecycleOwner, EventObserver {
+            toast(it)
+        })
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
