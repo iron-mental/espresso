@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="12dp"
+        android:paddingTop="16dp"
         android:paddingEnd="12dp">
 
         <ImageView
@@ -25,33 +26,53 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/profile_name"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_name_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="21dp"
-            android:fontFamily="@font/noto_sans_bold"
-            android:text="@={viewModel.nickname}"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:hint="@string/profile_name_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_image"
-            app:layout_constraintWidth_percent=".3" />
+            app:layout_constraintWidth_percent=".8">
 
-        <EditText
-            android:id="@+id/profile_desc"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_regular"
+                android:imeOptions="actionDone"
+                android:text="@={viewModel.nickname}"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_desc_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="16dp"
-            android:text="@={viewModel.introduce}"
-            android:textColor="@color/white"
-            android:textSize="14sp"
+            android:hint="@string/profile_desc_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_name"
-            app:layout_constraintWidth_percent=".6" />
+            app:layout_constraintTop_toBottomOf="@id/profile_name_layout"
+            app:layout_constraintWidth_percent=".8">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profile_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_regular"
+                android:imeOptions="actionDone"
+                android:text="@={viewModel.introduce}"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

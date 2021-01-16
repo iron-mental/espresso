@@ -84,4 +84,6 @@
     <string name="title">타이틀</string>
     <string name="read_storage_permission_title">사진 선택</string>
     <string name="read_storage_permission_contents">사진 접근 권한에 동의해주세요.</string>
+    <string name="profile_name_hint">이름을 입력해 주세요.</string>
+    <string name="profile_desc_hint">간단한 자기소개를 입력해 주세요.</string>
 </resources>
