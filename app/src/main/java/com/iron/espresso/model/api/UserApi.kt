@@ -1,6 +1,7 @@
 package com.iron.espresso.model.api
 
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.address.AddressResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
@@ -111,4 +112,9 @@ interface UserApi {
         @Path("id") id: Int,
         @Body body: ModifyUserLocationRequest
     ): Single<BaseResponse<Nothing>>
+
+    @GET("/v1/user/address")
+    fun getAddressList(
+        @Header("Authorization") bearerToken: String
+    ): Single<BaseResponse<List<AddressResponse>>>
 }

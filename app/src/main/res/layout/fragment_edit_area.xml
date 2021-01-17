@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,13 +16,36 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/address_step1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AREA FRAGMENT"
+            android:fontFamily="@font/noto_sans_bold"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="서울시" />
+
+        <TextView
+            android:id="@+id/address_step2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_bold"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/address_step1"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="동작구" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/address_step1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

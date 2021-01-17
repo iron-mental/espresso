@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
@@ -22,7 +21,7 @@ class EditAreaFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        baseActivity?.setToolbarTitle("활동 지역 수정")
+        baseActivity?.setToolbarTitle(R.string.title_edit_area)
         binding.viewModel = viewModel
     }
 
@@ -45,7 +44,7 @@ class EditAreaFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_item_done -> {
-                Toast.makeText(requireContext(), "수정 완료 클릭", Toast.LENGTH_SHORT).show()
+
             }
             else -> {
 

@@ -3,6 +3,7 @@ package com.iron.espresso.model.source.remote
 import com.google.gson.annotations.SerializedName
 import com.iron.espresso.model.api.UserApi
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.address.AddressResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
@@ -16,7 +17,11 @@ import javax.inject.Inject
 class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi) :
     UserRemoteDataSource {
 
-    override fun login(email: String, password: String, pushToken: String): Single<BaseResponse<UserAuthResponse>> =
+    override fun login(
+        email: String,
+        password: String,
+        pushToken: String
+    ): Single<BaseResponse<UserAuthResponse>> =
         userApi.login(LoginRequest(email, password, pushToken))
 
     override fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>> =
@@ -93,10 +98,18 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
         refreshToken: ReIssuanceTokenRequest
     ): Single<BaseResponse<AccessTokenResponse>> =
         userApi.reIssuanceAccessToken(bearerToken, refreshToken)
+
+    override fun getAddressList(bearerToken: String): Single<BaseResponse<List<AddressResponse>>> =
+        userApi.getAddressList(bearerToken)
 }
 
 data class RegisterUserRequest(val email: String, val password: String, val nickname: String)
-data class LoginRequest(val email: String, val password: String, @SerializedName("push_token") val pushToken: String)
+data class LoginRequest(
+    val email: String,
+    val password: String,
+    @SerializedName("push_token") val pushToken: String
+)
+
 data class ReIssuanceTokenRequest(@SerializedName("refresh_token") val refreshToken: String)
 
 data class ModifyUserImageRequest(
@@ -114,6 +127,7 @@ data class ModifyUserImageRequest(
         }
     }
 }
+
 data class ModifyUserInfoRequest(
     @SerializedName("nickname") val nickname: String? = null,
     @SerializedName("introduce") val introduce: String? = null
@@ -142,10 +156,12 @@ data class ModifyUserLocationRequest(
 )
 
 
-
-
 interface UserRemoteDataSource {
-    fun login(email: String, password: String, pushToken: String): Single<BaseResponse<UserAuthResponse>>
+    fun login(
+        email: String,
+        password: String,
+        pushToken: String
+    ): Single<BaseResponse<UserAuthResponse>>
 
     fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>>
 
@@ -206,5 +222,8 @@ interface UserRemoteDataSource {
         request: ModifyUserLocationRequest
     ): Single<BaseResponse<Nothing>>
 
+    fun getAddressList(
+        bearerToken: String
+    ): Single<BaseResponse<List<AddressResponse>>>
 
 }

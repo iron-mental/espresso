@@ -91,4 +91,5 @@
     <string name="title_edit_career">경력 수정</string>
     <string name="title_edit_sns">SNS 수정</string>
     <string name="title_edit_email">이메일 수정</string>
+    <string name="title_edit_area">활동 지역 수정</string>
 </resources>
