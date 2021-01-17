@@ -98,6 +98,13 @@ interface UserApi {
         @Body body: ModifyUserSnsRequest
     ): Single<BaseResponse<Nothing>>
 
+    @PUT("/v1/user/{id}/email")
+    fun modifyUserEmail(
+        @Header("Authorization") bearerToken: String,
+        @Path("id") id: Int,
+        @Body body: ModifyUserEmailRequest
+    ): Single<BaseResponse<Nothing>>
+
     @PUT("/v1/user/{id}/location")
     fun modifyUserLocation(
         @Header("Authorization") bearerToken: String,

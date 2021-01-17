@@ -64,6 +64,13 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     ): Single<BaseResponse<Nothing>> =
         userApi.modifyUserSns(bearerToken, id, request)
 
+    override fun modifyUserEmail(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserEmailRequest
+    ): Single<BaseResponse<Nothing>> =
+        userApi.modifyUserEmail(bearerToken, id, request)
+
     override fun modifyUserLocation(
         bearerToken: String,
         id: Int,
@@ -123,6 +130,10 @@ data class ModifyUserSnsRequest(
     @SerializedName("sns_web") val webUrl: String
 )
 
+data class ModifyUserEmailRequest(
+    @SerializedName("email") val email: String,
+)
+
 data class ModifyUserLocationRequest(
     @SerializedName("latitude") val latitude: Double,
     @SerializedName("longitude") val longitude: Double,
@@ -169,6 +180,12 @@ interface UserRemoteDataSource {
         bearerToken: String,
         id: Int,
         request: ModifyUserInfoRequest
+    ): Single<BaseResponse<Nothing>>
+
+    fun modifyUserEmail(
+        bearerToken: String,
+        id: Int,
+        request: ModifyUserEmailRequest
     ): Single<BaseResponse<Nothing>>
 
     fun modifyUserCareer(

@@ -70,7 +70,9 @@ class EditSnsViewModel @ViewModelInject constructor(
                         }
                     }
                 }, {
+                    Logger.d("$it")
                     it.toErrorResponse()?.let { errorResponse ->
+                        // TODO : 형식 체크해주는 것 별개 처리 할건지 - BaseResponse(result=false, type=validation-error, label=sns_linkedin, message=유효하지 않은 주소입니다, data=null)
                         Logger.d("$errorResponse")
                         if (!errorResponse.message.isNullOrEmpty()) {
                             _toastMessage.value = Event(errorResponse.message)

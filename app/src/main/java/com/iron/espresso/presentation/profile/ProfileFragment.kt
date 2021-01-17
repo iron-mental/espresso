@@ -20,7 +20,6 @@ import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.FragmentProfileBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.setCircleImage
-import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.profile.edit.*
 import com.iron.espresso.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,7 +71,8 @@ class ProfileFragment :
                 ))
             }
             layoutEmail.root.findViewById<View>(R.id.edt_button).setOnClickListener {
-                showFragment(EditEmailFragment.newInstance())
+                val email = this@ProfileFragment.viewModel.user.value?.email ?: return@setOnClickListener
+                showFragment(EditEmailFragment.newInstance(email))
             }
             layoutArea.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 showFragment(EditAreaFragment.newInstance())
@@ -158,7 +158,6 @@ class ProfileFragment :
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_MODIFY_SUCCESS_CODE && resultCode == Activity.RESULT_OK) {
-            toast("수정이 되었다")
             viewModel.refreshProfile()
             setProfile()
         }
