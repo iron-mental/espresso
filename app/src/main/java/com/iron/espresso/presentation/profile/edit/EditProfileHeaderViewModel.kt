@@ -70,7 +70,7 @@ class EditProfileHeaderViewModel @ViewModelInject constructor(private val remote
             }
 
             if (initNickName != nickname
-                && initIntroduce != introduce
+                || initIntroduce != introduce
             ) {
                 modifyJobList += remoteDataSource.modifyUserInfo(
                     bearerToken,
