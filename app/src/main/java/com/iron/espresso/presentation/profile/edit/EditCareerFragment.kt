@@ -45,10 +45,8 @@ class EditCareerFragment :
                 if (isSuccess) {
                     toast(R.string.success_modify)
                     targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, null)
-                    activity?.onBackPressed()
-                } else {
-                    activity?.onBackPressed()
                 }
+                activity?.onBackPressed()
             })
 
             toastMessage.observe(viewLifecycleOwner, EventObserver {

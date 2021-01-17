@@ -42,7 +42,7 @@ class EditCareerViewModel @ViewModelInject constructor(private val remoteDataSou
         val bearerToken = AuthHolder.bearerToken
         val id = AuthHolder.id ?: return
 
-        if (title.isNotEmpty() && contents.isNotEmpty()) {
+        if (bearerToken.isNotEmpty() && id != -1) {
             compositeDisposable += remoteDataSource.modifyUserCareer(
                 bearerToken,
                 id,

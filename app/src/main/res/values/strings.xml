@@ -89,4 +89,5 @@
     <string name="title_edit_profile_header">사진 및 정보 수정</string>
     <string name="success_modify">수정 완료</string>
     <string name="title_edit_career">경력 수정</string>
+    <string name="title_edit_sns">SNS 수정</string>
 </resources>

@@ -64,7 +64,12 @@ class ProfileFragment :
                 showFragment(EditProjectFragment.newInstance())
             }
             layoutSns.root.findViewById<View>(R.id.edt_button).setOnClickListener {
-                showFragment(EditSnsFragment.newInstance())
+                val user = this@ProfileFragment.viewModel.user.value ?: return@setOnClickListener
+                showFragment(EditSnsFragment.newInstance(
+                    user.snsGithub,
+                    user.snsLinkedin,
+                    user.snsWeb
+                ))
             }
             layoutEmail.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 showFragment(EditEmailFragment.newInstance())
