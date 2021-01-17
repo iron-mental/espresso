@@ -1,6 +1,7 @@
 package com.iron.espresso.ext
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -91,6 +92,13 @@ fun ImageView.setCircleImage(imageUrl: String) {
                     .build()
             )
         )
+        .optionalCircleCrop()
+        .into(this)
+}
+
+fun ImageView.setCircleImage(imageUri: Uri) {
+    Glide.with(context)
+        .load(imageUri)
         .optionalCircleCrop()
         .into(this)
 }

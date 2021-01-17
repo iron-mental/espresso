@@ -86,4 +86,6 @@
     <string name="read_storage_permission_contents">사진 접근 권한에 동의해주세요.</string>
     <string name="profile_name_hint">이름을 입력해 주세요.</string>
     <string name="profile_desc_hint">간단한 자기소개를 입력해 주세요.</string>
+    <string name="title_edit_profile_header">사진 및 정보 수정</string>
+    <string name="success_modify">수정 완료</string>
 </resources>

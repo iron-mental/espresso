@@ -30,7 +30,7 @@ class EditProfileHeaderFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        baseActivity?.setToolbarTitle("사진 및 정보 수정")
+        baseActivity?.setToolbarTitle(R.string.title_edit_profile_header)
         setupView()
         setupViewModel()
     }
@@ -61,7 +61,7 @@ class EditProfileHeaderFragment :
             })
 
             successEvent.observe(viewLifecycleOwner, EventObserver {
-                toast("수정 완료")
+                toast(R.string.success_modify)
                 activity?.onBackPressed()
             })
         }
@@ -103,9 +103,8 @@ class EditProfileHeaderFragment :
                     val imageUri =
                         data?.getParcelableExtra<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
 
-                    binding.profileImage.setImageURI(imageUri)
-
                     if (imageUri != null) {
+                        binding.profileImage.setCircleImage(imageUri)
                         viewModel.setImageUri(imageUri)
                     }
                 }
