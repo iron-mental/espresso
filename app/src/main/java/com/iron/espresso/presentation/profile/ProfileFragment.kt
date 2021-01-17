@@ -88,6 +88,10 @@ class ProfileFragment :
             projectItemList.observe(viewLifecycleOwner, { projectItemList ->
 
             })
+
+            refreshed.observe(viewLifecycleOwner, EventObserver {
+                setProfile()
+            })
         }
     }
 

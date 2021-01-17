@@ -26,6 +26,9 @@ class ProfileViewModel @ViewModelInject constructor(
 ) :
     BaseViewModel() {
 
+    private val _refreshed = MutableLiveData<Event<Unit>>()
+    val refreshed: LiveData<Event<Unit>> get() = _refreshed
+
     val user = MutableLiveData<User>()
 
     val clickSns: (sns: ProfileSns, url: String) -> Unit = { sns, url ->
@@ -93,6 +96,8 @@ class ProfileViewModel @ViewModelInject constructor(
                         if (user != null) {
                             UserHolder.set(user)
                             setProfile(user)
+
+                            _refreshed.value = Event(Unit)
                         }
                     }
                 }, {
