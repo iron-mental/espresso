@@ -26,8 +26,8 @@ class EditProfileHeaderViewModel @ViewModelInject constructor(private val remote
     val nickname = MutableLiveData<String>()
     val introduce = MutableLiveData<String>()
 
-    private val _successEvent = MutableLiveData<Event<Unit>>()
-    val successEvent: LiveData<Event<Unit>> get() = _successEvent
+    private val _successEvent = MutableLiveData<Event<Boolean>>()
+    val successEvent: LiveData<Event<Boolean>> get() = _successEvent
 
     private var profileImage: Uri? = null
 
@@ -70,7 +70,8 @@ class EditProfileHeaderViewModel @ViewModelInject constructor(private val remote
             }
 
             if (initNickName != nickname
-                && initIntroduce != introduce) {
+                && initIntroduce != introduce
+            ) {
                 modifyJobList += remoteDataSource.modifyUserInfo(
                     bearerToken,
                     id,
@@ -88,10 +89,9 @@ class EditProfileHeaderViewModel @ViewModelInject constructor(private val remote
             }
                 .networkSchedulers()
                 .subscribe({ responseList ->
-                    Logger.d("$responseList")
                     val isSuccess = responseList.firstOrNull { it.result } != null
                     if (isSuccess) {
-                        _successEvent.value = Event(Unit)
+                        _successEvent.value = Event(true)
                     } else {
                         val failedMessage = responseList.firstOrNull { it.result }?.message
                         if (!failedMessage.isNullOrEmpty()) {
@@ -100,8 +100,12 @@ class EditProfileHeaderViewModel @ViewModelInject constructor(private val remote
                     }
 
                 }, {
+                    Logger.d("$it")
+                    if (it is NoSuchElementException) {
+                        _successEvent.value = Event(false)
+                        return@subscribe
+                    }
                     it.toErrorResponse()?.let { errorResponse ->
-                        Logger.d("$errorResponse")
                         if (!errorResponse.message.isNullOrEmpty()) {
                             _toastMessage.value = Event(errorResponse.message)
                         }

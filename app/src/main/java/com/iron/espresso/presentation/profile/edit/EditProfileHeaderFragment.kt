@@ -53,16 +53,24 @@ class EditProfileHeaderFragment :
     private fun setupViewModel() {
         with(viewModel) {
             arguments?.let { args ->
-                initProfileData(args.getString(ARG_NICKNAME).orEmpty(), args.getString(ARG_INTRODUCE).orEmpty())
+                initProfileData(
+                    args.getString(ARG_NICKNAME).orEmpty(),
+                    args.getString(ARG_INTRODUCE).orEmpty()
+                )
             }
 
             toastMessage.observe(viewLifecycleOwner, EventObserver {
                 toast(it)
             })
 
-            successEvent.observe(viewLifecycleOwner, EventObserver {
-                toast(R.string.success_modify)
-                activity?.onBackPressed()
+            successEvent.observe(viewLifecycleOwner, EventObserver { isSuccess ->
+                if (isSuccess) {
+                    toast(R.string.success_modify)
+                    targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, null)
+                    activity?.onBackPressed()
+                } else {
+                    activity?.onBackPressed()
+                }
             })
         }
     }

@@ -1,5 +1,7 @@
 package com.iron.espresso.presentation.profile
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -18,6 +20,7 @@ import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.FragmentProfileBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.setCircleImage
+import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.profile.edit.*
 import com.iron.espresso.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,28 +34,14 @@ class ProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        UserHolder.get()?.let {
-            viewModel.setProfile(user = it)
-
-            binding.layoutHeader.profileImage.setCircleImage(it.image)
-        }
-
         baseActivity?.setToolbarTitle(R.string.profile_title)
 
-        viewModel.run {
-            showLinkEvent.observe(viewLifecycleOwner, EventObserver { url ->
-                if (url.startsWith("http://") || url.startsWith("https://")) {
-                    CustomTabsIntent.Builder()
-                        .build()
-                        .launchUrl(requireContext(), Uri.parse(url))
-                }
-            })
+        setProfile()
+        setupView()
+        setupViewModel()
+    }
 
-            projectItemList.observe(viewLifecycleOwner, { projectItemList ->
-
-            })
-        }
-
+    private fun setupView() {
         binding.run {
             this.viewModel = this@ProfileFragment.viewModel
 
@@ -65,7 +54,11 @@ class ProfileFragment :
                 ))
             }
             layoutCareer.root.findViewById<View>(R.id.edt_button).setOnClickListener {
-                showFragment(EditCareerFragment.newInstance())
+                val user = this@ProfileFragment.viewModel.user.value ?: return@setOnClickListener
+                showFragment(EditCareerFragment.newInstance(
+                    user.careerTitle,
+                    user.careerContents
+                ))
             }
             layoutProject.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 showFragment(EditProjectFragment.newInstance())
@@ -79,6 +72,22 @@ class ProfileFragment :
             layoutArea.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 showFragment(EditAreaFragment.newInstance())
             }
+        }
+    }
+
+    private fun setupViewModel() {
+        viewModel.run {
+            showLinkEvent.observe(viewLifecycleOwner, EventObserver { url ->
+                if (url.startsWith("http://") || url.startsWith("https://")) {
+                    CustomTabsIntent.Builder()
+                        .build()
+                        .launchUrl(requireContext(), Uri.parse(url))
+                }
+            })
+
+            projectItemList.observe(viewLifecycleOwner, { projectItemList ->
+
+            })
         }
     }
 
@@ -121,15 +130,35 @@ class ProfileFragment :
         return true
     }
 
+    private fun setProfile() {
+        UserHolder.get()?.let {
+            viewModel.setProfile(user = it)
+
+            binding.layoutHeader.profileImage.setCircleImage(it.image)
+        }
+    }
+
     private fun showFragment(fragment: Fragment) {
         parentFragmentManager.commit {
             hide(this@ProfileFragment)
+            fragment.setTargetFragment(this@ProfileFragment, REQ_MODIFY_SUCCESS_CODE)
             add(R.id.edit_frag_container, fragment, fragment.javaClass.simpleName)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQ_MODIFY_SUCCESS_CODE && resultCode == Activity.RESULT_OK) {
+            toast("수정이 되었다")
+            viewModel.refreshProfile()
+            setProfile()
         }
     }
 
     companion object {
         fun newInstance() =
             ProfileFragment()
+
+        private const val REQ_MODIFY_SUCCESS_CODE = 10
     }
 }

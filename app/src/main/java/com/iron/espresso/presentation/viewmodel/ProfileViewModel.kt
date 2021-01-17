@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
+import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.User
 import com.iron.espresso.ext.Event
@@ -12,6 +13,7 @@ import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.model.api.ProjectApi
 import com.iron.espresso.model.response.project.ProjectListResponse
+import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import com.iron.espresso.presentation.profile.ProjectItem
 
 enum class ProfileSns {
@@ -19,6 +21,7 @@ enum class ProfileSns {
 }
 
 class ProfileViewModel @ViewModelInject constructor(
+    private val userRemoteDataSource: UserRemoteDataSource,
     private val projectApi: ProjectApi
 ) :
     BaseViewModel() {
@@ -70,6 +73,33 @@ class ProfileViewModel @ViewModelInject constructor(
             })
     }
 
+    fun refreshProfile() {
+        val bearerToken = AuthHolder.bearerToken
+        val id = AuthHolder.id ?: return
+
+        if (bearerToken.isNotEmpty()
+            && id != -1
+        ) {
+
+            compositeDisposable += userRemoteDataSource.getUser(
+                bearerToken, id
+            )
+                .networkSchedulers()
+                .subscribe({
+                    if (it.result) {
+
+                        val user = it.data?.toUser()
+
+                        if (user != null) {
+                            UserHolder.set(user)
+                            setProfile(user)
+                        }
+                    }
+                }, {
+
+                })
+        }
+    }
 
     fun setProfile(user: User) {
         this.user.value = user
