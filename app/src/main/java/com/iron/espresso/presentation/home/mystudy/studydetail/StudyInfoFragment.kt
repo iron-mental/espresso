@@ -5,9 +5,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentStudyInfoBinding
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +19,11 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val studyId =
+            arguments?.getInt(MyStudyDetailActivity.STUDY_ID) ?: MyStudyDetailActivity.DEFAULT_VALUE
+        viewModel.getStudy(studyId)
+        Logger.d("$studyId")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -33,7 +40,11 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
     }
 
     companion object {
-        fun newInstance() =
-            StudyInfoFragment()
+        fun newInstance(studyId: Int) =
+            StudyInfoFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(MyStudyDetailActivity.STUDY_ID, studyId)
+                }
+            }
     }
 }
