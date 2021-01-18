@@ -12,7 +12,9 @@ import com.google.android.material.chip.Chip
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchStudyBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchStudyActivity :
     BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
 
@@ -36,6 +38,8 @@ class SearchStudyActivity :
         }
 
         viewModel.getHotKeywordList()
+        viewModel.showSearchStudyList("강남구")
+
         viewModel.hotKeywordList.observe(this, Observer { hotKeywordList ->
             // 핫 키워드 버튼 클릭 시 검색 창 text 대응
             hotKeywordList.forEach { keyWord ->
