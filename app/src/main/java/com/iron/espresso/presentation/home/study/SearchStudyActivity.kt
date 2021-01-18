@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.material.chip.Chip
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
@@ -14,6 +16,7 @@ import com.iron.espresso.databinding.ActivitySearchStudyBinding
 class SearchStudyActivity :
     BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
 
+    private val viewModel by viewModels<SearchStudyViewModel>()
     private lateinit var searchEditText: EditText
     private lateinit var hotKeywordButton: Chip
 
@@ -32,32 +35,20 @@ class SearchStudyActivity :
             Toast.makeText(this, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
         }
 
-        val hotKeywordList = arrayListOf<HotKeywordItem>().apply {
-            add(HotKeywordItem("안드로이드"))
-            add(HotKeywordItem("node.js"))
-            add(HotKeywordItem("코드리뷰fdsafdsafdsafdsafdsafdsafd"))
-            add(HotKeywordItem("취업스터디"))
-            add(HotKeywordItem("프로젝트"))
-            add(HotKeywordItem("Swift"))
-            add(HotKeywordItem("안드로이드fdsafdsafdsafdsafdsafdsa"))
-            add(HotKeywordItem("node.rkdcjfajdcjddl"))
-            add(HotKeywordItem("코드리뷰"))
-            add(HotKeywordItem("취업스터디"))
-            add(HotKeywordItem("프로젝트fdsafdsafdsafdsafdsa"))
-            add(HotKeywordItem("Swift"))
-        }
-
-        // 핫 키워드 버튼 클릭 시 검색 창 text 대응
-        hotKeywordList.forEach { keyWord ->
-            hotKeywordButton = Chip(this).apply {
-                text = keyWord.title
-                setOnClickListener {
-                    Toast.makeText(this@SearchStudyActivity, text, Toast.LENGTH_SHORT).show()
-                    searchEditText.setText(text)
+        viewModel.getHotKeywordList()
+        viewModel.hotKeywordList.observe(this, Observer { hotKeywordList ->
+            // 핫 키워드 버튼 클릭 시 검색 창 text 대응
+            hotKeywordList.forEach { keyWord ->
+                hotKeywordButton = Chip(this).apply {
+                    text = keyWord.title
+                    setOnClickListener {
+                        Toast.makeText(this@SearchStudyActivity, text, Toast.LENGTH_SHORT).show()
+                        searchEditText.setText(text)
+                    }
                 }
+                binding.hotKeywordGroup.addView(hotKeywordButton)
             }
-            binding.hotKeywordGroup.addView(hotKeywordButton)
-        }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
