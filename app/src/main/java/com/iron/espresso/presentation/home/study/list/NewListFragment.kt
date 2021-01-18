@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentNewListBinding
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.study.StudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +30,11 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
         })
 
         studyListAdapter.setItemClickListener { studyItem ->
-            startActivity(StudyDetailActivity.getInstance(requireContext(), studyItem.id))
+            if (studyItem.isMember) {
+                startActivity(MyStudyDetailActivity.getInstance(requireContext(), studyItem.title, studyItem.id))
+            } else {
+                startActivity(StudyDetailActivity.getInstance(requireContext(), studyItem.id))
+            }
         }
 
         binding.swipeRefresh.apply {
