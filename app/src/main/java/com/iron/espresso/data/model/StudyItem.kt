@@ -9,5 +9,6 @@ data class StudyItem(
     val leaderImage: String?,
     val createdAt: String,
     val distance: Double,
-    val members: Int
+    val members: Int,
+    val isMember: Boolean
 )
