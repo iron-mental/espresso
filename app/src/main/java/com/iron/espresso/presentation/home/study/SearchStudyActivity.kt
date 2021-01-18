@@ -20,14 +20,13 @@ class SearchStudyActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        searchEditText = EditText(this)
-
-        setCustomView(searchEditText.apply {
+        searchEditText = EditText(this).apply {
             hint = context.getString(R.string.search_hint)
-            maxLines = 1
-        })
+            setSingleLine()
+        }
+
+        setCustomView(searchEditText)
         setNavigationIcon(R.drawable.ic_back_24)
-        setToolbarTitle("")
 
         binding.placeSearchButton.setOnClickListener {
             Toast.makeText(this, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
