@@ -151,4 +151,10 @@ interface StudyApi {
         @Header("Authorization") bearerToken: String,
         @Query("values") studyIds: String
     ): Single<BaseResponse<StudyListResponse>>
+
+    @GET("/v1/study/search")
+    fun getSearchStudyList(
+        @Header("Authorization") bearerToken: String,
+        @Query("word") word: String
+    ): Single<BaseResponse<StudyListResponse>>
 }
