@@ -21,9 +21,7 @@ class StudyListAdapter :
     }
 
     fun setScrollItem(studyList: List<StudyItem>) {
-        for (item in studyList) {
-            this.studyList.add(item)
-        }
+        this.studyList.addAll(studyList)
         notifyDataSetChanged()
     }
 
