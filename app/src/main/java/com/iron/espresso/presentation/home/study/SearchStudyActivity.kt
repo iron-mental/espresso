@@ -15,6 +15,7 @@ import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchStudyBinding
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -66,6 +67,20 @@ class SearchStudyActivity :
         viewModel.studyList.observe(this, Observer { studyList ->
             studyListAdapter.setItemList(studyList)
         })
+
+        studyListAdapter.setItemClickListener { studyItem ->
+            if (studyItem.isMember) {
+                startActivity(
+                    MyStudyDetailActivity.getInstance(
+                        this,
+                        studyItem.title,
+                        studyItem.id
+                    )
+                )
+            } else {
+                startActivity(StudyDetailActivity.getInstance(this, studyItem.id))
+            }
+        }
 
         viewModel.hotKeywordList.observe(this, Observer { hotKeywordList ->
             // 핫 키워드 버튼 클릭 시 검색 창 text 대응
