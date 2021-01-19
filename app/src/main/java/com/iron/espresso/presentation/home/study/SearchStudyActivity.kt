@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -40,11 +41,12 @@ class SearchStudyActivity :
             )
             requestFocus()
             imeOptions = EditorInfo.IME_ACTION_SEARCH
-            setOnEditorActionListener { search, _, _ ->
+            setOnEditorActionListener { _, _, _ ->
                 var handled = false     //키보드 내림
-                if (search.text.isNotEmpty()) {
+                if (text.isNotEmpty()) {
                     Logger.d("성공")
                     viewModel.showSearchStudyList("$text")
+                    binding.searchContainer.visibility = View.GONE
                 } else {
                     Logger.d("실패")
                     handled = true      //키보드 유지
