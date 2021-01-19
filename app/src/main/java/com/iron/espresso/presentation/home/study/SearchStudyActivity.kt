@@ -47,6 +47,7 @@ class SearchStudyActivity :
                     Logger.d("성공")
                     viewModel.showSearchStudyList("$text")
                     binding.searchContainer.visibility = View.GONE
+                    binding.studyList.visibility = View.VISIBLE
                 } else {
                     Logger.d("실패")
                     handled = true      //키보드 유지
@@ -97,6 +98,16 @@ class SearchStudyActivity :
                 binding.hotKeywordGroup.addView(hotKeywordButton)
             }
         })
+    }
+
+    override fun onBackPressed() {
+        if (binding.searchContainer.visibility == View.VISIBLE) {
+            super.onBackPressed()
+        } else {
+            binding.searchContainer.visibility = View.VISIBLE
+            binding.studyList.visibility = View.GONE
+            searchEditText.setText("")
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
