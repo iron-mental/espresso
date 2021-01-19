@@ -11,6 +11,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.iron.espresso.Logger
 import com.iron.espresso.R
@@ -71,19 +73,9 @@ class SearchStudyActivity :
             studyListAdapter.setItemList(studyList)
         })
 
-        studyListAdapter.setItemClickListener { studyItem ->
-            if (studyItem.isMember) {
-                startActivity(
-                    MyStudyDetailActivity.getInstance(
-                        this,
-                        studyItem.title,
-                        studyItem.id
-                    )
-                )
-            } else {
-                startActivity(StudyDetailActivity.getInstance(this, studyItem.id))
-            }
-        }
+        viewModel.scrollItem.observe(this, Observer {
+            studyListAdapter.setScrollItem(it)
+        })
 
         viewModel.hotKeywordList.observe(this, Observer { hotKeywordList ->
             // 핫 키워드 버튼 클릭 시 검색 창 text 대응
@@ -98,6 +90,43 @@ class SearchStudyActivity :
                 binding.hotKeywordGroup.addView(hotKeywordButton)
             }
         })
+
+        studyListAdapter.setItemClickListener { studyItem ->
+            if (studyItem.isMember) {
+                startActivity(
+                    MyStudyDetailActivity.getInstance(
+                        this,
+                        studyItem.title,
+                        studyItem.id
+                    )
+                )
+            } else {
+                startActivity(StudyDetailActivity.getInstance(this, studyItem.id))
+            }
+        }
+
+        scrollListener()
+    }
+
+    private fun scrollListener() {
+        binding.studyList.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val linear =
+                        binding.studyList.layoutManager as LinearLayoutManager
+
+                    if (linear.findLastCompletelyVisibleItemPosition()
+                        == studyListAdapter.itemCount - 1
+                    ) {
+                        if (studyListAdapter.itemCount >= 10) {
+                            viewModel.getSearchStudyListPaging()
+                        }
+                    }
+                }
+            }
+        )
     }
 
     override fun onBackPressed() {
