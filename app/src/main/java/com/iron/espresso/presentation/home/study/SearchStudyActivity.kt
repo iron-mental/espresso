@@ -67,6 +67,15 @@ class SearchStudyActivity :
             Toast.makeText(this, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
         }
 
+        binding.swipeRefresh.apply {
+            setOnRefreshListener {
+                viewModel.showSearchStudyList("${searchEditText.text}")
+
+                this.isRefreshing = false
+            }
+        }
+
+
         viewModel.getHotKeywordList()
 
         viewModel.studyList.observe(this, Observer { studyList ->
