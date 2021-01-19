@@ -4,11 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.chip.Chip
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchStudyBinding
@@ -28,6 +31,23 @@ class SearchStudyActivity :
         searchEditText = EditText(this).apply {
             hint = context.getString(R.string.search_hint)
             setSingleLine()
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            requestFocus()
+            imeOptions = EditorInfo.IME_ACTION_SEARCH
+            setOnEditorActionListener { search, _, _ ->
+                var handled = false     //키보드 내림
+                if (search.text.isNotEmpty()) {
+                    Logger.d("성공")
+                    viewModel.showSearchStudyList("$text")
+                } else {
+                    Logger.d("실패")
+                    handled = true      //키보드 유지
+                }
+                handled
+            }
         }
 
         setCustomView(searchEditText)
@@ -38,7 +58,6 @@ class SearchStudyActivity :
         }
 
         viewModel.getHotKeywordList()
-        viewModel.showSearchStudyList("강남구")
 
         viewModel.hotKeywordList.observe(this, Observer { hotKeywordList ->
             // 핫 키워드 버튼 클릭 시 검색 창 text 대응
