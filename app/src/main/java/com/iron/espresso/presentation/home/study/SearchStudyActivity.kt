@@ -15,6 +15,7 @@ import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchStudyBinding
+import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +23,7 @@ class SearchStudyActivity :
     BaseActivity<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
 
     private val viewModel by viewModels<SearchStudyViewModel>()
+    private val studyListAdapter = StudyListAdapter()
     private lateinit var searchEditText: EditText
     private lateinit var hotKeywordButton: Chip
 
@@ -53,11 +55,17 @@ class SearchStudyActivity :
         setCustomView(searchEditText)
         setNavigationIcon(R.drawable.ic_back_24)
 
+        binding.studyList.adapter = studyListAdapter
+
         binding.placeSearchButton.setOnClickListener {
             Toast.makeText(this, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
         }
 
         viewModel.getHotKeywordList()
+
+        viewModel.studyList.observe(this, Observer { studyList ->
+            studyListAdapter.setItemList(studyList)
+        })
 
         viewModel.hotKeywordList.observe(this, Observer { hotKeywordList ->
             // 핫 키워드 버튼 클릭 시 검색 창 text 대응
