@@ -7,13 +7,14 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyItem
+import com.iron.espresso.di.ApiModule
+import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.api.StudyApi
 import retrofit2.HttpException
 
-class StudyListViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
+class StudyListViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
     BaseViewModel() {
 
     private val _studyList = MutableLiveData<List<StudyItem>>()
@@ -80,7 +81,7 @@ class StudyListViewModel @ViewModelInject constructor(private val studyApi: Stud
     }
 
     fun getStudyList(category: String, sort: String) {
-        compositeDisposable += studyApi
+        compositeDisposable += ApiModule.provideStudyApi()
             .getStudyList(
                 bearerToken = AuthHolder.bearerToken,
                 category = category,
@@ -109,16 +110,18 @@ class StudyListViewModel @ViewModelInject constructor(private val studyApi: Stud
 
     fun getStudyListPaging() {
         if (loading) {
-            compositeDisposable += studyApi
-                .getStudy(
-                    bearerToken = AuthHolder.bearerToken,
+            compositeDisposable += studyRepository
+                .getStudyPagingList(
                     studyIds = scrollMoreItem()
                 )
-                .networkSchedulers()
-                .subscribe({
-                    _scrollItem.value = it.data?.map { studyResponse ->
+                .map {
+                    it.map { studyResponse ->
                         studyResponse.toStudyItem()
                     }
+                }
+                .networkSchedulers()
+                .subscribe({
+                    _scrollItem.value = it
                     Logger.d("$it")
                 }, {
                     Logger.d("$it")
