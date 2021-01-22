@@ -6,12 +6,12 @@ data class StudyDetailItem(
     val category: String,
     val title: String,
     val introduce: String,
-    val image: String?,
+    val image: String = "",
     val progress: String,
     val studyTime: String,
-    val snsNotion: String?,
-    val snsEvernote: String?,
-    val snsWeb: String?,
+    val snsNotion: String = "",
+    val snsEvernote: String = "",
+    val snsWeb: String = "",
     val locationItem: LocationItem,
-    val authority: String?
+    val authority: String = ""
 )
