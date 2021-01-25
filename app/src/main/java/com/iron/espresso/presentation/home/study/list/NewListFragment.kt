@@ -31,7 +31,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
         })
 
         viewModel.scrollItem.observe(viewLifecycleOwner, Observer { scrollItem ->
-            studyListAdapter.setScrollItem(scrollItem)
+            studyListAdapter.setScrollItem(scrollItem, studyListAdapter.itemCount)
         })
 
         studyListAdapter.setItemClickListener { studyItem ->

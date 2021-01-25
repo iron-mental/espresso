@@ -31,7 +31,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
         })
 
         viewModel.scrollItem.observe(viewLifecycleOwner, Observer { scrollItem ->
-            studyListAdapter.setScrollItem(scrollItem)
+            studyListAdapter.setScrollItem(scrollItem, studyListAdapter.itemCount)
         })
 
         studyListAdapter.setItemClickListener { studyItem ->
