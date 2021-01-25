@@ -61,9 +61,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
                     if (linear.findLastCompletelyVisibleItemPosition()
                         == studyListAdapter.itemCount - 1
                     ) {
-                        if (studyListAdapter.itemCount >= 10) {
-                            viewModel.getStudyListPaging()
-                        }
+                        viewModel.getStudyListPaging(studyListAdapter.itemCount)
                     }
                 }
             }
