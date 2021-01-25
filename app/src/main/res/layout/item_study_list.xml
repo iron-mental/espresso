@@ -18,11 +18,9 @@
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_marginEnd="8dp"
-            android:background="@color/colorCobaltBlue"
+            android:textColor="@color/colorPrimary"
             android:maxLines="1"
-            android:padding="3dp"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +37,9 @@
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/location"
+            app:layout_constraintEnd_toStartOf="@id/image"
             app:layout_constraintTop_toBottomOf="@id/location"
             tools:text="스니커즈 어플 만드실" />
 
