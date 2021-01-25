@@ -29,7 +29,6 @@ class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         }
         binding?.run {
             title.text = item.title
-            caption.text = item.introduce
             location.text = item.sigungu
             date.text = item.createdAt
 
