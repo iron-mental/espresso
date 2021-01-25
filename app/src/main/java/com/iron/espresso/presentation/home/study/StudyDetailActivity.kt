@@ -34,16 +34,18 @@ class StudyDetailActivity :
         viewModel.getStudy(studyId)
 
         viewModel.studyDetail.observe(this, Observer { studyDetail ->
-            binding.introduceDetail.text = studyDetail.introduce
-            binding.proceedDetail.text = studyDetail.progress
-            binding.timeDetail.text = studyDetail.studyTime
-            binding.placeDetail.text = studyDetail.locationItem.run {
-                "$addressName $placeName"
-            }
-            binding.numberMember.text = studyDetail.participateItem.size.toString()
+            binding.run {
+                introduceDetail.text = studyDetail.introduce
+                proceedDetail.text = studyDetail.progress
+                timeDetail.text = studyDetail.studyTime
+                placeDetail.text = studyDetail.locationItem.run {
+                    "$addressName $placeName"
+                }
+                numberMember.text = studyDetail.participateItem.size.toString()
 
-            if (studyDetail.image.isNotEmpty()) {
-                binding.image.setCircleImage(studyDetail.image)
+                if (studyDetail.image.isNotEmpty()) {
+                    image.setCircleImage(studyDetail.image)
+                }
             }
 
             /* 구성원 수 만큼 동적 생성 */
@@ -51,8 +53,8 @@ class StudyDetailActivity :
                 val memberView = LayoutInflater.from(this)
                     .inflate(R.layout.item_member, binding.memberContainer, false)
 
-                val memberNickname : TextView = memberView.findViewById(R.id.member_nickname)
-                val memberImage : ImageView = memberView.findViewById(R.id.member_image)
+                val memberNickname: TextView = memberView.findViewById(R.id.member_nickname)
+                val memberImage: ImageView = memberView.findViewById(R.id.member_image)
 
                 memberNickname.text = memberList.nickname
 
