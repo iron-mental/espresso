@@ -5,22 +5,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.request.RequestOptions
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
+import com.iron.espresso.ext.setCircleImage
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.item_member.view.member_image
 
 @AndroidEntryPoint
 class StudyDetailActivity :
@@ -38,53 +34,33 @@ class StudyDetailActivity :
         viewModel.getStudy(studyId)
 
         viewModel.studyDetail.observe(this, Observer { studyDetail ->
-            binding.introduceDetail.text = studyDetail.introduce
-            binding.proceedDetail.text = studyDetail.progress
-            binding.timeDetail.text = studyDetail.studyTime
-            binding.placeDetail.text = studyDetail.locationItem.run {
-                "$addressName $placeName"
-            }
-            binding.numberMember.text = studyDetail.participateItem.size.toString()
+            binding.run {
+                introduceDetail.text = studyDetail.introduce
+                proceedDetail.text = studyDetail.progress
+                timeDetail.text = studyDetail.studyTime
+                placeDetail.text = studyDetail.locationItem.run {
+                    "$addressName $placeName"
+                }
+                numberMember.text = studyDetail.participateItem.size.toString()
 
-            Glide.with(this)
-                .load(
-                    if (studyDetail.image.isNullOrEmpty()) {
-                        R.drawable.dummy_image
-                    } else {
-                        GlideUrl(
-                            studyDetail.image,
-                            LazyHeaders.Builder()
-                                .addHeader("Authorization", AuthHolder.bearerToken)
-                                .build()
-                        )
-                    }
-                )
-                .error(R.drawable.dummy_image)
-                .into(binding.image)
+                if (studyDetail.image.isNotEmpty()) {
+                    image.setCircleImage(studyDetail.image)
+                }
+            }
 
             /* 구성원 수 만큼 동적 생성 */
             studyDetail.participateItem.forEach { memberList ->
                 val memberView = LayoutInflater.from(this)
                     .inflate(R.layout.item_member, binding.memberContainer, false)
 
-                memberView.findViewById<TextView>(R.id.member_nickname).text = memberList.nickname
+                val memberNickname: TextView = memberView.findViewById(R.id.member_nickname)
+                val memberImage: ImageView = memberView.findViewById(R.id.member_image)
 
-                Glide.with(this)
-                    .load(
-                        if (memberList.image.isNullOrEmpty()) {
-                            R.drawable.dummy_image
-                        } else {
-                            GlideUrl(
-                                memberList.image,
-                                LazyHeaders.Builder()
-                                    .addHeader("Authorization", AuthHolder.bearerToken)
-                                    .build()
-                            )
-                        }
-                    )
-                    .apply(RequestOptions.circleCropTransform())
-                    .error(R.drawable.dummy_image)
-                    .into(memberView.member_image)
+                memberNickname.text = memberList.nickname
+
+                if (!memberList.image.isNullOrEmpty()) {
+                    memberImage.setCircleImage(memberList.image)
+                }
 
                 binding.memberContainer.addView(memberView)
             }
