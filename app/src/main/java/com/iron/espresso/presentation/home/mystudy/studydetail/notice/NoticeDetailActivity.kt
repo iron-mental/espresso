@@ -16,7 +16,7 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeDetailItem
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,8 +35,8 @@ class NoticeDetailActivity :
         setNavigationIcon(R.drawable.ic_back_24)
 
         studyId =
-            intent.getIntExtra(StudyDetailActivity.STUDY_ID, StudyDetailActivity.DEFAULT_VALUE)
-        noticeId = intent.getIntExtra(NOTICE_ID, StudyDetailActivity.DEFAULT_VALUE)
+            intent.getIntExtra(MyStudyDetailActivity.STUDY_ID, MyStudyDetailActivity.DEFAULT_VALUE)
+        noticeId = intent.getIntExtra(NOTICE_ID, MyStudyDetailActivity.DEFAULT_VALUE)
 
         viewModel.showNotice(studyId, noticeId)
 
@@ -119,7 +119,7 @@ class NoticeDetailActivity :
         fun getIntent(context: Context, noticeId: Int?, studyId: Int) =
             Intent(context, NoticeDetailActivity::class.java).apply {
                 putExtra(NOTICE_ID, noticeId)
-                putExtra(StudyDetailActivity.STUDY_ID, studyId)
+                putExtra(MyStudyDetailActivity.STUDY_ID, studyId)
             }
     }
 }

@@ -10,15 +10,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
-import com.iron.espresso.databinding.ActivityStudyDetailBinding
+import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class StudyDetailActivity :
-    BaseActivity<ActivityStudyDetailBinding>(R.layout.activity_study_detail) {
+class MyStudyDetailActivity :
+    BaseActivity<ActivityMystudyDetailBinding>(R.layout.activity_mystudy_detail) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +62,7 @@ class StudyDetailActivity :
         const val DEFAULT_VALUE = 0
         const val STUDY_ID = "studyId"
         fun getInstance(context: Context, title: String, id: Int) =
-            Intent(context, StudyDetailActivity::class.java)
+            Intent(context, MyStudyDetailActivity::class.java)
                 .putExtra(TOOLBAR_TITLE, title)
                 .putExtra(STUDY_ID, id)
     }

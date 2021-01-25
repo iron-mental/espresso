@@ -13,7 +13,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +29,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         super.onViewCreated(view, savedInstanceState)
 
         studyId =
-            arguments?.getInt(StudyDetailActivity.STUDY_ID) ?: StudyDetailActivity.DEFAULT_VALUE
+            arguments?.getInt(MyStudyDetailActivity.STUDY_ID) ?: MyStudyDetailActivity.DEFAULT_VALUE
 
         viewModel.showNoticeList(studyId)
 
@@ -98,7 +98,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         fun newInstance(data: Int) =
             NoticeFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(StudyDetailActivity.STUDY_ID, data)
+                    putInt(MyStudyDetailActivity.STUDY_ID, data)
                 }
             }
     }

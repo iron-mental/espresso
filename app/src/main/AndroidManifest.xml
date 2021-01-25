@@ -18,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".presentation.home.study.StudyDetailActivity" />
         <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeModifyActivity" />
         <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeCreateActivity" />
         <activity android:name=".SplashActivity">
@@ -35,7 +36,7 @@
             android:value="zwhswglizn" />
 
         <activity android:name=".presentation.profile.ProfileActivity" />
-        <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
+        <activity android:name=".presentation.home.mystudy.MyStudyDetailActivity" />
         <activity
             android:name=".presentation.home.HomeActivity"
             android:windowSoftInputMode="adjustPan" />

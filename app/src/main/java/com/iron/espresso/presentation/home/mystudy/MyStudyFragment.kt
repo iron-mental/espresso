@@ -38,7 +38,7 @@ class MyStudyFragment :
             override fun onClick(item: MyStudyResponse) {
                 if (item.title != null && item.id != null) {
                     startActivity(
-                        StudyDetailActivity.getInstance(requireContext(), item.title, item.id)
+                        MyStudyDetailActivity.getInstance(requireContext(), item.title, item.id)
                     )
                 }
             }
