@@ -4,25 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.request.RequestOptions
-import com.iron.espresso.AuthHolder
-import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentStudyInfoBinding
+import com.iron.espresso.ext.setCircleImage
+import com.iron.espresso.ext.setRadiusImage
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.item_member.view.*
 
 @AndroidEntryPoint
 class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragment_study_info) {
@@ -45,45 +41,24 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
             }
             binding.numberMember.text = studyDetail.participateItem.size.toString()
 
-            Glide.with(this)
-                .load(
-                    if (studyDetail.image.isNullOrEmpty()) {
-                        R.drawable.dummy_image
-                    } else {
-                        GlideUrl(
-                            studyDetail.image,
-                            LazyHeaders.Builder()
-                                .addHeader("Authorization", AuthHolder.bearerToken)
-                                .build()
-                        )
-                    }
-                )
-                .error(R.drawable.dummy_image)
-                .into(binding.image)
+                if (studyDetail.image.isNotEmpty()) {
+                    image.setRadiusImage(studyDetail.image)
+                }
+            }
 
             /* 구성원 수 만큼 동적 생성 */
             studyDetail.participateItem.forEach { memberList ->
                 val memberView = LayoutInflater.from(context)
                     .inflate(R.layout.item_member, binding.memberContainer, false)
 
-                memberView.findViewById<TextView>(R.id.member_nickname).text = memberList.nickname
+                val memberNickname: TextView = memberView.findViewById(R.id.member_nickname)
+                val memberImage: ImageView = memberView.findViewById(R.id.member_image)
 
-                Glide.with(this)
-                    .load(
-                        if (memberList.image.isNullOrEmpty()) {
-                            R.drawable.dummy_image
-                        } else {
-                            GlideUrl(
-                                memberList.image,
-                                LazyHeaders.Builder()
-                                    .addHeader("Authorization", AuthHolder.bearerToken)
-                                    .build()
-                            )
-                        }
-                    )
-                    .apply(RequestOptions.circleCropTransform())
-                    .error(R.drawable.dummy_image)
-                    .into(memberView.member_image)
+                memberNickname.text = memberList.nickname
+
+                if (!memberList.image.isNullOrEmpty()) {
+                    memberImage.setCircleImage(memberList.image)
+                }
 
                 binding.memberContainer.addView(memberView)
             }
