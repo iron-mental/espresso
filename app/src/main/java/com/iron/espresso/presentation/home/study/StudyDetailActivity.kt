@@ -96,7 +96,7 @@ class StudyDetailActivity :
         private const val STUDY_ID = "studyId"
         private const val DEFAULT_VALUE = -1
 
-        fun getInstance(context: Context, studyId: Int) =
+        fun getIntent(context: Context, studyId: Int) =
             Intent(context, StudyDetailActivity::class.java)
                 .putExtra(STUDY_ID, studyId)
     }

@@ -33,13 +33,14 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
         viewModel.getStudy(studyId)
 
         viewModel.studyDetail.observe(viewLifecycleOwner, Observer { studyDetail ->
-            binding.introduceDetail.text = studyDetail.introduce
-            binding.proceedDetail.text = studyDetail.progress
-            binding.timeDetail.text = studyDetail.studyTime
-            binding.placeDetail.text = studyDetail.locationItem.run {
-                "$addressName $placeName"
-            }
-            binding.numberMember.text = studyDetail.participateItem.size.toString()
+            binding.run {
+                introduceDetail.text = studyDetail.introduce
+                proceedDetail.text = studyDetail.progress
+                timeDetail.text = studyDetail.studyTime
+                placeDetail.text = studyDetail.locationItem.run {
+                    "$addressName $placeName"
+                }
+                numberMember.text = studyDetail.participateItem.size.toString()
 
                 if (studyDetail.image.isNotEmpty()) {
                     image.setRadiusImage(studyDetail.image)

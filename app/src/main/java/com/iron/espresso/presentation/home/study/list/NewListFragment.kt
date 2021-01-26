@@ -39,7 +39,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
             if (studyItem.isMember) {
                 startActivity(MyStudyDetailActivity.getInstance(requireContext(), studyItem.title, studyItem.id))
             } else {
-                startActivity(StudyDetailActivity.getInstance(requireContext(), studyItem.id))
+                startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
             }
         }
 
