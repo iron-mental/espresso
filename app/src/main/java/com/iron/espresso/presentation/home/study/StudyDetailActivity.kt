@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -34,6 +34,10 @@ class StudyDetailActivity :
 
         val studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
         viewModel.getStudy(studyId)
+
+        binding.joinButton.setOnClickListener {
+            showApplyDialog(studyId)
+        }
 
         viewModel.studyDetail.observe(this, Observer { studyDetail ->
             binding.run {
@@ -82,21 +86,22 @@ class StudyDetailActivity :
                 )
             }
         })
+    }
 
-        binding.joinButton.setOnClickListener {
-            Toast.makeText(this, "신청", Toast.LENGTH_SHORT).show()
+    private fun showApplyDialog(studyId: Int) {
+        val applyDialog = layoutInflater.inflate(R.layout.view_apply_study, null)
+        val messageInputView: EditText = applyDialog.findViewById(R.id.message_input_view)
 
-            MaterialAlertDialogBuilder(this)
-                .setTitle("스터디 신청하기")
-                .setMessage("가입인사를 작성해보세요")
-                .setNegativeButton("negative") { _, _ ->
-                    
-                }
-                .setPositiveButton("positive") { _, _ ->
-                    viewModel.registerApply(studyId, "스터디 신청 메세지 테스트")
-                }
-                .show()
-        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle("스터디 신청하기")
+            .setMessage("가입인사를 작성해보세요")
+            .setView(applyDialog)
+            .setNegativeButton("취소") { _, _ ->
+            }
+            .setPositiveButton("신청") { _, _ ->
+                viewModel.registerApply(studyId, "${messageInputView.text}")
+            }
+            .show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
