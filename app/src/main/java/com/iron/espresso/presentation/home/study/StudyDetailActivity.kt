@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
@@ -80,6 +81,11 @@ class StudyDetailActivity :
                 )
             }
         })
+
+        binding.joinButton.setOnClickListener {
+            Toast.makeText(this, "신청", Toast.LENGTH_SHORT).show()
+            viewModel.registerApply(1, "스터디 신청 메세지 테스트")
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

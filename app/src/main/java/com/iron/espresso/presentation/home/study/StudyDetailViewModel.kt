@@ -7,9 +7,11 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyDetailItem
+import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
+import com.iron.espresso.model.api.RegisterStudyApplyRequest
 import com.iron.espresso.model.api.StudyApi
 import retrofit2.HttpException
 
@@ -39,4 +41,22 @@ class StudyDetailViewModel @ViewModelInject constructor(private val studyApi: St
                 }
             })
     }
+
+    fun registerApply(studyId: Int, message: String) {
+        compositeDisposable += ApiModule.provideApplyApi()
+            .registerApply(
+                bearerToken = AuthHolder.bearerToken,
+                studyId = studyId,
+                body = RegisterStudyApplyRequest(
+                    message = message
+                )
+            )
+            .networkSchedulers()
+            .subscribe({
+                Logger.d("$it")
+            }, {
+                Logger.d("$it")
+            })
+    }
+
 }
