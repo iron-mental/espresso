@@ -147,7 +147,7 @@ interface StudyApi {
     ): Single<BaseResponse<StudyListResponse>>
 
     @GET("/v1/study/paging/list")
-    fun getStudy(
+    fun getStudyPagingList(
         @Header("Authorization") bearerToken: String,
         @Query("values") studyIds: String
     ): Single<BaseResponse<StudyListResponse>>

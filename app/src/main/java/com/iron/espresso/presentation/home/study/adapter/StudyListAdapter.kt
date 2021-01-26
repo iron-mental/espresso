@@ -20,6 +20,11 @@ class StudyListAdapter :
         notifyDataSetChanged()
     }
 
+    fun setScrollItem(studyList: List<StudyItem>, position: Int) {
+        this.studyList.addAll(studyList)
+        notifyItemRangeInserted(position, studyList.size)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudyListViewHolder =
         StudyListViewHolder(parent)
 

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentNewListBinding
@@ -29,6 +31,10 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
             studyListAdapter.setItemList(studyList)
         })
 
+        viewModel.scrollItem.observe(viewLifecycleOwner, Observer { scrollItem ->
+            studyListAdapter.setScrollItem(scrollItem, studyListAdapter.itemCount)
+        })
+
         studyListAdapter.setItemClickListener { studyItem ->
             if (studyItem.isMember) {
                 startActivity(MyStudyDetailActivity.getInstance(requireContext(), studyItem.title, studyItem.id))
@@ -44,6 +50,27 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
                 this.isRefreshing = false
             }
         }
+
+        scrollListener()
+    }
+
+    private fun scrollListener() {
+        binding.studyList.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val linear =
+                        binding.studyList.layoutManager as LinearLayoutManager
+
+                    if (linear.findLastCompletelyVisibleItemPosition()
+                        == studyListAdapter.itemCount - 1
+                    ) {
+                        viewModel.getStudyListPaging(studyListAdapter.itemCount)
+                    }
+                }
+            }
+        )
     }
 
     companion object {

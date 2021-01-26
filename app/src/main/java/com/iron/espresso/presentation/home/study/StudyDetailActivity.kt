@@ -13,6 +13,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.ext.setCircleImage
+import com.iron.espresso.ext.setRadiusImage
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapFragment
@@ -44,7 +45,7 @@ class StudyDetailActivity :
                 numberMember.text = studyDetail.participateItem.size.toString()
 
                 if (studyDetail.image.isNotEmpty()) {
-                    image.setCircleImage(studyDetail.image)
+                    image.setRadiusImage(studyDetail.image)
                 }
             }
 

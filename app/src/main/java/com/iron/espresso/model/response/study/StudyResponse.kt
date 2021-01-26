@@ -21,10 +21,12 @@ data class StudyResponse(
     val createdAt: String?,
     @SerializedName("distance")
     val distance: Double?,
-    @SerializedName("members")
-    val members: Int?,
-    @SerializedName("isMember")
-    val isMember: Boolean?
+    @SerializedName("member_count")
+    val memberCount: Int?,
+    @SerializedName("is_member")
+    val isMember: Boolean?,
+    @SerializedName("is_paging")
+    val isPaging: Boolean?
 ) {
     fun toStudyItem() =
         StudyItem(
@@ -36,7 +38,8 @@ data class StudyResponse(
             leaderImage = leaderImage,
             createdAt = createdAt.orEmpty(),
             distance = distance ?: -1.0,
-            members = members ?: -1,
-            isMember = isMember ?: false
+            memberCount = memberCount ?: -1,
+            isMember = isMember ?: false,
+            isPaging = isPaging ?: false
         )
 }
