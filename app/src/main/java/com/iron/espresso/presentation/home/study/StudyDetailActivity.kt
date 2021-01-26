@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
@@ -84,7 +85,17 @@ class StudyDetailActivity :
 
         binding.joinButton.setOnClickListener {
             Toast.makeText(this, "신청", Toast.LENGTH_SHORT).show()
-            viewModel.registerApply(1, "스터디 신청 메세지 테스트")
+
+            MaterialAlertDialogBuilder(this)
+                .setTitle("스터디 신청하기")
+                .setMessage("가입인사를 작성해보세요")
+                .setNegativeButton("negative") { _, _ ->
+                    
+                }
+                .setPositiveButton("positive") { _, _ ->
+                    viewModel.registerApply(studyId, "스터디 신청 메세지 테스트")
+                }
+                .show()
         }
     }
 
