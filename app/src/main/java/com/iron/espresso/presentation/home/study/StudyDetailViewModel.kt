@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyDetailItem
 import com.iron.espresso.domain.repo.ApplyRepository
@@ -24,6 +25,14 @@ class StudyDetailViewModel @ViewModelInject constructor(
     private val _studyDetail = MutableLiveData<StudyDetailItem>()
     val studyDetail: LiveData<StudyDetailItem>
         get() = _studyDetail
+
+    private fun emptyCheck(message: String): ValidationInputText {
+        return if (message.isEmpty()) {
+            ValidationInputText.EMPTY_CONTENTS
+        } else {
+            ValidationInputText.SUCCESS
+        }
+    }
 
     fun getStudy(studyId: Int) {
         compositeDisposable += studyApi
@@ -46,19 +55,21 @@ class StudyDetailViewModel @ViewModelInject constructor(
     }
 
     fun registerApply(studyId: Int, message: String) {
-        compositeDisposable += applyRepository
-            .registerApply(
-                studyId = studyId,
-                request = RegisterStudyApplyRequest(
-                    message = message
+        if (emptyCheck(message) == ValidationInputText.SUCCESS) {
+            compositeDisposable += applyRepository
+                .registerApply(
+                    studyId = studyId,
+                    request = RegisterStudyApplyRequest(
+                        message = message
+                    )
                 )
-            )
-            .networkSchedulers()
-            .subscribe({
-                Logger.d("$it")
-            }, {
-                Logger.d("$it")
-            })
+                .networkSchedulers()
+                .subscribe({
+                    Logger.d("$it")
+                }, {
+                    Logger.d("$it")
+                })
+        }
     }
 
 }
