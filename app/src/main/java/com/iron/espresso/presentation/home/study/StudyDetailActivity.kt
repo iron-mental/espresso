@@ -103,12 +103,12 @@ class StudyDetailActivity :
         val messageInputView: EditText = applyDialog.findViewById(R.id.message_input_view)
 
         MaterialAlertDialogBuilder(this)
-            .setTitle("스터디 신청하기")
-            .setMessage("가입인사를 작성해보세요")
+            .setTitle(resources.getString(R.string.apply_title))
+            .setMessage(resources.getString(R.string.apply_content))
             .setView(applyDialog)
-            .setNegativeButton("취소") { _, _ ->
+            .setNegativeButton(resources.getString(R.string.cancel)) { _, _ ->
             }
-            .setPositiveButton("신청") { _, _ ->
+            .setPositiveButton(resources.getString(R.string.apply)) { _, _ ->
                 viewModel.registerApply(studyId, "${messageInputView.text}")
             }
             .show()
