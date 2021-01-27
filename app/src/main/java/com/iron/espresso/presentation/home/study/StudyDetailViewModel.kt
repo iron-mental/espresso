@@ -7,7 +7,7 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyDetailItem
-import com.iron.espresso.di.ApiModule
+import com.iron.espresso.domain.repo.ApplyRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
@@ -15,7 +15,10 @@ import com.iron.espresso.model.api.RegisterStudyApplyRequest
 import com.iron.espresso.model.api.StudyApi
 import retrofit2.HttpException
 
-class StudyDetailViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
+class StudyDetailViewModel @ViewModelInject constructor(
+    private val studyApi: StudyApi,
+    private val applyRepository: ApplyRepository
+) :
     BaseViewModel() {
 
     private val _studyDetail = MutableLiveData<StudyDetailItem>()
@@ -43,11 +46,10 @@ class StudyDetailViewModel @ViewModelInject constructor(private val studyApi: St
     }
 
     fun registerApply(studyId: Int, message: String) {
-        compositeDisposable += ApiModule.provideApplyApi()
+        compositeDisposable += applyRepository
             .registerApply(
-                bearerToken = AuthHolder.bearerToken,
                 studyId = studyId,
-                body = RegisterStudyApplyRequest(
+                request = RegisterStudyApplyRequest(
                     message = message
                 )
             )
