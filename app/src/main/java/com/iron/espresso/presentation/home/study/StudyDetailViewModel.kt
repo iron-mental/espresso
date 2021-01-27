@@ -9,6 +9,7 @@ import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyDetailItem
 import com.iron.espresso.domain.repo.ApplyRepository
+import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
@@ -19,12 +20,15 @@ import retrofit2.HttpException
 class StudyDetailViewModel @ViewModelInject constructor(
     private val studyApi: StudyApi,
     private val applyRepository: ApplyRepository
-) :
-    BaseViewModel() {
+) : BaseViewModel() {
 
     private val _studyDetail = MutableLiveData<StudyDetailItem>()
     val studyDetail: LiveData<StudyDetailItem>
         get() = _studyDetail
+
+    private val _emptyCheckMessage = MutableLiveData<Event<ValidationInputText>>()
+    val emptyCheckMessage: LiveData<Event<ValidationInputText>>
+        get() = _emptyCheckMessage
 
     private fun emptyCheck(message: String): ValidationInputText {
         return if (message.isEmpty()) {
@@ -55,7 +59,8 @@ class StudyDetailViewModel @ViewModelInject constructor(
     }
 
     fun registerApply(studyId: Int, message: String) {
-        if (emptyCheck(message) == ValidationInputText.SUCCESS) {
+        val checkMessage = emptyCheck(message)
+        if (checkMessage == ValidationInputText.SUCCESS) {
             compositeDisposable += applyRepository
                 .registerApply(
                     studyId = studyId,
@@ -65,10 +70,20 @@ class StudyDetailViewModel @ViewModelInject constructor(
                 )
                 .networkSchedulers()
                 .subscribe({
+                    if (it.result) {
+                        _emptyCheckMessage.value = Event(checkMessage)
+                    }
                     Logger.d("$it")
                 }, {
                     Logger.d("$it")
+                    val errorResponse = (it as? HttpException)?.toErrorResponse()
+                    if (errorResponse?.message != null) {
+                        _toastMessage.value = Event(errorResponse.message)
+                    }
                 })
+
+        } else {
+            _emptyCheckMessage.value = Event(checkMessage)
         }
     }
 

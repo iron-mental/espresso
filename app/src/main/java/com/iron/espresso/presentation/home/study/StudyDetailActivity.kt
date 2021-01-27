@@ -8,12 +8,14 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
+import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.setCircleImage
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
@@ -38,6 +40,14 @@ class StudyDetailActivity :
         binding.joinButton.setOnClickListener {
             showApplyDialog(studyId)
         }
+
+        viewModel.emptyCheckMessage.observe(this, EventObserver {
+            Toast.makeText(this, resources.getString(it.resId), Toast.LENGTH_SHORT).show()
+        })
+
+        viewModel.toastMessage.observe(this, EventObserver {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
 
         viewModel.studyDetail.observe(this, Observer { studyDetail ->
             binding.run {
