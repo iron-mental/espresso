@@ -73,6 +73,7 @@
     <string name="modify_notice">공지사항이 수정되었습니다</string>
     <string name="delete_notice">공지사항이 삭제되었습니다</string>
     <string name="empty_notice">공지사항이 없습니다</string>
+    <string name="success">임시 성공</string>
 
 
     <string name="notice_create">공지사항 작성화면</string>
