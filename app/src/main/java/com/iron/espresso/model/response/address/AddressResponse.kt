@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class AddressResponse(
     @SerializedName("sido")
-    val si: String?,
+    val sido: String?,
     @SerializedName("sigungu")
-    val gunGu: List<String>?
+    val siGungu: List<String>?
 )

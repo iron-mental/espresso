@@ -19,8 +19,13 @@
             android:id="@+id/address_step1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_area"
             android:fontFamily="@font/noto_sans_bold"
+            android:gravity="center"
+            android:hint="@string/edit_area_step1_hint"
             android:padding="16dp"
+            android:text="@{viewModel.step1}"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,8 +36,13 @@
             android:id="@+id/address_step2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_area"
             android:fontFamily="@font/noto_sans_bold"
+            android:gravity="center"
+            android:hint="@string/edit_area_step2_hint"
             android:padding="16dp"
+            android:text="@{viewModel.step2}"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@id/address_step1"
@@ -40,12 +50,20 @@
             tools:text="동작구" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/address_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:clipToPadding="false"
+            android:overScrollMode="ifContentScrolls"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address_step1" />
+            app:layout_constraintTop_toBottomOf="@id/address_step1"
+            app:spanCount="3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
