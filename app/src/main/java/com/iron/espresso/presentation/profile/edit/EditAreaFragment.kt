@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -60,7 +61,19 @@ class EditAreaFragment :
                 addressStep2.isSelected = false
             }
 
-            addressStep1.isSelected = true
+            arguments?.run {
+                val sido =  getString(ARG_SIDO).orEmpty()
+                val siGungu = getString(ARG_SI_GUNGU).orEmpty()
+
+                editAreaViewModel.step1.value = sido
+                editAreaViewModel.step2.value = siGungu
+
+                if (editAreaViewModel.pickStep == PickStep.STEP_1) {
+                    addressStep1.isSelected = true
+                } else {
+                    addressStep2.isSelected = true
+                }
+            }
         }
     }
 
@@ -111,8 +124,13 @@ class EditAreaFragment :
     }
 
     companion object {
-        fun newInstance() =
-            EditAreaFragment()
+        private const val ARG_SIDO = "sido"
+        private const val ARG_SI_GUNGU = "si_gungu"
+
+        fun newInstance(sido: String, siGungu: String) =
+            EditAreaFragment().apply {
+                arguments = bundleOf(ARG_SIDO to sido, ARG_SI_GUNGU to siGungu)
+            }
     }
 }
 

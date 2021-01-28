@@ -28,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 
-    private val viewModel by viewModels<ProfileViewModel>()
+    private val profileViewModel by viewModels<ProfileViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,10 +42,10 @@ class ProfileFragment :
 
     private fun setupView() {
         binding.run {
-            this.viewModel = this@ProfileFragment.viewModel
+            this.viewModel = profileViewModel
 
             layoutHeader.root.findViewById<View>(R.id.edt_button).setOnClickListener {
-                val user = this@ProfileFragment.viewModel.user.value ?: return@setOnClickListener
+                val user = profileViewModel.user.value ?: return@setOnClickListener
                 showFragment(EditProfileHeaderFragment.newInstance(
                     user.image,
                     user.nickname,
@@ -53,7 +53,7 @@ class ProfileFragment :
                 ))
             }
             layoutCareer.root.findViewById<View>(R.id.edt_button).setOnClickListener {
-                val user = this@ProfileFragment.viewModel.user.value ?: return@setOnClickListener
+                val user = profileViewModel.user.value ?: return@setOnClickListener
                 showFragment(EditCareerFragment.newInstance(
                     user.careerTitle,
                     user.careerContents
@@ -63,7 +63,7 @@ class ProfileFragment :
                 showFragment(EditProjectFragment.newInstance())
             }
             layoutSns.root.findViewById<View>(R.id.edt_button).setOnClickListener {
-                val user = this@ProfileFragment.viewModel.user.value ?: return@setOnClickListener
+                val user = profileViewModel.user.value ?: return@setOnClickListener
                 showFragment(EditSnsFragment.newInstance(
                     user.snsGithub,
                     user.snsLinkedin,
@@ -71,17 +71,19 @@ class ProfileFragment :
                 ))
             }
             layoutEmail.root.findViewById<View>(R.id.edt_button).setOnClickListener {
-                val email = this@ProfileFragment.viewModel.user.value?.email ?: return@setOnClickListener
+                val email = profileViewModel.user.value?.email ?: return@setOnClickListener
                 showFragment(EditEmailFragment.newInstance(email))
             }
             layoutArea.root.findViewById<View>(R.id.edt_button).setOnClickListener {
-                showFragment(EditAreaFragment.newInstance())
+                val sido = profileViewModel.user.value?.sido ?: return@setOnClickListener
+                val siGungu = profileViewModel.user.value?.siGungu ?: return@setOnClickListener
+                showFragment(EditAreaFragment.newInstance(sido, siGungu))
             }
         }
     }
 
     private fun setupViewModel() {
-        viewModel.run {
+        profileViewModel.run {
             showLinkEvent.observe(viewLifecycleOwner, EventObserver { url ->
                 if (url.startsWith("http://") || url.startsWith("https://")) {
                     CustomTabsIntent.Builder()
@@ -141,7 +143,7 @@ class ProfileFragment :
 
     private fun setProfile() {
         UserHolder.get()?.let {
-            viewModel.setProfile(user = it)
+            profileViewModel.setProfile(user = it)
 
             binding.layoutHeader.profileImage.setCircleImage(it.image)
         }
@@ -158,7 +160,7 @@ class ProfileFragment :
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_MODIFY_SUCCESS_CODE && resultCode == Activity.RESULT_OK) {
-            viewModel.refreshProfile()
+            profileViewModel.refreshProfile()
             setProfile()
         }
     }
