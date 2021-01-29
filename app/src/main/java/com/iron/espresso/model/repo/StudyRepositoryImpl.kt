@@ -16,4 +16,11 @@ class StudyRepositoryImpl @Inject constructor(
                 it.data
             }
     }
+
+    override fun getStudyList(category: String, sort: String): Single<StudyListResponse> {
+        return remoteDataSource.getStudyList(category, sort)
+            .map {
+                it.data
+            }
+    }
 }

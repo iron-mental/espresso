@@ -3,11 +3,9 @@ package com.iron.espresso.presentation.home.study.list
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyItem
-import com.iron.espresso.di.ApiModule
 import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
@@ -22,6 +20,7 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
         get() = _studyList
 
     private val allList = mutableListOf<StudyItem>()
+    private var pagingSize = -1
     private var isPaging = false
 
     private fun firstItemResult(studyList: List<StudyItem>): MutableList<StudyItem> {
@@ -37,12 +36,12 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
                 list.add(studyItem)
             }
         }
+        pagingSize = list.size
         return list
     }
 
     private fun scrollMoreItem(startSize: Int): List<Int> {
         val scrollIdList = mutableListOf<Int>()
-        val pagingSize = studyList.value?.size ?: 0
         val endSize = startSize + pagingSize
         return when {
             endSize <= allList.size -> {
@@ -67,24 +66,20 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
     }
 
     fun getStudyList(category: String, sort: String) {
-        compositeDisposable += ApiModule.provideStudyApi()
+        compositeDisposable += studyRepository
             .getStudyList(
-                bearerToken = AuthHolder.bearerToken,
                 category = category,
                 sort = sort
             )
+            .map {
+                it.map { studyResponse ->
+                    studyResponse.toStudyItem()
+                }
+            }
             .networkSchedulers()
             .subscribe({
                 Logger.d("$it")
-                if (!it.data.isNullOrEmpty()) {
-                    val studyList =
-                        firstItemResult(
-                            it.data.map { studyResponse ->
-                                studyResponse.toStudyItem()
-                            }
-                        )
-                    _studyList.value = studyList
-                }
+                _studyList.value = firstItemResult(it)
             }, {
                 Logger.d("$it")
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
