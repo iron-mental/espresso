@@ -55,10 +55,10 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
 
-                    val linear =
+                    val layoutManager =
                         binding.studyList.layoutManager as LinearLayoutManager
 
-                    if (linear.findLastCompletelyVisibleItemPosition()
+                    if (layoutManager.findLastCompletelyVisibleItemPosition()
                         == studyListAdapter.itemCount - 1
                     ) {
                         viewModel.getStudyListPaging(SORT_LENGTH, studyListAdapter.itemCount)

@@ -81,7 +81,7 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
             .networkSchedulers()
             .subscribe({
                 Logger.d("$it")
-                if (it.data != null) {
+                if (!it.data.isNullOrEmpty()) {
                     val studyList =
                         firstItemResult(
                             it.data.map { studyResponse ->
@@ -111,7 +111,6 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
                         studyResponse.toStudyItem()
                     }
                 }
-                .delay(1000, TimeUnit.MILLISECONDS)
                 .networkSchedulers()
                 .subscribe({
                     _scrollItem.value = it
