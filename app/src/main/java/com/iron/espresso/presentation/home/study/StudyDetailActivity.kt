@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,6 +14,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iron.espresso.R
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.ext.EventObserver
@@ -43,6 +45,9 @@ class StudyDetailActivity :
 
         viewModel.emptyCheckMessage.observe(this, EventObserver {
             Toast.makeText(this, resources.getString(it.resId), Toast.LENGTH_SHORT).show()
+            if (it == ValidationInputText.SUCCESS) {
+                visibleBtn(AUTHORITY_APPLIER)
+            }
         })
 
         viewModel.toastMessage.observe(this, EventObserver {
@@ -50,6 +55,7 @@ class StudyDetailActivity :
         })
 
         viewModel.studyDetail.observe(this, Observer { studyDetail ->
+            visibleBtn(studyDetail.authority)
             binding.run {
                 introduceDetail.text = studyDetail.introduce
                 proceedDetail.text = studyDetail.progress
@@ -98,6 +104,22 @@ class StudyDetailActivity :
         })
     }
 
+    private fun visibleBtn(authority: String) {
+        when (authority) {
+            AUTHORITY_APPLIER -> {
+                binding.joinButton.visibility = View.INVISIBLE
+                binding.joiningButton.visibility = View.VISIBLE
+            }
+            AUTHORITY_REJECT -> {
+
+            }
+            else -> {
+                binding.joinButton.visibility = View.VISIBLE
+                binding.joiningButton.visibility = View.INVISIBLE
+            }
+        }
+    }
+
     private fun showApplyDialog(studyId: Int) {
         val applyDialog = layoutInflater.inflate(R.layout.view_apply_study, null)
         val messageInputView: EditText = applyDialog.findViewById(R.id.message_input_view)
@@ -126,6 +148,8 @@ class StudyDetailActivity :
     companion object {
         private const val STUDY_ID = "studyId"
         private const val DEFAULT_VALUE = -1
+        private const val AUTHORITY_APPLIER = "applier"
+        private const val AUTHORITY_REJECT = "reject"
 
         fun getInstance(context: Context, studyId: Int) =
             Intent(context, StudyDetailActivity::class.java)
