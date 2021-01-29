@@ -149,6 +149,7 @@ interface StudyApi {
     @GET("/v1/study/paging/list")
     fun getStudyPagingList(
         @Header("Authorization") bearerToken: String,
+        @Query("sort") sort: String,
         @Query("values") studyIds: String
     ): Single<BaseResponse<StudyListResponse>>
 }

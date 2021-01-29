@@ -11,11 +11,11 @@ import javax.inject.Inject
 class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyApi):
     StudyRemoteDataSource {
 
-    override fun getStudyPagingList(studyIds: String): Single<BaseResponse<StudyListResponse>> {
-        return studyApi.getStudyPagingList(AuthHolder.bearerToken, studyIds)
+    override fun getStudyPagingList(sort: String, studyIds: String): Single<BaseResponse<StudyListResponse>> {
+        return studyApi.getStudyPagingList(AuthHolder.bearerToken, sort, studyIds)
     }
 }
 
 interface StudyRemoteDataSource {
-    fun getStudyPagingList(studyIds: String): Single<BaseResponse<StudyListResponse>>
+    fun getStudyPagingList(sort: String, studyIds: String): Single<BaseResponse<StudyListResponse>>
 }
