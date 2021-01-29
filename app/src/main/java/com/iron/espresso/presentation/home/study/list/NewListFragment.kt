@@ -61,7 +61,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
                     if (linear.findLastCompletelyVisibleItemPosition()
                         == studyListAdapter.itemCount - 1
                     ) {
-                        viewModel.getStudyListPaging(studyListAdapter.itemCount)
+                        viewModel.getStudyListPaging(SORT_NEW, studyListAdapter.itemCount)
                     }
                 }
             }
