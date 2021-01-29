@@ -13,7 +13,6 @@ import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import retrofit2.HttpException
-import java.util.concurrent.TimeUnit
 
 class StudyListViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
     BaseViewModel() {
@@ -21,10 +20,6 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
     private val _studyList = MutableLiveData<List<StudyItem>>()
     val studyList: LiveData<List<StudyItem>>
         get() = _studyList
-
-    private val _scrollItem = MutableLiveData<List<StudyItem>>()
-    val scrollItem: LiveData<List<StudyItem>>
-        get() = _scrollItem
 
     private val allList = mutableListOf<StudyItem>()
     private var isPaging = false
@@ -113,7 +108,7 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
                 }
                 .networkSchedulers()
                 .subscribe({
-                    _scrollItem.value = it
+                    _studyList.value = _studyList.value?.plus(it)
                     Logger.d("$it")
                 }, {
                     Logger.d("$it")
