@@ -4,5 +4,5 @@ import com.iron.espresso.model.response.study.StudyListResponse
 import io.reactivex.Single
 
 interface StudyRepository {
-    fun getStudyPagingList(sort: String, studyIds: String): Single<StudyListResponse>
+    fun getStudyPagingList(sort: String, studyIds: List<Int>): Single<StudyListResponse>
 }

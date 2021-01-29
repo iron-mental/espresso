@@ -8,14 +8,20 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 
-class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyApi):
+class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyApi) :
     StudyRemoteDataSource {
 
-    override fun getStudyPagingList(sort: String, studyIds: String): Single<BaseResponse<StudyListResponse>> {
-        return studyApi.getStudyPagingList(AuthHolder.bearerToken, sort, studyIds)
+    override fun getStudyPagingList(
+        sort: String,
+        studyIds: List<Int>
+    ): Single<BaseResponse<StudyListResponse>> {
+        return studyApi.getStudyPagingList(AuthHolder.bearerToken, sort, studyIds.joinToString(","))
     }
 }
 
 interface StudyRemoteDataSource {
-    fun getStudyPagingList(sort: String, studyIds: String): Single<BaseResponse<StudyListResponse>>
+    fun getStudyPagingList(
+        sort: String,
+        studyIds: List<Int>
+    ): Single<BaseResponse<StudyListResponse>>
 }

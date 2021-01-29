@@ -45,7 +45,7 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
         return list
     }
 
-    private fun scrollMoreItem(startSize: Int): String {
+    private fun scrollMoreItem(startSize: Int): List<Int> {
         val scrollIdList = mutableListOf<Int>()
         val pagingSize = studyList.value?.size ?: 0
         val endSize = startSize + pagingSize
@@ -54,7 +54,7 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
                 for (i in startSize until endSize) {
                     scrollIdList.add(allList[i].id)
                 }
-                scrollIdList.joinToString(",")
+                scrollIdList
 
             }
             endSize > allList.size -> {
@@ -62,7 +62,7 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
                 for (i in startSize until allList.size) {
                     scrollIdList.add(allList[i].id)
                 }
-                scrollIdList.joinToString(",")
+                scrollIdList
             }
             else -> {
                 isPaging = false
