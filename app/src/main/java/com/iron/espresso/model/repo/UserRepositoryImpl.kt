@@ -33,20 +33,28 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
     override fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>> =
         userRemoteDataSource.checkDuplicateNickname(nickname)
 
-    override fun modifyUserImage(image: File?): Completable {
-        TODO("Not yet implemented")
+    override fun modifyUserImage(image: File?): Single<Boolean> {
+        return userRemoteDataSource.modifyUserImage(image)
+            .map {
+                it.result
+            }
     }
 
-    override fun modifyUserInfo(nickname: String, introduce: String): Completable {
-        TODO("Not yet implemented")
+    override fun modifyUserInfo(nickname: String?, introduce: String): Single<Boolean> {
+        return userRemoteDataSource.modifyUserInfo(nickname, introduce)
+            .map {
+                it.result
+            }
     }
 
     override fun modifyUserEmail(email: String): Completable {
-        TODO("Not yet implemented")
+        return userRemoteDataSource.modifyUserEmail(email)
+            .ignoreElement()
     }
 
     override fun modifyUserCareer(title: String, contents: String): Completable {
-        TODO("Not yet implemented")
+        return userRemoteDataSource.modifyUserCareer(title, contents)
+            .ignoreElement()
     }
 
     override fun modifyUserSns(
@@ -54,7 +62,8 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
         linkedInUrl: String,
         webUrl: String
     ): Completable {
-        TODO("Not yet implemented")
+        return userRemoteDataSource.modifyUserSns(githubUrl, linkedInUrl, webUrl)
+            .ignoreElement()
     }
 
     override fun modifyUserLocation(

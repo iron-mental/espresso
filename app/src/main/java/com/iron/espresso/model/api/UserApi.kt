@@ -75,42 +75,42 @@ interface UserApi {
     @PUT("/v1/user/{id}/image")
     fun modifyUserImage(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int,
-        @Part image: MultipartBody.Part
+        @Path("id") id: Int = AuthHolder.requireId(),
+        @Part image: MultipartBody.Part?
     ): Single<BaseResponse<Nothing>>
 
     @PUT("/v1/user/{id}/info")
     fun modifyUserInfo(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int,
+        @Path("id") id: Int = AuthHolder.requireId(),
         @Body body: ModifyUserInfoRequest
     ): Single<BaseResponse<Nothing>>
 
     @PUT("/v1/user/{id}/career")
     fun modifyUserCareer(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int,
+        @Path("id") id: Int = AuthHolder.requireId(),
         @Body body: ModifyUserCareerRequest
     ): Single<BaseResponse<Nothing>>
 
     @PUT("/v1/user/{id}/sns")
     fun modifyUserSns(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int,
+        @Path("id") id: Int = AuthHolder.requireId(),
         @Body body: ModifyUserSnsRequest
     ): Single<BaseResponse<Nothing>>
 
     @PUT("/v1/user/{id}/email")
     fun modifyUserEmail(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int,
+        @Path("id") id: Int = AuthHolder.requireId(),
         @Body body: ModifyUserEmailRequest
     ): Single<BaseResponse<Nothing>>
 
     @PUT("/v1/user/{id}/location")
     fun modifyUserLocation(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int,
+        @Path("id") id: Int = AuthHolder.requireId(),
         @Body body: ModifyUserLocationRequest
     ): Single<BaseResponse<Nothing>>
 

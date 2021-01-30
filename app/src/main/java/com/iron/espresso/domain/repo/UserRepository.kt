@@ -24,9 +24,9 @@ interface UserRepository {
 
     fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>
 
-    fun modifyUserImage(image: File?): Completable
+    fun modifyUserImage(image: File?): Single<Boolean>
 
-    fun modifyUserInfo(nickname: String, introduce: String): Completable
+    fun modifyUserInfo(nickname: String?, introduce: String): Single<Boolean>
 
     fun modifyUserEmail(email: String): Completable
 

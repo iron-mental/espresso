@@ -6,15 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.domain.usecase.ModifyUserSns
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.source.remote.ModifyUserSnsRequest
-import com.iron.espresso.model.source.remote.UserRemoteDataSource
 
 class EditSnsViewModel @ViewModelInject constructor(
-    private val userRemoteDataSource: UserRemoteDataSource
+    private val modifyUserSns: ModifyUserSns
 ) :
     BaseViewModel() {
 
@@ -54,25 +53,15 @@ class EditSnsViewModel @ViewModelInject constructor(
 
 
         if (bearerToken.isNotEmpty() && id != -1) {
-            compositeDisposable += userRemoteDataSource.modifyUserSns(
-                bearerToken,
-                id,
-                ModifyUserSnsRequest(github, linkedIn, web)
+            compositeDisposable += modifyUserSns(
+                github, linkedIn, web
             )
                 .networkSchedulers()
                 .subscribe({
-                    if (it.result) {
-                        _successEvent.value = Event(true)
-                    } else {
-                        val message = it.message
-                        if (!message.isNullOrEmpty()) {
-                            _toastMessage.value = Event(message)
-                        }
-                    }
+                    _successEvent.value = Event(true)
                 }, {
                     Logger.d("$it")
                     it.toErrorResponse()?.let { errorResponse ->
-                        // TODO : 형식 체크해주는 것 별개 처리 할건지 - BaseResponse(result=false, type=validation-error, label=sns_linkedin, message=유효하지 않은 주소입니다, data=null)
                         Logger.d("$errorResponse")
                         if (!errorResponse.message.isNullOrEmpty()) {
                             _toastMessage.value = Event(errorResponse.message)

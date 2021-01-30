@@ -1,7 +1,6 @@
 package com.iron.espresso.model.source.remote
 
 import com.google.gson.annotations.SerializedName
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.api.UserApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.address.AddressResponse
@@ -41,41 +40,27 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     ): Single<BaseResponse<Nothing>> =
         userApi.registerUser(RegisterUserRequest(email, password, nickname))
 
-    override fun modifyUserImage(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserImageRequest
-    ): Single<BaseResponse<Nothing>> =
-        userApi.modifyUserImage(bearerToken, id, request.toMultipartBody()!!)
-
+    override fun modifyUserImage(image: File?): Single<BaseResponse<Nothing>> =
+        userApi.modifyUserImage(image = ModifyUserImageRequest(image).toMultipartBody())
 
     override fun modifyUserInfo(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserInfoRequest
+        nickname: String?,
+        introduce: String
     ): Single<BaseResponse<Nothing>> =
-        userApi.modifyUserInfo(bearerToken, id, request)
+        userApi.modifyUserInfo(body = ModifyUserInfoRequest(nickname, introduce))
 
-    override fun modifyUserCareer(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserCareerRequest
-    ): Single<BaseResponse<Nothing>> =
-        userApi.modifyUserCareer(bearerToken, id, request)
+    override fun modifyUserCareer(title: String, contents: String): Single<BaseResponse<Nothing>> =
+        userApi.modifyUserCareer(body = ModifyUserCareerRequest(title, contents))
 
     override fun modifyUserSns(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserSnsRequest
+        githubUrl: String,
+        linkedInUrl: String,
+        webUrl: String
     ): Single<BaseResponse<Nothing>> =
-        userApi.modifyUserSns(bearerToken, id, request)
+        userApi.modifyUserSns(body = ModifyUserSnsRequest(githubUrl, linkedInUrl, webUrl))
 
-    override fun modifyUserEmail(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserEmailRequest
-    ): Single<BaseResponse<Nothing>> =
-        userApi.modifyUserEmail(bearerToken, id, request)
+    override fun modifyUserEmail(email: String): Single<BaseResponse<Nothing>> =
+        userApi.modifyUserEmail(body = ModifyUserEmailRequest(email))
 
     override fun modifyUserLocation(
         latitude: Double,
@@ -83,7 +68,14 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
         sido: String,
         sigungu: String
     ): Single<BaseResponse<Nothing>> =
-        userApi.modifyUserLocation(id = AuthHolder.requireId(), body = ModifyUserLocationRequest(latitude, longitude, sido, sigungu))
+        userApi.modifyUserLocation(
+            body = ModifyUserLocationRequest(
+                latitude,
+                longitude,
+                sido,
+                sigungu
+            )
+        )
 
     override fun getAddressList(): Single<BaseResponse<List<AddressResponse>>> =
         userApi.getAddressList()
@@ -189,33 +181,27 @@ interface UserRemoteDataSource {
     ): Single<BaseResponse<AccessTokenResponse>>
 
     fun modifyUserImage(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserImageRequest
+        image: File?
     ): Single<BaseResponse<Nothing>>
 
     fun modifyUserInfo(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserInfoRequest
+        nickname: String?,
+        introduce: String
     ): Single<BaseResponse<Nothing>>
 
     fun modifyUserEmail(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserEmailRequest
+        email: String
     ): Single<BaseResponse<Nothing>>
 
     fun modifyUserCareer(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserCareerRequest
+        title: String,
+        contents: String
     ): Single<BaseResponse<Nothing>>
 
     fun modifyUserSns(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserSnsRequest
+        githubUrl: String,
+        linkedInUrl: String,
+        webUrl: String
     ): Single<BaseResponse<Nothing>>
 
     fun modifyUserLocation(

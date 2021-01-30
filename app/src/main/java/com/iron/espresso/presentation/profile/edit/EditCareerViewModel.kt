@@ -3,17 +3,15 @@ package com.iron.espresso.presentation.profile.edit
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.domain.usecase.ModifyUserCareer
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.source.remote.ModifyUserCareerRequest
-import com.iron.espresso.model.source.remote.UserRemoteDataSource
 
-class EditCareerViewModel @ViewModelInject constructor(private val remoteDataSource: UserRemoteDataSource) :
+class EditCareerViewModel @ViewModelInject constructor(private val modifyUserCareer: ModifyUserCareer) :
     BaseViewModel() {
 
     private var initTitle = ""
@@ -39,32 +37,18 @@ class EditCareerViewModel @ViewModelInject constructor(private val remoteDataSou
 
         val title = title.value.orEmpty()
         val contents = contents.value.orEmpty()
-        val bearerToken = AuthHolder.bearerToken
-        val id = AuthHolder.id ?: return
 
-        if (bearerToken.isNotEmpty() && id != -1) {
-            compositeDisposable += remoteDataSource.modifyUserCareer(
-                bearerToken,
-                id,
-                ModifyUserCareerRequest(title, contents)
-            )
-                .networkSchedulers()
-                .subscribe({
-                    if (it.result) {
-                        _successEvent.value = Event(true)
-                    } else if (!it.message.isNullOrEmpty()) {
-                        _toastMessage.value = Event(it.message)
+        compositeDisposable += modifyUserCareer(title, contents)
+            .networkSchedulers()
+            .subscribe({
+                _successEvent.value = Event(true)
+            }, {
+                Logger.d("$it")
+                it.toErrorResponse()?.let { errorResponse ->
+                    if (!errorResponse.message.isNullOrEmpty()) {
+                        _toastMessage.value = Event(errorResponse.message)
                     }
-                }, {
-                    Logger.d("$it")
-                    it.toErrorResponse()?.let { errorResponse ->
-                        if (!errorResponse.message.isNullOrEmpty()) {
-                            _toastMessage.value = Event(errorResponse.message)
-                        }
-                    }
-                })
-        }
+                }
+            })
     }
-
-
 }

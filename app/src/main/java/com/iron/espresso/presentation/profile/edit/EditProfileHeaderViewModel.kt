@@ -8,17 +8,18 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.domain.usecase.ModifyUserImage
+import com.iron.espresso.domain.usecase.ModifyUserInfo
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.response.BaseResponse
-import com.iron.espresso.model.source.remote.ModifyUserImageRequest
-import com.iron.espresso.model.source.remote.ModifyUserInfoRequest
-import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import io.reactivex.Single
 
-class EditProfileHeaderViewModel @ViewModelInject constructor(private val remoteDataSource: UserRemoteDataSource) :
+class EditProfileHeaderViewModel @ViewModelInject constructor(
+    private val modifyUserImage: ModifyUserImage,
+    private val modifyUserInfo: ModifyUserInfo
+) :
     BaseViewModel() {
 
     private var initNickName = ""
@@ -59,46 +60,32 @@ class EditProfileHeaderViewModel @ViewModelInject constructor(private val remote
             && id != -1
         ) {
 
-            val modifyJobList = mutableListOf<Single<BaseResponse<Nothing>>>()
+            val modifyJobList = mutableListOf<Single<Boolean>>()
 
             if (imageFile != null) {
-                modifyJobList += remoteDataSource.modifyUserImage(
-                    bearerToken,
-                    id,
-                    ModifyUserImageRequest(imageFile)
+                modifyJobList += modifyUserImage(
+                    imageFile
                 )
             }
 
             if (initNickName != nickname
                 || initIntroduce != introduce
             ) {
-                modifyJobList += remoteDataSource.modifyUserInfo(
-                    bearerToken,
-                    id,
-                    ModifyUserInfoRequest(
-                        if (initNickName != nickname) nickname else null,
-                        introduce
-                    )
+                modifyJobList += modifyUserInfo(
+                    if (initNickName != nickname) nickname else null,
+                    introduce
                 )
             }
 
             compositeDisposable += Single.zip(modifyJobList) { arr ->
-                arr.map {
-                    it as BaseResponse<*>
-                }
+                arr.map { it as Boolean }
             }
+                .map { it.find { it } }
                 .networkSchedulers()
-                .subscribe({ responseList ->
-                    val isSuccess = responseList.firstOrNull { it.result } != null
-                    if (isSuccess) {
+                .subscribe({ isSuccess ->
+                    if (isSuccess == true) {
                         _successEvent.value = Event(true)
-                    } else {
-                        val failedMessage = responseList.firstOrNull { it.result }?.message
-                        if (!failedMessage.isNullOrEmpty()) {
-                            _toastMessage.value = Event(failedMessage)
-                        }
                     }
-
                 }, {
                     Logger.d("$it")
                     if (it is NoSuchElementException) {

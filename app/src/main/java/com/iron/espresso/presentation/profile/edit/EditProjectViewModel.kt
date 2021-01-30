@@ -3,7 +3,6 @@ package com.iron.espresso.presentation.profile.edit
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.usecase.UpdateProjectList
@@ -67,9 +66,6 @@ class EditProjectViewModel @ViewModelInject constructor(
     }
 
     fun modifyInfo(list: List<ProjectItem>) {
-        val bearerToken = AuthHolder.bearerToken
-        val id = AuthHolder.id ?: return
-
         val modifyList = list.filterIndexed { index, projectItem ->
             projectItem != projectItemList.value?.getOrNull(index)
         }
@@ -78,20 +74,18 @@ class EditProjectViewModel @ViewModelInject constructor(
             it.toProject()
         }
 
-        if (bearerToken.isNotEmpty() && id != -1) {
-            compositeDisposable += updateProjectList(modifyRequestList)
-                .networkSchedulers()
-                .subscribe({
-                    _successEvent.value = Event(true)
-                }, {
-                    Logger.d("$it")
-                    it.toErrorResponse()?.let { errorResponse ->
-                        Logger.d("$errorResponse")
-                        if (!errorResponse.message.isNullOrEmpty()) {
-                            _toastMessage.value = Event(errorResponse.message)
-                        }
+        compositeDisposable += updateProjectList(modifyRequestList)
+            .networkSchedulers()
+            .subscribe({
+                _successEvent.value = Event(true)
+            }, {
+                Logger.d("$it")
+                it.toErrorResponse()?.let { errorResponse ->
+                    Logger.d("$errorResponse")
+                    if (!errorResponse.message.isNullOrEmpty()) {
+                        _toastMessage.value = Event(errorResponse.message)
                     }
-                })
-        }
+                }
+            })
     }
 }
