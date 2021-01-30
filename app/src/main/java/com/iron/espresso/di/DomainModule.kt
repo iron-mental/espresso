@@ -1,10 +1,8 @@
 package com.iron.espresso.di
 
+import com.iron.espresso.domain.repo.ProjectRepository
 import com.iron.espresso.domain.repo.UserRepository
-import com.iron.espresso.domain.usecase.CheckDuplicateEmail
-import com.iron.espresso.domain.usecase.CheckDuplicateNickname
-import com.iron.espresso.domain.usecase.LoginUser
-import com.iron.espresso.domain.usecase.RegisterUser
+import com.iron.espresso.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +35,18 @@ object DomainModule {
     @Provides
     fun provideCheckDuplicateNickname(repository: UserRepository): CheckDuplicateNickname {
         return CheckDuplicateNickname(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetMyProjectList(repository: ProjectRepository): GetMyProjectList {
+        return GetMyProjectList(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUpdateProjectList(repository: ProjectRepository): UpdateProjectList {
+        return UpdateProjectList(repository)
     }
 }
 
