@@ -20,6 +20,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibleIf="@{item.id != -1}"
         tools:background="@color/colorPrimaryDark">
 
         <include
@@ -35,7 +36,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:background="?android:selectableItemBackgroundBorderless"
-            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.GITHUB, item.githubUrl)}"
+            android:onClick="@{_ -> viewModel.clickSns.invoke(ProfileSns.GITHUB_REPO, item.githubUrl)}"
             android:padding="4dp"
             android:src="@drawable/github"
             app:layout_constraintStart_toStartOf="parent"

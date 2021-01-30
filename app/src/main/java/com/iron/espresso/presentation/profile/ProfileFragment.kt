@@ -46,29 +46,35 @@ class ProfileFragment :
 
             layoutHeader.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 val user = profileViewModel.user.value ?: return@setOnClickListener
-                showFragment(EditProfileHeaderFragment.newInstance(
-                    user.image,
-                    user.nickname,
-                    user.introduce
-                ))
+                showFragment(
+                    EditProfileHeaderFragment.newInstance(
+                        user.image,
+                        user.nickname,
+                        user.introduce
+                    )
+                )
             }
             layoutCareer.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 val user = profileViewModel.user.value ?: return@setOnClickListener
-                showFragment(EditCareerFragment.newInstance(
-                    user.careerTitle,
-                    user.careerContents
-                ))
+                showFragment(
+                    EditCareerFragment.newInstance(
+                        user.careerTitle,
+                        user.careerContents
+                    )
+                )
             }
             layoutProject.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 showFragment(EditProjectFragment.newInstance())
             }
             layoutSns.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 val user = profileViewModel.user.value ?: return@setOnClickListener
-                showFragment(EditSnsFragment.newInstance(
-                    user.snsGithub,
-                    user.snsLinkedin,
-                    user.snsWeb
-                ))
+                showFragment(
+                    EditSnsFragment.newInstance(
+                        user.snsGithub,
+                        user.snsLinkedin,
+                        user.snsWeb
+                    )
+                )
             }
             layoutEmail.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 val email = profileViewModel.user.value?.email ?: return@setOnClickListener
@@ -90,10 +96,6 @@ class ProfileFragment :
                         .build()
                         .launchUrl(requireContext(), Uri.parse(url))
                 }
-            })
-
-            projectItemList.observe(viewLifecycleOwner, { projectItemList ->
-
             })
 
             refreshed.observe(viewLifecycleOwner, EventObserver {

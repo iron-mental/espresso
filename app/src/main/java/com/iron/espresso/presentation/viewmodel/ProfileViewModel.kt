@@ -17,7 +17,7 @@ import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import com.iron.espresso.presentation.profile.ProjectItem
 
 enum class ProfileSns {
-    GITHUB, LINKED_IN, WEB, APP_STORE, PLAY_STORE
+    GITHUB, GITHUB_REPO, LINKED_IN, WEB, APP_STORE, PLAY_STORE,
 }
 
 class ProfileViewModel @ViewModelInject constructor(
@@ -52,7 +52,8 @@ class ProfileViewModel @ViewModelInject constructor(
     private val _showLinkEvent = MutableLiveData<Event<String>>()
     val showLinkEvent: LiveData<Event<String>> get() = _showLinkEvent
 
-    private val _projectItemList = MutableLiveData<List<ProjectItem>>()
+    private val _projectItemList =
+        MutableLiveData(listOf(ProjectItem(), ProjectItem(), ProjectItem()))
     val projectItemList: LiveData<List<ProjectItem>> get() = _projectItemList
 
     init {
@@ -68,7 +69,13 @@ class ProfileViewModel @ViewModelInject constructor(
                 Logger.d("$response")
                 if (response.result) {
                     response.data?.let { projectListResponse: ProjectListResponse ->
-//                        _projectItemList.value = projectListResponse.map { it.toProjectItem() }
+                        val list = projectListResponse.map { it.toProjectItem() }.toMutableList()
+                        (list.size..3).forEach { position ->
+                            projectItemList.value?.getOrNull(position - 1)?.let { item ->
+                                list.add(item)
+                            }
+                        }
+                        _projectItemList.value = list
                     }
                 }
             }, {
