@@ -48,7 +48,12 @@ class EditAreaViewModel @ViewModelInject constructor(
             .networkSchedulers()
             .subscribe({
                 addressResponseList.addAll(it)
-                setStep1List()
+
+                if (pickStep == PickStep.STEP_1) {
+                    setStep1List()
+                } else {
+                    setStep2List(step1.value.orEmpty())
+                }
             }, {
 
             })
