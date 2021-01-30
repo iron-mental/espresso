@@ -64,7 +64,8 @@ class ProfileFragment :
                 )
             }
             layoutProject.root.findViewById<View>(R.id.edt_button).setOnClickListener {
-                showFragment(EditProjectFragment.newInstance())
+                val projectList = profileViewModel.projectItemList.value
+                showFragment(EditProjectFragment.newInstance(projectList.orEmpty()))
             }
             layoutSns.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 val user = profileViewModel.user.value ?: return@setOnClickListener
