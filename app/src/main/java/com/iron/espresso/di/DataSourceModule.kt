@@ -1,7 +1,7 @@
 package com.iron.espresso.di
 
-import com.iron.espresso.model.source.remote.ProfileRemoteDataSource
-import com.iron.espresso.model.source.remote.ProfileRemoteDataSourceImpl
+import com.iron.espresso.model.source.remote.ProjectRemoteDataSource
+import com.iron.espresso.model.source.remote.ProjectRemoteDataSourceImpl
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import com.iron.espresso.model.source.remote.UserRemoteDataSourceImpl
 import dagger.Binds
@@ -16,7 +16,7 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindProfileRemoteDataSource(profileRemoteDataSourceImpl: ProfileRemoteDataSourceImpl): ProfileRemoteDataSource
+    abstract fun bindProjectRemoteDataSource(projectRemoteDataSourceImpl: ProjectRemoteDataSourceImpl): ProjectRemoteDataSource
 
     @Singleton
     @Binds

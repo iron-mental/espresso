@@ -28,8 +28,7 @@ data class ProjectResponse(
             contents.orEmpty(),
             snsGithub.orEmpty(),
             snsAppstore.orEmpty(),
-            snsPlaystore.orEmpty(),
-            createdAt.orEmpty()
+            snsPlaystore.orEmpty()
         )
 
     fun toProjectItem(): ProjectItem =

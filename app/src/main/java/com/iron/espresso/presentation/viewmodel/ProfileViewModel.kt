@@ -8,11 +8,10 @@ import com.iron.espresso.Logger
 import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.User
+import com.iron.espresso.domain.usecase.GetMyProjectList
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
-import com.iron.espresso.model.api.ProjectApi
-import com.iron.espresso.model.response.project.ProjectListResponse
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import com.iron.espresso.presentation.profile.ProjectItem
 
@@ -22,7 +21,7 @@ enum class ProfileSns {
 
 class ProfileViewModel @ViewModelInject constructor(
     private val userRemoteDataSource: UserRemoteDataSource,
-    private val projectApi: ProjectApi
+    private val getMyProjectList: GetMyProjectList
 ) :
     BaseViewModel() {
 
@@ -61,23 +60,16 @@ class ProfileViewModel @ViewModelInject constructor(
     }
 
     private fun getProjectList() {
-        val id = AuthHolder.id ?: return
-
-        compositeDisposable += projectApi.getProjectList(AuthHolder.bearerToken, id)
+        compositeDisposable += getMyProjectList()
             .networkSchedulers()
-            .subscribe({ response ->
-                Logger.d("$response")
-                if (response.result) {
-                    response.data?.let { projectListResponse: ProjectListResponse ->
-                        val list = projectListResponse.map { it.toProjectItem() }.toMutableList()
-                        (list.size..3).forEach { position ->
-                            projectItemList.value?.getOrNull(position - 1)?.let { item ->
-                                list.add(item)
-                            }
-                        }
-                        _projectItemList.value = list
+            .subscribe({ projectList ->
+                val list = projectList.map { ProjectItem.of(it) }.toMutableList()
+                (list.size..3).forEach { position ->
+                    projectItemList.value?.getOrNull(position - 1)?.let { item ->
+                        list.add(item)
                     }
                 }
+                _projectItemList.value = list
             }, {
                 Logger.d("$it")
             })
@@ -90,7 +82,6 @@ class ProfileViewModel @ViewModelInject constructor(
         if (bearerToken.isNotEmpty()
             && id != -1
         ) {
-
             compositeDisposable += userRemoteDataSource.getUser(
                 bearerToken, id
             )

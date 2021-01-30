@@ -1,9 +1,10 @@
 package com.iron.espresso.model.api
 
 import com.google.gson.annotations.SerializedName
+import com.iron.espresso.AuthHolder
+import com.iron.espresso.domain.entity.Project
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.project.ProjectListResponse
-import com.iron.espresso.presentation.profile.ProjectItem
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -22,7 +23,7 @@ data class ModifyProjectRequest(
     val snsPlaystore: String? = null
 ) {
     companion object {
-        fun of(item: ProjectItem): ModifyProjectRequest =
+        fun of(item: Project): ModifyProjectRequest =
             ModifyProjectRequest(
                 id = if (item.id == -1) null else item.id,
                 title = item.title,
@@ -38,20 +39,20 @@ interface ProjectApi {
 
     @POST("/v1/user/{id}/project")
     fun registerProject(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("id") id: Int,
         @Body body: List<ModifyProjectRequest>
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/user/{id}/project")
     fun getProjectList(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("id") id: Int,
     ): Single<BaseResponse<ProjectListResponse>>
 
     @DELETE("/v1/user/{id}/project/{project_id}")
     fun deleteProject(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("id") id: Int,
         @Path("project_id") projectId: Int
     ): Single<BaseResponse<Nothing>>

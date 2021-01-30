@@ -6,16 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.domain.usecase.UpdateProjectList
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.api.ModifyProjectRequest
-import com.iron.espresso.model.api.ProjectApi
 import com.iron.espresso.presentation.profile.ProjectItem
 
 class EditProjectViewModel @ViewModelInject constructor(
-    private val projectApi: ProjectApi
+    private val updateProjectList: UpdateProjectList
 ) : BaseViewModel() {
 
     private val _successEvent = MutableLiveData<Event<Boolean>>()
@@ -75,23 +74,15 @@ class EditProjectViewModel @ViewModelInject constructor(
             projectItem != projectItemList.value?.getOrNull(index)
         }
 
-        val modifyRequestList =  modifyList.map {
-            ModifyProjectRequest.of(it)
+        val modifyRequestList = modifyList.map {
+            it.toProject()
         }
 
         if (bearerToken.isNotEmpty() && id != -1) {
-            compositeDisposable += projectApi.registerProject(
-                bearerToken,
-                id,
-                modifyRequestList
-            )
+            compositeDisposable += updateProjectList(modifyRequestList)
                 .networkSchedulers()
                 .subscribe({
-                    if (it.result) {
-                        _successEvent.value = Event(true)
-                    } else if (!it.message.isNullOrEmpty()) {
-                        _toastMessage.value = Event(it.message)
-                    }
+                    _successEvent.value = Event(true)
                 }, {
                     Logger.d("$it")
                     it.toErrorResponse()?.let { errorResponse ->

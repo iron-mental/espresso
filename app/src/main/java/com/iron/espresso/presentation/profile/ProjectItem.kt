@@ -1,6 +1,7 @@
 package com.iron.espresso.presentation.profile
 
 import android.os.Parcelable
+import com.iron.espresso.domain.entity.Project
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -20,4 +21,12 @@ data class ProjectItem(
             && githubUrl == ""
             && appStoreUrl == ""
             && playStoreUrl == ""
+
+    fun toProject(): Project =
+        Project(id, title, contents, githubUrl, appStoreUrl, playStoreUrl)
+
+    companion object {
+        fun of(project: Project): ProjectItem =
+            ProjectItem(project.id, project.title, project.contents, project.githubUrl, project.appStoreUrl, project.playStoreUrl)
+    }
 }
