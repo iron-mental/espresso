@@ -3,7 +3,7 @@ package com.iron.espresso.model.response.kakao
 
 import com.google.gson.annotations.SerializedName
 
-data class AddressResponse(
+data class KakaoAddressResponse(
     @SerializedName("address")
     val address: Address?,
     @SerializedName("address_name")

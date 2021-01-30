@@ -1,7 +1,9 @@
 package com.iron.espresso.di
 
+import com.iron.espresso.domain.repo.KakaoRepository
 import com.iron.espresso.domain.repo.ProjectRepository
 import com.iron.espresso.domain.repo.UserRepository
+import com.iron.espresso.model.repo.KakaoRepositoryImpl
 import com.iron.espresso.model.repo.ProjectRepositoryImpl
 import com.iron.espresso.model.repo.UserRepositoryImpl
 import dagger.Binds
@@ -23,5 +25,9 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindKakaoRepository(kakaoRepositoryImpl: KakaoRepositoryImpl): KakaoRepository
 
 }

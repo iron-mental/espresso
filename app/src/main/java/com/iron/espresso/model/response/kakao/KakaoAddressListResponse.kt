@@ -3,9 +3,9 @@ package com.iron.espresso.model.response.kakao
 
 import com.google.gson.annotations.SerializedName
 
-data class AddressListResponse(
+data class KakaoAddressListResponse(
     @SerializedName("documents")
-    val addressResponses: List<AddressResponse>?,
+    val kakaoAddressRespons: List<KakaoAddressResponse>?,
     @SerializedName("meta")
     val meta: Meta?
 )

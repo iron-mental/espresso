@@ -6,25 +6,24 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.domain.entity.Address
+import com.iron.espresso.domain.usecase.GetAddressList
+import com.iron.espresso.domain.usecase.ModifyUserLocation
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.api.KakaoApi
-import com.iron.espresso.model.response.address.AddressResponse
-import com.iron.espresso.model.source.remote.ModifyUserLocationRequest
-import com.iron.espresso.model.source.remote.UserRemoteDataSource
 
 enum class PickStep {
     STEP_1, STEP_2, DONE
 }
 
 class EditAreaViewModel @ViewModelInject constructor(
-    private val remoteDataSource: UserRemoteDataSource,
-    private val kakaoApi: KakaoApi
+    private val getAddressList: GetAddressList,
+    private val modifyUserLocation: ModifyUserLocation,
 ) : BaseViewModel() {
 
-    private val addressResponseList = mutableListOf<AddressResponse>()
+    private val addressResponseList = mutableListOf<Address>()
 
     private val _addressList = MutableLiveData<List<String>>()
     val addressList: LiveData<List<String>> get() = _addressList
@@ -45,13 +44,11 @@ class EditAreaViewModel @ViewModelInject constructor(
         }
 
     init {
-        compositeDisposable += remoteDataSource.getAddressList(AuthHolder.bearerToken)
+        compositeDisposable += getAddressList()
             .networkSchedulers()
             .subscribe({
-                if (it.result && it.data != null) {
-                    addressResponseList.addAll(it.data)
-                    setStep1List()
-                }
+                addressResponseList.addAll(it)
+                setStep1List()
             }, {
 
             })
@@ -80,41 +77,18 @@ class EditAreaViewModel @ViewModelInject constructor(
             && bearerToken.isNotEmpty()
             && id != -1
         ) {
-            val addressName = "$addressStep1 $addressStep2"
-
-            compositeDisposable +=
-                kakaoApi.getAddress(query = addressName)
-                    .flatMap {
-                        val address = it.addressResponses?.firstOrNull() ?: error("Address Response null")
-                        val latitude = address.y?.toDoubleOrNull() ?: error("Address Response latitude null")
-                        val longitude = address.x?.toDoubleOrNull() ?: error("Address Response longitude null")
-
-                        remoteDataSource.modifyUserLocation(
-                            bearerToken,
-                            id,
-                            ModifyUserLocationRequest(
-                                latitude = latitude,
-                                longitude = longitude,
-                                sido = addressStep1,
-                                sigungu = addressStep2
-                            )
-                        )
+            compositeDisposable += modifyUserLocation(addressStep1, addressStep2)
+                .networkSchedulers()
+                .subscribe({
+                    _successEvent.value = Event(true)
+                }, {
+                    Logger.d("$it")
+                    it.toErrorResponse()?.let { errorResponse ->
+                        if (!errorResponse.message.isNullOrEmpty()) {
+                            _toastMessage.value = Event(errorResponse.message)
+                        }
                     }
-                    .networkSchedulers()
-                    .subscribe({
-                        if (it.result) {
-                            _successEvent.value = Event(true)
-                        } else if (!it.message.isNullOrEmpty()) {
-                            _toastMessage.value = Event(it.message)
-                        }
-                    }, {
-                        Logger.d("$it")
-                        it.toErrorResponse()?.let { errorResponse ->
-                            if (!errorResponse.message.isNullOrEmpty()) {
-                                _toastMessage.value = Event(errorResponse.message)
-                            }
-                        }
-                    })
+                })
         }
     }
 }

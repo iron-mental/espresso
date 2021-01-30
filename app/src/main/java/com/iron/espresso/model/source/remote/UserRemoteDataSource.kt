@@ -1,6 +1,7 @@
 package com.iron.espresso.model.source.remote
 
 import com.google.gson.annotations.SerializedName
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.api.UserApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.address.AddressResponse
@@ -77,11 +78,15 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
         userApi.modifyUserEmail(bearerToken, id, request)
 
     override fun modifyUserLocation(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserLocationRequest
+        latitude: Double,
+        longitude: Double,
+        sido: String,
+        sigungu: String
     ): Single<BaseResponse<Nothing>> =
-        userApi.modifyUserLocation(bearerToken, id, request)
+        userApi.modifyUserLocation(id = AuthHolder.requireId(), body = ModifyUserLocationRequest(latitude, longitude, sido, sigungu))
+
+    override fun getAddressList(): Single<BaseResponse<List<AddressResponse>>> =
+        userApi.getAddressList()
 
     override fun deleteUser(bearerToken: String, id: Int): Single<BaseResponse<Nothing>> =
         userApi.deleteUser(bearerToken, id)
@@ -98,9 +103,6 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
         refreshToken: ReIssuanceTokenRequest
     ): Single<BaseResponse<AccessTokenResponse>> =
         userApi.reIssuanceAccessToken(bearerToken, refreshToken)
-
-    override fun getAddressList(bearerToken: String): Single<BaseResponse<List<AddressResponse>>> =
-        userApi.getAddressList(bearerToken)
 }
 
 data class RegisterUserRequest(val email: String, val password: String, val nickname: String)
@@ -217,13 +219,12 @@ interface UserRemoteDataSource {
     ): Single<BaseResponse<Nothing>>
 
     fun modifyUserLocation(
-        bearerToken: String,
-        id: Int,
-        request: ModifyUserLocationRequest
+        latitude: Double,
+        longitude: Double,
+        sido: String,
+        sigungu: String
     ): Single<BaseResponse<Nothing>>
 
-    fun getAddressList(
-        bearerToken: String
-    ): Single<BaseResponse<List<AddressResponse>>>
+    fun getAddressList(): Single<BaseResponse<List<AddressResponse>>>
 
 }
