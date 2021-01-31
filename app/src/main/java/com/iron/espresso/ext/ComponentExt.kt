@@ -5,6 +5,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import com.iron.espresso.LoadingFragment
 
+fun FragmentActivity.setLoading(isLoading: Boolean) {
+    if (isLoading) {
+        showLoading()
+    } else {
+        hideLoading()
+    }
+}
 
 fun FragmentActivity.showLoading() {
     val loadingFragment =
@@ -31,6 +38,14 @@ fun FragmentActivity.hideLoading() {
         supportFragmentManager.commit(allowStateLoss = true) {
             remove(loadingFragment)
         }
+    }
+}
+
+fun Fragment.setLoading(isLoading: Boolean) {
+    if (isLoading) {
+        showLoading()
+    } else {
+        hideLoading()
     }
 }
 

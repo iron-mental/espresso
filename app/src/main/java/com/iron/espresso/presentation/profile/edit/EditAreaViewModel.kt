@@ -3,7 +3,6 @@ package com.iron.espresso.presentation.profile.edit
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.Address
@@ -44,6 +43,7 @@ class EditAreaViewModel @ViewModelInject constructor(
         }
 
     init {
+        showLoading()
         compositeDisposable += getAddressList()
             .networkSchedulers()
             .subscribe({
@@ -54,8 +54,10 @@ class EditAreaViewModel @ViewModelInject constructor(
                 } else {
                     setStep2List(step1.value.orEmpty())
                 }
-            }, {
 
+                hideLoading()
+            }, {
+                hideLoading()
             })
     }
 
@@ -73,18 +75,16 @@ class EditAreaViewModel @ViewModelInject constructor(
     fun modifyInfo() {
         val addressStep1 = step1.value.orEmpty()
         val addressStep2 = step2.value.orEmpty()
-        val bearerToken = AuthHolder.bearerToken
-        val id = AuthHolder.id ?: return
 
         if (
             addressStep1.isNotEmpty()
             && addressStep2.isNotEmpty()
-            && bearerToken.isNotEmpty()
-            && id != -1
         ) {
+            showLoading()
             compositeDisposable += modifyUserLocation(addressStep1, addressStep2)
                 .networkSchedulers()
                 .subscribe({
+                    hideLoading()
                     _successEvent.value = Event(true)
                 }, {
                     Logger.d("$it")
@@ -93,7 +93,11 @@ class EditAreaViewModel @ViewModelInject constructor(
                             _toastMessage.value = Event(errorResponse.message)
                         }
                     }
+
+                    hideLoading()
                 })
+        } else {
+            hideLoading()
         }
     }
 }

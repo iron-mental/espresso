@@ -72,11 +72,33 @@
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/bg_round"
                         android:backgroundTint="@color/colorCobaltBlue"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
                         android:lineSpacingExtra="27sp"
                         android:padding="8dp"
                         android:text="@string/join_study"
                         android:textSize="13sp"
                         android:textStyle="bold"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/joining_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/white"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:lineSpacingExtra="27sp"
+                        android:padding="8dp"
+                        android:text="가입 진행 중"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/icon_web"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,14 +106,14 @@
                         android:id="@+id/introduce_detail"
                         android:layout_width="224dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="15dp"
                         android:lineSpacingExtra="11sp"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/introduce"
+                        app:layout_constraintTop_toBottomOf="@+id/join_button"
                         tools:text="안녕하세요 Swift를 정복하기 위한
 스터디에 함께 할 분을 모집중입니다.
 열심히 하실 분이라면 언제든 환영합니다.
