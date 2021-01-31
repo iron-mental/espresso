@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.iron.espresso.presentation.profile.edit.EditEmailViewModel" />
@@ -28,9 +29,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
+                android:text="@={viewModel.email}"
                 tools:text="wos94@naver.com" />
         </com.google.android.material.textfield.TextInputLayout>
 

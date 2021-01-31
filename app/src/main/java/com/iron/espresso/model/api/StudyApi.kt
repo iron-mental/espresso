@@ -1,5 +1,6 @@
 package com.iron.espresso.model.api
 
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.MyStudyListResponse
 import com.iron.espresso.model.response.study.StudyDetailResponse
@@ -115,40 +116,40 @@ interface StudyApi {
     @Multipart
     @POST("/v1/study")
     fun registerStudy(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/study/{study_id}")
     fun getStudyDetail(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int
     ): Single<BaseResponse<StudyDetailResponse>>
 
     /** ModifyStudyRequest 만들어서 toMultipartBody */
     @PUT("/v1/study/{study_id}")
     fun modifyStudy(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int,
         @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/user/{id}/study")
     fun getMyStudyList(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("id") userId: Int
     ): Single<BaseResponse<MyStudyListResponse>>
 
     @GET("/v1/study")
     fun getStudyList(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Query("category") category: String,
         @Query("sort") sort: String // new, length
     ): Single<BaseResponse<StudyListResponse>>
 
     @GET("/v1/study/paging/list")
     fun getStudyPagingList(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Query("sort") sort: String,
         @Query("values") studyIds: String
     ): Single<BaseResponse<StudyListResponse>>

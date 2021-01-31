@@ -1,16 +1,19 @@
 package com.iron.espresso.presentation.profile.edit
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.FragmentEditEmailBinding
+import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,9 +25,33 @@ class EditEmailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        baseActivity?.setToolbarTitle("이메일 수정")
+        baseActivity?.setToolbarTitle(R.string.title_edit_email)
+        setupView()
+        setupViewModel()
+    }
 
+    private fun setupView() {
         binding.viewModel = viewModel
+    }
+
+    private fun setupViewModel() {
+        viewModel.run {
+            arguments?.let { args ->
+                val email = args.getString(ARG_EMAIL).orEmpty()
+                initProfileData(email)
+            }
+
+            successEvent.observe(viewLifecycleOwner, EventObserver { isSuccess ->
+                if (isSuccess) {
+                    toast(R.string.success_modify)
+                    targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, null)
+                }
+                activity?.onBackPressed()
+            })
+            toastMessage.observe(viewLifecycleOwner, EventObserver {
+                toast(it)
+            })
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -46,7 +73,7 @@ class EditEmailFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_item_done -> {
-                Toast.makeText(requireContext(), "수정 완료 클릭", Toast.LENGTH_SHORT).show()
+                viewModel.modifyInfo()
             }
             else -> {
 
@@ -56,7 +83,13 @@ class EditEmailFragment :
     }
 
     companion object {
-        fun newInstance() =
-            EditEmailFragment()
+        private const val ARG_EMAIL = "arg_email"
+
+        fun newInstance(email: String) =
+            EditEmailFragment().apply {
+                arguments = bundleOf(
+                    ARG_EMAIL to email
+                )
+            }
     }
 }
