@@ -9,6 +9,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.data.model.NoticeItem
@@ -38,12 +41,14 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
                 binding.emptyView.visibility = View.VISIBLE
                 binding.noticeList.visibility = View.GONE
             } else {
-                noticeAdapter.run {
-                    setItemList(noticeListItem)
-                }
+                noticeAdapter.setItemList(noticeListItem)
                 binding.emptyView.visibility = View.GONE
                 binding.noticeList.visibility = View.VISIBLE
             }
+        })
+
+        viewModel.scrollItem.observe(viewLifecycleOwner, Observer {
+            noticeAdapter.setScrollItem(it)
         })
 
         noticeAdapter.setItemClickListener { noticeItem: NoticeItem ->
@@ -57,6 +62,29 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         }
         binding.noticeList.adapter = noticeAdapter
 
+        scrollListener()
+
+    }
+
+    private fun scrollListener() {
+        binding.noticeList.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val linear =
+                        binding.noticeList.layoutManager as LinearLayoutManager
+
+                    if (linear.findLastCompletelyVisibleItemPosition()
+                        == noticeAdapter.itemCount - 1
+                    ) {
+                        if (noticeAdapter.itemCount >= 10) {
+                            viewModel.showNoticeListPaging()
+                        }
+                    }
+                }
+            }
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

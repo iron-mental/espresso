@@ -19,6 +19,7 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.setCircleImage
+import com.iron.espresso.ext.setRadiusImage
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapFragment
@@ -66,7 +67,7 @@ class StudyDetailActivity :
                 numberMember.text = studyDetail.participateItem.size.toString()
 
                 if (studyDetail.image.isNotEmpty()) {
-                    image.setCircleImage(studyDetail.image)
+                    image.setRadiusImage(studyDetail.image)
                 }
             }
 
@@ -151,7 +152,7 @@ class StudyDetailActivity :
         private const val AUTHORITY_APPLIER = "applier"
         private const val AUTHORITY_REJECT = "reject"
 
-        fun getInstance(context: Context, studyId: Int) =
+        fun getIntent(context: Context, studyId: Int) =
             Intent(context, StudyDetailActivity::class.java)
                 .putExtra(STUDY_ID, studyId)
     }

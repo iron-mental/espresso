@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
     <string name="app_name">terminal</string>
 
     <string name="setting">설정</string>
@@ -99,6 +100,19 @@
     <string name="empty_area">아직 추가한 활동지역이 없습니다.</string>
     <string name="contents">내용</string>
     <string name="title">타이틀</string>
+    <string name="read_storage_permission_title">사진 선택</string>
+    <string name="read_storage_permission_contents">사진 접근 권한에 동의해주세요.</string>
+    <string name="profile_name_hint">이름을 입력해 주세요.</string>
+    <string name="profile_desc_hint">간단한 자기소개를 입력해 주세요.</string>
+    <string name="title_edit_profile_header">사진 및 정보 수정</string>
+    <string name="success_modify">수정 완료</string>
+    <string name="title_edit_career">경력 수정</string>
+    <string name="title_edit_sns">SNS 수정</string>
+    <string name="title_edit_email">이메일 수정</string>
+    <string name="title_edit_area">활동 지역 수정</string>
+    <string name="edit_area_step1_hint">도 / 시</string>
+    <string name="edit_area_step2_hint">시 / 군 / 구</string>
+    <string name="title_edit_project">프로젝트 수정</string>
 
     <string name="apply_title">스터디 신청하기</string>
     <string name="apply_content">가입인사를 작성해보세요</string>

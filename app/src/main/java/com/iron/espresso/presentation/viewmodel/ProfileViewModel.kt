@@ -5,39 +5,30 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
+import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.domain.entity.GithubUser
 import com.iron.espresso.domain.entity.User
-import com.iron.espresso.domain.usecase.GetGithubUser
+import com.iron.espresso.domain.usecase.GetMyProjectList
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
-import com.iron.espresso.model.api.ProjectApi
-import com.iron.espresso.model.response.project.ProjectListResponse
+import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import com.iron.espresso.presentation.profile.ProjectItem
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
 
 enum class ProfileSns {
-    GITHUB, LINKED_IN, WEB, APP_STORE, PLAY_STORE
+    GITHUB, GITHUB_REPO, LINKED_IN, WEB, APP_STORE, PLAY_STORE,
 }
 
 class ProfileViewModel @ViewModelInject constructor(
-    private val getGithubUser: GetGithubUser,
-    private val projectApi: ProjectApi
+    private val userRemoteDataSource: UserRemoteDataSource,
+    private val getMyProjectList: GetMyProjectList
 ) :
     BaseViewModel() {
 
+    private val _refreshed = MutableLiveData<Event<Unit>>()
+    val refreshed: LiveData<Event<Unit>> get() = _refreshed
+
     val user = MutableLiveData<User>()
-    private val githubId = MutableLiveData<String>()
-
-    val avatarUrl = MutableLiveData<String>()
-
-    private val githubIdSubject: PublishSubject<String> by lazy {
-        PublishSubject.create()
-    }
 
     val clickSns: (sns: ProfileSns, url: String) -> Unit = { sns, url ->
         Logger.d("$url")
@@ -60,62 +51,61 @@ class ProfileViewModel @ViewModelInject constructor(
     private val _showLinkEvent = MutableLiveData<Event<String>>()
     val showLinkEvent: LiveData<Event<String>> get() = _showLinkEvent
 
-    private val _projectItemList = MutableLiveData<List<ProjectItem>>()
+    private val _projectItemList =
+        MutableLiveData(listOf(ProjectItem(), ProjectItem(), ProjectItem()))
     val projectItemList: LiveData<List<ProjectItem>> get() = _projectItemList
 
     init {
-        githubId.observeForever {
-            githubIdSubject.onNext(it)
-        }
-
-        compositeDisposable += githubIdSubject
-            .debounce(DEBOUNCE_TIME, TimeUnit.MILLISECONDS)
-            .subscribe({ githubId ->
-                getProfileImage(githubId)
-            }, {
-                Logger.d("$it")
-            })
-
         getProjectList()
-
-        githubId.value ="wswon"
     }
 
     private fun getProjectList() {
-        val id = AuthHolder.id ?: return
-
-        compositeDisposable += projectApi.getProjectList(AuthHolder.bearerToken, id)
+        compositeDisposable += getMyProjectList()
             .networkSchedulers()
-            .subscribe({ response ->
-                Logger.d("$response")
-                if (response.result) {
-                    response.data?.let { projectListResponse: ProjectListResponse ->
-                        _projectItemList.value = projectListResponse.map { it.toProjectItem() }
+            .subscribe({ projectList ->
+                val list = projectList.map { ProjectItem.of(it) }.toMutableList()
+                (list.size..3).forEach { position ->
+                    projectItemList.value?.getOrNull(position - 1)?.let { item ->
+                        list.add(item)
                     }
                 }
+                _projectItemList.value = list
             }, {
                 Logger.d("$it")
             })
     }
 
-    private fun getProfileImage(userId: String) {
-        compositeDisposable += getGithubUser(userId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ response: GithubUser ->
-                avatarUrl.value = response.avatarUrl
-            }, {
-                Logger.d("$it")
-            })
-    }
+    fun refreshProfile() {
+        val bearerToken = AuthHolder.bearerToken
+        val id = AuthHolder.id ?: return
 
+        if (bearerToken.isNotEmpty()
+            && id != -1
+        ) {
+            compositeDisposable += userRemoteDataSource.getUser(
+                bearerToken, id
+            )
+                .networkSchedulers()
+                .subscribe({
+                    if (it.result) {
+
+                        val user = it.data?.toUser()
+
+                        if (user != null) {
+                            UserHolder.set(user)
+                            setProfile(user)
+
+                            _refreshed.value = Event(Unit)
+                        }
+                    }
+                }, {
+
+                })
+        }
+    }
 
     fun setProfile(user: User) {
         this.user.value = user
-    }
-
-    companion object {
-        private const val DEBOUNCE_TIME = 500L
     }
 }
 

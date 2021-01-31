@@ -13,7 +13,7 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindProfileRemoteDataSource(profileRemoteDataSourceImpl: ProfileRemoteDataSourceImpl): ProfileRemoteDataSource
+    abstract fun bindProjectRemoteDataSource(projectRemoteDataSourceImpl: ProjectRemoteDataSourceImpl): ProjectRemoteDataSource
 
     @Singleton
     @Binds
@@ -23,4 +23,11 @@ abstract class DataSourceModule {
     @Binds
     abstract fun bindApplyRemoteDataSource(applyRemoteDataSourceImpl: ApplyRemoteDataSourceImpl): ApplyRemoteDataSource
 
+    @Singleton
+    @Binds
+    abstract fun bindKakaoRemoteDataSource(kakaoRemoteDataSourceImpl: KakaoRemoteDataSourceImpl): KakaoRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindStudyRemoteDataSource(studyRemoteDataSourceImpl: StudyRemoteDataSourceImpl): StudyRemoteDataSource
 }

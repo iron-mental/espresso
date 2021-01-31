@@ -1,16 +1,19 @@
 package com.iron.espresso.presentation.profile.edit
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.FragmentEditCareerBinding
+import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,9 +25,34 @@ class EditCareerFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        baseActivity?.setToolbarTitle("경력 수정")
+        baseActivity?.setToolbarTitle(R.string.title_edit_career)
+
+        arguments?.let { args ->
+            viewModel.initProfileData(
+                args.getString(ARG_TITLE).orEmpty(),
+                args.getString(ARG_CONTENTS).orEmpty()
+            )
+        }
 
         binding.viewModel = viewModel
+        setupViewModel()
+    }
+
+    private fun setupViewModel() {
+
+        viewModel.run {
+            successEvent.observe(viewLifecycleOwner, EventObserver { isSuccess ->
+                if (isSuccess) {
+                    toast(R.string.success_modify)
+                    targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, null)
+                }
+                activity?.onBackPressed()
+            })
+
+            toastMessage.observe(viewLifecycleOwner, EventObserver {
+                toast(it)
+            })
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -46,7 +74,7 @@ class EditCareerFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_item_done -> {
-                Toast.makeText(requireContext(), "수정 완료 클릭", Toast.LENGTH_SHORT).show()
+                viewModel.modifyInfo()
             }
             else -> {
 
@@ -56,7 +84,15 @@ class EditCareerFragment :
     }
 
     companion object {
-        fun newInstance() =
-            EditCareerFragment()
+        private const val ARG_TITLE = "arg_title"
+        private const val ARG_CONTENTS = "arg_contents"
+
+        fun newInstance(title: String, contents: String) =
+            EditCareerFragment().apply {
+                arguments = bundleOf(
+                    ARG_TITLE to title,
+                    ARG_CONTENTS to contents
+                )
+            }
     }
 }
