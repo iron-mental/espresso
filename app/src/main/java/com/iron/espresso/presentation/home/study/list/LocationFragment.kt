@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentLocationBinding
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.study.StudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +32,11 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
         })
 
         studyListAdapter.setItemClickListener { studyItem ->
-            startActivity(StudyDetailActivity.getInstance(requireContext(), studyItem.id))
+            if (studyItem.isMember) {
+                startActivity(MyStudyDetailActivity.getInstance(requireContext(), studyItem.title, studyItem.id))
+            } else {
+                startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
+            }
         }
 
         binding.swipeRefresh.apply {

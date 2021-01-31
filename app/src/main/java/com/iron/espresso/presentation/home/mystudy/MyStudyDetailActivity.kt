@@ -39,7 +39,7 @@ class MyStudyDetailActivity :
                 override fun createFragment(position: Int): Fragment =
                     when (position) {
                         0 -> NoticeFragment.newInstance(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
-                        1 -> StudyInfoFragment.newInstance()
+                        1 -> StudyInfoFragment.newInstance(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
                         2 -> ChattingFragment.newInstance()
                         else -> error("Invalid position")
                     }

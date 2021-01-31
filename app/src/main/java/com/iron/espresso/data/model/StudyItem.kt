@@ -11,5 +11,5 @@ data class StudyItem(
     val distance: Double,
     val memberCount: Int,
     val isMember: Boolean,
-    val isPaging: Boolean,
+    val isPaging: Boolean
 )
