@@ -12,7 +12,7 @@ import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
-import com.iron.espresso.data.model.StudyItem
+import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.load
@@ -68,7 +68,7 @@ class StudyCreateActivity :
         binding.buttonSignUp.setOnClickListener {
 
             viewModel.createStudy(
-                StudyItem(
+                CreateStudyItem(
                     category = "android",
                     title = binding.title.text.toString(),
                     introduce = binding.introduce.text.toString(),
@@ -78,7 +78,7 @@ class StudyCreateActivity :
                     snsNotion = "https://www.notion.so/product",
                     snsEverNote = "https://www.evernote.com/",
                     snsWeb = "https://norancom.tistory.com/7",
-                    image = File("/storage/0000-0000/DCIM/Camera/20201120_190322.jpg")
+                    image = File("/storage/self/primary/DCIM/Camera/20180319_124025.jpg")
                 )
             )
         }

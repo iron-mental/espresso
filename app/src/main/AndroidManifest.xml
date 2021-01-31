@@ -18,6 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".presentation.home.study.StudyDetailActivity" />
+        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeModifyActivity" />
+        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeCreateActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,25 +28,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.home.mystudy.studydetail.NoticeDetailActivity" />
-        <activity android:name=".presentation.sign.IntroActivity"/>
+        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeDetailActivity" />
+        <activity android:name=".presentation.sign.IntroActivity" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="zwhswglizn" />
 
         <activity android:name=".presentation.profile.ProfileActivity" />
-        <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
+        <activity android:name=".presentation.home.mystudy.MyStudyDetailActivity" />
         <activity
             android:name=".presentation.home.HomeActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.sign.SignInActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".presentation.sign.SignUpActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".presentation.home.study.StudyListActivity" />
+        <activity android:name=".presentation.home.study.list.StudyListActivity" />
         <activity android:name=".presentation.home.setting.SettingProfileActivity" />
         <activity android:name=".presentation.home.setting.SettingPolicyActivity" />
         <activity android:name=".presentation.home.setting.SettingTermsActivity" />
