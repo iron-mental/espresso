@@ -20,7 +20,7 @@
 
     <string-array name="study_tab">
         <item>최신</item>
-        <item>장소</item>
+        <item>지역</item>
     </string-array>
 
     <string-array name="category_account">

@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
@@ -39,7 +38,7 @@ class MyStudyFragment :
             override fun onClick(item: MyStudyResponse) {
                 if (item.title != null && item.id != null) {
                     startActivity(
-                        StudyDetailActivity.getInstance(requireContext(), item.title, item.id)
+                        MyStudyDetailActivity.getInstance(requireContext(), item.title, item.id)
                     )
                 }
             }

@@ -1,16 +1,15 @@
 package com.iron.espresso.data.model
 
-import java.io.File
-
 data class StudyItem(
-    val category: String,
+    val id: Int,
     val title: String,
     val introduce: String,
-    val progress: String,
-    val studyTime: String,
-    val localItem: LocalItem?,
-    val snsNotion: String,
-    val snsEverNote: String,
-    val snsWeb: String,
-    val image: File? = null
+    val image: String?,
+    val sigungu: String,
+    val leaderImage: String?,
+    val createdAt: String,
+    val distance: Double,
+    val memberCount: Int,
+    val isMember: Boolean,
+    val isPaging: Boolean
 )

@@ -8,14 +8,15 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
+import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
-import com.iron.espresso.model.response.notice.NoticeListResponse
-import com.iron.espresso.model.response.notice.NoticeResponse
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.NoticeAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
     private val noticeAdapter = NoticeAdapter()
-    private lateinit var noticeList: NoticeListResponse
     private var studyId = 0
 
     private val viewModel by viewModels<NoticeViewModel>()
@@ -32,25 +32,28 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         super.onViewCreated(view, savedInstanceState)
 
         studyId =
-            arguments?.getInt(StudyDetailActivity.STUDY_ID) ?: StudyDetailActivity.DEFAULT_VALUE
+            arguments?.getInt(MyStudyDetailActivity.STUDY_ID) ?: MyStudyDetailActivity.DEFAULT_VALUE
 
         viewModel.showNoticeList(studyId)
 
         viewModel.noticeListItem.observe(viewLifecycleOwner, { noticeListItem ->
-            if (noticeListItem != null) {
-                noticeList = noticeListItem
-                noticeAdapter.run {
-                    setItemList(noticeList)
-                }
+            if (noticeListItem.isNullOrEmpty()) {
+                binding.emptyView.visibility = View.VISIBLE
+                binding.noticeList.visibility = View.GONE
             } else {
-                binding.emptyView.isVisible = true
-                binding.noticeList.isVisible = false
+                noticeAdapter.setItemList(noticeListItem)
+                binding.emptyView.visibility = View.GONE
+                binding.noticeList.visibility = View.VISIBLE
             }
         })
 
-        noticeAdapter.setItemClickListener { noticeItem: NoticeResponse ->
+        viewModel.scrollItem.observe(viewLifecycleOwner, Observer {
+            noticeAdapter.setScrollItem(it)
+        })
+
+        noticeAdapter.setItemClickListener { noticeItem: NoticeItem ->
             startActivityForResult(
-                NoticeDetailActivity.getInstance(
+                NoticeDetailActivity.getIntent(
                     requireContext(),
                     noticeItem.id,
                     studyId
@@ -59,6 +62,29 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         }
         binding.noticeList.adapter = noticeAdapter
 
+        scrollListener()
+
+    }
+
+    private fun scrollListener() {
+        binding.noticeList.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val linear =
+                        binding.noticeList.layoutManager as LinearLayoutManager
+
+                    if (linear.findLastCompletelyVisibleItemPosition()
+                        == noticeAdapter.itemCount - 1
+                    ) {
+                        if (noticeAdapter.itemCount >= 10) {
+                            viewModel.showNoticeListPaging()
+                        }
+                    }
+                }
+            }
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -82,7 +108,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
             }
             R.id.create_notice -> {
                 startActivityForResult(
-                    NoticeCreateActivity.getInstance(requireContext(), studyId),
+                    NoticeCreateActivity.getIntent(requireContext(), studyId),
                     REQUEST_CREATE_CODE
                 )
             }
@@ -100,7 +126,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         fun newInstance(data: Int) =
             NoticeFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(StudyDetailActivity.STUDY_ID, data)
+                    putInt(MyStudyDetailActivity.STUDY_ID, data)
                 }
             }
     }

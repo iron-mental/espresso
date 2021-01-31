@@ -1,38 +1,40 @@
-package com.iron.espresso.presentation.home.mystudy.studydetail
+package com.iron.espresso.presentation.home.study
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.viewModels
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
-import com.iron.espresso.base.BaseFragment
-import com.iron.espresso.databinding.FragmentStudyInfoBinding
+import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.ext.setCircleImage
 import com.iron.espresso.ext.setRadiusImage
-import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragment_study_info) {
+class StudyDetailActivity :
+    BaseActivity<ActivityStudyDetailBinding>(R.layout.activity_study_detail) {
 
-    private val viewModel by viewModels<StudyInfoViewModel>()
+    private val viewModel by viewModels<StudyDetailViewModel>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        val studyId =
-            arguments?.getInt(MyStudyDetailActivity.STUDY_ID) ?: MyStudyDetailActivity.DEFAULT_VALUE
+        setToolbarTitle("스터디 상세화면")
+        setNavigationIcon(R.drawable.ic_back_24)
+
+        val studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
         viewModel.getStudy(studyId)
 
-        viewModel.studyDetail.observe(viewLifecycleOwner, Observer { studyDetail ->
+        viewModel.studyDetail.observe(this, Observer { studyDetail ->
             binding.run {
                 introduceDetail.text = studyDetail.introduce
                 proceedDetail.text = studyDetail.progress
@@ -49,7 +51,7 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
 
             /* 구성원 수 만큼 동적 생성 */
             studyDetail.participateItem.forEach { memberList ->
-                val memberView = LayoutInflater.from(context)
+                val memberView = LayoutInflater.from(this)
                     .inflate(R.layout.item_member, binding.memberContainer, false)
 
                 val memberNickname: TextView = memberView.findViewById(R.id.member_nickname)
@@ -64,7 +66,7 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
                 binding.memberContainer.addView(memberView)
             }
 
-            val fm = childFragmentManager
+            val fm = supportFragmentManager
             val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
                 ?: MapFragment.newInstance().also {
                     fm.beginTransaction().add(R.id.map, it).commit()
@@ -84,22 +86,18 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                activity?.finish()
-            }
-
-            else -> {
-                Toast.makeText(context, "${item.title}", Toast.LENGTH_SHORT).show()
+                onBackPressed()
             }
         }
         return true
     }
 
     companion object {
-        fun newInstance(studyId: Int) =
-            StudyInfoFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(MyStudyDetailActivity.STUDY_ID, studyId)
-                }
-            }
+        private const val STUDY_ID = "studyId"
+        private const val DEFAULT_VALUE = -1
+
+        fun getIntent(context: Context, studyId: Int) =
+            Intent(context, StudyDetailActivity::class.java)
+                .putExtra(STUDY_ID, studyId)
     }
 }

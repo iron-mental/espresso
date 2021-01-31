@@ -23,4 +23,7 @@ abstract class DataSourceModule {
     @Binds
     abstract fun bindKakaoRemoteDataSource(kakaoRemoteDataSourceImpl: KakaoRemoteDataSourceImpl): KakaoRemoteDataSource
 
+    @Singleton
+    @Binds
+    abstract fun bindStudyRemoteDataSource(studyRemoteDataSourceImpl: StudyRemoteDataSourceImpl): StudyRemoteDataSource
 }
