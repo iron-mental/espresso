@@ -1,14 +1,20 @@
 package com.iron.espresso.ext
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
 
 @BindingAdapter("bind:setUrlImg", "bind:type")
@@ -76,3 +82,40 @@ fun ImageView.load(
     }
     setStudyCategoryImg(drawable)
 }
+
+
+fun ImageView.setCircleImage(imageUrl: String) {
+    Glide.with(context)
+        .load(
+            GlideUrl(
+                imageUrl,
+                LazyHeaders.Builder()
+                    .addHeader("Authorization", AuthHolder.bearerToken)
+                    .build()
+            )
+        )
+        .optionalCircleCrop()
+        .into(this)
+}
+
+fun ImageView.setCircleImage(imageUri: Uri) {
+    Glide.with(context)
+        .load(imageUri)
+        .optionalCircleCrop()
+        .into(this)
+}
+
+fun ImageView.setRadiusImage(imageUrl: String) {
+    Glide.with(context)
+        .load(
+            GlideUrl(
+                imageUrl,
+                LazyHeaders.Builder()
+                    .addHeader("Authorization", AuthHolder.bearerToken)
+                    .build()
+            )
+        )
+        .transform(CenterCrop(), RoundedCorners(30))
+        .into(this)
+}
+

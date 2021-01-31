@@ -1,5 +1,6 @@
 package com.iron.espresso.model.api
 
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.notice.NoticeDetailResponse
 import com.iron.espresso.model.response.notice.NoticeListResponse
@@ -22,33 +23,33 @@ interface NoticeApi {
 
     @POST("/v1/study/{study_id}/notice")
     fun registerNotice(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int,
         @Body body: RegisterNoticeRequest
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/study/{study_id}/notice/{notice_id}")
     fun getNotice(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int,
         @Path("notice_id") noticeId: Int
     ): Single<BaseResponse<NoticeDetailResponse>>
 
     @GET("/v1/study/{study_id}/notice/")
     fun getNoticeList(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int
     ): Single<BaseResponse<NoticeListResponse>>
 
     @GET("/v1/study/1/notice/paging/list")
     fun getNoticeList(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Query("values") noticeIds: String
     ): Single<BaseResponse<NoticeListResponse>>
 
     @PUT("/v1/study/{study_id}/notice/{notice_id}")
     fun modifyNotice(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int,
         @Path("notice_id") noticeId: Int,
         @Body body: ModifyNoticeRequest
@@ -56,7 +57,7 @@ interface NoticeApi {
 
     @DELETE("/v1/study/{study_id}/notice/{notice_id}")
     fun deleteNotice(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int,
         @Path("notice_id") noticeId: Int
     ): Single<BaseResponse<Nothing>>

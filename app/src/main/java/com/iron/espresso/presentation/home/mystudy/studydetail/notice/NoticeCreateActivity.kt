@@ -14,8 +14,8 @@ import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityNoticeCreateBinding
 import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.DEFAULT_VALUE
-import com.iron.espresso.presentation.home.mystudy.StudyDetailActivity.Companion.STUDY_ID
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity.Companion.DEFAULT_VALUE
+import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity.Companion.STUDY_ID
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

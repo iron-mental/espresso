@@ -81,4 +81,8 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
     implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.0.1'
+
+    implementation "androidx.recyclerview:recyclerview:1.2.0-beta01"
+    implementation "com.airbnb.android:lottie:3.6.0"
+    implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
 }

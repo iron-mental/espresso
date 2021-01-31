@@ -15,8 +15,10 @@ data class UserResponse(
     val image: String?,
     @SerializedName("introduce")
     val introduce: String?,
-    @SerializedName("address")
-    val address: String?,
+    @SerializedName("sido")
+    val sido: String?,
+    @SerializedName("sigungu")
+    val siGungu: String?,
     @SerializedName("career_title")
     val careerTitle: String?,
     @SerializedName("career_contents")
@@ -40,7 +42,8 @@ data class UserResponse(
             email = email.orEmpty(),
             image = image.orEmpty(),
             introduce = introduce.orEmpty(),
-            address = address.orEmpty(),
+            sido = sido.orEmpty(),
+            siGungu = siGungu.orEmpty(),
             careerTitle = careerTitle.orEmpty(),
             careerContents = careerContents.orEmpty(),
             snsGithub = snsGithub.orEmpty(),

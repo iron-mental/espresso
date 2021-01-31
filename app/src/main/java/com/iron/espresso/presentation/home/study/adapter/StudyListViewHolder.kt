@@ -4,13 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.iron.espresso.R
-import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.data.model.StudyItem
 import com.iron.espresso.databinding.ItemStudyListBinding
+import com.iron.espresso.ext.setCircleImage
+import com.iron.espresso.ext.setRadiusImage
 
 class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(
@@ -20,27 +18,26 @@ class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemStudyListBinding>(itemView)
 
-    fun bind(item: StudyItem, itemClickListener: (title: String) -> Unit) {
+    fun bind(item: StudyItem, itemClickListener: (studyItem: StudyItem) -> Unit) {
         itemView.setOnClickListener {
-            itemClickListener(item.title)
+            itemClickListener(item)
         }
         binding?.run {
             title.text = item.title
-            caption.text = item.introduce
             location.text = item.sigungu
             date.text = item.createdAt
 
-            Glide.with(itemView)
-                .load(item.image)
-                .transform(CenterCrop(), RoundedCorners(30))
-                .error(R.drawable.dummy_image)
-                .into(image)
+            if (item.image.isNullOrEmpty()) {
+                image.setImageResource(R.drawable.dummy_image)
+            } else {
+                image.setRadiusImage(item.image)
+            }
 
-            Glide.with(itemView)
-                .load(item.leaderImage)
-                .circleCrop()
-                .error(R.drawable.dummy_image)
-                .into(profileImage)
+            if (item.leaderImage.isNullOrEmpty()) {
+                profileImage.setImageResource(R.drawable.dummy_image)
+            } else {
+                profileImage.setCircleImage(item.leaderImage)
+            }
         }
     }
 }
