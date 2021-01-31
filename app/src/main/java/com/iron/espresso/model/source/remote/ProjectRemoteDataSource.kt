@@ -2,6 +2,7 @@ package com.iron.espresso.model.source.remote
 
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.domain.entity.Project
+import com.iron.espresso.model.api.ModifyProjectListRequest
 import com.iron.espresso.model.api.ModifyProjectRequest
 import com.iron.espresso.model.api.ProjectApi
 import com.iron.espresso.model.response.BaseResponse
@@ -13,7 +14,7 @@ class ProjectRemoteDataSourceImpl @Inject constructor(private val projectApi: Pr
     ProjectRemoteDataSource {
 
     override fun updateProjectList(projectList: List<Project>): Single<BaseResponse<Nothing>> {
-        return projectApi.registerProject(id = AuthHolder.requireId(), body = projectList.map { ModifyProjectRequest.of(it) })
+        return projectApi.updateProject(id = AuthHolder.requireId(), body = ModifyProjectListRequest(projectList.map { ModifyProjectRequest.of(it) }))
     }
 
     override fun getProjectList(id: Int): Single<BaseResponse<ProjectListResponse>> {

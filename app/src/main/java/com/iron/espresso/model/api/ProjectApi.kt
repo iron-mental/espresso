@@ -8,6 +8,12 @@ import com.iron.espresso.model.response.project.ProjectListResponse
 import io.reactivex.Single
 import retrofit2.http.*
 
+
+data class ModifyProjectListRequest(
+    @SerializedName("project_list")
+    val projectList: List<ModifyProjectRequest>
+)
+
 data class ModifyProjectRequest(
     @SerializedName("id")
     val id: Int? = null,
@@ -38,10 +44,10 @@ data class ModifyProjectRequest(
 interface ProjectApi {
 
     @POST("/v1/user/{id}/project")
-    fun registerProject(
+    fun updateProject(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("id") id: Int,
-        @Body body: List<ModifyProjectRequest>
+        @Body body: ModifyProjectListRequest
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/user/{id}/project")
