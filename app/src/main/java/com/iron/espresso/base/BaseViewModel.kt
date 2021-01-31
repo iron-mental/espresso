@@ -12,6 +12,17 @@ abstract class BaseViewModel : ViewModel() {
     protected val _toastMessage = MutableLiveData<Event<String>>()
     val toastMessage: LiveData<Event<String>> get() = _toastMessage
 
+    private val _loadingState = MutableLiveData<Event<Boolean>>()
+    val loadingState: LiveData<Event<Boolean>> get() = _loadingState
+
+    protected fun showLoading() {
+        _loadingState.value = Event(true)
+    }
+
+    protected fun hideLoading() {
+        _loadingState.value = Event(false)
+    }
+
     override fun onCleared() {
         compositeDisposable.clear()
         super.onCleared()

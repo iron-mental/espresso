@@ -15,6 +15,7 @@ import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.FragmentEditAreaBinding
 import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.setLoading
 import com.iron.espresso.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -92,6 +93,8 @@ class EditAreaFragment :
             })
 
             toastMessage.observe(viewLifecycleOwner, EventObserver(::toast))
+
+            loadingState.observe(viewLifecycleOwner, EventObserver(::setLoading))
         }
     }
 
