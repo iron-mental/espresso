@@ -8,7 +8,7 @@ import com.iron.espresso.Logger
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyDetailItem
-import com.iron.espresso.domain.repo.ApplyRepository
+import com.iron.espresso.domain.usecase.RegisterApply
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
@@ -18,7 +18,7 @@ import retrofit2.HttpException
 
 class StudyDetailViewModel @ViewModelInject constructor(
     private val studyApi: StudyApi,
-    private val applyRepository: ApplyRepository
+    private val registerApply: RegisterApply
 ) : BaseViewModel() {
 
     private val _studyDetail = MutableLiveData<StudyDetailItem>()
@@ -57,20 +57,18 @@ class StudyDetailViewModel @ViewModelInject constructor(
             })
     }
 
-    fun registerApply(studyId: Int, message: String) {
+    fun sendApply(studyId: Int, message: String) {
         val checkMessage = emptyCheck(message)
         if (checkMessage == ValidationInputText.SUCCESS) {
-            compositeDisposable += applyRepository
-                .registerApply(
-                    studyId = studyId,
-                    message = message
-                )
+            compositeDisposable += registerApply(
+                studyId = studyId,
+                message = message
+            )
                 .networkSchedulers()
-                .subscribe({
-                    if (it.result) {
+                .subscribe({ (success, message) ->
+                    if (success) {
                         _emptyCheckMessage.value = Event(checkMessage)
                     }
-                    Logger.d("$it")
                 }, {
                     Logger.d("$it")
                     val errorResponse = (it as? HttpException)?.toErrorResponse()

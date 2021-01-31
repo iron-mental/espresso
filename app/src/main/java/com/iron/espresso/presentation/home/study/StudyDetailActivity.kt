@@ -134,7 +134,7 @@ class StudyDetailActivity :
             .setNegativeButton(resources.getString(R.string.cancel)) { _, _ ->
             }
             .setPositiveButton(resources.getString(R.string.apply)) { _, _ ->
-                viewModel.registerApply(studyId, "${messageInputView.text}")
+                viewModel.sendApply(studyId, "${messageInputView.text}")
             }
             .show()
     }
