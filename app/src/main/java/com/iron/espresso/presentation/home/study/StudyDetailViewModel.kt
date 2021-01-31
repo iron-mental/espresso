@@ -13,7 +13,6 @@ import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.api.RegisterStudyApplyRequest
 import com.iron.espresso.model.api.StudyApi
 import retrofit2.HttpException
 
@@ -64,9 +63,7 @@ class StudyDetailViewModel @ViewModelInject constructor(
             compositeDisposable += applyRepository
                 .registerApply(
                     studyId = studyId,
-                    request = RegisterStudyApplyRequest(
-                        message = message
-                    )
+                    message = message
                 )
                 .networkSchedulers()
                 .subscribe({

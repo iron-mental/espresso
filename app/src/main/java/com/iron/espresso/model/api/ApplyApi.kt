@@ -31,6 +31,13 @@ interface ApplyApi {
         @Path("apply_id") applyId: Int
     ): Single<BaseResponse<ApplyDetailResponse>>
 
+    @GET("/v1/study/{study_id}/applyUser/{user_id}")
+    fun getMyApply(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int,
+        @Path("user_id") userId: Int
+    ): Single<BaseResponse<ApplyDetailResponse>>
+
     @GET("/v1/study/{study_id}/apply")
     fun getApplyList(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,

@@ -8,6 +8,8 @@ data class ApplyResponse(
     val id: Int?,
     @SerializedName("user_id")
     val userId: Int?,
+    @SerializedName("nickname")
+    val nickname: String,
     @SerializedName("image")
     val image: String?,
     @SerializedName("message")

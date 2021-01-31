@@ -23,6 +23,7 @@ import com.iron.espresso.ext.setRadiusImage
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapFragment
+import com.wswon.picker.Logger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,7 +35,7 @@ class StudyDetailActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle("스터디 상세화면")
+        setToolbarTitle(R.string.title_study_detail)
         setNavigationIcon(R.drawable.ic_back_24)
 
         val studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
@@ -122,6 +123,7 @@ class StudyDetailActivity :
     }
 
     private fun showApplyDialog(studyId: Int) {
+        Logger.d("$studyId")
         val applyDialog = layoutInflater.inflate(R.layout.view_apply_study, null)
         val messageInputView: EditText = applyDialog.findViewById(R.id.message_input_view)
 

@@ -1,6 +1,5 @@
 package com.iron.espresso.model.source.remote
 
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.api.ApplyApi
 import com.iron.espresso.model.api.RegisterStudyApplyRequest
 import com.iron.espresso.model.response.BaseResponse
@@ -12,9 +11,9 @@ class ApplyRemoteDataSourceImpl @Inject constructor(private val applyApi: ApplyA
     ApplyRemoteDataSource {
     override fun registerApply(
         studyId: Int,
-        request: RegisterStudyApplyRequest
+        message: String
     ): Single<BaseResponse<Nothing>> {
-        return applyApi.registerApply(AuthHolder.bearerToken, studyId, request)
+        return applyApi.registerApply(studyId = studyId, body = RegisterStudyApplyRequest(message))
     }
 
 }
@@ -22,6 +21,6 @@ class ApplyRemoteDataSourceImpl @Inject constructor(private val applyApi: ApplyA
 interface ApplyRemoteDataSource {
     fun registerApply(
         studyId: Int,
-        request: RegisterStudyApplyRequest
+        message: String
     ): Single<BaseResponse<Nothing>>
 }
