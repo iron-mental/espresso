@@ -22,6 +22,13 @@ class NoticeAdapter :
         notifyDataSetChanged()
     }
 
+    fun setScrollItem(noticeList: List<NoticeItem>) {
+        for (item in noticeList) {
+            this.noticeList.add(item)
+        }
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder =
         NoticeViewHolder(parent)
 
