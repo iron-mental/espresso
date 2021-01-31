@@ -81,9 +81,9 @@ class StudyCreateActivity :
                     progress = binding.proceedInputView.text.toString(),
                     studyTime = binding.timeInputView.text.toString(),
                     localItem = localItem,
-                    snsNotion = "https://www.notion.so/product",
-                    snsEverNote = "https://www.evernote.com/",
-                    snsWeb = "https://norancom.tistory.com/7",
+                    snsNotion = binding.notionInputView.inputUrl.text.toString(),
+                    snsEverNote = binding.evernoteInputView.inputUrl.text.toString(),
+                    snsWeb = binding.webInputView.inputUrl.text.toString(),
                     image = null
                 )
             )
