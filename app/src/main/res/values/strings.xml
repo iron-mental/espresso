@@ -74,6 +74,7 @@
     <string name="modify_notice">공지사항이 수정되었습니다</string>
     <string name="delete_notice">공지사항이 삭제되었습니다</string>
     <string name="empty_notice">공지사항이 없습니다</string>
+    <string name="success">임시 성공</string>
 
 
     <string name="notice_create">공지사항 작성화면</string>
@@ -112,5 +113,10 @@
     <string name="edit_area_step1_hint">도 / 시</string>
     <string name="edit_area_step2_hint">시 / 군 / 구</string>
     <string name="title_edit_project">프로젝트 수정</string>
+
+    <string name="apply_title">스터디 신청하기</string>
+    <string name="apply_content">가입인사를 작성해보세요</string>
+    <string name="cancel">취소</string>
+    <string name="apply">신청</string>
 
 </resources>
