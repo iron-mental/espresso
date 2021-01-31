@@ -85,6 +85,8 @@ fun ImageView.load(
 
 
 fun ImageView.setCircleImage(imageUrl: String) {
+    if (imageUrl.isEmpty()) return
+
     Glide.with(context)
         .load(
             GlideUrl(
@@ -106,6 +108,8 @@ fun ImageView.setCircleImage(imageUri: Uri) {
 }
 
 fun ImageView.setRadiusImage(imageUrl: String) {
+    if (imageUrl.isEmpty()) return
+
     Glide.with(context)
         .load(
             GlideUrl(
