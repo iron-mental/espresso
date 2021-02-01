@@ -82,10 +82,6 @@ class SearchStudyActivity :
             studyListAdapter.setItemList(studyList)
         })
 
-        viewModel.scrollItem.observe(this, Observer {
-            studyListAdapter.setScrollItem(it)
-        })
-
         viewModel.hotKeywordList.observe(this, Observer { hotKeywordList ->
             // 핫 키워드 버튼 클릭 시 검색 창 text 대응
             hotKeywordList.forEach { keyWord ->
@@ -110,7 +106,7 @@ class SearchStudyActivity :
                     )
                 )
             } else {
-                startActivity(StudyDetailActivity.getInstance(this, studyItem.id))
+                startActivity(StudyDetailActivity.getIntent(this, studyItem.id))
             }
         }
 
@@ -130,7 +126,7 @@ class SearchStudyActivity :
                         == studyListAdapter.itemCount - 1
                     ) {
                         if (studyListAdapter.itemCount >= 10) {
-                            viewModel.getSearchStudyListPaging()
+                            viewModel.getSearchStudyListPaging("new", studyListAdapter.itemCount)
                         }
                     }
                 }

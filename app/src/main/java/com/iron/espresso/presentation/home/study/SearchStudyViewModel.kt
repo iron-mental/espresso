@@ -20,64 +20,50 @@ class SearchStudyViewModel @ViewModelInject constructor(private val studyApi: St
     val studyList: LiveData<List<StudyItem>>
         get() = _studyList
 
-    private val _scrollItem = MutableLiveData<List<StudyItem>>()
-    val scrollItem: LiveData<List<StudyItem>>
-        get() = _scrollItem
-
     private val _hotKeywordList = MutableLiveData<List<HotKeywordItem>>()
     val hotKeywordList: LiveData<List<HotKeywordItem>>
         get() = _hotKeywordList
 
     private val allList = mutableListOf<StudyItem>()
-    private var moreItemSize = -1
-    private var totalSize = -1
-    private var itemCount = -1
-    private var loading = false
+    private var pagingSize = -1
+    private var isPaging = false
 
-
-    private fun firstItemResult(studyList: List<StudyItem>): List<StudyItem> {
+    private fun firstItemResult(studyList: List<StudyItem>): MutableList<StudyItem> {
         val list: MutableList<StudyItem> = mutableListOf()
-        moreItemSize = VISIBLE_ITEM_SIZE
-        itemCount = 0
-        loading = false
         allList.clear()
         allList.addAll(studyList)
-        totalSize = studyList.size
 
-        return if (totalSize <= VISIBLE_ITEM_SIZE) {
-            studyList
-        } else {
-            loading = true
-            for (i in 0 until VISIBLE_ITEM_SIZE) {
-                itemCount++
-                list.add(allList[i])
+        studyList.forEach { studyItem ->
+            if (studyItem.isPaging) {
+                isPaging = true
+                return@forEach
+            } else {
+                list.add(studyItem)
             }
-            list
         }
+        pagingSize = list.size
+        return list
     }
 
-    private fun scrollMoreItem(): String {
-        val list = mutableListOf<Int>()
-        moreItemSize += VISIBLE_ITEM_SIZE
+    private fun scrollMoreItem(startSize: Int): List<Int> {
+        val scrollIdList = mutableListOf<Int>()
+        val endSize = startSize + pagingSize
         return when {
-            moreItemSize <= totalSize -> {
-                for (i in itemCount until itemCount + VISIBLE_ITEM_SIZE) {
-                    itemCount++
-                    list.add(allList[i].id)
+            endSize <= allList.size -> {
+                for (i in startSize until endSize) {
+                    scrollIdList.add(allList[i].id)
                 }
-                list.joinToString(",")
+                scrollIdList
             }
-            moreItemSize > totalSize -> {
-                loading = false
-                for (i in itemCount until allList.size) {
-                    itemCount++
-                    list.add(allList[i].id)
+            endSize > allList.size -> {
+                isPaging = false
+                for (i in startSize until allList.size) {
+                    scrollIdList.add(allList[i].id)
                 }
-
-                list.joinToString(",")
+                scrollIdList
             }
             else -> {
-                loading = false
+                isPaging = false
                 error("validation error")
             }
         }
@@ -108,18 +94,18 @@ class SearchStudyViewModel @ViewModelInject constructor(private val studyApi: St
             })
     }
 
-    fun getSearchStudyListPaging() {
-        if (loading) {
+    fun getSearchStudyListPaging(sort: String, itemCount: Int) {
+        if (isPaging) {
             compositeDisposable += studyApi
-                .getStudy(
-                    bearerToken = AuthHolder.bearerToken,
-                    studyIds = scrollMoreItem()
+                .getStudyPagingList(
+                    sort = sort,
+                    studyIds = scrollMoreItem(itemCount).joinToString(",")
                 )
                 .networkSchedulers()
                 .subscribe({
-                    _scrollItem.value = it.data?.map { studyResponse ->
+                    _studyList.value = _studyList.value?.plus(it.data!!.map { studyResponse ->
                         studyResponse.toStudyItem()
-                    }
+                    })
                     Logger.d("$it")
                 }, {
                     Logger.d("$it")
@@ -148,9 +134,5 @@ class SearchStudyViewModel @ViewModelInject constructor(private val studyApi: St
         }
 
         _hotKeywordList.value = hotKeywordItemList
-    }
-
-    companion object {
-        private const val VISIBLE_ITEM_SIZE = 10
     }
 }

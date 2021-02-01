@@ -43,10 +43,6 @@ class SearchResultFragment :
             studyListAdapter.setItemList(studyList)
         })
 
-        viewModel.scrollItem.observe(viewLifecycleOwner, Observer {
-            studyListAdapter.setScrollItem(it)
-        })
-
         studyListAdapter.setItemClickListener { studyItem ->
             if (studyItem.isMember) {
                 startActivity(
@@ -57,7 +53,7 @@ class SearchResultFragment :
                     )
                 )
             } else {
-                startActivity(StudyDetailActivity.getInstance(requireContext(), studyItem.id))
+                startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
             }
         }
 
@@ -77,7 +73,7 @@ class SearchResultFragment :
                         == studyListAdapter.itemCount - 1
                     ) {
                         if (studyListAdapter.itemCount >= 10) {
-                            viewModel.getSearchStudyListPaging()
+                            viewModel.getSearchStudyListPaging("new", studyListAdapter.itemCount )
                         }
                     }
                 }
