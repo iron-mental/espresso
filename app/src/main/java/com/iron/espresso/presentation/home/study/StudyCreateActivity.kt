@@ -1,11 +1,13 @@
 package com.iron.espresso.presentation.home.study
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -33,6 +35,7 @@ class StudyCreateActivity :
         intent.getIntExtra(KEY, 0)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setToolbarTitle(TITLE)
@@ -47,6 +50,9 @@ class StudyCreateActivity :
             duration = 1500
             start()
         }
+
+        binding.introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
+        binding.proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
 
         binding.placeContainer.setOnClickListener {
             startActivityForResult(SearchPlaceActivity.getInstance(this), REQ_CODE)
@@ -88,6 +94,19 @@ class StudyCreateActivity :
                 )
             )
         }
+    }
+
+    private fun inputViewTouchEvent(v: View, event: MotionEvent): Boolean {
+        if (v.hasFocus()) {
+            v.parent.requestDisallowInterceptTouchEvent(true)
+            when (event.action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_SCROLL -> {
+                    v.parent.requestDisallowInterceptTouchEvent(false)
+                    return true
+                }
+            }
+        }
+        return false
     }
 
 
