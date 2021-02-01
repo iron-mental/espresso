@@ -1,6 +1,7 @@
 package com.iron.espresso.di
 
-import com.iron.espresso.domain.repo.ProfileRepository
+import com.iron.espresso.domain.repo.KakaoRepository
+import com.iron.espresso.domain.repo.ProjectRepository
 import com.iron.espresso.domain.repo.UserRepository
 import com.iron.espresso.domain.usecase.*
 import dagger.Module
@@ -12,12 +13,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 object DomainModule {
-
-    @Singleton
-    @Provides
-    fun provideGetUser(repository: ProfileRepository): GetGithubUser {
-        return GetGithubUser(repository)
-    }
 
     @Singleton
     @Provides
@@ -41,6 +36,61 @@ object DomainModule {
     @Provides
     fun provideCheckDuplicateNickname(repository: UserRepository): CheckDuplicateNickname {
         return CheckDuplicateNickname(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetMyProjectList(repository: ProjectRepository): GetMyProjectList {
+        return GetMyProjectList(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUpdateProjectList(repository: ProjectRepository): UpdateProjectList {
+        return UpdateProjectList(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideModifyUserImage(repository: UserRepository): ModifyUserImage {
+        return ModifyUserImage(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideModifyUserInfo(repository: UserRepository): ModifyUserInfo {
+        return ModifyUserInfo(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideModifyUserEmail(repository: UserRepository): ModifyUserEmail {
+        return ModifyUserEmail(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideModifyUserCareer(repository: UserRepository): ModifyUserCareer {
+        return ModifyUserCareer(repository)
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideModifyUserSns(repository: UserRepository): ModifyUserSns {
+        return ModifyUserSns(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideModifyUserLocation(userRepository: UserRepository, kakaoRepository: KakaoRepository): ModifyUserLocation {
+        return ModifyUserLocation(userRepository, kakaoRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetAddressList(repository: UserRepository): GetAddressList {
+        return GetAddressList(repository)
     }
 }
 

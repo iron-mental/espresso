@@ -15,9 +15,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 object ApiModule {
-    private const val BASE_URL = "https://api.github.com"
-    private const val BASE_V3_HEADER = "Accept: application/vnd.github.v3+json"
-
     private const val API_URL = "https://www.terminal-study.tk"
     private const val KAKAO_URL = "https://dapi.kakao.com/"
 
@@ -28,19 +25,7 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideGitHubApi(): GitHubApi {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(GitHubApi::class.java)
-    }
-
-    @Singleton
-    @Provides
     fun provideProjectApi(): ProjectApi {
-
         return Retrofit.Builder()
             .baseUrl(API_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

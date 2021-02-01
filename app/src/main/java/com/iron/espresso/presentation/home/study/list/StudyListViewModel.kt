@@ -3,101 +3,83 @@ package com.iron.espresso.presentation.home.study.list
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyItem
+import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.api.StudyApi
 import retrofit2.HttpException
 
-class StudyListViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
+class StudyListViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
     BaseViewModel() {
 
     private val _studyList = MutableLiveData<List<StudyItem>>()
     val studyList: LiveData<List<StudyItem>>
         get() = _studyList
 
-    private val _scrollItem = MutableLiveData<List<StudyItem>>()
-    val scrollItem: LiveData<List<StudyItem>>
-        get() = _scrollItem
-
     private val allList = mutableListOf<StudyItem>()
-    private var moreItemSize = -1
-    private var totalSize = -1
-    private var itemCount = -1
-    private var loading = false
+    private var pagingSize = -1
+    private var isPaging = false
 
-
-    private fun firstItemResult(studyList: List<StudyItem>): List<StudyItem> {
+    private fun firstItemResult(studyList: List<StudyItem>): MutableList<StudyItem> {
         val list: MutableList<StudyItem> = mutableListOf()
-        moreItemSize = VISIBLE_ITEM_SIZE
-        itemCount = 0
-        loading = false
         allList.clear()
         allList.addAll(studyList)
-        totalSize = studyList.size
 
-        return if (totalSize <= VISIBLE_ITEM_SIZE) {
-            studyList
-        } else {
-            loading = true
-            for (i in 0 until VISIBLE_ITEM_SIZE) {
-                itemCount++
-                list.add(allList[i])
+        studyList.forEach { studyItem ->
+            if (studyItem.isPaging) {
+                isPaging = true
+                return@forEach
+            } else {
+                list.add(studyItem)
             }
-            list
         }
+        pagingSize = list.size
+        return list
     }
 
-    private fun scrollMoreItem(): String {
-        val list = mutableListOf<Int>()
-        moreItemSize += VISIBLE_ITEM_SIZE
+    private fun scrollMoreItem(startSize: Int): List<Int> {
+        val scrollIdList = mutableListOf<Int>()
+        val endSize = startSize + pagingSize
         return when {
-            moreItemSize <= totalSize -> {
-                for (i in itemCount until itemCount + VISIBLE_ITEM_SIZE) {
-                    itemCount++
-                    list.add(allList[i].id)
+            endSize <= allList.size -> {
+                for (i in startSize until endSize) {
+                    scrollIdList.add(allList[i].id)
                 }
-                list.joinToString(",")
-            }
-            moreItemSize > totalSize -> {
-                loading = false
-                for (i in itemCount until allList.size) {
-                    itemCount++
-                    list.add(allList[i].id)
-                }
+                scrollIdList
 
-                list.joinToString(",")
+            }
+            endSize > allList.size -> {
+                isPaging = false
+                for (i in startSize until allList.size) {
+                    scrollIdList.add(allList[i].id)
+                }
+                scrollIdList
             }
             else -> {
-                loading = false
+                isPaging = false
                 error("validation error")
             }
         }
     }
 
     fun getStudyList(category: String, sort: String) {
-        compositeDisposable += studyApi
+        compositeDisposable += studyRepository
             .getStudyList(
-                bearerToken = AuthHolder.bearerToken,
                 category = category,
                 sort = sort
             )
+            .map {
+                it.map { studyResponse ->
+                    studyResponse.toStudyItem()
+                }
+            }
             .networkSchedulers()
             .subscribe({
                 Logger.d("$it")
-                if (it.data != null) {
-                    val studyList =
-                        firstItemResult(
-                            it.data.map { studyResponse ->
-                                studyResponse.toStudyItem()
-                            }
-                        )
-                    _studyList.value = studyList
-                }
+                _studyList.value = firstItemResult(it)
             }, {
                 Logger.d("$it")
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
@@ -107,18 +89,21 @@ class StudyListViewModel @ViewModelInject constructor(private val studyApi: Stud
             })
     }
 
-    fun getStudyListPaging() {
-        if (loading) {
-            compositeDisposable += studyApi
-                .getStudy(
-                    bearerToken = AuthHolder.bearerToken,
-                    studyIds = scrollMoreItem()
+    fun getStudyListPaging(sort: String, itemCount: Int) {
+        if (isPaging) {
+            compositeDisposable += studyRepository
+                .getStudyPagingList(
+                    sort = sort,
+                    studyIds = scrollMoreItem(itemCount)
                 )
-                .networkSchedulers()
-                .subscribe({
-                    _scrollItem.value = it.data?.map { studyResponse ->
+                .map {
+                    it.map { studyResponse ->
                         studyResponse.toStudyItem()
                     }
+                }
+                .networkSchedulers()
+                .subscribe({
+                    _studyList.value = _studyList.value?.plus(it)
                     Logger.d("$it")
                 }, {
                     Logger.d("$it")
@@ -128,9 +113,5 @@ class StudyListViewModel @ViewModelInject constructor(private val studyApi: Stud
                     }
                 })
         }
-    }
-
-    companion object {
-        private const val VISIBLE_ITEM_SIZE = 10
     }
 }

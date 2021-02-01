@@ -42,19 +42,13 @@ data class StudyDetailResponse(
             category = category.orEmpty(),
             title = title.orEmpty(),
             introduce = introduce.orEmpty(),
-            image = image,
+            image = image.orEmpty(),
             progress = progress.orEmpty(),
             studyTime = studyTime.orEmpty(),
-            snsNotion = snsNotion,
-            snsEvernote = snsEvernote,
-            snsWeb = snsWeb,
-            locationItem = (locationResponse?.toLocationItem()) ?: LocationItem(
-                latitude = "",
-                longitude = "",
-                addressName = "",
-                placeName = null,
-                locationDetail = null
-            ),
-            authority = authority
+            snsNotion = snsNotion.orEmpty(),
+            snsEvernote = snsEvernote.orEmpty(),
+            snsWeb = snsWeb.orEmpty(),
+            locationItem = (locationResponse?.toLocationItem()) ?: LocationItem(),
+            authority = authority.orEmpty()
         )
 }

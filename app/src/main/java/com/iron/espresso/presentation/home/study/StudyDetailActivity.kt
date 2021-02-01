@@ -5,22 +5,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.request.RequestOptions
-import com.iron.espresso.AuthHolder
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iron.espresso.R
+import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
+import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.setCircleImage
+import com.iron.espresso.ext.setRadiusImage
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.item_member.view.member_image
 
 @AndroidEntryPoint
 class StudyDetailActivity :
@@ -37,54 +40,50 @@ class StudyDetailActivity :
         val studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
         viewModel.getStudy(studyId)
 
-        viewModel.studyDetail.observe(this, Observer { studyDetail ->
-            binding.introduceDetail.text = studyDetail.introduce
-            binding.proceedDetail.text = studyDetail.progress
-            binding.timeDetail.text = studyDetail.studyTime
-            binding.placeDetail.text = studyDetail.locationItem.run {
-                "$addressName $placeName"
-            }
-            binding.numberMember.text = studyDetail.participateItem.size.toString()
+        binding.joinButton.setOnClickListener {
+            showApplyDialog(studyId)
+        }
 
-            Glide.with(this)
-                .load(
-                    if (studyDetail.image.isNullOrEmpty()) {
-                        R.drawable.dummy_image
-                    } else {
-                        GlideUrl(
-                            studyDetail.image,
-                            LazyHeaders.Builder()
-                                .addHeader("Authorization", AuthHolder.bearerToken)
-                                .build()
-                        )
-                    }
-                )
-                .error(R.drawable.dummy_image)
-                .into(binding.image)
+        viewModel.emptyCheckMessage.observe(this, EventObserver {
+            Toast.makeText(this, resources.getString(it.resId), Toast.LENGTH_SHORT).show()
+            if (it == ValidationInputText.SUCCESS) {
+                visibleBtn(AUTHORITY_APPLIER)
+            }
+        })
+
+        viewModel.toastMessage.observe(this, EventObserver {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
+
+        viewModel.studyDetail.observe(this, Observer { studyDetail ->
+            visibleBtn(studyDetail.authority)
+            binding.run {
+                introduceDetail.text = studyDetail.introduce
+                proceedDetail.text = studyDetail.progress
+                timeDetail.text = studyDetail.studyTime
+                placeDetail.text = studyDetail.locationItem.run {
+                    "$addressName $placeName"
+                }
+                numberMember.text = studyDetail.participateItem.size.toString()
+
+                if (studyDetail.image.isNotEmpty()) {
+                    image.setRadiusImage(studyDetail.image)
+                }
+            }
 
             /* 구성원 수 만큼 동적 생성 */
             studyDetail.participateItem.forEach { memberList ->
                 val memberView = LayoutInflater.from(this)
                     .inflate(R.layout.item_member, binding.memberContainer, false)
 
-                memberView.findViewById<TextView>(R.id.member_nickname).text = memberList.nickname
+                val memberNickname: TextView = memberView.findViewById(R.id.member_nickname)
+                val memberImage: ImageView = memberView.findViewById(R.id.member_image)
 
-                Glide.with(this)
-                    .load(
-                        if (memberList.image.isNullOrEmpty()) {
-                            R.drawable.dummy_image
-                        } else {
-                            GlideUrl(
-                                memberList.image,
-                                LazyHeaders.Builder()
-                                    .addHeader("Authorization", AuthHolder.bearerToken)
-                                    .build()
-                            )
-                        }
-                    )
-                    .apply(RequestOptions.circleCropTransform())
-                    .error(R.drawable.dummy_image)
-                    .into(memberView.member_image)
+                memberNickname.text = memberList.nickname
+
+                if (!memberList.image.isNullOrEmpty()) {
+                    memberImage.setCircleImage(memberList.image)
+                }
 
                 binding.memberContainer.addView(memberView)
             }
@@ -106,6 +105,38 @@ class StudyDetailActivity :
         })
     }
 
+    private fun visibleBtn(authority: String) {
+        when (authority) {
+            AUTHORITY_APPLIER -> {
+                binding.joinButton.visibility = View.INVISIBLE
+                binding.joiningButton.visibility = View.VISIBLE
+            }
+            AUTHORITY_REJECT -> {
+
+            }
+            else -> {
+                binding.joinButton.visibility = View.VISIBLE
+                binding.joiningButton.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    private fun showApplyDialog(studyId: Int) {
+        val applyDialog = layoutInflater.inflate(R.layout.view_apply_study, null)
+        val messageInputView: EditText = applyDialog.findViewById(R.id.message_input_view)
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(resources.getString(R.string.apply_title))
+            .setMessage(resources.getString(R.string.apply_content))
+            .setView(applyDialog)
+            .setNegativeButton(resources.getString(R.string.cancel)) { _, _ ->
+            }
+            .setPositiveButton(resources.getString(R.string.apply)) { _, _ ->
+                viewModel.registerApply(studyId, "${messageInputView.text}")
+            }
+            .show()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -118,8 +149,10 @@ class StudyDetailActivity :
     companion object {
         private const val STUDY_ID = "studyId"
         private const val DEFAULT_VALUE = -1
+        private const val AUTHORITY_APPLIER = "applier"
+        private const val AUTHORITY_REJECT = "reject"
 
-        fun getInstance(context: Context, studyId: Int) =
+        fun getIntent(context: Context, studyId: Int) =
             Intent(context, StudyDetailActivity::class.java)
                 .putExtra(STUDY_ID, studyId)
     }
