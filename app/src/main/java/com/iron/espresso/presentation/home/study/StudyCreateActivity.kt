@@ -46,11 +46,6 @@ class StudyCreateActivity :
             supportPostponeEnterTransition()
         }
 
-        ObjectAnimator.ofFloat(binding.titleInputView, View.ALPHA, 0.2f, 1.0f).apply {
-            duration = 1500
-            start()
-        }
-
         binding.introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
         binding.proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
 
