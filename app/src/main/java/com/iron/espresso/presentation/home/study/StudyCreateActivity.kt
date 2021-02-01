@@ -18,6 +18,7 @@ import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.load
+import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,18 +85,14 @@ class StudyCreateActivity :
             }
 
             emptyCheckMessage.observe(this@StudyCreateActivity, EventObserver { message ->
-                Toast.makeText(
-                    this@StudyCreateActivity,
-                    resources.getString(message.resId),
-                    Toast.LENGTH_SHORT
-                ).show()
+                toast(message.resId)
                 if (message == ValidationInputText.REGISTER_STUDY) {
                     finish()
                 }
             })
 
             toastMessage.observe(this@StudyCreateActivity, EventObserver { message ->
-                Toast.makeText(this@StudyCreateActivity, message, Toast.LENGTH_SHORT).show()
+                toast(message)
             })
         }
     }
@@ -120,7 +117,6 @@ class StudyCreateActivity :
         if (requestCode == REQ_CODE && resultCode == RESULT_OK) {
             localItem = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
             viewModel.addItems(localItem)
-            Log.d(LOCAL_ITEM, localItem.toString())
         }
     }
 
