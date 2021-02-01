@@ -86,6 +86,7 @@
     <string name="join_study">스터디 참여하기</string>
     <string name="member_list">구성원</string>
     <string name="study_proceed">스터디 진행</string>
+    <string name="study_introduce">스터디 소개</string>
     <string name="time">시간</string>
     <string name="place">장소</string>
 
@@ -118,5 +119,7 @@
     <string name="apply_content">가입인사를 작성해보세요</string>
     <string name="cancel">취소</string>
     <string name="apply">신청</string>
+    <string name="empty_place_detail">상세주소를 입력하세요</string>
+    <string name="complete">완료</string>
 
 </resources>
