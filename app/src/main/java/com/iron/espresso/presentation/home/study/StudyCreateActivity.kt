@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.study
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -31,7 +30,7 @@ class StudyCreateActivity :
 
     private var localItem: LocalItem? = null
 
-    private val image by lazy {
+    private val categoryImage by lazy {
         intent.getIntExtra(KEY, 0)
     }
 
@@ -41,53 +40,63 @@ class StudyCreateActivity :
         setToolbarTitle(TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
 
-        binding.image.transitionName = image.toString()
-        binding.image.load(image, true) {
-            supportPostponeEnterTransition()
-        }
-
-        binding.introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
-        binding.proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
-
-        binding.placeContainer.setOnClickListener {
-            startActivityForResult(SearchPlaceActivity.getInstance(this), REQ_CODE)
-        }
-
-        viewModel.localItem.observe(this) { localItem ->
-            val placeDetailText = localItem.addressName + " " + localItem.placeName
-            binding.placeDetail.text = placeDetailText
-            binding.placeDetailInputView.setText(localItem.locationDetail)
-        }
-
-        viewModel.emptyCheckMessage.observe(this, EventObserver { message ->
-            Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
-            if (message == ValidationInputText.REGISTER_STUDY) {
-                finish()
+        binding.run {
+            image.transitionName = categoryImage.toString()
+            image.load(categoryImage, true) {
+                supportPostponeEnterTransition()
             }
-        })
 
-        viewModel.toastMessage.observe(this, EventObserver { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        })
+            introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
+            proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
 
-
-        binding.buttonSignUp.setOnClickListener {
-            localItem?.locationDetail = binding.placeDetailInputView.text.toString()
-
-            viewModel.createStudy(
-                CreateStudyItem(
-                    category = "android",
-                    title = binding.titleInputView.text.toString(),
-                    introduce = binding.introduceInputView.text.toString(),
-                    progress = binding.proceedInputView.text.toString(),
-                    studyTime = binding.timeInputView.text.toString(),
-                    localItem = localItem,
-                    snsNotion = binding.notionInputView.inputUrl.text.toString(),
-                    snsEverNote = binding.evernoteInputView.inputUrl.text.toString(),
-                    snsWeb = binding.webInputView.inputUrl.text.toString(),
-                    image = null
+            placeContainer.setOnClickListener {
+                startActivityForResult(
+                    SearchPlaceActivity.getInstance(this@StudyCreateActivity),
+                    REQ_CODE
                 )
-            )
+            }
+
+            buttonSignUp.setOnClickListener {
+                localItem?.locationDetail = placeDetailInputView.text.toString()
+
+                viewModel.createStudy(
+                    CreateStudyItem(
+                        category = "android",
+                        title = titleInputView.text.toString(),
+                        introduce = introduceInputView.text.toString(),
+                        progress = proceedInputView.text.toString(),
+                        studyTime = timeInputView.text.toString(),
+                        localItem = localItem,
+                        snsNotion = notionInputView.inputUrl.text.toString(),
+                        snsEverNote = evernoteInputView.inputUrl.text.toString(),
+                        snsWeb = webInputView.inputUrl.text.toString(),
+                        image = null
+                    )
+                )
+            }
+        }
+
+        viewModel.run {
+            localItem.observe(this@StudyCreateActivity) { localItem ->
+                val placeDetailText = localItem.addressName + " " + localItem.placeName
+                binding.placeDetail.text = placeDetailText
+                binding.placeDetailInputView.setText(localItem.locationDetail)
+            }
+
+            emptyCheckMessage.observe(this@StudyCreateActivity, EventObserver { message ->
+                Toast.makeText(
+                    this@StudyCreateActivity,
+                    resources.getString(message.resId),
+                    Toast.LENGTH_SHORT
+                ).show()
+                if (message == ValidationInputText.REGISTER_STUDY) {
+                    finish()
+                }
+            })
+
+            toastMessage.observe(this@StudyCreateActivity, EventObserver { message ->
+                Toast.makeText(this@StudyCreateActivity, message, Toast.LENGTH_SHORT).show()
+            })
         }
     }
 
