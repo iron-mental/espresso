@@ -27,18 +27,27 @@ class SearchFragment :
 
         viewModel.getHotKeywordList()
 
-        viewModel.hotKeywordList.observe(requireActivity(), { hotKeywordList ->
+        viewModel.hotKeywordList.observe(viewLifecycleOwner, { hotKeywordList ->
             // 핫 키워드 버튼 클릭 시 검색 창 text 대응
             hotKeywordList.forEach { keyWord ->
                 hotKeywordButton = Chip(context).apply {
                     text = keyWord.title
                     setOnClickListener {
-                        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+                        hotKeywordClick(text.toString())
                     }
                 }
                 binding.hotKeywordGroup.addView(hotKeywordButton)
             }
         })
+    }
+    private fun hotKeywordClick(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        parentFragmentManager.beginTransaction()
+            .replace(
+                R.id.search_frg_container,
+                SearchResultFragment.newInstance(text)
+            )
+            .commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
