@@ -34,21 +34,19 @@ class SearchStudyActivity :
             )
             requestFocus()
             imeOptions = EditorInfo.IME_ACTION_SEARCH
-            setOnEditorActionListener { _, _, _ ->
-                var handled = false     //키보드 내림
-                if (text.isNotEmpty()) {
-                    Logger.d("성공")
-                    fragmentManager.beginTransaction()
-                        .replace(
-                            R.id.search_frg_container,
-                            SearchResultFragment.newInstance(text.toString())
-                        )
-                        .commit()
+            setOnEditorActionListener { _, actionId, keyEvent ->
+                if (text.isNotEmpty() && actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    search(text.toString())
+                    val inputMethodManager =
+                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+                    Logger.d("1")
+                    true
                 } else {
-                    Logger.d("실패")
-                    handled = true      //키보드 유지
+                    Logger.d("2")
+                    false
                 }
-                handled
+
             }
         }
 
