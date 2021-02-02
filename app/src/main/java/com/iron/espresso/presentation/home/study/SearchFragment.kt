@@ -33,7 +33,7 @@ class SearchFragment :
                 hotKeywordButton = Chip(context).apply {
                     text = keyWord.title
                     setOnClickListener {
-                        hotKeywordClick(text.toString())
+                        hotKeywordSearch(text.toString())
                     }
                 }
                 binding.hotKeywordGroup.addView(hotKeywordButton)
@@ -41,8 +41,8 @@ class SearchFragment :
         })
     }
 
-    private fun hotKeywordClick(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    private fun hotKeywordSearch(text: String) {
+
         parentFragmentManager.beginTransaction()
             .replace(
                 R.id.search_frg_container,

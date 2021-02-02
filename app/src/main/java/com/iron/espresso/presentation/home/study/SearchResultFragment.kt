@@ -80,16 +80,6 @@ class SearchResultFragment :
         )
     }
 
-//    override fun onBackPressed() {
-//        if (binding.searchContainer.visibility == View.VISIBLE) {
-//            super.onBackPressed()
-//        } else {
-//            binding.searchContainer.visibility = View.VISIBLE
-//            binding.studyList.visibility = View.GONE
-//            searchEditText.setText("")
-//        }
-//    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

@@ -4,23 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySearchStudyBinding
-import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
-import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
-import com.iron.espresso.presentation.home.study.list.NewListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,7 +24,6 @@ class SearchStudyActivity :
         super.onCreate(savedInstanceState)
 
         setNavigationIcon(R.drawable.ic_back_24)
-        val fragmentManager = supportFragmentManager
 
         searchEditText = EditText(this).apply {
             hint = context.getString(R.string.search_hint)
@@ -64,11 +54,21 @@ class SearchStudyActivity :
 
         setCustomView(searchEditText)
 
-        fragmentManager.beginTransaction()
+        supportFragmentManager.beginTransaction()
             .replace(
                 R.id.search_frg_container,
                 SearchFragment.newInstance()
             )
+            .commit()
+    }
+
+    private fun search(text: String) {
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.search_frg_container,
+                SearchResultFragment.newInstance(text)
+            )
+            .addToBackStack(null)
             .commit()
     }
 
