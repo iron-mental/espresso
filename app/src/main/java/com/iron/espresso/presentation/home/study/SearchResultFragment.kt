@@ -1,23 +1,22 @@
 package com.iron.espresso.presentation.home.study
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
-import com.iron.espresso.databinding.ActivitySearchStudyBinding
+import com.iron.espresso.databinding.FragmentSearchResultBinding
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchResultFragment :
-    BaseFragment<ActivitySearchStudyBinding>(R.layout.activity_search_study) {
+    BaseFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result) {
 
     private val viewModel by viewModels<SearchStudyViewModel>()
     private val studyListAdapter = StudyListAdapter()
@@ -25,11 +24,11 @@ class SearchResultFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.studyList.adapter = studyListAdapter
+        val keyword = arguments?.getString(SEARCH_KEYWORD).orEmpty()
 
-        binding.placeSearchButton.setOnClickListener {
-            Toast.makeText(context, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
-        }
+        viewModel.showSearchStudyList(keyword)
+
+        binding.studyList.adapter = studyListAdapter
 
         binding.swipeRefresh.apply {
             setOnRefreshListener {
@@ -73,13 +72,23 @@ class SearchResultFragment :
                         == studyListAdapter.itemCount - 1
                     ) {
                         if (studyListAdapter.itemCount >= 10) {
-                            viewModel.getSearchStudyListPaging("new", studyListAdapter.itemCount )
+                            viewModel.getSearchStudyListPaging("new", studyListAdapter.itemCount)
                         }
                     }
                 }
             }
         )
     }
+
+//    override fun onBackPressed() {
+//        if (binding.searchContainer.visibility == View.VISIBLE) {
+//            super.onBackPressed()
+//        } else {
+//            binding.searchContainer.visibility = View.VISIBLE
+//            binding.studyList.visibility = View.GONE
+//            searchEditText.setText("")
+//        }
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -90,7 +99,12 @@ class SearchResultFragment :
     }
 
     companion object {
-        fun getInstance(context: Context) =
-            Intent(context, SearchStudyActivity::class.java)
+        private const val SEARCH_KEYWORD = "searchKeyword"
+        fun newInstance(searchKeyword: String) =
+            SearchResultFragment().apply {
+                arguments = Bundle().apply {
+                    putString(SEARCH_KEYWORD, searchKeyword)
+                }
+            }
     }
 }
