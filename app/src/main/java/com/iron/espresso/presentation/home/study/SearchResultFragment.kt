@@ -32,7 +32,7 @@ class SearchResultFragment :
 
         binding.swipeRefresh.apply {
             setOnRefreshListener {
-                viewModel.showSearchStudyList("강")
+                viewModel.showSearchStudyList(keyword)
 
                 this.isRefreshing = false
             }
