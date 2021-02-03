@@ -1,13 +1,11 @@
 package com.iron.espresso.model.source.remote
 
 import com.iron.espresso.AuthHolder
-import com.iron.espresso.Logger
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.study.HotSearchKeywordResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import io.reactivex.Single
-import retrofit2.http.Header
-import retrofit2.http.Query
 import javax.inject.Inject
 
 
@@ -30,9 +28,13 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
 
     override fun getSearchStudyList(
         word: String
-    ): Single<BaseResponse<StudyListResponse>> {
-        return studyApi.getSearchStudyList(AuthHolder.bearerToken, word)
-    }
+    ): Single<BaseResponse<StudyListResponse>> =
+        studyApi.getSearchStudyList(
+            word = word
+        )
+
+    override fun getHotSearchKeyword(): Single<BaseResponse<HotSearchKeywordResponse>> =
+        studyApi.getHotSearchKeyword()
 }
 
 interface StudyRemoteDataSource {
@@ -49,4 +51,6 @@ interface StudyRemoteDataSource {
     fun getSearchStudyList(
         word: String
     ): Single<BaseResponse<StudyListResponse>>
+
+    fun getHotSearchKeyword(): Single<BaseResponse<HotSearchKeywordResponse>>
 }
