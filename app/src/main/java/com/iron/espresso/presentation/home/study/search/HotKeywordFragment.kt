@@ -13,12 +13,12 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.chip.Chip
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
-import com.iron.espresso.databinding.FragmentSearchBinding
+import com.iron.espresso.databinding.FragmentHotKeywordBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HotKeywordFragment :
-    BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
+    BaseFragment<FragmentHotKeywordBinding>(R.layout.fragment_hot_keyword) {
 
     private val viewModel by viewModels<HotKeywordViewModel>()
     private lateinit var hotKeywordButton: Chip
@@ -58,20 +58,22 @@ class HotKeywordFragment :
             Toast.makeText(context, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.getHotKeywordList()
+        viewModel.run {
+            getHotKeywordList()
 
-        viewModel.hotKeywordList.observe(viewLifecycleOwner, { hotKeywordList ->
-            // 핫 키워드 버튼 클릭 시 검색 창 text 대응
-            hotKeywordList.forEach { keyWord ->
-                hotKeywordButton = Chip(context).apply {
-                    text = keyWord.title
-                    setOnClickListener {
-                        keywordSearch(text.toString())
+            hotKeywordList.observe(viewLifecycleOwner, { hotKeywordList ->
+                // 핫 키워드 버튼 클릭 시 검색 창 text 대응
+                hotKeywordList.forEach { keyWord ->
+                    hotKeywordButton = Chip(context).apply {
+                        text = keyWord.title
+                        setOnClickListener {
+                            keywordSearch(text.toString())
+                        }
                     }
+                    binding.hotKeywordGroup.addView(hotKeywordButton)
                 }
-                binding.hotKeywordGroup.addView(hotKeywordButton)
-            }
-        })
+            })
+        }
     }
 
     private fun keywordSearch(text: String) {

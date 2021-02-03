@@ -58,22 +58,26 @@ class SearchResultFragment :
         }
 
         baseActivity?.setCustomView(searchEditText)
+        scrollListener()
 
-        viewModel.showSearchStudyList(keyword)
+        binding.run {
+            studyList.adapter = studyListAdapter
 
-        binding.studyList.adapter = studyListAdapter
+            swipeRefresh.apply {
+                setOnRefreshListener {
+                    viewModel.showSearchStudyList(keyword)
 
-        binding.swipeRefresh.apply {
-            setOnRefreshListener {
-                viewModel.showSearchStudyList(keyword)
-
-                this.isRefreshing = false
+                    this.isRefreshing = false
+                }
             }
         }
 
-        viewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
-            studyListAdapter.setItemList(studyList)
-        })
+        viewModel.run {
+            showSearchStudyList(keyword)
+            studyList.observe(viewLifecycleOwner, Observer { studyList ->
+                studyListAdapter.setItemList(studyList)
+            })
+        }
 
         studyListAdapter.setItemClickListener { studyItem ->
             if (studyItem.isMember) {
@@ -88,8 +92,6 @@ class SearchResultFragment :
                 startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
             }
         }
-
-        scrollListener()
     }
 
     private fun scrollListener() {

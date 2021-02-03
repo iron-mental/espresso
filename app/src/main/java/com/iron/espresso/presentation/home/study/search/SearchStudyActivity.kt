@@ -36,7 +36,7 @@ class SearchStudyActivity :
     }
 
     companion object {
-        fun getInstance(context: Context) =
+        fun getIntent(context: Context) =
             Intent(context, SearchStudyActivity::class.java)
     }
 }
