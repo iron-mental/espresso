@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.study
+package com.iron.espresso.presentation.home.study.search
 
 import android.content.Context
 import android.os.Bundle
@@ -17,10 +17,10 @@ import com.iron.espresso.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment :
+class HotKeywordFragment :
     BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
-    private val viewModel by viewModels<SearchStudyViewModel>()
+    private val viewModel by viewModels<HotKeywordViewModel>()
     private lateinit var hotKeywordButton: Chip
     private lateinit var searchEditText: EditText
 
@@ -94,6 +94,6 @@ class SearchFragment :
 
     companion object {
         fun newInstance() =
-            SearchFragment()
+            HotKeywordFragment()
     }
 }

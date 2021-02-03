@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.home.study.SearchStudyActivity">
+        tools:context=".presentation.home.study.search.SearchStudyActivity">
 
         <LinearLayout
             android:id="@+id/search_container"

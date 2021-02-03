@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.study
+package com.iron.espresso.presentation.home.study.search
 
 import android.content.Context
 import android.content.Intent
@@ -21,7 +21,7 @@ class SearchStudyActivity :
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.search_frg_container,
-                SearchFragment.newInstance()
+                HotKeywordFragment.newInstance()
             )
             .commit()
     }

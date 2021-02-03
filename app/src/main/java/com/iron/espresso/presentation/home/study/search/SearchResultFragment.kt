@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.study
+package com.iron.espresso.presentation.home.study.search
 
 import android.content.Context
 import android.os.Bundle
@@ -16,6 +16,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSearchResultBinding
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
+import com.iron.espresso.presentation.home.study.StudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchResultFragment :
     BaseFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result) {
 
-    private val viewModel by viewModels<SearchStudyViewModel>()
+    private val viewModel by viewModels<StudyResultViewModel>()
     val studyListAdapter = StudyListAdapter()
     private lateinit var searchEditText: EditText
 
