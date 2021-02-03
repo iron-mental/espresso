@@ -164,5 +164,5 @@ interface StudyApi {
     @GET("/v1/study/ranking")
     fun getHotSearchKeyword(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-    ): Single<BaseResponse<HotSearchKeywordResponse>>
+    ): Single<BaseResponse<List<HotSearchKeywordResponse>>>
 }

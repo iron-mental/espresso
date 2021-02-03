@@ -33,7 +33,7 @@ class StudyRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getHotSearchKeyword(): Single<HotSearchKeywordResponse> {
+    override fun getHotSearchKeyword(): Single<List<HotSearchKeywordResponse>> {
         return remoteDataSource.getHotSearchKeyword()
             .map {
                 it.data

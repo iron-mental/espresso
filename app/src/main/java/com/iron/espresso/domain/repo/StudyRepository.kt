@@ -11,5 +11,5 @@ interface StudyRepository {
 
     fun getSearchStudyList(word: String): Single<StudyListResponse>
 
-    fun getHotSearchKeyword(): Single<HotSearchKeywordResponse>
+    fun getHotSearchKeyword(): Single<List<HotSearchKeywordResponse>>
 }

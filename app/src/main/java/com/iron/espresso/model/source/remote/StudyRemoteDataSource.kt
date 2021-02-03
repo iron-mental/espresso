@@ -33,7 +33,7 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
             word = word
         )
 
-    override fun getHotSearchKeyword(): Single<BaseResponse<HotSearchKeywordResponse>> =
+    override fun getHotSearchKeyword(): Single<BaseResponse<List<HotSearchKeywordResponse>>> =
         studyApi.getHotSearchKeyword()
 }
 
@@ -52,5 +52,5 @@ interface StudyRemoteDataSource {
         word: String
     ): Single<BaseResponse<StudyListResponse>>
 
-    fun getHotSearchKeyword(): Single<BaseResponse<HotSearchKeywordResponse>>
+    fun getHotSearchKeyword(): Single<BaseResponse<List<HotSearchKeywordResponse>>>
 }
