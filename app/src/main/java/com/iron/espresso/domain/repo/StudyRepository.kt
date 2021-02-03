@@ -7,4 +7,6 @@ interface StudyRepository {
     fun getStudyPagingList(sort: String, studyIds: List<Int>): Single<StudyListResponse>
 
     fun getStudyList(category: String, sort: String): Single<StudyListResponse>
+
+    fun getSearchStudyList(word: String): Single<StudyListResponse>
 }

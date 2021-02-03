@@ -1,6 +1,7 @@
 package com.iron.espresso.model.repo
 
 import com.iron.espresso.domain.repo.StudyRepository
+import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import com.iron.espresso.model.source.remote.StudyRemoteDataSource
 import io.reactivex.Single
@@ -19,6 +20,13 @@ class StudyRepositoryImpl @Inject constructor(
 
     override fun getStudyList(category: String, sort: String): Single<StudyListResponse> {
         return remoteDataSource.getStudyList(category, sort)
+            .map {
+                it.data
+            }
+    }
+
+    override fun getSearchStudyList(word: String): Single<StudyListResponse> {
+        return remoteDataSource.getSearchStudyList(word)
             .map {
                 it.data
             }

@@ -6,6 +6,8 @@ import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import io.reactivex.Single
+import retrofit2.http.Header
+import retrofit2.http.Query
 import javax.inject.Inject
 
 
@@ -25,6 +27,12 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     ): Single<BaseResponse<StudyListResponse>> {
         return studyApi.getStudyList(AuthHolder.bearerToken, category, sort)
     }
+
+    override fun getSearchStudyList(
+        word: String
+    ): Single<BaseResponse<StudyListResponse>> {
+        return studyApi.getSearchStudyList(AuthHolder.bearerToken, word)
+    }
 }
 
 interface StudyRemoteDataSource {
@@ -36,5 +44,9 @@ interface StudyRemoteDataSource {
     fun getStudyList(
         category: String,
         sort: String // new, length
+    ): Single<BaseResponse<StudyListResponse>>
+
+    fun getSearchStudyList(
+        word: String
     ): Single<BaseResponse<StudyListResponse>>
 }

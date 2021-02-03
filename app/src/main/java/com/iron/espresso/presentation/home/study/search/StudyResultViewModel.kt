@@ -3,17 +3,16 @@ package com.iron.espresso.presentation.home.study.search
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyItem
+import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.api.StudyApi
 import retrofit2.HttpException
 
-class StudyResultViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
+class StudyResultViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
     BaseViewModel() {
 
     private val _studyList = MutableLiveData<List<StudyItem>>()
@@ -66,21 +65,18 @@ class StudyResultViewModel @ViewModelInject constructor(private val studyApi: St
     }
 
     fun showSearchStudyList(word: String) {
-        compositeDisposable += studyApi
+        compositeDisposable += studyRepository
             .getSearchStudyList(
-                bearerToken = AuthHolder.bearerToken,
                 word = word
             )
+            .map {
+                it.map { studyResponse ->
+                    studyResponse.toStudyItem()
+                }
+            }
             .networkSchedulers()
             .subscribe({
-                if (it.data != null) {
-                    _studyList.value =
-                        firstItemResult(
-                            it.data.map { studyResponse ->
-                                studyResponse.toStudyItem()
-                            }
-                        )
-                }
+                _studyList.value = firstItemResult(it)
                 Logger.d("$it")
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
@@ -92,16 +88,19 @@ class StudyResultViewModel @ViewModelInject constructor(private val studyApi: St
 
     fun getSearchStudyListPaging(sort: String, itemCount: Int) {
         if (isPaging) {
-            compositeDisposable += studyApi
+            compositeDisposable += studyRepository
                 .getStudyPagingList(
                     sort = sort,
-                    studyIds = scrollMoreItem(itemCount).joinToString(",")
+                    studyIds = scrollMoreItem(itemCount)
                 )
+                .map {
+                    it.map { studyResponse ->
+                        studyResponse.toStudyItem()
+                    }
+                }
                 .networkSchedulers()
                 .subscribe({
-                    _studyList.value = _studyList.value?.plus(it.data!!.map { studyResponse ->
-                        studyResponse.toStudyItem()
-                    })
+                    _studyList.value = _studyList.value?.plus(it)
                     Logger.d("$it")
                 }, {
                     Logger.d("$it")
