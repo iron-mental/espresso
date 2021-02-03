@@ -1,8 +1,13 @@
 package com.iron.espresso.presentation.home.study
 
+import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,12 +24,39 @@ class SearchResultFragment :
     BaseFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result) {
 
     private val viewModel by viewModels<SearchStudyViewModel>()
-    private val studyListAdapter = StudyListAdapter()
+    val studyListAdapter = StudyListAdapter()
+    private lateinit var searchEditText: EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val keyword = arguments?.getString(SEARCH_KEYWORD).orEmpty()
+
+        searchEditText = EditText(context).apply {
+            hint = context.getString(R.string.search_hint)
+            setSingleLine()
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            requestFocus()
+            imeOptions = EditorInfo.IME_ACTION_SEARCH
+            setOnEditorActionListener { _, actionId, _ ->
+                if (text.isNotEmpty() && actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    val inputMethodManager =
+                        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+
+                    viewModel.showSearchStudyList(keyword)
+                    true
+                } else {
+                    false
+                }
+
+            }
+        }
+
+        baseActivity?.setCustomView(searchEditText)
 
         viewModel.showSearchStudyList(keyword)
 
