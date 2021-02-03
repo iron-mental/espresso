@@ -65,7 +65,7 @@ class HotKeywordFragment :
                 // 핫 키워드 버튼 클릭 시 검색 창 text 대응
                 hotKeywordList.forEach { keyWord ->
                     hotKeywordButton = Chip(context).apply {
-                        text = keyWord.title
+                        text = keyWord.word
                         setOnClickListener {
                             keywordSearch(text.toString())
                         }
