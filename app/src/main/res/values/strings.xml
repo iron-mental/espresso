@@ -1,5 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">terminal</string>
 
     <string name="setting">설정</string>
@@ -41,6 +40,7 @@
 
 
     <string name="my_study_explain1">내 스터디</string>
+    <string name="edit_study">스터디 편집</string>
 
 
     <string name="profile_title">프로필</string>
