@@ -62,7 +62,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
                     if (layoutManager.findLastCompletelyVisibleItemPosition()
                         == studyListAdapter.itemCount - 1
                     ) {
-                        viewModel.getStudyListPaging(SORT_LENGTH, studyListAdapter.itemCount)
+                        viewModel.getStudyListPaging(OPTION, studyListAdapter.itemCount)
                     }
                 }
             }
@@ -71,6 +71,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
 
     companion object {
         private const val SORT_LENGTH = "length"
+        private const val OPTION = "distance"
         fun newInstance() =
             LocationFragment()
     }
