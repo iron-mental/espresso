@@ -1,12 +1,7 @@
 package com.iron.espresso.presentation.home.study.search
 
-import android.content.Context
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -32,32 +27,6 @@ class SearchResultFragment :
         super.onViewCreated(view, savedInstanceState)
 
         val keyword = arguments?.getString(SEARCH_KEYWORD).orEmpty()
-
-        searchEditText = EditText(context).apply {
-            hint = context.getString(R.string.search_hint)
-            setSingleLine()
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            requestFocus()
-            imeOptions = EditorInfo.IME_ACTION_SEARCH
-            setOnEditorActionListener { _, actionId, _ ->
-                if (text.isNotEmpty() && actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    val inputMethodManager =
-                        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-
-                    viewModel.showSearchStudyList(keyword)
-                    true
-                } else {
-                    false
-                }
-
-            }
-        }
-
-        baseActivity?.setCustomView(searchEditText)
         scrollListener()
 
         binding.run {
@@ -113,14 +82,6 @@ class SearchResultFragment :
                 }
             }
         )
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-            }
-        }
-        return true
     }
 
     companion object {

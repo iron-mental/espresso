@@ -2,7 +2,6 @@ package com.iron.espresso.presentation.home.study.search
 
 import android.content.Context
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -84,14 +83,13 @@ class HotKeywordFragment :
             )
             .addToBackStack(null)
             .commit()
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-            }
-        }
-        return true
+//        val hideFragment = parentFragmentManager.findFragmentByTag("hkf")
+//        if (hideFragment != null) {
+//            parentFragmentManager.beginTransaction()
+//                .hide(hideFragment)
+//                .commit()
+//        }
     }
 
     companion object {
