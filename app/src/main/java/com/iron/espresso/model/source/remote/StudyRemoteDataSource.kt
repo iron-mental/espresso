@@ -13,10 +13,14 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     StudyRemoteDataSource {
 
     override fun getStudyPagingList(
-        sort: String,
-        studyIds: List<Int>
+        studyIds: List<Int>,
+        option: String
     ): Single<BaseResponse<StudyListResponse>> {
-        return studyApi.getStudyPagingList(AuthHolder.bearerToken, sort, studyIds.joinToString(","))
+        return studyApi.getStudyPagingList(
+            AuthHolder.bearerToken,
+            studyIds.joinToString(","),
+            option
+        )
     }
 
     override fun getStudyList(
@@ -39,8 +43,8 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
 
 interface StudyRemoteDataSource {
     fun getStudyPagingList(
-        sort: String,
-        studyIds: List<Int>
+        studyIds: List<Int>,
+        option: String
     ): Single<BaseResponse<StudyListResponse>>
 
     fun getStudyList(

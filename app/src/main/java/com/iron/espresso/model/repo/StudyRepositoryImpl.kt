@@ -12,8 +12,8 @@ class StudyRepositoryImpl @Inject constructor(
     private val remoteDataSource: StudyRemoteDataSource
 ) : StudyRepository {
 
-    override fun getStudyPagingList(sort: String, studyIds: List<Int>): Single<StudyListResponse> {
-        return remoteDataSource.getStudyPagingList(sort, studyIds)
+    override fun getStudyPagingList(studyIds: List<Int>, option: String): Single<StudyListResponse> {
+        return remoteDataSource.getStudyPagingList(studyIds, option)
             .map {
                 it.data
             }
