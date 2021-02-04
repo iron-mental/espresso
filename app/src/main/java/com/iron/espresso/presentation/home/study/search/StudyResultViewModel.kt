@@ -86,12 +86,12 @@ class StudyResultViewModel @ViewModelInject constructor(private val studyReposit
             })
     }
 
-    fun getSearchStudyListPaging(sort: String, itemCount: Int) {
+    fun getSearchStudyListPaging(option: String, itemCount: Int) {
         if (isPaging) {
             compositeDisposable += studyRepository
                 .getStudyPagingList(
-                    sort = sort,
-                    studyIds = scrollMoreItem(itemCount)
+                    studyIds = scrollMoreItem(itemCount),
+                    option = option
                 )
                 .map {
                     it.map { studyResponse ->

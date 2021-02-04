@@ -76,7 +76,7 @@ class SearchResultFragment :
                         == studyListAdapter.itemCount - 1
                     ) {
                         if (studyListAdapter.itemCount >= 10) {
-                            viewModel.getSearchStudyListPaging("new", studyListAdapter.itemCount)
+                            viewModel.getSearchStudyListPaging(OPTION, studyListAdapter.itemCount)
                         }
                     }
                 }
@@ -86,6 +86,7 @@ class SearchResultFragment :
 
     companion object {
         private const val SEARCH_KEYWORD = "searchKeyword"
+        private const val OPTION = "default"
         fun newInstance(searchKeyword: String) =
             SearchResultFragment().apply {
                 arguments = Bundle().apply {
