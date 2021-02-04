@@ -118,5 +118,6 @@
     <string name="apply_content">가입인사를 작성해보세요</string>
     <string name="cancel">취소</string>
     <string name="apply">신청</string>
+    <string name="leave">나가기</string>
 
 </resources>
