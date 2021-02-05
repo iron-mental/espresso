@@ -1,11 +1,13 @@
 package com.iron.espresso.presentation.home.mystudy.adapter.viewholder
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.BR
 import com.iron.espresso.R
+import com.iron.espresso.data.model.MyStudyViewType
 import com.iron.espresso.databinding.ItemMystudyBinding
 import com.iron.espresso.model.response.study.MyStudyResponse
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
@@ -18,13 +20,22 @@ class MyStudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemMystudyBinding>(itemView)
 
-    fun bind(item: MyStudyResponse, itemClickListener: MyStudyAdapter.ItemClickListener) {
+    fun bind(
+        item: MyStudyResponse,
+        itemClickListener: MyStudyAdapter.ItemClickListener,
+        myStudyViewType: MyStudyViewType
+    ) {
         binding?.run {
             setVariable(BR.myStudyItem, item)
             executePendingBindings()
 
             itemView.setOnClickListener {
                 itemClickListener.onClick(item)
+            }
+            if (myStudyViewType == MyStudyViewType.EDIT) {
+                selectButton.visibility = View.VISIBLE
+            } else {
+                selectButton.visibility = View.GONE
             }
         }
     }

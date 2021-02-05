@@ -9,6 +9,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.data.model.MyStudyViewType
 import com.iron.espresso.databinding.ActivityEditMyStudyBinding
 import com.iron.espresso.ext.toast
 import com.iron.espresso.model.response.study.MyStudyResponse
@@ -34,7 +35,14 @@ class EditMyStudyActivity :
         }
 
         myStudyViewModel.studyList.observe(this, { studyList ->
+            myStudyAdapter.setMyStudyView(MyStudyViewType.EDIT)
             myStudyAdapter.replaceAll(studyList)
+        })
+
+        myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
+            override fun onClick(item: MyStudyResponse) {
+                toast("${item.title}")
+            }
         })
     }
 
