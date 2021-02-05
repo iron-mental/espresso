@@ -6,18 +6,36 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityEditMyStudyBinding
 import com.iron.espresso.ext.toast
+import com.iron.espresso.model.response.study.MyStudyResponse
+import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditMyStudyActivity :
     BaseActivity<ActivityEditMyStudyBinding>(R.layout.activity_edit_my_study) {
+
+    private val myStudyViewModel by viewModels<MyStudyViewModel>()
+    private val myStudyAdapter by lazy { MyStudyAdapter() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setToolbarTitle(resources.getString(R.string.edit_study))
         setNavigationIcon(R.drawable.ic_back_24)
+
+        binding.run {
+            rvMyStudy.adapter = myStudyAdapter
+            myStudyViewModel.showMyStudyList()
+        }
+
+        myStudyViewModel.studyList.observe(this, { studyList ->
+            myStudyAdapter.replaceAll(studyList)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
