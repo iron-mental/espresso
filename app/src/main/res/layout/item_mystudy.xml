@@ -20,14 +20,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
 
+        <CheckBox
+            android:id="@+id/select_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/image"
             android:layout_width="53dp"
             android:layout_height="53dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="15dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/select_button"
             app:layout_constraintTop_toTopOf="parent"
             bind:setUrlImg="@{myStudyItem.image}"
             bind:type="@{glideType.ROUND}" />
@@ -37,12 +46,12 @@
             android:layout_width="wrap_content"
             android:layout_height="31dp"
             android:layout_marginStart="24dp"
+            android:fontFamily="@font/noto_sans_bold"
             android:gravity="center_vertical"
             android:lineSpacingExtra="17sp"
             android:text="@{myStudyItem.sigungu}"
             android:textColor="#0047ab"
             android:textSize="14sp"
-            android:fontFamily="@font/noto_sans_bold"
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintTop_toTopOf="parent" />
 
