@@ -5,12 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityMystudyDetailBinding
+import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeFragment
@@ -39,7 +41,12 @@ class MyStudyDetailActivity :
                 override fun createFragment(position: Int): Fragment =
                     when (position) {
                         0 -> NoticeFragment.newInstance(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
-                        1 -> StudyInfoFragment.newInstance(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
+                        1 -> StudyInfoFragment.newInstance(
+                            intent.getIntExtra(
+                                STUDY_ID,
+                                DEFAULT_VALUE
+                            )
+                        )
                         2 -> ChattingFragment.newInstance()
                         else -> error("Invalid position")
                     }
@@ -53,7 +60,19 @@ class MyStudyDetailActivity :
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_profile, menu)
+        inflater.inflate(R.menu.menu_mystudy_detail, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+            R.id.leave_study -> {
+                toast("나가기 테스트")
+            }
+        }
         return true
     }
 
