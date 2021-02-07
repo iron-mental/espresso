@@ -1,15 +1,20 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.di.ApiModule
+import com.iron.espresso.domain.repo.StudyRepository
+import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
+import com.iron.espresso.ext.toErrorResponse
+import retrofit2.HttpException
 
-class MyStudyDetailViewModel : BaseViewModel() {
+class MyStudyDetailViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
+    BaseViewModel() {
 
     fun leaveStudy(studyId: Int) {
-        compositeDisposable += ApiModule.provideStudyApi()
+        compositeDisposable += studyRepository
             .leaveStudy(
                 studyId = studyId
             )
@@ -17,7 +22,8 @@ class MyStudyDetailViewModel : BaseViewModel() {
             .subscribe({
                 Logger.d("$it")
             }, {
-                Logger.d("$it")
+                val errorResponse = (it as? HttpException)?.toErrorResponse()
+                Logger.d("$errorResponse")
             })
     }
 }

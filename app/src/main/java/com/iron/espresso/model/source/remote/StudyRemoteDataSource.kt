@@ -28,6 +28,10 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     ): Single<BaseResponse<StudyListResponse>> {
         return studyApi.getStudyList(AuthHolder.bearerToken, category, sort)
     }
+
+    override fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>> {
+        return studyApi.leaveStudy(studyId = studyId)
+    }
 }
 
 interface StudyRemoteDataSource {
@@ -40,4 +44,6 @@ interface StudyRemoteDataSource {
         category: String,
         sort: String // new, length
     ): Single<BaseResponse<StudyListResponse>>
+
+    fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>>
 }
