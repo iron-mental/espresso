@@ -22,6 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MyStudyDetailActivity :
     BaseActivity<ActivityMystudyDetailBinding>(R.layout.activity_mystudy_detail) {
 
+    private val viewModel by viewModels<MyStudyDetailViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -71,6 +73,7 @@ class MyStudyDetailActivity :
             }
             R.id.leave_study -> {
                 toast("나가기 테스트")
+                viewModel.leaveStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
             }
         }
         return true
