@@ -42,12 +42,11 @@ class HotKeywordFragment :
                         context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
 
-                    keywordSearch(text.toString())
+                    showResultView(text.toString())
                     true
                 } else {
                     false
                 }
-
             }
         }
 
@@ -66,7 +65,7 @@ class HotKeywordFragment :
                     hotKeywordButton = Chip(context).apply {
                         text = keyWord.word
                         setOnClickListener {
-                            keywordSearch(text.toString())
+                            showResultView(text.toString())
                         }
                     }
                     binding.hotKeywordGroup.addView(hotKeywordButton)
@@ -75,21 +74,16 @@ class HotKeywordFragment :
         }
     }
 
-    private fun keywordSearch(text: String) {
+    // 2. 화면이 검색할때마다 쌓인다.
+
+    private fun showResultView(text: String) {
+        parentFragmentManager.beginTransaction().hide(this).commit()
         parentFragmentManager.beginTransaction()
-            .replace(
+            .add(
                 R.id.search_frg_container,
                 SearchResultFragment.newInstance(text)
             )
-            .addToBackStack(null)
             .commit()
-
-//        val hideFragment = parentFragmentManager.findFragmentByTag("hkf")
-//        if (hideFragment != null) {
-//            parentFragmentManager.beginTransaction()
-//                .hide(hideFragment)
-//                .commit()
-//        }
     }
 
     companion object {

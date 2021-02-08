@@ -21,7 +21,9 @@ class SearchResultFragment :
 
     private val viewModel by viewModels<StudyResultViewModel>()
     val studyListAdapter = StudyListAdapter()
-    private lateinit var searchEditText: EditText
+
+    private val editText: EditText?
+        get() = baseActivity?.getCustomView() as? EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,7 +36,7 @@ class SearchResultFragment :
 
             swipeRefresh.apply {
                 setOnRefreshListener {
-                    viewModel.showSearchStudyList(keyword)
+                    search(keyword)
 
                     this.isRefreshing = false
                 }
@@ -42,7 +44,7 @@ class SearchResultFragment :
         }
 
         viewModel.run {
-            showSearchStudyList(keyword)
+            search(keyword)
             studyList.observe(viewLifecycleOwner, Observer { studyList ->
                 studyListAdapter.setItemList(studyList)
             })
@@ -82,6 +84,31 @@ class SearchResultFragment :
                 }
             }
         )
+    }
+
+    override fun onBackPressed(): Boolean {
+
+        editText?.let { editText ->
+            return if (editText.text.isNotEmpty()) {
+                editText.text.clear()
+                true
+            } else {
+                val fragment = parentFragmentManager.fragments.findLast { it !is SearchResultFragment && it is BaseFragment<*> }
+                if (fragment != null) {
+                    parentFragmentManager.beginTransaction().show(fragment).commit()
+                }
+
+                parentFragmentManager.beginTransaction().remove(this).commit()
+                true
+            }
+        }
+
+        return super.onBackPressed()
+    }
+
+    fun search(keyword: String) {
+        editText?.setText(keyword)
+        viewModel.showSearchStudyList(keyword)
     }
 
     companion object {
