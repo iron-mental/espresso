@@ -1,7 +1,6 @@
 package com.iron.espresso.model.source.remote
 
 import com.iron.espresso.AuthHolder
-import com.iron.espresso.Logger
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.StudyListResponse
@@ -13,10 +12,14 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     StudyRemoteDataSource {
 
     override fun getStudyPagingList(
-        sort: String,
-        studyIds: List<Int>
+        studyIds: List<Int>,
+        option: String
     ): Single<BaseResponse<StudyListResponse>> {
-        return studyApi.getStudyPagingList(AuthHolder.bearerToken, sort, studyIds.joinToString(","))
+        return studyApi.getStudyPagingList(
+            AuthHolder.bearerToken,
+            studyIds.joinToString(","),
+            option
+        )
     }
 
     override fun getStudyList(
@@ -29,8 +32,8 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
 
 interface StudyRemoteDataSource {
     fun getStudyPagingList(
-        sort: String,
-        studyIds: List<Int>
+        studyIds: List<Int>,
+        option: String
     ): Single<BaseResponse<StudyListResponse>>
 
     fun getStudyList(

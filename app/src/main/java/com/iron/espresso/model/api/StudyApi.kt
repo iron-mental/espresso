@@ -150,7 +150,7 @@ interface StudyApi {
     @GET("/v1/study/paging/list")
     fun getStudyPagingList(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Query("sort") sort: String,
-        @Query("values") studyIds: String
+        @Query("values") studyIds: String,
+        @Query("option") option: String
     ): Single<BaseResponse<StudyListResponse>>
 }
