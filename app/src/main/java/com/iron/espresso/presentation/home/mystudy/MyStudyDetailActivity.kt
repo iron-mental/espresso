@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityMystudyDetailBinding
+import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
@@ -58,6 +60,10 @@ class MyStudyDetailActivity :
         TabLayoutMediator(binding.topTab, binding.studyDetailPager) { tab, position ->
             tab.text = studyDetailTabList[position]
         }.attach()
+
+        viewModel.toastMessage.observe(this, EventObserver { message ->
+            toast(message)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -72,7 +78,6 @@ class MyStudyDetailActivity :
                 onBackPressed()
             }
             R.id.leave_study -> {
-                toast("나가기 테스트")
                 viewModel.leaveStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
             }
         }

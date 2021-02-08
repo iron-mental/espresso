@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.mystudy.studydetail
+package com.iron.espresso.presentation.home.mystudy
 
 import androidx.hilt.lifecycle.ViewModelInject
 import com.iron.espresso.Logger
@@ -20,6 +20,7 @@ class MyStudyDetailViewModel @ViewModelInject constructor(private val studyRepos
             )
             .networkSchedulers()
             .subscribe({
+                _toastMessage.value = Event(it.message.orEmpty())
                 Logger.d("$it")
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
