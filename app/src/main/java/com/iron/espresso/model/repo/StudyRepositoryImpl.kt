@@ -2,6 +2,7 @@ package com.iron.espresso.model.repo
 
 import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import com.iron.espresso.model.source.remote.StudyRemoteDataSource
 import io.reactivex.Single
@@ -30,5 +31,12 @@ class StudyRepositoryImpl @Inject constructor(
 
     override fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>> {
         return remoteDataSource.leaveStudy(studyId)
+    }
+
+    override fun getStudyDetail(studyId: Int): Single<StudyDetailResponse> {
+        return remoteDataSource.getStudyDetail(studyId)
+            .map {
+                it.data
+            }
     }
 }

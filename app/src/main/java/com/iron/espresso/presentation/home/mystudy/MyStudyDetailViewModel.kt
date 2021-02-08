@@ -3,11 +3,9 @@ package com.iron.espresso.presentation.home.mystudy
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyDetailItem
-import com.iron.espresso.di.ApiModule
 import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
@@ -23,16 +21,16 @@ class MyStudyDetailViewModel @ViewModelInject constructor(private val studyRepos
         get() = _studyDetail
 
     fun getStudy(studyId: Int) {
-        compositeDisposable += ApiModule.provideStudyApi()
+        compositeDisposable += studyRepository
             .getStudyDetail(
-                bearerToken = AuthHolder.bearerToken,
                 studyId = studyId
             )
+            .map {
+                it.toStudyDetailItem()
+            }
             .networkSchedulers()
             .subscribe({
-                if (it.data != null) {
-                    _studyDetail.value = it.data.toStudyDetailItem()
-                }
+                _studyDetail.value = it
                 Logger.d("$it")
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
