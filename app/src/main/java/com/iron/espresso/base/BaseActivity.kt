@@ -52,10 +52,15 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
 
     override fun setCustomView(view: View) {
         toolbarHelper?.setCustomView(view)
+
     }
 
     override fun setCustomView(view: View, relativeHeight: Boolean) {
         toolbarHelper?.setCustomView(view, relativeHeight)
+    }
+
+    override fun getCustomView(): View? {
+        return toolbarHelper?.getCustomView()
     }
 
     companion object {
