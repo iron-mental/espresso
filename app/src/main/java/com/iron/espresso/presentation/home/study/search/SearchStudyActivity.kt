@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.ActivitySearchStudyBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,6 +34,17 @@ class SearchStudyActivity :
             }
         }
         return true
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.search_frg_container)
+
+        if (fragment is BaseFragment<*>) {
+            if (fragment.onBackPressed()) {
+                return
+            }
+        }
+        super.onBackPressed()
     }
 
     companion object {
