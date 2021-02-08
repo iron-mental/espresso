@@ -25,6 +25,7 @@ class MyStudyDetailActivity :
     BaseActivity<ActivityMystudyDetailBinding>(R.layout.activity_mystudy_detail) {
 
     private val viewModel by viewModels<MyStudyDetailViewModel>()
+    private var authority = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,11 +62,30 @@ class MyStudyDetailActivity :
             tab.text = studyDetailTabList[position]
         }.attach()
 
+        viewModel.getStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
+
+        viewModel.studyDetail.observe(this, { studyDetailItem ->
+            authority = studyDetailItem.authority
+        })
+
         viewModel.toastMessage.observe(this, EventObserver { message ->
             toast(message)
             setResult(RESULT_OK)
             finish()
         })
+    }
+
+    private fun checkAuthority(authority: String): Boolean {
+        return when (authority) {
+            "host" -> {
+                toast("방장을 위윔하셔야 합니다")
+                false
+            }
+            else -> {
+                true
+            }
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -80,7 +100,9 @@ class MyStudyDetailActivity :
                 onBackPressed()
             }
             R.id.leave_study -> {
-                viewModel.leaveStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
+                if (checkAuthority(authority)) {
+                    viewModel.leaveStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
+                }
             }
         }
         return true
