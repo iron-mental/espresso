@@ -63,6 +63,8 @@ class MyStudyDetailActivity :
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
             toast(message)
+            setResult(RESULT_OK)
+            finish()
         })
     }
 

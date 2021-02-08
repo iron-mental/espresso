@@ -1,5 +1,7 @@
 package com.iron.espresso.presentation.home.mystudy
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -37,13 +39,20 @@ class MyStudyFragment :
         myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
             override fun onClick(item: MyStudyResponse) {
                 if (item.title != null && item.id != null) {
-                    startActivity(
-                        MyStudyDetailActivity.getInstance(requireContext(), item.title, item.id)
+                    startActivityForResult(
+                        MyStudyDetailActivity.getInstance(requireContext(), item.title, item.id),
+                        REQUEST_LEAVE_CODE
                     )
                 }
             }
         })
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_LEAVE_CODE && resultCode == RESULT_OK) {
+            myStudyViewModel.showMyStudyList()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -64,6 +73,7 @@ class MyStudyFragment :
     }
 
     companion object {
+        private const val REQUEST_LEAVE_CODE = 1
         fun newInstance() =
             MyStudyFragment()
     }
