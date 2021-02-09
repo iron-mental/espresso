@@ -42,7 +42,7 @@ class HotKeywordFragment :
                         context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
 
-                    keywordSearch(text.toString())
+                    showResultView(text.toString())
                     true
                 } else {
                     false
@@ -66,7 +66,7 @@ class HotKeywordFragment :
                     hotKeywordButton = Chip(context).apply {
                         text = keyWord.word
                         setOnClickListener {
-                            keywordSearch(text.toString())
+                            showResultView(text.toString())
                         }
                     }
                     binding.hotKeywordGroup.addView(hotKeywordButton)
@@ -75,7 +75,8 @@ class HotKeywordFragment :
         }
     }
 
-    private fun keywordSearch(text: String) {
+    private fun showResultView(keyword: String) {
+        searchEditText.setText(keyword)
         val fragment = parentFragmentManager.findFragmentByTag(RESULT_TAG)
         if (fragment != null) {
             parentFragmentManager.beginTransaction().remove(fragment).commit()
@@ -84,7 +85,7 @@ class HotKeywordFragment :
             .hide(this)
             .add(
                 R.id.search_frg_container,
-                SearchResultFragment.newInstance(text),
+                SearchResultFragment.newInstance(keyword),
                 RESULT_TAG
             )
             .commit()

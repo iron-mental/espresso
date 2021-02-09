@@ -22,7 +22,8 @@ class SearchResultFragment :
 
     private val viewModel by viewModels<StudyResultViewModel>()
     val studyListAdapter = StudyListAdapter()
-    private lateinit var searchEditText: EditText
+    private val editText: EditText?
+        get() = baseActivity?.getCustomView() as? EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -86,15 +87,20 @@ class SearchResultFragment :
     }
 
     override fun onBackPressed(): Boolean {
+        editText?.let { editText ->
+            if (editText.text.isNotEmpty()) {
+                editText.text.clear()
+            }
+        }
+
         val fragment =
             parentFragmentManager.fragments.findLast { it !is SearchResultFragment && it is BaseFragment<*> }
-        Logger.d("fragment $fragment")
+
+        parentFragmentManager.beginTransaction().remove(this).commit()
         if (fragment != null) {
             parentFragmentManager.beginTransaction().show(fragment).commit()
-            parentFragmentManager.beginTransaction().remove(this).commit()
             return true
         }
-        parentFragmentManager.beginTransaction().remove(this).commit()
         return super.onBackPressed()
     }
 
