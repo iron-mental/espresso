@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSearchResultBinding
@@ -82,6 +83,19 @@ class SearchResultFragment :
                 }
             }
         )
+    }
+
+    override fun onBackPressed(): Boolean {
+        val fragment =
+            parentFragmentManager.fragments.findLast { it !is SearchResultFragment && it is BaseFragment<*> }
+        Logger.d("fragment $fragment")
+        if (fragment != null) {
+            parentFragmentManager.beginTransaction().show(fragment).commit()
+            parentFragmentManager.beginTransaction().remove(this).commit()
+            return true
+        }
+        parentFragmentManager.beginTransaction().remove(this).commit()
+        return super.onBackPressed()
     }
 
     companion object {

@@ -76,23 +76,22 @@ class HotKeywordFragment :
     }
 
     private fun keywordSearch(text: String) {
+        val fragment = parentFragmentManager.findFragmentByTag(RESULT_TAG)
+        if (fragment != null) {
+            parentFragmentManager.beginTransaction().remove(fragment).commit()
+        }
         parentFragmentManager.beginTransaction()
-            .replace(
+            .hide(this)
+            .add(
                 R.id.search_frg_container,
-                SearchResultFragment.newInstance(text)
+                SearchResultFragment.newInstance(text),
+                RESULT_TAG
             )
-            .addToBackStack(null)
             .commit()
-
-//        val hideFragment = parentFragmentManager.findFragmentByTag("hkf")
-//        if (hideFragment != null) {
-//            parentFragmentManager.beginTransaction()
-//                .hide(hideFragment)
-//                .commit()
-//        }
     }
 
     companion object {
+        private const val RESULT_TAG = "result"
         fun newInstance() =
             HotKeywordFragment()
     }
