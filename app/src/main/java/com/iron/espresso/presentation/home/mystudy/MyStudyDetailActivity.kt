@@ -104,6 +104,9 @@ class MyStudyDetailActivity :
                     viewModel.leaveStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
                 }
             }
+            else -> {
+                return false
+            }
         }
         return true
     }
