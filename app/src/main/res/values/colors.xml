@@ -16,4 +16,6 @@
     <color name="theme_d1d1cf">#D1D1CF</color>
     <color name="theme_292929">#292929</color>
     <color name="theme_fc813e">#FC813E</color>
+
+    <color name="colorControlHighlight">#2e2e2e</color>
 </resources>

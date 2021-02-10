@@ -1,5 +1,8 @@
 package com.iron.espresso.domain.repo
 
+import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.study.MyStudyListResponse
+import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import io.reactivex.Single
 
@@ -7,4 +10,10 @@ interface StudyRepository {
     fun getStudyPagingList(studyIds: List<Int>, option: String): Single<StudyListResponse>
 
     fun getStudyList(category: String, sort: String): Single<StudyListResponse>
+
+    fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>>
+
+    fun getStudyDetail(studyId: Int): Single<StudyDetailResponse>
+
+    fun getMyStudyList(userId: Int): Single<MyStudyListResponse>
 }
