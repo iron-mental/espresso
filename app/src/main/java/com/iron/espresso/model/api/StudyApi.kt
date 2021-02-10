@@ -165,4 +165,10 @@ interface StudyApi {
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int
     ): Single<BaseResponse<Nothing>>
+
+    @PUT("/v1/study/{study_id}/delegate")
+    fun delegateStudyLeader(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<Nothing>>
 }
