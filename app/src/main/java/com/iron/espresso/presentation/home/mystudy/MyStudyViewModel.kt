@@ -7,13 +7,14 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.MyStudyItem
+import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.StudyApi
 import retrofit2.HttpException
 
-class MyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
+class MyStudyViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
     BaseViewModel() {
 
     private val _studyList =
@@ -22,21 +23,18 @@ class MyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyA
         get() = _studyList
 
     fun showMyStudyList() {
-        compositeDisposable += studyApi
+        compositeDisposable += studyRepository
             .getMyStudyList(
-                bearerToken = AuthHolder.bearerToken,
                 userId = AuthHolder.id ?: -1
             )
             .map {
-                it.data?.map { myStudyResponse ->
+                it.map { myStudyResponse ->
                     myStudyResponse.toMyStudyItem()
                 }
             }
             .networkSchedulers()
             .subscribe({
-                if (it != null) {
-                    _studyList.value = it
-                }
+                _studyList.value = it
                 Logger.d("$it")
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
