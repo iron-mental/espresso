@@ -105,6 +105,9 @@ class MyStudyDetailActivity :
                     toast(resources.getString(R.string.pass_permission))
                 }
             }
+            R.id.delete_study -> {
+                toast("${item.title}")
+            }
             else -> {
                 return false
             }
