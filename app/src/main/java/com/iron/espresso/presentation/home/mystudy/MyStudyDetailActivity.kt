@@ -113,6 +113,9 @@ class MyStudyDetailActivity :
             R.id.delete_study -> {
                 viewModel.deleteStudy(studyId)
             }
+            R.id.host_delegate -> {
+                toast("${item.title}")
+            }
             else -> {
                 return false
             }
