@@ -48,12 +48,7 @@ class MyStudyDetailActivity :
                 override fun createFragment(position: Int): Fragment =
                     when (position) {
                         0 -> NoticeFragment.newInstance(studyId)
-                        1 -> StudyInfoFragment.newInstance(
-                            intent.getIntExtra(
-                                STUDY_ID,
-                                DEFAULT_VALUE
-                            )
-                        )
+                        1 -> StudyInfoFragment.newInstance(studyId)
                         2 -> ChattingFragment.newInstance()
                         else -> error("Invalid position")
                     }
@@ -93,6 +88,14 @@ class MyStudyDetailActivity :
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_mystudy_detail, menu)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (authority == AUTH_HOST) {
+            val item = menu?.findItem(R.id.delete_study)
+            item?.isVisible = true
+        }
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
