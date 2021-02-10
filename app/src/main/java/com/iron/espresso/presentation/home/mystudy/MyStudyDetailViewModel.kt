@@ -62,9 +62,11 @@ class MyStudyDetailViewModel @ViewModelInject constructor(private val studyRepos
             )
             .networkSchedulers()
             .subscribe({
+                _toastMessage.value = Event(it.message.orEmpty())
                 Logger.d("$it")
             }, {
-                Logger.d("$it")
+                val errorResponse = (it as? HttpException)?.toErrorResponse()
+                Logger.d("$errorResponse")
             })
     }
 }
