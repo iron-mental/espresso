@@ -54,4 +54,17 @@ class MyStudyDetailViewModel @ViewModelInject constructor(private val studyRepos
                 Logger.d("$errorResponse")
             })
     }
+
+    fun deleteStudy(studyId: Int) {
+        compositeDisposable += studyRepository
+            .deleteStudy(
+                studyId = studyId
+            )
+            .networkSchedulers()
+            .subscribe({
+                Logger.d("$it")
+            }, {
+                Logger.d("$it")
+            })
+    }
 }

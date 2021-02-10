@@ -26,6 +26,7 @@ class MyStudyDetailActivity :
 
     private val viewModel by viewModels<MyStudyDetailViewModel>()
     private var authority = ""
+    private var studyId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,7 @@ class MyStudyDetailActivity :
         setToolbarTitle(intent.getStringExtra(TOOLBAR_TITLE))
         setNavigationIcon(R.drawable.ic_back_24)
 
+        studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
         val studyDetailTabList = resources.getStringArray(R.array.study_detail_tab)
 
         binding.run {
@@ -45,7 +47,7 @@ class MyStudyDetailActivity :
 
                 override fun createFragment(position: Int): Fragment =
                     when (position) {
-                        0 -> NoticeFragment.newInstance(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
+                        0 -> NoticeFragment.newInstance(studyId)
                         1 -> StudyInfoFragment.newInstance(
                             intent.getIntExtra(
                                 STUDY_ID,
@@ -62,7 +64,7 @@ class MyStudyDetailActivity :
             tab.text = studyDetailTabList[position]
         }.attach()
 
-        viewModel.getStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
+        viewModel.getStudy(studyId)
 
         viewModel.studyDetail.observe(this, { studyDetailItem ->
             authority = studyDetailItem.authority
@@ -100,13 +102,13 @@ class MyStudyDetailActivity :
             }
             R.id.leave_study -> {
                 if (checkAuthority(authority)) {
-                    viewModel.leaveStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
+                    viewModel.leaveStudy(studyId)
                 } else {
                     toast(resources.getString(R.string.pass_permission))
                 }
             }
             R.id.delete_study -> {
-                toast("${item.title}")
+                viewModel.deleteStudy(studyId)
             }
             else -> {
                 return false
