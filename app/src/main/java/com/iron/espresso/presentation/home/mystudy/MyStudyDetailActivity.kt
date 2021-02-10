@@ -77,8 +77,8 @@ class MyStudyDetailActivity :
 
     private fun checkAuthority(authority: String): Boolean {
         return when (authority) {
-            "host" -> {
-                toast("방장을 위윔하셔야 합니다")
+            AUTH_HOST -> {
+                toast(resources.getString(R.string.pass_permission))
                 false
             }
             else -> {
@@ -115,6 +115,8 @@ class MyStudyDetailActivity :
         private const val TOOLBAR_TITLE = "title"
         const val DEFAULT_VALUE = 0
         const val STUDY_ID = "studyId"
+        private const val AUTH_HOST = "host"
+
         fun getInstance(context: Context, title: String, id: Int) =
             Intent(context, MyStudyDetailActivity::class.java)
                 .putExtra(TOOLBAR_TITLE, title)

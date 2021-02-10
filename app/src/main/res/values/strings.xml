@@ -121,4 +121,6 @@
     <string name="apply">신청</string>
     <string name="leave">나가기</string>
 
+    <string name="pass_permission">방장을 위임하셔야 합니다</string>
+
 </resources>
