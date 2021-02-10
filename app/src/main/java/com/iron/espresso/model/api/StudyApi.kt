@@ -159,4 +159,10 @@ interface StudyApi {
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int
     ): Single<BaseResponse<Nothing>>
+
+    @DELETE("/v1/study/{study_id}")
+    fun deleteStudy(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<Nothing>>
 }
