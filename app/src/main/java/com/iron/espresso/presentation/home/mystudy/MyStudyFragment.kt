@@ -31,10 +31,18 @@ class MyStudyFragment :
         binding.run {
             rvMyStudy.adapter = myStudyAdapter
             myStudyViewModel.showMyStudyList()
+            swipeRefresh.apply {
+                setOnRefreshListener {
+                    myStudyViewModel.showMyStudyList()
+                }
+            }
         }
 
         myStudyViewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
             myStudyAdapter.replaceAll(studyList)
+            if (binding.swipeRefresh.isRefreshing) {
+                binding.swipeRefresh.isRefreshing = false
+            }
         })
 
         myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
