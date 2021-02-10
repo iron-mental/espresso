@@ -2,7 +2,6 @@ package com.iron.espresso.presentation.home.mystudy.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.iron.espresso.data.model.MyStudyViewType
 import com.iron.espresso.model.response.study.MyStudyResponse
 import com.iron.espresso.presentation.home.mystudy.adapter.viewholder.MyStudyViewHolder
 
@@ -19,7 +18,6 @@ class MyStudyAdapter : RecyclerView.Adapter<MyStudyViewHolder>() {
     }
 
     private val myStudyList = mutableListOf<MyStudyResponse>()
-    private var myStudyViewType = MyStudyViewType.LIST
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyStudyViewHolder =
         MyStudyViewHolder(parent)
@@ -28,7 +26,7 @@ class MyStudyAdapter : RecyclerView.Adapter<MyStudyViewHolder>() {
         myStudyList.size
 
     override fun onBindViewHolder(holder: MyStudyViewHolder, position: Int) {
-        holder.bind(myStudyList[position], itemClickListener, myStudyViewType)
+        holder.bind(myStudyList[position], itemClickListener)
     }
 
     fun replaceAll(list: List<MyStudyResponse>?) {
@@ -39,9 +37,5 @@ class MyStudyAdapter : RecyclerView.Adapter<MyStudyViewHolder>() {
                 notifyDataSetChanged()
             }
         }
-    }
-
-    fun setMyStudyView(type: MyStudyViewType) {
-        this.myStudyViewType = type
     }
 }

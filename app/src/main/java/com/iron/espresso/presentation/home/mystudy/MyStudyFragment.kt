@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentMystudyBinding
+import com.iron.espresso.ext.toast
 import com.iron.espresso.model.response.study.MyStudyResponse
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,9 +65,8 @@ class MyStudyFragment :
         when (item.itemId) {
             R.id.notify -> {
             }
-
-            R.id.edit_study -> {
-                startActivity(EditMyStudyActivity.getIntent(requireContext()))
+            else -> {
+                toast("${item.title}")
             }
         }
         return super.onOptionsItemSelected(item)
