@@ -92,8 +92,10 @@ class MyStudyDetailActivity :
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         if (authority == AUTH_HOST) {
-            val item = menu?.findItem(R.id.delete_study)
-            item?.isVisible = true
+            val deleteItem = menu?.findItem(R.id.delete_study)
+            val delegateItem = menu?.findItem(R.id.host_delegate)
+            deleteItem?.isVisible = true
+            delegateItem?.isVisible = true
         }
         return super.onPrepareOptionsMenu(menu)
     }
