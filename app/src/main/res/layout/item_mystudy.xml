@@ -11,7 +11,7 @@
 
         <variable
             name="myStudyItem"
-            type="com.iron.espresso.model.response.study.MyStudyResponse" />
+            type="com.iron.espresso.data.model.MyStudyItem" />
     </data>
 
 

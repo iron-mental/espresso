@@ -6,19 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
+import com.iron.espresso.data.model.MyStudyItem
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.StudyApi
-import com.iron.espresso.model.response.study.MyStudyResponse
 import retrofit2.HttpException
 
 class MyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
     BaseViewModel() {
 
     private val _studyList =
-        MutableLiveData<List<MyStudyResponse>>()
-    val studyList: LiveData<List<MyStudyResponse>>
+        MutableLiveData<List<MyStudyItem>>()
+    val studyList: LiveData<List<MyStudyItem>>
         get() = _studyList
 
     fun showMyStudyList() {
@@ -27,10 +27,15 @@ class MyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyA
                 bearerToken = AuthHolder.bearerToken,
                 userId = AuthHolder.id ?: -1
             )
+            .map {
+                it.data?.map { myStudyResponse ->
+                    myStudyResponse.toMyStudyItem()
+                }
+            }
             .networkSchedulers()
             .subscribe({
-                if (it.data != null) {
-                    _studyList.value = it.data
+                if (it != null) {
+                    _studyList.value = it
                 }
                 Logger.d("$it")
             }, {

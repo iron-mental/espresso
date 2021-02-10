@@ -11,9 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
+import com.iron.espresso.data.model.MyStudyItem
 import com.iron.espresso.databinding.FragmentMystudyBinding
 import com.iron.espresso.ext.toast
-import com.iron.espresso.model.response.study.MyStudyResponse
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,13 +38,11 @@ class MyStudyFragment :
         })
 
         myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
-            override fun onClick(item: MyStudyResponse) {
-                if (item.title != null && item.id != null) {
-                    startActivityForResult(
-                        MyStudyDetailActivity.getInstance(requireContext(), item.title, item.id),
-                        REQUEST_LEAVE_CODE
-                    )
-                }
+            override fun onClick(item: MyStudyItem) {
+                startActivityForResult(
+                    MyStudyDetailActivity.getInstance(requireContext(), item.title, item.id),
+                    REQUEST_LEAVE_CODE
+                )
             }
         })
 
