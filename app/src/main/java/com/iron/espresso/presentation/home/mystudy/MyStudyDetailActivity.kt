@@ -16,6 +16,7 @@ import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
+import com.iron.espresso.presentation.home.mystudy.studydetail.DelegateLeaderActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -116,7 +117,7 @@ class MyStudyDetailActivity :
                 viewModel.deleteStudy(studyId)
             }
             R.id.host_delegate -> {
-                toast("${item.title}")
+                startActivity(DelegateLeaderActivity.getIntent(this, studyId))
             }
             else -> {
                 return false
