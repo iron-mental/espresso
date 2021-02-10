@@ -78,7 +78,6 @@ class MyStudyDetailActivity :
     private fun checkAuthority(authority: String): Boolean {
         return when (authority) {
             AUTH_HOST -> {
-                toast(resources.getString(R.string.pass_permission))
                 false
             }
             else -> {
@@ -102,6 +101,8 @@ class MyStudyDetailActivity :
             R.id.leave_study -> {
                 if (checkAuthority(authority)) {
                     viewModel.leaveStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
+                } else {
+                    toast(resources.getString(R.string.pass_permission))
                 }
             }
             else -> {
