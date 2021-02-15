@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/member_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground">
 
         <ImageView
             android:id="@id/member_image"
@@ -20,7 +21,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:src="@drawable/ic_github"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,6 +37,14 @@
             app:layout_constraintStart_toEndOf="@+id/member_image"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="고양이" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/theme_292929"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
