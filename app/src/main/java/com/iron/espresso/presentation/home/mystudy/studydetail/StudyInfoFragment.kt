@@ -34,21 +34,21 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
 
         viewModel.studyDetail.observe(viewLifecycleOwner, Observer { studyDetail ->
             binding.run {
-                introduceDetail.text = studyDetail.introduce
-                proceedDetail.text = studyDetail.progress
-                timeDetail.text = studyDetail.studyTime
-                placeDetail.text = studyDetail.locationItem.run {
+                introduceDetail.text = studyDetail.studyInfoItem.introduce
+                proceedDetail.text = studyDetail.studyInfoItem.progress
+                timeDetail.text = studyDetail.studyInfoItem.studyTime
+                placeDetail.text = studyDetail.studyInfoItem.locationItem.run {
                     "$addressName $placeName"
                 }
-                numberMember.text = studyDetail.participateItem.size.toString()
+                numberMember.text = studyDetail.studyInfoItem.participateItem.size.toString()
 
-                if (studyDetail.image.isNotEmpty()) {
-                    image.setRadiusImage(studyDetail.image)
+                if (!studyDetail.studyInfoItem.image.isNullOrEmpty()) {
+                    image.setRadiusImage(studyDetail.studyInfoItem.image)
                 }
             }
 
             /* 구성원 수 만큼 동적 생성 */
-            studyDetail.participateItem.forEach { memberList ->
+            studyDetail.studyInfoItem.participateItem.forEach { memberList ->
                 val memberView = LayoutInflater.from(context)
                     .inflate(R.layout.item_member, binding.memberContainer, false)
 
@@ -73,8 +73,8 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
             mapFragment.getMapAsync { naverMap ->
                 naverMap.cameraPosition = CameraPosition(
                     LatLng(
-                        studyDetail.locationItem.longitude.toDouble(),
-                        studyDetail.locationItem.latitude.toDouble()
+                        studyDetail.studyInfoItem.locationItem.longitude.toDouble(),
+                        studyDetail.studyInfoItem.locationItem.latitude.toDouble()
                     ), 16.0
                 )
             }

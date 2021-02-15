@@ -15,3 +15,8 @@ data class StudyInfoItem(
     val locationItem: LocationItem = LocationItem(),
     val authority: String = ""
 )
+
+data class StudyDetailItem(
+    val studyInfoItem: StudyInfoItem,
+    val badgeItem: BadgeItem
+)
