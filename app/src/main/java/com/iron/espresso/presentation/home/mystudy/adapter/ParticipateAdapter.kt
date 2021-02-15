@@ -9,7 +9,12 @@ import com.iron.espresso.presentation.home.mystudy.adapter.viewholder.Participat
 
 class ParticipateAdapter : RecyclerView.Adapter<ParticipateViewHolder>() {
 
+    private lateinit var itemClickListener: (participateItem: ParticipateItem) -> Unit
     private val participateList = mutableListOf<ParticipateItem>()
+
+    fun setItemClickListener(listener: (participateItem: ParticipateItem) -> Unit) {
+        itemClickListener = listener
+    }
 
     fun setItemList(participateList: List<ParticipateItem>) {
         this.participateList.clear()
@@ -19,7 +24,8 @@ class ParticipateAdapter : RecyclerView.Adapter<ParticipateViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParticipateViewHolder {
         return ParticipateViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_delegate_member, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_delegate_member, parent, false), itemClickListener
         )
     }
 

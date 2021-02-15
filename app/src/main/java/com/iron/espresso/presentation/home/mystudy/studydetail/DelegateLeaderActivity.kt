@@ -7,6 +7,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.ParticipateItem
 import com.iron.espresso.databinding.ActivityDelegateLeaderBinding
+import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.ParticipateAdapter
 
@@ -20,6 +21,9 @@ class DelegateLeaderActivity :
 
         binding.participateList.adapter = participateAdapter
         participateAdapter.setItemList(intent.getSerializableExtra(PARTICIPATE_LIST) as List<ParticipateItem>)
+        participateAdapter.setItemClickListener { participateItem ->
+            toast(participateItem.nickname)
+        }
     }
 
     companion object {

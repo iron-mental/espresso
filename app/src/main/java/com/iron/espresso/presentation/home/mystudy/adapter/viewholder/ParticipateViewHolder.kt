@@ -7,9 +7,13 @@ import com.iron.espresso.data.model.ParticipateItem
 import com.iron.espresso.databinding.ItemDelegateMemberBinding
 import com.iron.espresso.ext.setCircleImage
 
-class ParticipateViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class ParticipateViewHolder(
+    view: View,
+    itemClickListener: (participateItem: ParticipateItem) -> Unit
+) : RecyclerView.ViewHolder(view) {
 
     private val binding: ItemDelegateMemberBinding? = DataBindingUtil.bind(itemView)
+    private val onClick = itemClickListener
 
     fun bind(item: ParticipateItem) {
         binding?.run {
@@ -17,6 +21,10 @@ class ParticipateViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 memberImage.setCircleImage(item.image)
             }
             memberNickname.text = item.nickname
+
+            itemView.setOnClickListener {
+                onClick(item)
+            }
         }
     }
 
