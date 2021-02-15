@@ -24,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appbar"
-            tools:listitem="@layout/item_member" />
+            tools:listitem="@layout/item_delegate_member" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

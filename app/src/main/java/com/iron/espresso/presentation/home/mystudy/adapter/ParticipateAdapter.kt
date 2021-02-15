@@ -19,7 +19,7 @@ class ParticipateAdapter : RecyclerView.Adapter<ParticipateViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParticipateViewHolder {
         return ParticipateViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_member, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_delegate_member, parent, false)
         )
     }
 
