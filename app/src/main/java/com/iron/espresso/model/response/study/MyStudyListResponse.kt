@@ -7,7 +7,7 @@ import com.iron.espresso.data.model.MyStudyListItem
 data class MyStudyListResponse(
     @SerializedName("badge")
     val badgeResponse: BadgeResponse?,
-    @SerializedName("studyList")
+    @SerializedName("study_list")
     val myStudyResponse: ArrayList<MyStudyResponse>?
 ) {
     fun toMyStudyListItem() =

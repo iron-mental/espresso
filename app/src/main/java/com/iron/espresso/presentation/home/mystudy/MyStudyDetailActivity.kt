@@ -65,7 +65,7 @@ class MyStudyDetailActivity :
         viewModel.getStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
 
         viewModel.studyDetail.observe(this, { studyDetailItem ->
-            authority = studyDetailItem.authority
+            authority = studyDetailItem.studyInfoItem.authority
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
