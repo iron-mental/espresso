@@ -3,6 +3,7 @@ package com.iron.espresso.presentation.home.mystudy.studydetail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.ParticipateItem
@@ -19,6 +20,9 @@ class DelegateLeaderActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setNavigationIcon(R.drawable.ic_back_24)
+        setToolbarTitle(TOOLBAR_TITLE)
+
         binding.participateList.adapter = participateAdapter
         participateAdapter.setItemList(intent.getSerializableExtra(PARTICIPATE_LIST) as List<ParticipateItem>)
         participateAdapter.setItemClickListener { participateItem ->
@@ -26,7 +30,17 @@ class DelegateLeaderActivity :
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+        }
+        return true
+    }
+
     companion object {
+        private const val TOOLBAR_TITLE = "스터디 장 위임화면"
         private const val PARTICIPATE_LIST = "participateList"
         fun getIntent(context: Context, studyId: Int, participateList: ArrayList<ParticipateItem>) =
             Intent(context, DelegateLeaderActivity::class.java)
