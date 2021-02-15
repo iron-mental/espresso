@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.data.model.ParticipateItem
 import com.iron.espresso.databinding.ActivityDelegateLeaderBinding
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 
@@ -16,8 +17,10 @@ class DelegateLeaderActivity :
     }
 
     companion object {
-        fun getIntent(context: Context, studyId: Int) =
+        private const val PARTICIPATE_LIST = "participateList"
+        fun getIntent(context: Context, studyId: Int, participateList: ArrayList<ParticipateItem>) =
             Intent(context, DelegateLeaderActivity::class.java)
                 .putExtra(MyStudyDetailActivity.STUDY_ID, studyId)
+                .putExtra(PARTICIPATE_LIST, participateList)
     }
 }

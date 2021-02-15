@@ -12,6 +12,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.data.model.ParticipateItem
 import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
@@ -28,6 +29,7 @@ class MyStudyDetailActivity :
     private val viewModel by viewModels<MyStudyDetailViewModel>()
     private var authority = ""
     private var studyId = -1
+    private var participateList = arrayListOf<ParticipateItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +66,7 @@ class MyStudyDetailActivity :
 
         viewModel.studyDetail.observe(this, { studyDetailItem ->
             authority = studyDetailItem.studyInfoItem.authority
+            participateList = studyDetailItem.studyInfoItem.participateItem as ArrayList<ParticipateItem>
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
@@ -117,7 +120,7 @@ class MyStudyDetailActivity :
                 viewModel.deleteStudy(studyId)
             }
             R.id.host_delegate -> {
-                startActivity(DelegateLeaderActivity.getIntent(this, studyId))
+                startActivity(DelegateLeaderActivity.getIntent(this, studyId, participateList))
             }
             else -> {
                 return false
