@@ -1,5 +1,6 @@
 package com.iron.espresso.model.api
 
+import com.google.gson.annotations.SerializedName
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.MyStudyListResponse
@@ -109,6 +110,11 @@ data class ModifyStudyRequest(
     }
 }
 
+data class DelegateRequest(
+    @SerializedName( "new_leader")
+    val newLeader: Int
+)
+
 interface StudyApi {
 
 
@@ -169,6 +175,7 @@ interface StudyApi {
     @PUT("/v1/study/{study_id}/delegate")
     fun delegateStudyLeader(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("study_id") studyId: Int
+        @Path("study_id") studyId: Int,
+        @Body body: DelegateRequest
     ): Single<BaseResponse<Nothing>>
 }
