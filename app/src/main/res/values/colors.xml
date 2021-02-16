@@ -20,4 +20,8 @@
     <color name="ffec655a">#ffec655a</color>
     <color name="ffe0c04c">#ffe0c04c</color>
     <color name="ff72be47">#ff72be47</color>
+
+    <color name="white_alpha10">#1affffff</color>
+    <color name="white_alpha15">#26ffffff</color>
+    <color name="white_alpha70">#b3ffffff</color>
 </resources>

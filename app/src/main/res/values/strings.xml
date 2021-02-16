@@ -1,5 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">terminal</string>
 
     <string name="setting">설정</string>
@@ -120,5 +119,7 @@
     <string name="apply">신청</string>
     <string name="title_study_detail">스터디 상세화면</string>
     <string name="toast_empty_introduce">가입인사를 작성해 주세요.</string>
+    <string name="apply_study_list">스터디 신청 목록</string>
+    <string name="title_apply_my_study">신청한 스터디</string>
 
 </resources>

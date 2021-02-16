@@ -11,6 +11,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentMystudyBinding
 import com.iron.espresso.model.response.study.MyStudyResponse
+import com.iron.espresso.presentation.home.apply.MyApplyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,6 +58,7 @@ class MyStudyFragment :
             }
 
             R.id.more -> {
+                startActivity(MyApplyStudyActivity.getIntent(requireContext()))
             }
         }
         return super.onOptionsItemSelected(item)
