@@ -6,13 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
@@ -20,10 +18,9 @@ import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.setCircleImage
 import com.iron.espresso.ext.setRadiusImage
-import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.CameraPosition
+import com.iron.espresso.ext.toast
+import com.iron.espresso.presentation.home.apply.ApplyStudyDialog
 import com.naver.maps.map.MapFragment
-import com.wswon.picker.Logger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,17 +29,19 @@ class StudyDetailActivity :
 
     private val viewModel by viewModels<StudyDetailViewModel>()
 
+    private val studyId: Int
+        get() = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setToolbarTitle(R.string.title_study_detail)
         setNavigationIcon(R.drawable.ic_back_24)
 
-        val studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
         viewModel.getStudy(studyId)
 
         binding.joinButton.setOnClickListener {
-            showApplyDialog(studyId)
+            showApplyDialog()
         }
 
         viewModel.emptyCheckMessage.observe(this, EventObserver {
@@ -96,12 +95,12 @@ class StudyDetailActivity :
                 }
 
             mapFragment.getMapAsync { naverMap ->
-                naverMap.cameraPosition = CameraPosition(
-                    LatLng(
-                        studyDetail.locationItem.longitude.toDouble(),
-                        studyDetail.locationItem.latitude.toDouble()
-                    ), 16.0
-                )
+//                naverMap.cameraPosition = CameraPosition(
+//                    LatLng(
+//                        studyDetail.locationItem.longitude.toDouble(),
+//                        studyDetail.locationItem.latitude.toDouble()
+//                    ), 16.0
+//                )
             }
         })
     }
@@ -122,21 +121,20 @@ class StudyDetailActivity :
         }
     }
 
-    private fun showApplyDialog(studyId: Int) {
-        Logger.d("$studyId")
-        val applyDialog = layoutInflater.inflate(R.layout.view_apply_study, null)
-        val messageInputView: EditText = applyDialog.findViewById(R.id.message_input_view)
+    private fun showApplyDialog() {
+        val dialog = ApplyStudyDialog.newInstance()
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle(resources.getString(R.string.apply_title))
-            .setMessage(resources.getString(R.string.apply_content))
-            .setView(applyDialog)
-            .setNegativeButton(resources.getString(R.string.cancel)) { _, _ ->
-            }
-            .setPositiveButton(resources.getString(R.string.apply)) { _, _ ->
-                viewModel.sendApply(studyId, "${messageInputView.text}")
-            }
-            .show()
+        dialog.show(supportFragmentManager, dialog::class.simpleName)
+
+        supportFragmentManager.setFragmentResultListener(
+            ApplyStudyDialog.SUBMIT,
+            this
+        ) { _: String, bundle: Bundle ->
+            val message = bundle.getString(ApplyStudyDialog.MESSAGE)
+
+            viewModel.sendApply(studyId, message.orEmpty())
+            toast(message.orEmpty())
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -153,6 +151,7 @@ class StudyDetailActivity :
         private const val DEFAULT_VALUE = -1
         private const val AUTHORITY_APPLIER = "applier"
         private const val AUTHORITY_REJECT = "reject"
+
 
         fun getIntent(context: Context, studyId: Int) =
             Intent(context, StudyDetailActivity::class.java)

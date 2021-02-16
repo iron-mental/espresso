@@ -119,5 +119,6 @@
     <string name="cancel">취소</string>
     <string name="apply">신청</string>
     <string name="title_study_detail">스터디 상세화면</string>
+    <string name="toast_empty_introduce">가입인사를 작성해 주세요.</string>
 
 </resources>
