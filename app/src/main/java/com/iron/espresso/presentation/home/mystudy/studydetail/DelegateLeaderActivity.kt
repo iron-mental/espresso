@@ -9,6 +9,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.ParticipateItem
 import com.iron.espresso.databinding.ActivityDelegateLeaderBinding
+import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.ParticipateAdapter
@@ -32,12 +33,26 @@ class DelegateLeaderActivity :
         memberList = intent.getSerializableExtra(PARTICIPATE_LIST) as List<ParticipateItem>
 
         binding.participateList.adapter = participateAdapter
-        participateAdapter.setItemList(memberList)
-        participateAdapter.setItemClickListener { participateItem ->
-            viewModel.delegateStudyLeader(
-                studyId,
-                participateItem.userId
-            )
+
+        participateAdapter.apply {
+            setItemList(memberList)
+            setItemClickListener { participateItem ->
+                viewModel.delegateStudyLeader(
+                    studyId,
+                    participateItem.userId
+                )
+            }
+        }
+
+        viewModel.run {
+            successEvent.observe(this@DelegateLeaderActivity, EventObserver { isSuccess ->
+                if (isSuccess) {
+                    toast(R.string.success_delegate)
+                    finish()
+                }
+            })
+
+            toastMessage.observe(this@DelegateLeaderActivity, EventObserver(::toast))
         }
     }
 
