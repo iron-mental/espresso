@@ -28,9 +28,7 @@ class ApplyStudyDialog : BaseDialogFragment<DialogApplyStudyBinding>(R.layout.di
 
     private fun setupView() {
         with(binding) {
-            no.setOnClickListener {
-                dismiss()
-            }
+            inputIntroduce.requestFocus()
 
             yes.setOnClickListener {
                 val message = binding.inputIntroduce.text.toString()
@@ -44,6 +42,10 @@ class ApplyStudyDialog : BaseDialogFragment<DialogApplyStudyBinding>(R.layout.di
                 } else {
                     toast(R.string.toast_empty_introduce)
                 }
+            }
+
+            no.setOnClickListener {
+                dismiss()
             }
         }
     }

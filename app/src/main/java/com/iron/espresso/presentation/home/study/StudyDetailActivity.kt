@@ -8,11 +8,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
-import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.ext.*
@@ -45,10 +43,7 @@ class StudyDetailActivity :
         }
 
         viewModel.emptyCheckMessage.observe(this, EventObserver {
-            Toast.makeText(this, resources.getString(it.resId), Toast.LENGTH_SHORT).show()
-            if (it == ValidationInputText.SUCCESS) {
-                visibleBtn(AUTHORITY_APPLIER)
-            }
+            toast(it.resId)
         })
 
         viewModel.studyDetail.observe(this, Observer { studyDetail ->
@@ -84,10 +79,9 @@ class StudyDetailActivity :
                 binding.memberContainer.addView(memberView)
             }
 
-            val fm = supportFragmentManager
-            val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
+            val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as MapFragment?
                 ?: MapFragment.newInstance().also {
-                    fm.beginTransaction().add(R.id.map, it).commit()
+                    supportFragmentManager.beginTransaction().add(R.id.map, it).commit()
                 }
 
             mapFragment.getMapAsync { naverMap ->
@@ -109,6 +103,9 @@ class StudyDetailActivity :
         with(viewModel) {
             toastMessage.observe(this@StudyDetailActivity, EventObserver(::toast))
             loadingState.observe(this@StudyDetailActivity, EventObserver(::setLoading))
+            success.observe(this@StudyDetailActivity, EventObserver {
+                visibleBtn(AUTHORITY_APPLIER)
+            })
         }
     }
 

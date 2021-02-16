@@ -28,6 +28,10 @@ class StudyDetailViewModel @ViewModelInject constructor(
     val emptyCheckMessage: LiveData<Event<ValidationInputText>>
         get() = _emptyCheckMessage
 
+    private val _success = MutableLiveData<Event<Unit>>()
+    val success: LiveData<Event<Unit>>
+        get() = _success
+
     private fun emptyCheck(message: String): ValidationInputText {
         return if (message.isEmpty()) {
             ValidationInputText.EMPTY_CONTENTS
@@ -67,8 +71,9 @@ class StudyDetailViewModel @ViewModelInject constructor(
                 .networkSchedulers()
                 .subscribe({ (success, message) ->
                     if (success) {
-                        _emptyCheckMessage.value = Event(checkMessage)
+                        _success.value = Event(Unit)
                     }
+                    _toastMessage.value = Event(message)
                     hideLoading()
                 }, {
                     Logger.d("$it")
