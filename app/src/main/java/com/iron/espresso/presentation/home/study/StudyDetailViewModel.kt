@@ -14,7 +14,6 @@ import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.StudyApi
-import retrofit2.HttpException
 
 class StudyDetailViewModel @ViewModelInject constructor(
     private val studyApi: StudyApi,
@@ -50,7 +49,7 @@ class StudyDetailViewModel @ViewModelInject constructor(
                 }
                 Logger.d("$it")
             }, {
-                val errorResponse = (it as? HttpException)?.toErrorResponse()
+                val errorResponse = it.toErrorResponse()
                 if (errorResponse != null) {
                     Logger.d("$errorResponse")
                 }
@@ -58,6 +57,7 @@ class StudyDetailViewModel @ViewModelInject constructor(
     }
 
     fun sendApply(studyId: Int, message: String) {
+        showLoading()
         val checkMessage = emptyCheck(message)
         if (checkMessage == ValidationInputText.SUCCESS) {
             compositeDisposable += registerApply(
@@ -69,12 +69,14 @@ class StudyDetailViewModel @ViewModelInject constructor(
                     if (success) {
                         _emptyCheckMessage.value = Event(checkMessage)
                     }
+                    hideLoading()
                 }, {
                     Logger.d("$it")
-                    val errorResponse = (it as? HttpException)?.toErrorResponse()
+                    val errorResponse = it.toErrorResponse()
                     if (errorResponse?.message != null) {
                         _toastMessage.value = Event(errorResponse.message)
                     }
+                    hideLoading()
                 })
 
         } else {

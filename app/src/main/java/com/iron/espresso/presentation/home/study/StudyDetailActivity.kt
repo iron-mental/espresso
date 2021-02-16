@@ -15,10 +15,7 @@ import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
-import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.ext.setCircleImage
-import com.iron.espresso.ext.setRadiusImage
-import com.iron.espresso.ext.toast
+import com.iron.espresso.ext.*
 import com.iron.espresso.presentation.home.apply.ApplyStudyDialog
 import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +35,9 @@ class StudyDetailActivity :
         setToolbarTitle(R.string.title_study_detail)
         setNavigationIcon(R.drawable.ic_back_24)
 
+        setupView()
+        setupViewModel()
+
         viewModel.getStudy(studyId)
 
         binding.joinButton.setOnClickListener {
@@ -49,10 +49,6 @@ class StudyDetailActivity :
             if (it == ValidationInputText.SUCCESS) {
                 visibleBtn(AUTHORITY_APPLIER)
             }
-        })
-
-        viewModel.toastMessage.observe(this, EventObserver {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
 
         viewModel.studyDetail.observe(this, Observer { studyDetail ->
@@ -105,6 +101,17 @@ class StudyDetailActivity :
         })
     }
 
+    private fun setupView() {
+
+    }
+
+    private fun setupViewModel() {
+        with(viewModel) {
+            toastMessage.observe(this@StudyDetailActivity, EventObserver(::toast))
+            loadingState.observe(this@StudyDetailActivity, EventObserver(::setLoading))
+        }
+    }
+
     private fun visibleBtn(authority: String) {
         when (authority) {
             AUTHORITY_APPLIER -> {
@@ -133,7 +140,6 @@ class StudyDetailActivity :
             val message = bundle.getString(ApplyStudyDialog.MESSAGE)
 
             viewModel.sendApply(studyId, message.orEmpty())
-            toast(message.orEmpty())
         }
     }
 

@@ -75,6 +75,7 @@
                 android:layout_height="100dp"
                 android:background="@color/transparent"
                 android:cursorVisible="true"
+                android:gravity="top"
                 android:imeOptions="actionSend"
                 android:inputType="text"
                 android:textColor="@color/white"
