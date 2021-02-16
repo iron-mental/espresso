@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.ParticipateItem
@@ -15,7 +16,10 @@ import com.iron.espresso.presentation.home.mystudy.adapter.ParticipateAdapter
 class DelegateLeaderActivity :
     BaseActivity<ActivityDelegateLeaderBinding>(R.layout.activity_delegate_leader) {
 
+    private val viewModel by viewModels<DelegateLeaderViewModel>()
     private val participateAdapter = ParticipateAdapter()
+    private var studyId = -1
+    private var memberList = listOf<ParticipateItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,10 +27,17 @@ class DelegateLeaderActivity :
         setNavigationIcon(R.drawable.ic_back_24)
         setToolbarTitle(TOOLBAR_TITLE)
 
+        studyId =
+            intent.getIntExtra(MyStudyDetailActivity.STUDY_ID, MyStudyDetailActivity.DEFAULT_VALUE)
+        memberList = intent.getSerializableExtra(PARTICIPATE_LIST) as List<ParticipateItem>
+
         binding.participateList.adapter = participateAdapter
-        participateAdapter.setItemList(intent.getSerializableExtra(PARTICIPATE_LIST) as List<ParticipateItem>)
+        participateAdapter.setItemList(memberList)
         participateAdapter.setItemClickListener { participateItem ->
-            toast(participateItem.nickname)
+            viewModel.delegateStudyLeader(
+                studyId,
+                participateItem.userId
+            )
         }
     }
 
