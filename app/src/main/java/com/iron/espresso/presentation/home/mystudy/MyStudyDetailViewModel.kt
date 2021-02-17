@@ -54,4 +54,19 @@ class MyStudyDetailViewModel @ViewModelInject constructor(private val studyRepos
                 Logger.d("$errorResponse")
             })
     }
+
+    fun deleteStudy(studyId: Int) {
+        compositeDisposable += studyRepository
+            .deleteStudy(
+                studyId = studyId
+            )
+            .networkSchedulers()
+            .subscribe({
+                _toastMessage.value = Event(it.message.orEmpty())
+                Logger.d("$it")
+            }, {
+                val errorResponse = (it as? HttpException)?.toErrorResponse()
+                Logger.d("$errorResponse")
+            })
+    }
 }

@@ -47,4 +47,8 @@ class StudyRepositoryImpl @Inject constructor(
                 it.data
             }
     }
+
+    override fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>> {
+        return remoteDataSource.deleteStudy(studyId)
+    }
 }
