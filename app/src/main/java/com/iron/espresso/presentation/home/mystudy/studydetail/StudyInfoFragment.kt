@@ -73,8 +73,8 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
             mapFragment.getMapAsync { naverMap ->
                 naverMap.cameraPosition = CameraPosition(
                     LatLng(
-                        studyDetail.locationItem.longitude.toDouble(),
-                        studyDetail.locationItem.latitude.toDouble()
+                        studyDetail.locationItem.latitude.toDouble(),
+                        studyDetail.locationItem.longitude.toDouble()
                     ), 16.0
                 )
             }
