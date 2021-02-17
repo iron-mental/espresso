@@ -20,7 +20,6 @@ class HotKeywordFragment :
     BaseFragment<FragmentHotKeywordBinding>(R.layout.fragment_hot_keyword) {
 
     private val viewModel by viewModels<HotKeywordViewModel>()
-    private lateinit var hotKeywordButton: Chip
     private lateinit var searchEditText: EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,7 +62,7 @@ class HotKeywordFragment :
             hotKeywordList.observe(viewLifecycleOwner, { hotKeywordList ->
                 // 핫 키워드 버튼 클릭 시 검색 창 text 대응
                 hotKeywordList.forEach { keyWord ->
-                    hotKeywordButton = Chip(context).apply {
+                    val hotKeywordButton = Chip(context).apply {
                         text = keyWord.word
                         setOnClickListener {
                             showResultView(text.toString())
