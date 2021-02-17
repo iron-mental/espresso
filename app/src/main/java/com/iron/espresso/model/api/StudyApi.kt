@@ -153,4 +153,10 @@ interface StudyApi {
         @Query("values") studyIds: String,
         @Query("option") option: String
     ): Single<BaseResponse<StudyListResponse>>
+
+    @POST("/v1/study/{study_id}/leave")
+    fun leaveStudy(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<Nothing>>
 }
