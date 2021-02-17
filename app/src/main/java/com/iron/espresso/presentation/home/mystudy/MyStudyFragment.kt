@@ -39,7 +39,7 @@ class MyStudyFragment :
         }
 
         myStudyViewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
-            myStudyAdapter.replaceAll(studyList)
+            myStudyAdapter.replaceAll(studyList.myStudyItem)
             if (binding.swipeRefresh.isRefreshing) {
                 binding.swipeRefresh.isRefreshing = false
             }
