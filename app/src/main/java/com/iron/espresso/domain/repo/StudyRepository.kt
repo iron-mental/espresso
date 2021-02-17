@@ -1,6 +1,9 @@
 package com.iron.espresso.domain.repo
 
 import com.iron.espresso.model.response.study.HotSearchKeywordResponse
+import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.study.MyStudyListResponse
+import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import io.reactivex.Single
 
@@ -12,4 +15,12 @@ interface StudyRepository {
     fun getSearchStudyList(word: String): Single<StudyListResponse>
 
     fun getHotSearchKeyword(): Single<List<HotSearchKeywordResponse>>
+
+    fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>>
+
+    fun getStudyDetail(studyId: Int): Single<StudyDetailResponse>
+
+    fun getMyStudyList(userId: Int): Single<MyStudyListResponse>
+
+    fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>>
 }

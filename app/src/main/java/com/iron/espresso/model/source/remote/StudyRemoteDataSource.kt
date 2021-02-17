@@ -4,6 +4,8 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.HotSearchKeywordResponse
+import com.iron.espresso.model.response.study.MyStudyListResponse
+import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import io.reactivex.Single
 import javax.inject.Inject
@@ -39,6 +41,22 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
 
     override fun getHotSearchKeyword(): Single<BaseResponse<List<HotSearchKeywordResponse>>> =
         studyApi.getHotSearchKeyword()
+
+    override fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>> {
+        return studyApi.leaveStudy(studyId = studyId)
+    }
+
+    override fun getStudyDetail(studyId: Int): Single<BaseResponse<StudyDetailResponse>> {
+        return studyApi.getStudyDetail(studyId = studyId)
+    }
+
+    override fun getMyStudyList(userId: Int): Single<BaseResponse<MyStudyListResponse>> {
+        return studyApi.getMyStudyList(userId = userId)
+    }
+
+    override fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>> {
+        return studyApi.deleteStudy(studyId = studyId)
+    }
 }
 
 interface StudyRemoteDataSource {
@@ -57,4 +75,12 @@ interface StudyRemoteDataSource {
     ): Single<BaseResponse<StudyListResponse>>
 
     fun getHotSearchKeyword(): Single<BaseResponse<List<HotSearchKeywordResponse>>>
+
+    fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>>
+
+    fun getStudyDetail(studyId: Int): Single<BaseResponse<StudyDetailResponse>>
+
+    fun getMyStudyList(userId: Int): Single<BaseResponse<MyStudyListResponse>>
+
+    fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>>
 }

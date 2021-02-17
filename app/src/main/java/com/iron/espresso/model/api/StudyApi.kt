@@ -155,6 +155,7 @@ interface StudyApi {
         @Query("option") option: String
     ): Single<BaseResponse<StudyListResponse>>
 
+
     @GET("/v1/study/search")
     fun getSearchStudyList(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
@@ -165,4 +166,16 @@ interface StudyApi {
     fun getHotSearchKeyword(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
     ): Single<BaseResponse<List<HotSearchKeywordResponse>>>
+
+    @POST("/v1/study/{study_id}/leave")
+    fun leaveStudy(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<Nothing>>
+
+    @DELETE("/v1/study/{study_id}")
+    fun deleteStudy(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<Nothing>>
 }
