@@ -66,7 +66,8 @@ class MyStudyDetailActivity :
 
         viewModel.studyDetail.observe(this, { studyDetailItem ->
             authority = studyDetailItem.studyInfoItem.authority
-            participateList = studyDetailItem.studyInfoItem.participateItem as ArrayList<ParticipateItem>
+            participateList =
+                studyDetailItem.studyInfoItem.participateItem as ArrayList<ParticipateItem>
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
@@ -120,7 +121,13 @@ class MyStudyDetailActivity :
                 viewModel.deleteStudy(studyId)
             }
             R.id.host_delegate -> {
-                startActivity(DelegateLeaderActivity.getIntent(this, studyId, participateList))
+                startActivityForResult(
+                    DelegateLeaderActivity.getIntent(
+                        this,
+                        studyId,
+                        participateList
+                    ), DELEGATE_CODE
+                )
             }
             else -> {
                 return false
@@ -129,11 +136,20 @@ class MyStudyDetailActivity :
         return true
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == DELEGATE_CODE && resultCode == RESULT_OK) {
+            startActivity(intent)
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     companion object {
         private const val TOOLBAR_TITLE = "title"
         const val DEFAULT_VALUE = 0
         const val STUDY_ID = "studyId"
         private const val AUTH_HOST = "host"
+        private const val DELEGATE_CODE = 1
 
         fun getInstance(context: Context, title: String, id: Int) =
             Intent(context, MyStudyDetailActivity::class.java)

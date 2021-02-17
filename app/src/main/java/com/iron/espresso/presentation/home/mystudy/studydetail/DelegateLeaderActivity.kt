@@ -48,6 +48,7 @@ class DelegateLeaderActivity :
             successEvent.observe(this@DelegateLeaderActivity, EventObserver { isSuccess ->
                 if (isSuccess) {
                     toast(R.string.success_delegate)
+                    setResult(RESULT_OK)
                     finish()
                 }
             })
