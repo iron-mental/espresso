@@ -33,4 +33,8 @@ abstract class BaseFragment<B : ViewDataBinding>(@LayoutRes private val layoutId
         compositeDisposable.clear()
         super.onDestroyView()
     }
+
+    open fun onBackPressed(): Boolean {
+        return false
+    }
 }

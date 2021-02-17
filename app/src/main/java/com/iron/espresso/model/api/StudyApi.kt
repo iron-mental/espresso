@@ -3,6 +3,7 @@ package com.iron.espresso.model.api
 import com.google.gson.annotations.SerializedName
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.study.HotSearchKeywordResponse
 import com.iron.espresso.model.response.study.MyStudyListResponse
 import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
@@ -159,6 +160,18 @@ interface StudyApi {
         @Query("values") studyIds: String,
         @Query("option") option: String
     ): Single<BaseResponse<StudyListResponse>>
+
+
+    @GET("/v1/study/search")
+    fun getSearchStudyList(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Query("word") word: String
+    ): Single<BaseResponse<StudyListResponse>>
+
+    @GET("/v1/study/ranking")
+    fun getHotSearchKeyword(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+    ): Single<BaseResponse<List<HotSearchKeywordResponse>>>
 
     @POST("/v1/study/{study_id}/leave")
     fun leaveStudy(

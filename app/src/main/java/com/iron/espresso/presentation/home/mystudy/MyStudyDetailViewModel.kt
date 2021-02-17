@@ -52,6 +52,7 @@ class MyStudyDetailViewModel @ViewModelInject constructor(private val studyRepos
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
                 Logger.d("$errorResponse")
+                _toastMessage.value = Event((it.message.orEmpty()))
             })
     }
 

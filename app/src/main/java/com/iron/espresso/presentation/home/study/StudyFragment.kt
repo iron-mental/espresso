@@ -12,6 +12,7 @@ import com.iron.espresso.presentation.StudyCategoryItem
 import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
 import com.iron.espresso.presentation.home.study.list.StudyListActivity
+import com.iron.espresso.presentation.home.study.search.SearchStudyActivity
 
 class StudyFragment :
     BaseFragment<FragmentStudyBinding>(R.layout.fragment_study),
@@ -50,11 +51,11 @@ class StudyFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.search_study -> {
-                startActivity(SearchStudyActivity.getInstance(requireContext()))
+                startActivity(SearchStudyActivity.getIntent(requireContext()))
             }
 
             R.id.add_study -> {
-                startActivity(StudyCategoryActivity.getInstance(requireContext()))
+                startActivity(StudyCategoryActivity.getIntent(requireContext()))
             }
 
         }
