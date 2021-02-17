@@ -6,4 +6,10 @@
         android:id="@+id/leave_study"
         android:title="@string/leave_study"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/delete_study"
+        android:title="@string/delete_study"
+        app:showAsAction="never"
+        android:visible="false"/>
 </menu>

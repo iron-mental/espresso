@@ -54,7 +54,7 @@ class StudyFragment :
             }
 
             R.id.add_study -> {
-                startActivity(StudyCategoryActivity.getInstance(requireContext()))
+                startActivity(StudyCategoryActivity.getIntent(requireContext()))
             }
 
         }

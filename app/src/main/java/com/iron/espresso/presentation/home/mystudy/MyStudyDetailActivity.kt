@@ -26,6 +26,7 @@ class MyStudyDetailActivity :
 
     private val viewModel by viewModels<MyStudyDetailViewModel>()
     private var authority = ""
+    private var studyId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,7 @@ class MyStudyDetailActivity :
         setToolbarTitle(intent.getStringExtra(TOOLBAR_TITLE))
         setNavigationIcon(R.drawable.ic_back_24)
 
+        studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
         val studyDetailTabList = resources.getStringArray(R.array.study_detail_tab)
 
         binding.run {
@@ -45,13 +47,8 @@ class MyStudyDetailActivity :
 
                 override fun createFragment(position: Int): Fragment =
                     when (position) {
-                        0 -> NoticeFragment.newInstance(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
-                        1 -> StudyInfoFragment.newInstance(
-                            intent.getIntExtra(
-                                STUDY_ID,
-                                DEFAULT_VALUE
-                            )
-                        )
+                        0 -> NoticeFragment.newInstance(studyId)
+                        1 -> StudyInfoFragment.newInstance(studyId)
                         2 -> ChattingFragment.newInstance()
                         else -> error("Invalid position")
                     }
@@ -62,7 +59,7 @@ class MyStudyDetailActivity :
             tab.text = studyDetailTabList[position]
         }.attach()
 
-        viewModel.getStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
+        viewModel.getStudy(studyId)
 
         viewModel.studyDetail.observe(this, { studyDetailItem ->
             authority = studyDetailItem.studyInfoItem.authority
@@ -93,6 +90,14 @@ class MyStudyDetailActivity :
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (authority == AUTH_HOST) {
+            val item = menu?.findItem(R.id.delete_study)
+            item?.isVisible = true
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -100,10 +105,13 @@ class MyStudyDetailActivity :
             }
             R.id.leave_study -> {
                 if (checkAuthority(authority)) {
-                    viewModel.leaveStudy(intent.getIntExtra(STUDY_ID, DEFAULT_VALUE))
+                    viewModel.leaveStudy(studyId)
                 } else {
                     toast(resources.getString(R.string.pass_permission))
                 }
+            }
+            R.id.delete_study -> {
+                viewModel.deleteStudy(studyId)
             }
             else -> {
                 return false

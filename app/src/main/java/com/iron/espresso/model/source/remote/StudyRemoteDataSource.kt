@@ -42,6 +42,10 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     override fun getMyStudyList(userId: Int): Single<BaseResponse<MyStudyListResponse>> {
         return studyApi.getMyStudyList(userId = userId)
     }
+
+    override fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>> {
+        return studyApi.deleteStudy(studyId = studyId)
+    }
 }
 
 interface StudyRemoteDataSource {
@@ -60,4 +64,6 @@ interface StudyRemoteDataSource {
     fun getStudyDetail(studyId: Int): Single<BaseResponse<StudyDetailResponse>>
 
     fun getMyStudyList(userId: Int): Single<BaseResponse<MyStudyListResponse>>
+
+    fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>>
 }
