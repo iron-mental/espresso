@@ -99,8 +99,10 @@ class MyStudyDetailActivity :
         if (authority == AUTH_HOST) {
             val deleteItem = menu?.findItem(R.id.delete_study)
             val delegateItem = menu?.findItem(R.id.host_delegate)
+            val modifyItem = menu?.findItem(R.id.modify_study)
             deleteItem?.isVisible = true
             delegateItem?.isVisible = true
+            modifyItem?.isVisible = true
         }
         return super.onPrepareOptionsMenu(menu)
     }
