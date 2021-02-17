@@ -47,11 +47,20 @@ class ToolbarHelper(activity: AppCompatActivity, rootView: ViewGroup) :
 
     override fun setCustomView(view: View, relativeHeight: Boolean) {
         toolbar.run {
+            view.tag = CUSTOM_VIEW_TAG
             addView(view)
             setContentInsetsAbsolute(0, 0)
             if (relativeHeight) {
                 layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
             }
         }
+    }
+
+    override fun getCustomView(): View? {
+        return toolbar.findViewWithTag(CUSTOM_VIEW_TAG)
+    }
+
+    companion object {
+        private const val CUSTOM_VIEW_TAG = "tag"
     }
 }

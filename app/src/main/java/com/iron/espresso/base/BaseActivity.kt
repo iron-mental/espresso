@@ -58,6 +58,10 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
         toolbarHelper?.setCustomView(view, relativeHeight)
     }
 
+    override fun getCustomView(): View? {
+        return toolbarHelper?.getCustomView()
+    }
+
     companion object {
         private const val EMPTY_TOOLBAR_TITLE = ""
     }

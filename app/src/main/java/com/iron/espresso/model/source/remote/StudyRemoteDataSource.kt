@@ -3,6 +3,7 @@ package com.iron.espresso.model.source.remote
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.study.HotSearchKeywordResponse
 import com.iron.espresso.model.response.study.MyStudyListResponse
 import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
@@ -31,6 +32,16 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
         return studyApi.getStudyList(AuthHolder.bearerToken, category, sort)
     }
 
+    override fun getSearchStudyList(
+        word: String
+    ): Single<BaseResponse<StudyListResponse>> =
+        studyApi.getSearchStudyList(
+            word = word
+        )
+
+    override fun getHotSearchKeyword(): Single<BaseResponse<List<HotSearchKeywordResponse>>> =
+        studyApi.getHotSearchKeyword()
+
     override fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>> {
         return studyApi.leaveStudy(studyId = studyId)
     }
@@ -58,6 +69,12 @@ interface StudyRemoteDataSource {
         category: String,
         sort: String // new, length
     ): Single<BaseResponse<StudyListResponse>>
+
+    fun getSearchStudyList(
+        word: String
+    ): Single<BaseResponse<StudyListResponse>>
+
+    fun getHotSearchKeyword(): Single<BaseResponse<List<HotSearchKeywordResponse>>>
 
     fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>>
 
