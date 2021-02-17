@@ -1,29 +1,28 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.di.ApiModule
+import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.api.DelegateRequest
 import retrofit2.HttpException
 
-class DelegateLeaderViewModel : BaseViewModel() {
+class DelegateLeaderViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
+    BaseViewModel() {
 
     private val _successEvent = MutableLiveData<Event<Boolean>>()
     val successEvent: LiveData<Event<Boolean>> get() = _successEvent
 
     fun delegateStudyLeader(studyId: Int, newLeader: Int) {
-        compositeDisposable += ApiModule.provideStudyApi()
+        compositeDisposable += studyRepository
             .delegateStudyLeader(
                 studyId = studyId,
-                body = DelegateRequest(
-                    newLeader = newLeader
-                )
+                newLeader = newLeader
             )
             .networkSchedulers()
             .subscribe({

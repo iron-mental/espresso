@@ -13,7 +13,9 @@ import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.ParticipateAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DelegateLeaderActivity :
     BaseActivity<ActivityDelegateLeaderBinding>(R.layout.activity_delegate_leader) {
 

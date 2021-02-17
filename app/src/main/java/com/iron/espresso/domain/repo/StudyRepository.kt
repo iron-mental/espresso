@@ -23,4 +23,6 @@ interface StudyRepository {
     fun getMyStudyList(userId: Int): Single<MyStudyListResponse>
 
     fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>>
+
+    fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>>
 }
