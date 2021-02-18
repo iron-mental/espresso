@@ -134,6 +134,7 @@ interface StudyApi {
     ): Single<BaseResponse<StudyDetailResponse>>
 
     /** ModifyStudyRequest 만들어서 toMultipartBody */
+    @Multipart
     @PUT("/v1/study/{study_id}")
     fun modifyStudy(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
