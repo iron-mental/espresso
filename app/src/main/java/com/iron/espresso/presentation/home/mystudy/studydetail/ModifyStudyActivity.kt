@@ -17,7 +17,6 @@ import com.iron.espresso.data.model.StudyInfoItem
 import com.iron.espresso.databinding.ActivityModifyStudyBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
-import com.iron.espresso.presentation.home.mystudy.ModifyStudyViewModel
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,9 +43,6 @@ class ModifyStudyActivity :
             introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
             proceedInputView.setText(studyInfoItem.progress)
             proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
-            placeDetail.text =
-                studyInfoItem.locationItem.addressName + " " + studyInfoItem.locationItem.placeName
-            placeDetailInputView.setText(studyInfoItem.locationItem.locationDetail)
             timeInputView.setText(studyInfoItem.studyTime)
             notionInputView.inputUrl.setText(studyInfoItem.snsNotion)
             evernoteInputView.inputUrl.setText(studyInfoItem.snsEvernote)
