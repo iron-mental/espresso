@@ -18,6 +18,7 @@ import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.DelegateLeaderActivity
+import com.iron.espresso.presentation.home.mystudy.studydetail.ModifyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -130,6 +131,9 @@ class MyStudyDetailActivity :
                         participateList
                     ), DELEGATE_CODE
                 )
+            }
+            R.id.modify_study -> {
+                startActivity(ModifyStudyActivity.getIntent(this))
             }
             else -> {
                 return false
