@@ -8,18 +8,16 @@ import com.iron.espresso.Logger
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.StudyDetailItem
-import com.iron.espresso.domain.repo.ApplyRepository
+import com.iron.espresso.domain.usecase.RegisterApply
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import com.iron.espresso.model.api.RegisterStudyApplyRequest
 import com.iron.espresso.model.api.StudyApi
-import retrofit2.HttpException
 
 class StudyDetailViewModel @ViewModelInject constructor(
     private val studyApi: StudyApi,
-    private val applyRepository: ApplyRepository
+    private val registerApply: RegisterApply
 ) : BaseViewModel() {
 
     private val _studyDetail = MutableLiveData<StudyDetailItem>()
@@ -29,6 +27,10 @@ class StudyDetailViewModel @ViewModelInject constructor(
     private val _emptyCheckMessage = MutableLiveData<Event<ValidationInputText>>()
     val emptyCheckMessage: LiveData<Event<ValidationInputText>>
         get() = _emptyCheckMessage
+
+    private val _success = MutableLiveData<Event<Unit>>()
+    val success: LiveData<Event<Unit>>
+        get() = _success
 
     private fun emptyCheck(message: String): ValidationInputText {
         return if (message.isEmpty()) {
@@ -51,35 +53,35 @@ class StudyDetailViewModel @ViewModelInject constructor(
                 }
                 Logger.d("$it")
             }, {
-                val errorResponse = (it as? HttpException)?.toErrorResponse()
+                val errorResponse = it.toErrorResponse()
                 if (errorResponse != null) {
                     Logger.d("$errorResponse")
                 }
             })
     }
 
-    fun registerApply(studyId: Int, message: String) {
+    fun sendApply(studyId: Int, message: String) {
+        showLoading()
         val checkMessage = emptyCheck(message)
         if (checkMessage == ValidationInputText.SUCCESS) {
-            compositeDisposable += applyRepository
-                .registerApply(
-                    studyId = studyId,
-                    request = RegisterStudyApplyRequest(
-                        message = message
-                    )
-                )
+            compositeDisposable += registerApply(
+                studyId = studyId,
+                message = message
+            )
                 .networkSchedulers()
-                .subscribe({
-                    if (it.result) {
-                        _emptyCheckMessage.value = Event(checkMessage)
+                .subscribe({ (success, message) ->
+                    if (success) {
+                        _success.value = Event(Unit)
                     }
-                    Logger.d("$it")
+                    _toastMessage.value = Event(message)
+                    hideLoading()
                 }, {
                     Logger.d("$it")
-                    val errorResponse = (it as? HttpException)?.toErrorResponse()
+                    val errorResponse = it.toErrorResponse()
                     if (errorResponse?.message != null) {
                         _toastMessage.value = Event(errorResponse.message)
                     }
+                    hideLoading()
                 })
 
         } else {

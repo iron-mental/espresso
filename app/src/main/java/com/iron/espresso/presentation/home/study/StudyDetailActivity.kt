@@ -6,22 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iron.espresso.R
-import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
-import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.ext.setCircleImage
-import com.iron.espresso.ext.setRadiusImage
-import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.CameraPosition
+import com.iron.espresso.ext.*
+import com.iron.espresso.presentation.home.apply.ApplyStudyDialog
 import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,28 +24,26 @@ class StudyDetailActivity :
 
     private val viewModel by viewModels<StudyDetailViewModel>()
 
+    private val studyId: Int
+        get() = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle("스터디 상세화면")
+        setToolbarTitle(R.string.title_study_detail)
         setNavigationIcon(R.drawable.ic_back_24)
 
-        val studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
+        setupView()
+        setupViewModel()
+
         viewModel.getStudy(studyId)
 
         binding.joinButton.setOnClickListener {
-            showApplyDialog(studyId)
+            showApplyDialog()
         }
 
         viewModel.emptyCheckMessage.observe(this, EventObserver {
-            Toast.makeText(this, resources.getString(it.resId), Toast.LENGTH_SHORT).show()
-            if (it == ValidationInputText.SUCCESS) {
-                visibleBtn(AUTHORITY_APPLIER)
-            }
-        })
-
-        viewModel.toastMessage.observe(this, EventObserver {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            toast(it.resId)
         })
 
         viewModel.studyDetail.observe(this, Observer { studyDetail ->
@@ -88,10 +79,9 @@ class StudyDetailActivity :
                 binding.memberContainer.addView(memberView)
             }
 
-            val fm = supportFragmentManager
-            val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
+            val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as MapFragment?
                 ?: MapFragment.newInstance().also {
-                    fm.beginTransaction().add(R.id.map, it).commit()
+                    supportFragmentManager.beginTransaction().add(R.id.map, it).commit()
                 }
 
             mapFragment.getMapAsync { naverMap ->
@@ -103,6 +93,20 @@ class StudyDetailActivity :
                 )
             }
         })
+    }
+
+    private fun setupView() {
+
+    }
+
+    private fun setupViewModel() {
+        with(viewModel) {
+            toastMessage.observe(this@StudyDetailActivity, EventObserver(::toast))
+            loadingState.observe(this@StudyDetailActivity, EventObserver(::setLoading))
+            success.observe(this@StudyDetailActivity, EventObserver {
+                visibleBtn(AUTHORITY_APPLIER)
+            })
+        }
     }
 
     private fun visibleBtn(authority: String) {
@@ -121,20 +125,19 @@ class StudyDetailActivity :
         }
     }
 
-    private fun showApplyDialog(studyId: Int) {
-        val applyDialog = layoutInflater.inflate(R.layout.view_apply_study, null)
-        val messageInputView: EditText = applyDialog.findViewById(R.id.message_input_view)
+    private fun showApplyDialog() {
+        val dialog = ApplyStudyDialog.newInstance()
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle(resources.getString(R.string.apply_title))
-            .setMessage(resources.getString(R.string.apply_content))
-            .setView(applyDialog)
-            .setNegativeButton(resources.getString(R.string.cancel)) { _, _ ->
-            }
-            .setPositiveButton(resources.getString(R.string.apply)) { _, _ ->
-                viewModel.registerApply(studyId, "${messageInputView.text}")
-            }
-            .show()
+        dialog.show(supportFragmentManager, dialog::class.simpleName)
+
+        supportFragmentManager.setFragmentResultListener(
+            ApplyStudyDialog.SUBMIT,
+            this
+        ) { _: String, bundle: Bundle ->
+            val message = bundle.getString(ApplyStudyDialog.MESSAGE)
+
+            viewModel.sendApply(studyId, message.orEmpty())
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -151,6 +154,7 @@ class StudyDetailActivity :
         private const val DEFAULT_VALUE = -1
         private const val AUTHORITY_APPLIER = "applier"
         private const val AUTHORITY_REJECT = "reject"
+
 
         fun getIntent(context: Context, studyId: Int) =
             Intent(context, StudyDetailActivity::class.java)
