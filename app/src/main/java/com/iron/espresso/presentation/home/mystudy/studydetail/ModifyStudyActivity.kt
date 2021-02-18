@@ -13,12 +13,14 @@ import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.data.model.ModifyStudyItem
+import com.iron.espresso.data.model.StudyInfoItem
 import com.iron.espresso.databinding.ActivityModifyStudyBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.mystudy.ModifyStudyViewModel
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity
+import com.wswon.picker.Logger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,6 +37,8 @@ class ModifyStudyActivity :
 
         setToolbarTitle(TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
+        val studyInfoItem = intent.getSerializableExtra(STUDY_INFO) as StudyInfoItem
+        Logger.d("$studyInfoItem")
 
         binding.run {
 
@@ -126,8 +130,10 @@ class ModifyStudyActivity :
 
         private const val TITLE = "스터디 수정하기"
         private const val REQ_CODE = 0
+        private const val STUDY_INFO = "studyInfoItem"
 
-        fun getIntent(context: Context) =
+        fun getIntent(context: Context, studyInfoItem: StudyInfoItem) =
             Intent(context, ModifyStudyActivity::class.java)
+                .putExtra(STUDY_INFO, studyInfoItem)
     }
 }

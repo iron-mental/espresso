@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.ParticipateItem
+import com.iron.espresso.data.model.StudyInfoItem
 import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
@@ -28,9 +29,8 @@ class MyStudyDetailActivity :
     BaseActivity<ActivityMystudyDetailBinding>(R.layout.activity_mystudy_detail) {
 
     private val viewModel by viewModels<MyStudyDetailViewModel>()
-    private var authority = ""
     private var studyId = -1
-    private var participateList = arrayListOf<ParticipateItem>()
+    private var studyInfoItem = StudyInfoItem()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +66,7 @@ class MyStudyDetailActivity :
         viewModel.getStudy(studyId)
 
         viewModel.studyDetail.observe(this, { studyDetailItem ->
-            authority = studyDetailItem.studyInfoItem.authority
-            participateList =
-                studyDetailItem.studyInfoItem.participateItem as ArrayList<ParticipateItem>
+            studyInfoItem = studyDetailItem.studyInfoItem
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
@@ -97,7 +95,7 @@ class MyStudyDetailActivity :
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (authority == AUTH_HOST) {
+        if (studyInfoItem.authority == AUTH_HOST) {
             val deleteItem = menu?.findItem(R.id.delete_study)
             val delegateItem = menu?.findItem(R.id.host_delegate)
             val modifyItem = menu?.findItem(R.id.modify_study)
@@ -114,7 +112,7 @@ class MyStudyDetailActivity :
                 onBackPressed()
             }
             R.id.leave_study -> {
-                if (checkAuthority(authority)) {
+                if (checkAuthority(studyInfoItem.authority)) {
                     viewModel.leaveStudy(studyId)
                 } else {
                     toast(resources.getString(R.string.pass_permission))
@@ -128,12 +126,12 @@ class MyStudyDetailActivity :
                     DelegateLeaderActivity.getIntent(
                         this,
                         studyId,
-                        participateList
+                        studyInfoItem.participateItem as ArrayList<ParticipateItem>
                     ), DELEGATE_CODE
                 )
             }
             R.id.modify_study -> {
-                startActivity(ModifyStudyActivity.getIntent(this))
+                startActivity(ModifyStudyActivity.getIntent(this, studyInfoItem))
             }
             else -> {
                 return false
