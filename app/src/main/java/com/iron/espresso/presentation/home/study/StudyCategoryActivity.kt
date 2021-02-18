@@ -27,7 +27,7 @@ class StudyCategoryActivity :
             imageView,
             imageView.transitionName
         ).toBundle()
-        startActivity(StudyCreateActivity.getInstance(this, item.image), options)
+        startActivity(StudyCreateActivity.getIntent(this, item.image), options)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +60,7 @@ class StudyCategoryActivity :
     companion object {
         private const val TITLE = "스터디 만들기"
 
-        fun getInstance(context: Context) =
+        fun getIntent(context: Context) =
             Intent(context, StudyCategoryActivity::class.java)
     }
 }

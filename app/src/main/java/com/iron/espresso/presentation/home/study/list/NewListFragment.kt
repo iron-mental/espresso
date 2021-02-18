@@ -33,7 +33,13 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
 
         studyListAdapter.setItemClickListener { studyItem ->
             if (studyItem.isMember) {
-                startActivity(MyStudyDetailActivity.getInstance(requireContext(), studyItem.title, studyItem.id))
+                startActivity(
+                    MyStudyDetailActivity.getInstance(
+                        requireContext(),
+                        studyItem.title,
+                        studyItem.id
+                    )
+                )
             } else {
                 startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
             }
@@ -62,7 +68,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
                     if (layoutManager.findLastCompletelyVisibleItemPosition()
                         == studyListAdapter.itemCount - 1
                     ) {
-                        viewModel.getStudyListPaging(SORT_NEW, studyListAdapter.itemCount)
+                        viewModel.getStudyListPaging(OPTION, studyListAdapter.itemCount)
                     }
                 }
             }
@@ -71,6 +77,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
 
     companion object {
         private const val SORT_NEW = "new"
+        private const val OPTION = "default"
         fun newInstance() =
             NewListFragment()
     }

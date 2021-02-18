@@ -1,9 +1,11 @@
 package com.iron.espresso.model.source.remote
 
 import com.iron.espresso.AuthHolder
-import com.iron.espresso.Logger
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.study.HotSearchKeywordResponse
+import com.iron.espresso.model.response.study.MyStudyListResponse
+import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import io.reactivex.Single
 import javax.inject.Inject
@@ -13,10 +15,14 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     StudyRemoteDataSource {
 
     override fun getStudyPagingList(
-        sort: String,
-        studyIds: List<Int>
+        studyIds: List<Int>,
+        option: String
     ): Single<BaseResponse<StudyListResponse>> {
-        return studyApi.getStudyPagingList(AuthHolder.bearerToken, sort, studyIds.joinToString(","))
+        return studyApi.getStudyPagingList(
+            AuthHolder.bearerToken,
+            studyIds.joinToString(","),
+            option
+        )
     }
 
     override fun getStudyList(
@@ -25,16 +31,56 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     ): Single<BaseResponse<StudyListResponse>> {
         return studyApi.getStudyList(AuthHolder.bearerToken, category, sort)
     }
+
+    override fun getSearchStudyList(
+        word: String
+    ): Single<BaseResponse<StudyListResponse>> =
+        studyApi.getSearchStudyList(
+            word = word
+        )
+
+    override fun getHotSearchKeyword(): Single<BaseResponse<List<HotSearchKeywordResponse>>> =
+        studyApi.getHotSearchKeyword()
+
+    override fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>> {
+        return studyApi.leaveStudy(studyId = studyId)
+    }
+
+    override fun getStudyDetail(studyId: Int): Single<BaseResponse<StudyDetailResponse>> {
+        return studyApi.getStudyDetail(studyId = studyId)
+    }
+
+    override fun getMyStudyList(userId: Int): Single<BaseResponse<MyStudyListResponse>> {
+        return studyApi.getMyStudyList(userId = userId)
+    }
+
+    override fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>> {
+        return studyApi.deleteStudy(studyId = studyId)
+    }
 }
 
 interface StudyRemoteDataSource {
     fun getStudyPagingList(
-        sort: String,
-        studyIds: List<Int>
+        studyIds: List<Int>,
+        option: String
     ): Single<BaseResponse<StudyListResponse>>
 
     fun getStudyList(
         category: String,
         sort: String // new, length
     ): Single<BaseResponse<StudyListResponse>>
+
+    fun getSearchStudyList(
+        word: String
+    ): Single<BaseResponse<StudyListResponse>>
+
+    fun getHotSearchKeyword(): Single<BaseResponse<List<HotSearchKeywordResponse>>>
+
+    fun leaveStudy(studyId: Int): Single<BaseResponse<Nothing>>
+
+    fun getStudyDetail(studyId: Int): Single<BaseResponse<StudyDetailResponse>>
+
+    fun getMyStudyList(userId: Int): Single<BaseResponse<MyStudyListResponse>>
+
+    fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>>
 }

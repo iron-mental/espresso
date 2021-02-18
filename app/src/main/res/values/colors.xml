@@ -20,4 +20,6 @@
     <color name="ffec655a">#ffec655a</color>
     <color name="ffe0c04c">#ffe0c04c</color>
     <color name="ff72be47">#ff72be47</color>
+
+    <color name="colorControlHighlight">#2e2e2e</color>
 </resources>

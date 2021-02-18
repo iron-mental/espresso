@@ -11,20 +11,21 @@
 
         <variable
             name="myStudyItem"
-            type="com.iron.espresso.model.response.study.MyStudyResponse" />
+            type="com.iron.espresso.data.model.MyStudyItem" />
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:background="?attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="53dp"
             android:layout_height="53dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="15dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,12 +38,12 @@
             android:layout_width="wrap_content"
             android:layout_height="31dp"
             android:layout_marginStart="24dp"
+            android:fontFamily="@font/noto_sans_bold"
             android:gravity="center_vertical"
             android:lineSpacingExtra="17sp"
             android:text="@{myStudyItem.sigungu}"
             android:textColor="#0047ab"
             android:textSize="14sp"
-            android:fontFamily="@font/noto_sans_bold"
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintTop_toTopOf="parent" />
 

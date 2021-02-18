@@ -2,6 +2,7 @@ package com.iron.espresso.model.api
 
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.study.HotSearchKeywordResponse
 import com.iron.espresso.model.response.study.MyStudyListResponse
 import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
@@ -150,7 +151,31 @@ interface StudyApi {
     @GET("/v1/study/paging/list")
     fun getStudyPagingList(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Query("sort") sort: String,
-        @Query("values") studyIds: String
+        @Query("values") studyIds: String,
+        @Query("option") option: String
     ): Single<BaseResponse<StudyListResponse>>
+
+
+    @GET("/v1/study/search")
+    fun getSearchStudyList(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Query("word") word: String
+    ): Single<BaseResponse<StudyListResponse>>
+
+    @GET("/v1/study/ranking")
+    fun getHotSearchKeyword(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+    ): Single<BaseResponse<List<HotSearchKeywordResponse>>>
+
+    @POST("/v1/study/{study_id}/leave")
+    fun leaveStudy(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<Nothing>>
+
+    @DELETE("/v1/study/{study_id}")
+    fun deleteStudy(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<Nothing>>
 }

@@ -103,16 +103,12 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {
-                activity?.finish()
-            }
             R.id.create_notice -> {
                 startActivityForResult(
                     NoticeCreateActivity.getIntent(requireContext(), studyId),
                     REQUEST_CREATE_CODE
                 )
             }
-
             else -> {
                 Toast.makeText(context, "${item.title}", Toast.LENGTH_SHORT).show()
             }

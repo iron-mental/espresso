@@ -2,10 +2,25 @@ package com.iron.espresso.model.response.study
 
 
 import com.google.gson.annotations.SerializedName
+import com.iron.espresso.data.model.BadgeItem
 import com.iron.espresso.data.model.LocationItem
 import com.iron.espresso.data.model.StudyDetailItem
+import com.iron.espresso.data.model.StudyInfoItem
 
 data class StudyDetailResponse(
+    @SerializedName("studyInfo")
+    val studyInfoResponse: StudyInfoResponse?,
+    @SerializedName("badge")
+    val badgeResponse: BadgeResponse?
+) {
+    fun toStudyDetailItem() =
+        StudyDetailItem(
+            studyInfoItem = studyInfoResponse?.toStudyInfoItem() ?: StudyInfoItem(),
+            badgeItem = badgeResponse?.toBadgeItem() ?: BadgeItem()
+        )
+}
+
+data class StudyInfoResponse(
     @SerializedName("participate")
     val participateResponse: List<ParticipateResponse>?,
     @SerializedName("id")
@@ -33,8 +48,8 @@ data class StudyDetailResponse(
     @SerializedName("Authority")
     val authority: String?
 ) {
-    fun toStudyDetailItem() =
-        StudyDetailItem(
+    fun toStudyInfoItem() =
+        StudyInfoItem(
             participateItem = participateResponse?.map {
                 it.toParticipateItem()
             }.orEmpty(),
