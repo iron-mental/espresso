@@ -20,7 +20,6 @@ import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.mystudy.ModifyStudyViewModel
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity
-import com.wswon.picker.Logger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,12 +37,20 @@ class ModifyStudyActivity :
         setToolbarTitle(TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
         val studyInfoItem = intent.getSerializableExtra(STUDY_INFO) as StudyInfoItem
-        Logger.d("$studyInfoItem")
 
         binding.run {
-
+            titleInputView.setText(studyInfoItem.title)
+            introduceInputView.setText(studyInfoItem.introduce)
             introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
+            proceedInputView.setText(studyInfoItem.progress)
             proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
+            placeDetail.text =
+                studyInfoItem.locationItem.addressName + " " + studyInfoItem.locationItem.placeName
+            placeDetailInputView.setText(studyInfoItem.locationItem.locationDetail)
+            timeInputView.setText(studyInfoItem.studyTime)
+            notionInputView.inputUrl.setText(studyInfoItem.snsNotion)
+            evernoteInputView.inputUrl.setText(studyInfoItem.snsEvernote)
+            webInputView.inputUrl.setText(studyInfoItem.snsWeb)
 
             placeContainer.setOnClickListener {
                 startActivityForResult(
