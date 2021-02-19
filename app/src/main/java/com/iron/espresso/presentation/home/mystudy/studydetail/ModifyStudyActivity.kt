@@ -27,7 +27,7 @@ class ModifyStudyActivity :
 
     private val viewModel by viewModels<ModifyStudyViewModel>()
 
-    private var localItem: LocalItem? = null
+    private var localItem = LocalItem()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +56,7 @@ class ModifyStudyActivity :
             }
 
             buttonSignUp.setOnClickListener {
-                localItem?.locationDetail = placeDetailInputView.text.toString()
+                localItem.locationDetail = placeDetailInputView.text.toString()
 
                 viewModel.modifyStudy(
                     476,
@@ -66,7 +66,13 @@ class ModifyStudyActivity :
                         introduce = introduceInputView.text.toString(),
                         progress = proceedInputView.text.toString(),
                         studyTime = timeInputView.text.toString(),
-                        localItem = localItem,
+                        latitude = localItem.lat,
+                        longitude = localItem.lng,
+                        sido = localItem.sido,
+                        sigungu = localItem.sigungu,
+                        addressName = localItem.addressName,
+                        placeName = localItem.placeName,
+                        locationDetail = localItem.locationDetail,
                         snsNotion = notionInputView.inputUrl.text.toString(),
                         snsEverNote = evernoteInputView.inputUrl.text.toString(),
                         snsWeb = webInputView.inputUrl.text.toString(),

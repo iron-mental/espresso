@@ -48,14 +48,14 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: St
             modifyStudyItem.introduce.isEmpty() -> ValidationInputText.EMPTY_INTRODUCE
             modifyStudyItem.progress.isEmpty() -> ValidationInputText.EMPTY_PROGRESS
             modifyStudyItem.studyTime.isEmpty() -> ValidationInputText.EMPTY_TIME
-            (modifyStudyItem.localItem == null) -> ValidationInputText.EMPTY_PLACE
+            (modifyStudyItem.addressName.isEmpty()) -> ValidationInputText.EMPTY_PLACE
             else -> ValidationInputText.REGISTER_STUDY
         }
     }
 
     fun modifyStudy(studyId: Int, modifyStudyItem: ModifyStudyItem) {
         val message = emptyCheck(modifyStudyItem)
-        if (message == ValidationInputText.REGISTER_STUDY && modifyStudyItem.localItem != null) {
+        if (message == ValidationInputText.REGISTER_STUDY) {
             compositeDisposable += studyApi
                 .modifyStudy(
                     bearerToken = AuthHolder.bearerToken,
@@ -66,13 +66,13 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: St
                         introduce = modifyStudyItem.introduce,
                         progress = modifyStudyItem.progress,
                         studyTime = modifyStudyItem.studyTime,
-                        latitude = modifyStudyItem.localItem.lat,
-                        longitude = modifyStudyItem.localItem.lng,
-                        sido = modifyStudyItem.localItem.sido,
-                        sigungu = modifyStudyItem.localItem.sigungu,
-                        addressName = modifyStudyItem.localItem.addressName,
-                        placeName = modifyStudyItem.localItem.placeName,
-                        locationDetail = modifyStudyItem.localItem.locationDetail,
+                        latitude = modifyStudyItem.latitude,
+                        longitude = modifyStudyItem.longitude,
+                        sido = modifyStudyItem.sido,
+                        sigungu = modifyStudyItem.sigungu,
+                        addressName = modifyStudyItem.addressName,
+                        placeName = modifyStudyItem.placeName,
+                        locationDetail = modifyStudyItem.locationDetail,
                         snsNotion = modifyStudyItem.snsNotion,
                         snsEverNote = modifyStudyItem.snsEverNote,
                         snsWeb = modifyStudyItem.snsWeb,
