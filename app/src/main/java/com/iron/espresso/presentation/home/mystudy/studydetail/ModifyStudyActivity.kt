@@ -60,6 +60,7 @@ class ModifyStudyActivity :
 
                 viewModel.modifyStudy(
                     studyInfoItem.id,
+                    studyInfoItem.title,
                     ModifyStudyItem(
                         category = studyInfoItem.category,
                         title = titleInputView.text.toString(),

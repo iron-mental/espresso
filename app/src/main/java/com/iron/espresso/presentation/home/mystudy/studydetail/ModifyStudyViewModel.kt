@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
+import com.iron.espresso.Logger
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.*
@@ -48,12 +49,20 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: St
             modifyStudyItem.introduce.isEmpty() -> ValidationInputText.EMPTY_INTRODUCE
             modifyStudyItem.progress.isEmpty() -> ValidationInputText.EMPTY_PROGRESS
             modifyStudyItem.studyTime.isEmpty() -> ValidationInputText.EMPTY_TIME
-            (modifyStudyItem.addressName.isEmpty()) -> ValidationInputText.EMPTY_PLACE
+//            (modifyStudyItem.addressName.isEmpty()) -> ValidationInputText.EMPTY_PLACE
             else -> ValidationInputText.REGISTER_STUDY
         }
     }
 
-    fun modifyStudy(studyId: Int, modifyStudyItem: ModifyStudyItem) {
+    private fun duplicateItemCheck(title: String, modifyTitle: String): String {
+        return if (title == modifyTitle) {
+            ""
+        } else {
+            modifyTitle
+        }
+    }
+
+    fun modifyStudy(studyId: Int, title: String, modifyStudyItem: ModifyStudyItem) {
         val message = emptyCheck(modifyStudyItem)
         if (message == ValidationInputText.REGISTER_STUDY) {
             compositeDisposable += studyApi
@@ -62,7 +71,7 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: St
                     studyId = studyId,
                     body = ModifyStudyRequest(
                         category = modifyStudyItem.category,
-                        title = modifyStudyItem.title,
+                        title = duplicateItemCheck(title, modifyStudyItem.title),
                         introduce = modifyStudyItem.introduce,
                         progress = modifyStudyItem.progress,
                         studyTime = modifyStudyItem.studyTime,
@@ -82,7 +91,9 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: St
                 .networkSchedulers()
                 .subscribe({
                     _emptyCheckMessage.value = Event(message)
+                    Logger.d("$it")
                 }, {
+                    Logger.d("$it")
                     val errorResponse = (it as? HttpException)?.toErrorResponse()
                     if (errorResponse?.message != null) {
                         _toastMessage.value = Event("${errorResponse.message}")
