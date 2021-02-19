@@ -67,6 +67,7 @@ class MyStudyDetailActivity :
 
         viewModel.studyDetail.observe(this, { studyDetailItem ->
             studyInfoItem = studyDetailItem.studyInfoItem
+            setToolbarTitle(studyInfoItem.title)
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
@@ -131,7 +132,10 @@ class MyStudyDetailActivity :
                 )
             }
             R.id.modify_study -> {
-                startActivity(ModifyStudyActivity.getIntent(this, studyInfoItem))
+                startActivityForResult(
+                    ModifyStudyActivity.getIntent(this, studyInfoItem),
+                    MODIFY_CODE
+                )
             }
             else -> {
                 return false
@@ -142,6 +146,10 @@ class MyStudyDetailActivity :
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == DELEGATE_CODE && resultCode == RESULT_OK) {
+            finish()
+            startActivity(intent)
+        } else if (requestCode == MODIFY_CODE && resultCode == RESULT_OK) {
+            finish()
             startActivity(intent)
         }
 
@@ -154,6 +162,7 @@ class MyStudyDetailActivity :
         const val STUDY_ID = "studyId"
         private const val AUTH_HOST = "host"
         private const val DELEGATE_CODE = 1
+        private const val MODIFY_CODE = 2
 
         fun getInstance(context: Context, title: String, id: Int) =
             Intent(context, MyStudyDetailActivity::class.java)

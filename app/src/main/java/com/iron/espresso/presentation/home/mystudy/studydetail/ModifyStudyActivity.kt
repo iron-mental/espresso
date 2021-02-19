@@ -9,7 +9,6 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
 import com.iron.espresso.R
-import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.data.model.ModifyStudyItem
@@ -107,6 +106,7 @@ class ModifyStudyActivity :
             })
 
             success.observe(this@ModifyStudyActivity, EventObserver {
+                setResult(RESULT_OK)
                 finish()
             })
         }
