@@ -15,8 +15,7 @@ import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.data.model.ModifyStudyItem
 import com.iron.espresso.data.model.StudyInfoItem
 import com.iron.espresso.databinding.ActivityModifyStudyBinding
-import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.ext.toast
+import com.iron.espresso.ext.*
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +37,7 @@ class ModifyStudyActivity :
         val studyInfoItem = intent.getSerializableExtra(STUDY_INFO) as StudyInfoItem
 
         binding.run {
+            image.setUrlImg(studyInfoItem.image, ImageType.NORMAl)
             titleInputView.setText(studyInfoItem.title)
             introduceInputView.setText(studyInfoItem.introduce)
             introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
@@ -59,9 +59,9 @@ class ModifyStudyActivity :
                 localItem.locationDetail = placeDetailInputView.text.toString()
 
                 viewModel.modifyStudy(
-                    476,
+                    studyInfoItem.id,
                     ModifyStudyItem(
-                        category = "android",
+                        category = studyInfoItem.category,
                         title = titleInputView.text.toString(),
                         introduce = introduceInputView.text.toString(),
                         progress = proceedInputView.text.toString(),
