@@ -39,10 +39,18 @@ class ModifyStudyActivity :
         binding.run {
             image.setUrlImg(studyInfoItem.image, ImageType.NORMAl)
             titleInputView.setText(studyInfoItem.title)
-            introduceInputView.setText(studyInfoItem.introduce)
-            introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
-            proceedInputView.setText(studyInfoItem.progress)
-            proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
+            introduceInputView.apply {
+                setText(studyInfoItem.introduce)
+                setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
+            }
+            proceedInputView.apply {
+                setText(studyInfoItem.progress)
+                setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
+            }
+            placeDetail.text = studyInfoItem.locationItem.run {
+                "$addressName $placeName"
+            }
+            placeDetailInputView.setText(studyInfoItem.locationItem.locationDetail)
             timeInputView.setText(studyInfoItem.studyTime)
             notionInputView.inputUrl.setText(studyInfoItem.snsNotion)
             evernoteInputView.inputUrl.setText(studyInfoItem.snsEvernote)

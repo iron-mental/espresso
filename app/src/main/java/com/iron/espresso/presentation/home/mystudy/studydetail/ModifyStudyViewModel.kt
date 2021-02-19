@@ -49,7 +49,6 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: St
             modifyStudyItem.introduce.isEmpty() -> ValidationInputText.EMPTY_INTRODUCE
             modifyStudyItem.progress.isEmpty() -> ValidationInputText.EMPTY_PROGRESS
             modifyStudyItem.studyTime.isEmpty() -> ValidationInputText.EMPTY_TIME
-//            (modifyStudyItem.addressName.isEmpty()) -> ValidationInputText.EMPTY_PLACE
             else -> ValidationInputText.REGISTER_STUDY
         }
     }
