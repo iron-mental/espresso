@@ -112,7 +112,7 @@ data class ModifyStudyRequest(
 }
 
 data class DelegateRequest(
-    @SerializedName( "new_leader")
+    @SerializedName("new_leader")
     val newLeader: Int
 )
 

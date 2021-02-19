@@ -89,6 +89,14 @@ class MyStudyDetailActivity :
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == DELEGATE_CODE && resultCode == RESULT_OK) {
+            startActivity(intent)
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_mystudy_detail, menu)
@@ -97,10 +105,8 @@ class MyStudyDetailActivity :
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         if (authority == AUTH_HOST) {
-            val deleteItem = menu?.findItem(R.id.delete_study)
-            val delegateItem = menu?.findItem(R.id.host_delegate)
-            deleteItem?.isVisible = true
-            delegateItem?.isVisible = true
+            menu?.findItem(R.id.delete_study)?.isVisible = true
+            menu?.findItem(R.id.host_delegate)?.isVisible = true
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -134,14 +140,6 @@ class MyStudyDetailActivity :
             }
         }
         return true
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == DELEGATE_CODE && resultCode == RESULT_OK) {
-            startActivity(intent)
-        }
-
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     companion object {
