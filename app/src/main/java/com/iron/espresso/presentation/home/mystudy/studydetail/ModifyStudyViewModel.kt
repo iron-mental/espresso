@@ -27,6 +27,10 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: St
     val emptyCheckMessage: LiveData<Event<ValidationInputText>>
         get() = _emptyCheckMessage
 
+    private val _success = MutableLiveData<Event<Unit>>()
+    val success: LiveData<Event<Unit>>
+        get() = _success
+
     fun addItems(localItem: LocalItem?) {
         if (localItem != null) {
             _localItem.value = LocalItem(
@@ -89,7 +93,10 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: St
                 )
                 .networkSchedulers()
                 .subscribe({
-                    _emptyCheckMessage.value = Event(message)
+                    if (it.result) {
+                        _success.value = Event(Unit)
+                        _emptyCheckMessage.value = Event(message)
+                    }
                     Logger.d("$it")
                 }, {
                     Logger.d("$it")

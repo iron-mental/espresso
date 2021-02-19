@@ -100,13 +100,14 @@ class ModifyStudyActivity :
 
             emptyCheckMessage.observe(this@ModifyStudyActivity, EventObserver { message ->
                 toast(message.resId)
-                if (message == ValidationInputText.REGISTER_STUDY) {
-                    finish()
-                }
             })
 
             toastMessage.observe(this@ModifyStudyActivity, EventObserver { message ->
                 toast(message)
+            })
+
+            success.observe(this@ModifyStudyActivity, EventObserver {
+                finish()
             })
         }
     }
