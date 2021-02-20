@@ -16,9 +16,13 @@ class SearchPlaceDetailViewModel @ViewModelInject constructor(private val kakaoA
 
     val sendLocalItem = MutableLiveData<LocalItem>()
 
-    fun searchCoord(lat: Double, lng: Double, placeName: String) {
+    fun searchCoord(lng: Double, lat: Double, placeName: String) {
 
-        kakaoApi.convertAddressToCoord(SearchPlaceActivity.REST_API_KEY, lat, lng)
+        kakaoApi.convertAddressToCoord(
+            authorization = SearchPlaceActivity.REST_API_KEY,
+            lng = lng,
+            lat = lat
+        )
             .enqueue(object : Callback<LocalResponse> {
                 override fun onResponse(
                     call: Call<LocalResponse>,

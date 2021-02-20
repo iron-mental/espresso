@@ -77,9 +77,9 @@ class SearchPlaceDetailActivity : FragmentActivity(), OnMapReadyCallback {
                 }
             }
             viewModel.searchCoord(
-                naverMap.cameraPosition.target.longitude,
-                naverMap.cameraPosition.target.latitude,
-                placeName
+                lng = naverMap.cameraPosition.target.longitude,
+                lat = naverMap.cameraPosition.target.latitude,
+                placeName = placeName
             )
 
             isGesturing = true

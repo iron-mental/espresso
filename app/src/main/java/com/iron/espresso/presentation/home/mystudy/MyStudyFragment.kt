@@ -1,5 +1,7 @@
 package com.iron.espresso.presentation.home.mystudy
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -9,8 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
+import com.iron.espresso.data.model.MyStudyItem
 import com.iron.espresso.databinding.FragmentMystudyBinding
-import com.iron.espresso.model.response.study.MyStudyResponse
+import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.apply.MyApplyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,22 +32,35 @@ class MyStudyFragment :
         binding.run {
             rvMyStudy.adapter = myStudyAdapter
             myStudyViewModel.showMyStudyList()
+            swipeRefresh.apply {
+                setOnRefreshListener {
+                    myStudyViewModel.showMyStudyList()
+                }
+            }
         }
 
         myStudyViewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
-            myStudyAdapter.replaceAll(studyList)
-        })
-
-        myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
-            override fun onClick(item: MyStudyResponse) {
-                if (item.title != null && item.id != null) {
-                    startActivity(
-                        MyStudyDetailActivity.getInstance(requireContext(), item.title, item.id)
-                    )
-                }
+            myStudyAdapter.replaceAll(studyList.myStudyItem)
+            if (binding.swipeRefresh.isRefreshing) {
+                binding.swipeRefresh.isRefreshing = false
             }
         })
 
+        myStudyAdapter.setItemClickListener(object : MyStudyAdapter.ItemClickListener {
+            override fun onClick(item: MyStudyItem) {
+                startActivityForResult(
+                    MyStudyDetailActivity.getInstance(requireContext(), item.title, item.id),
+                    REQUEST_LEAVE_CODE
+                )
+            }
+        })
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_LEAVE_CODE && resultCode == RESULT_OK) {
+            myStudyViewModel.showMyStudyList()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -60,11 +76,15 @@ class MyStudyFragment :
             R.id.more -> {
                 startActivity(MyApplyStudyActivity.getIntent(requireContext()))
             }
+            else -> {
+                toast("${item.title}")
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     companion object {
+        private const val REQUEST_LEAVE_CODE = 1
         fun newInstance() =
             MyStudyFragment()
     }

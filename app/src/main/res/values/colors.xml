@@ -24,4 +24,5 @@
     <color name="white_alpha10">#1affffff</color>
     <color name="white_alpha15">#26ffffff</color>
     <color name="white_alpha70">#b3ffffff</color>
+    <color name="colorControlHighlight">#2e2e2e</color>
 </resources>
