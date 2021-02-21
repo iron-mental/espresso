@@ -15,6 +15,8 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
 import com.iron.espresso.ext.*
 import com.iron.espresso.presentation.home.apply.ApplyStudyDialog
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
 
