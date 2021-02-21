@@ -3,6 +3,7 @@ package com.iron.espresso.presentation.home.mystudy.studydetail
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -17,6 +18,7 @@ import com.iron.espresso.databinding.ActivityModifyStudyBinding
 import com.iron.espresso.ext.*
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity
+import com.wswon.picker.ImagePickerFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,6 +56,25 @@ class ModifyStudyActivity :
             notionInputView.inputUrl.setText(studyInfoItem.snsNotion)
             evernoteInputView.inputUrl.setText(studyInfoItem.snsEvernote)
             webInputView.inputUrl.setText(studyInfoItem.snsWeb)
+
+            image.setOnClickListener {
+
+                val imagePickerFragment = ImagePickerFragment()
+                supportFragmentManager.setFragmentResultListener(
+                    ImagePickerFragment.REQ_IMAGE,
+                    this@ModifyStudyActivity
+                ) { _, data ->
+                    val imageUri = data.getParcelable<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
+                    if (imageUri != null) {
+                        binding.image.setImage(imageUri)
+                    }
+                }
+
+                imagePickerFragment.show(
+                    supportFragmentManager,
+                    imagePickerFragment::class.java.simpleName
+                )
+            }
 
             placeContainer.setOnClickListener {
                 startActivityForResult(
