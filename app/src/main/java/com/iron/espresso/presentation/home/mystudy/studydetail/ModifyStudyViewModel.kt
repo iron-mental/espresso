@@ -4,20 +4,19 @@ import android.net.Uri
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.*
+import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.ModifyStudyRequest
-import com.iron.espresso.model.api.StudyApi
 import retrofit2.HttpException
 
-class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
+class ModifyStudyViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
     BaseViewModel() {
 
     private val _localItem = MutableLiveData<LocalItem>()
@@ -75,9 +74,8 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: St
     fun modifyStudy(studyId: Int, title: String, modifyStudyItem: ModifyStudyItem) {
         val message = emptyCheck(modifyStudyItem)
         if (message == ValidationInputText.REGISTER_STUDY) {
-            compositeDisposable += studyApi
+            compositeDisposable += studyRepository
                 .modifyStudy(
-                    bearerToken = AuthHolder.bearerToken,
                     studyId = studyId,
                     body = ModifyStudyRequest(
                         category = modifyStudyItem.category,

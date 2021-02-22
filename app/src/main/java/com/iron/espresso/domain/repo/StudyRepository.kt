@@ -6,6 +6,7 @@ import com.iron.espresso.model.response.study.MyStudyListResponse
 import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import io.reactivex.Single
+import okhttp3.MultipartBody
 
 interface StudyRepository {
     fun getStudyPagingList(studyIds: List<Int>, option: String): Single<StudyListResponse>
@@ -25,4 +26,6 @@ interface StudyRepository {
     fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>>
 
     fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>>
+
+    fun modifyStudy(studyId: Int, body: List<MultipartBody.Part>): Single<BaseResponse<Nothing>>
 }

@@ -8,6 +8,7 @@ import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
 import com.iron.espresso.model.source.remote.StudyRemoteDataSource
 import io.reactivex.Single
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class StudyRepositoryImpl @Inject constructor(
@@ -70,5 +71,12 @@ class StudyRepositoryImpl @Inject constructor(
 
     override fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>> {
         return remoteDataSource.delegateStudyLeader(studyId, newLeader)
+    }
+
+    override fun modifyStudy(
+        studyId: Int,
+        body: List<MultipartBody.Part>
+    ): Single<BaseResponse<Nothing>> {
+        return remoteDataSource.modifyStudy(studyId, body)
     }
 }
