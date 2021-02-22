@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.net.toFile
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
@@ -28,6 +29,7 @@ class ModifyStudyActivity :
     private val viewModel by viewModels<ModifyStudyViewModel>()
 
     private var localItem = LocalItem()
+    private var studyImage: Uri? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +68,7 @@ class ModifyStudyActivity :
                 ) { _, data ->
                     val imageUri = data.getParcelable<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
                     if (imageUri != null) {
-                        binding.image.setImage(imageUri)
+                        viewModel.setStudyImage(imageUri)
                     }
                 }
 
@@ -105,13 +107,18 @@ class ModifyStudyActivity :
                         snsNotion = notionInputView.inputUrl.text.toString(),
                         snsEverNote = evernoteInputView.inputUrl.text.toString(),
                         snsWeb = webInputView.inputUrl.text.toString(),
-                        image = null
+                        image = studyImage?.toFile()
                     )
                 )
             }
         }
 
         viewModel.run {
+            image.observe(this@ModifyStudyActivity) { imageUri ->
+                binding.image.setImage(imageUri)
+                studyImage = imageUri
+            }
+
             localItem.observe(this@ModifyStudyActivity) { localItem ->
                 val placeDetailText = localItem.addressName + " " + localItem.placeName
                 binding.placeDetail.text = placeDetailText

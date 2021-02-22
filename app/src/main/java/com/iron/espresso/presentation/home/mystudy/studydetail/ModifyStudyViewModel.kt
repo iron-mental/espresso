@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail
 
+import android.net.Uri
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -30,6 +31,12 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyApi: St
     private val _success = MutableLiveData<Event<Unit>>()
     val success: LiveData<Event<Unit>>
         get() = _success
+
+    val image = MutableLiveData<Uri>()
+
+    fun setStudyImage(image: Uri) {
+        this.image.value = image
+    }
 
     fun addItems(localItem: LocalItem?) {
         if (localItem != null) {
