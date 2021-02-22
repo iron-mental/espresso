@@ -12,10 +12,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
+import com.iron.espresso.data.model.ParticipateItem
 import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
+import com.iron.espresso.presentation.home.mystudy.studydetail.DelegateLeaderActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +29,7 @@ class MyStudyDetailActivity :
     private val viewModel by viewModels<MyStudyDetailViewModel>()
     private var authority = ""
     private var studyId = -1
+    private var participateList = arrayListOf<ParticipateItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +66,8 @@ class MyStudyDetailActivity :
 
         viewModel.studyDetail.observe(this, { studyDetailItem ->
             authority = studyDetailItem.studyInfoItem.authority
+            participateList =
+                studyDetailItem.studyInfoItem.participateItem as ArrayList<ParticipateItem>
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
@@ -84,6 +89,13 @@ class MyStudyDetailActivity :
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == DELEGATE_CODE && resultCode == RESULT_OK) {
+            startActivity(intent)
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_mystudy_detail, menu)
@@ -92,8 +104,8 @@ class MyStudyDetailActivity :
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         if (authority == AUTH_HOST) {
-            val item = menu?.findItem(R.id.delete_study)
-            item?.isVisible = true
+            menu?.findItem(R.id.delete_study)?.isVisible = true
+            menu?.findItem(R.id.host_delegate)?.isVisible = true
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -113,6 +125,15 @@ class MyStudyDetailActivity :
             R.id.delete_study -> {
                 viewModel.deleteStudy(studyId)
             }
+            R.id.host_delegate -> {
+                startActivityForResult(
+                    DelegateLeaderActivity.getIntent(
+                        this,
+                        studyId,
+                        participateList
+                    ), DELEGATE_CODE
+                )
+            }
             else -> {
                 return false
             }
@@ -125,6 +146,7 @@ class MyStudyDetailActivity :
         const val DEFAULT_VALUE = 0
         const val STUDY_ID = "studyId"
         private const val AUTH_HOST = "host"
+        private const val DELEGATE_CODE = 1
 
         fun getInstance(context: Context, title: String, id: Int) =
             Intent(context, MyStudyDetailActivity::class.java)
