@@ -53,6 +53,7 @@ dependencies {
 
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+    implementation "androidx.activity:activity-ktx:$activityVersion"
 
     //RxJava2 : https://github.com/ReactiveX/RxJava
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"

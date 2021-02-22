@@ -101,7 +101,8 @@ data class RegisterUserRequest(val email: String, val password: String, val nick
 data class LoginRequest(
     val email: String,
     val password: String,
-    @SerializedName("push_token") val pushToken: String
+    @SerializedName("push_token") val pushToken: String,
+    @SerializedName("device") val deviceToken: String = "android"
 )
 
 data class ReIssuanceTokenRequest(@SerializedName("refresh_token") val refreshToken: String)

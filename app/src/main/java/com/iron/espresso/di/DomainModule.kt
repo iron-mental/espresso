@@ -1,5 +1,6 @@
 package com.iron.espresso.di
 
+import com.iron.espresso.domain.repo.ApplyRepository
 import com.iron.espresso.domain.repo.KakaoRepository
 import com.iron.espresso.domain.repo.ProjectRepository
 import com.iron.espresso.domain.repo.UserRepository
@@ -91,6 +92,48 @@ object DomainModule {
     @Provides
     fun provideGetAddressList(repository: UserRepository): GetAddressList {
         return GetAddressList(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRegisterApply(repository: ApplyRepository): RegisterApply {
+        return RegisterApply(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetApplyOwner(repository: ApplyRepository): GetApplyOwner {
+        return GetApplyOwner(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetApplyByApplier(repository: ApplyRepository): GetApplyByApplier {
+        return GetApplyByApplier(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetApplyList(repository: ApplyRepository): GetApplyList {
+        return GetApplyList(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetMyApplyList(repository: ApplyRepository): GetMyApplyList {
+        return GetMyApplyList(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideModifyApply(repository: ApplyRepository): ModifyApply {
+        return ModifyApply(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDeleteApply(repository: ApplyRepository): DeleteApply {
+        return DeleteApply(repository)
     }
 }
 
