@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import com.iron.espresso.DEF_VALUE
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.ParticipateItem
@@ -31,7 +32,7 @@ class DelegateLeaderActivity :
         setToolbarTitle(TOOLBAR_TITLE)
 
         studyId =
-            intent.getIntExtra(MyStudyDetailActivity.STUDY_ID, MyStudyDetailActivity.DEFAULT_VALUE)
+            intent.getIntExtra(MyStudyDetailActivity.STUDY_ID, DEF_VALUE)
         memberList = intent.getSerializableExtra(PARTICIPATE_LIST) as List<ParticipateItem>
 
         binding.participateList.adapter = participateAdapter
