@@ -35,6 +35,7 @@ class StudyCreateActivity :
         setNavigationIcon(R.drawable.ic_back_24)
 
         binding.run {
+            category.text = intent.getStringExtra(STUDY_CATEGORY)
             introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
             proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
 
@@ -50,7 +51,7 @@ class StudyCreateActivity :
 
                 viewModel.createStudy(
                     CreateStudyItem(
-                        category = "android",
+                        category = category.text.toString(),
                         title = titleInputView.text.toString(),
                         introduce = introduceInputView.text.toString(),
                         progress = proceedInputView.text.toString(),
@@ -120,12 +121,12 @@ class StudyCreateActivity :
     companion object {
 
         private const val TITLE = "스터디 만들기"
-        private const val KEY = "key"
+        private const val STUDY_CATEGORY = "study_category"
         private const val REQ_CODE = 0
 
-        fun getIntent(context: Context, item: String) =
+        fun getIntent(context: Context, category: String) =
             Intent(context, StudyCreateActivity::class.java).apply {
-                putExtra(KEY, item)
+                putExtra(STUDY_CATEGORY, category)
             }
     }
 }
