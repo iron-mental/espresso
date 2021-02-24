@@ -66,6 +66,7 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
     }
 
     fun getStudyList(category: String, sort: String) {
+        showLoading()
         compositeDisposable += studyRepository
             .getStudyList(
                 category = category,
@@ -80,12 +81,14 @@ class StudyListViewModel @ViewModelInject constructor(private val studyRepositor
             .subscribe({
                 Logger.d("$it")
                 _studyList.value = firstItemResult(it)
+                hideLoading()
             }, {
                 Logger.d("$it")
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
                 if (errorResponse != null) {
                     Logger.d("${errorResponse.message}")
                 }
+                hideLoading()
             })
     }
 
