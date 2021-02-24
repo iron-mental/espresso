@@ -27,16 +27,27 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
         super.onViewCreated(view, savedInstanceState)
 
         val category = arguments?.getString(StudyListActivity.STUDY_CATEGORY).orEmpty()
-        binding.studyList.adapter = studyListAdapter
+        binding.run {
+            studyList.adapter = studyListAdapter
+            swipeRefresh.apply {
+                setOnRefreshListener {
+                    viewModel.getStudyList(category, SORT_NEW)
 
-        viewModel.getStudyList(category, SORT_NEW)
+                    this.isRefreshing = false
+                }
+            }
+        }
 
-        viewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
-            studyListAdapter.setItemList(studyList)
-            binding.emptyView.visibleIf(studyList.isNullOrEmpty())
-        })
+        viewModel.run {
+            getStudyList(category, SORT_NEW)
 
-        viewModel.loadingState.observe(viewLifecycleOwner, EventObserver(::setLoading))
+            studyList.observe(viewLifecycleOwner, Observer { studyList ->
+                studyListAdapter.setItemList(studyList)
+                binding.emptyView.visibleIf(studyList.isNullOrEmpty())
+            })
+
+            loadingState.observe(viewLifecycleOwner, EventObserver(::setLoading))
+        }
 
         studyListAdapter.setItemClickListener { studyItem ->
             if (studyItem.isMember) {
@@ -49,14 +60,6 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
                 )
             } else {
                 startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
-            }
-        }
-
-        binding.swipeRefresh.apply {
-            setOnRefreshListener {
-                viewModel.getStudyList(category, SORT_NEW)
-
-                this.isRefreshing = false
             }
         }
 
