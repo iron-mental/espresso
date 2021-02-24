@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.activity.viewModels
-import androidx.core.app.ActivityOptionsCompat
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
@@ -28,9 +26,6 @@ class StudyCategoryActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_category_study)
-        binding.lifecycleOwner = this
 
         setToolbarTitle(TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
