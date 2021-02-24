@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.core.app.ActivityOptionsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +20,7 @@ class StudyCategoryActivity :
     StudyCategoryAdapterListener {
 
     private val categoryAdapter by lazy { CategoryAdapter() }
+    private val viewModel by viewModels<StudyViewModel>()
 
     override fun getData(item: String, imageView: ImageView) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -43,6 +45,13 @@ class StudyCategoryActivity :
             viewStudyCategory.layoutManager = GridLayoutManager(this@StudyCategoryActivity, 2)
         }
         categoryAdapter.setItemClickListener(this)
+
+        viewModel.run {
+            getStudyCategory()
+            categoryList.observe(this@StudyCategoryActivity, { categoryList ->
+                categoryAdapter.addAll(categoryList)
+            })
+        }
     }
 
 
