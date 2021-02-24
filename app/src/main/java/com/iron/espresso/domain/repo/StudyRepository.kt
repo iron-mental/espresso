@@ -25,4 +25,6 @@ interface StudyRepository {
     fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>>
 
     fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>>
+
+    fun getStudyCategory(): Single<List<String>>
 }

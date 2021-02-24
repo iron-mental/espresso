@@ -71,4 +71,11 @@ class StudyRepositoryImpl @Inject constructor(
     override fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>> {
         return remoteDataSource.delegateStudyLeader(studyId, newLeader)
     }
+
+    override fun getStudyCategory(): Single<List<String>> {
+        return remoteDataSource.getStudyCategory()
+            .map {
+                it.data
+            }
+    }
 }

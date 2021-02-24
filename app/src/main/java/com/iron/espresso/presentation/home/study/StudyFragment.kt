@@ -12,7 +12,9 @@ import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
 import com.iron.espresso.presentation.home.study.list.StudyListActivity
 import com.iron.espresso.presentation.home.study.search.SearchStudyActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StudyFragment :
     BaseFragment<FragmentStudyBinding>(R.layout.fragment_study),
     StudyCategoryAdapterListener {
