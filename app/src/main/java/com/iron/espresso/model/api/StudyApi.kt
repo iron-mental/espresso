@@ -191,4 +191,9 @@ interface StudyApi {
         @Path("study_id") studyId: Int,
         @Body body: DelegateRequest
     ): Single<BaseResponse<Nothing>>
+
+    @GET("/v1/study/category")
+    fun getStudyCategory(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken
+    ): Single<BaseResponse<List<String>>>
 }
