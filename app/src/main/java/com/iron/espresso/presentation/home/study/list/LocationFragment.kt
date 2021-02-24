@@ -42,7 +42,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
 
         binding.swipeRefresh.apply {
             setOnRefreshListener {
-                viewModel.getStudyList("android", SORT_LENGTH)
+                viewModel.getStudyList(category, SORT_LENGTH)
 
                 this.isRefreshing = false
             }

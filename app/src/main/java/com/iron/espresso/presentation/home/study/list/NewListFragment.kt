@@ -48,7 +48,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
 
         binding.swipeRefresh.apply {
             setOnRefreshListener {
-                viewModel.getStudyList("android", SORT_NEW)
+                viewModel.getStudyList(category, SORT_NEW)
 
                 this.isRefreshing = false
             }
