@@ -23,9 +23,10 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val category = arguments?.getString(StudyListActivity.STUDY_CATEGORY).orEmpty()
         binding.studyList.adapter = studyListAdapter
 
-        viewModel.getStudyList("android", SORT_LENGTH)
+        viewModel.getStudyList(category, SORT_LENGTH)
 
         viewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
             studyListAdapter.setItemList(studyList)
@@ -72,8 +73,12 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
     companion object {
         private const val SORT_LENGTH = "length"
         private const val OPTION = "distance"
-        fun newInstance() =
-            LocationFragment()
+        fun newInstance(category: String) =
+            LocationFragment().apply {
+                arguments = Bundle().apply {
+                    putString(StudyListActivity.STUDY_CATEGORY, category)
+                }
+            }
     }
 }
 

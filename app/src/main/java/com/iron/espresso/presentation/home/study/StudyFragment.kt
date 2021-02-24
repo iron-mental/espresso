@@ -21,7 +21,7 @@ class StudyFragment :
     private val viewModel by viewModels<StudyViewModel>()
 
     override fun getData(item: String, imageView: ImageView) {
-        startActivity(StudyListActivity.getIntent(requireContext()))
+        startActivity(StudyListActivity.getIntent(requireContext(), item))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

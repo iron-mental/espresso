@@ -23,9 +23,10 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val category = arguments?.getString(StudyListActivity.STUDY_CATEGORY).orEmpty()
         binding.studyList.adapter = studyListAdapter
 
-        viewModel.getStudyList("android", SORT_NEW)
+        viewModel.getStudyList(category, SORT_NEW)
 
         viewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
             studyListAdapter.setItemList(studyList)
@@ -78,8 +79,12 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
     companion object {
         private const val SORT_NEW = "new"
         private const val OPTION = "default"
-        fun newInstance() =
-            NewListFragment()
+        fun newInstance(category: String) =
+            NewListFragment().apply {
+                arguments = Bundle().apply {
+                    putString(StudyListActivity.STUDY_CATEGORY, category)
+                }
+            }
     }
 }
 

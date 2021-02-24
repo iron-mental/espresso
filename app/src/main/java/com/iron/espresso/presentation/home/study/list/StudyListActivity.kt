@@ -15,10 +15,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class StudyListActivity :
     BaseActivity<ActivityStudyListBinding>(R.layout.activity_study_list) {
 
+    private var category = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle(getString(R.string.study))
+        category = intent.getStringExtra(STUDY_CATEGORY).orEmpty()
+        setToolbarTitle(category)
         setNavigationIcon(R.drawable.ic_back_24)
 
         val fragmentManager = supportFragmentManager
@@ -26,7 +29,7 @@ class StudyListActivity :
         fragmentManager.beginTransaction()
             .replace(
                 R.id.study_list_container,
-                NewListFragment.newInstance(),
+                NewListFragment.newInstance(category),
                 resources.getString(R.string.recency)
             )
             .commit()
@@ -68,8 +71,8 @@ class StudyListActivity :
 
     private fun getFragment(position: Int): Fragment {
         return when (position) {
-            0 -> NewListFragment.newInstance()
-            1 -> LocationFragment.newInstance()
+            0 -> NewListFragment.newInstance(category)
+            1 -> LocationFragment.newInstance(category)
             else -> error("Invalid position")
         }
     }
@@ -84,7 +87,9 @@ class StudyListActivity :
     }
 
     companion object {
-        fun getIntent(context: Context) =
+        const val STUDY_CATEGORY = "study_category"
+        fun getIntent(context: Context, item: String) =
             Intent(context, StudyListActivity::class.java)
+                .putExtra(STUDY_CATEGORY, item)
     }
 }
