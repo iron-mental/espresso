@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentLocationBinding
+import com.iron.espresso.ext.visibleIf
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.study.StudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
@@ -30,6 +31,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
 
         viewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
             studyListAdapter.setItemList(studyList)
+            binding.emptyView.visibleIf(studyList.isNullOrEmpty())
         })
 
         studyListAdapter.setItemClickListener { studyItem ->
