@@ -23,12 +23,7 @@ class StudyCategoryActivity :
     private val viewModel by viewModels<StudyViewModel>()
 
     override fun getData(item: String, imageView: ImageView) {
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            this,
-            imageView,
-            imageView.transitionName
-        ).toBundle()
-        startActivity(StudyCreateActivity.getIntent(this, item), options)
+        startActivity(StudyCreateActivity.getIntent(this, item))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

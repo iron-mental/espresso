@@ -15,7 +15,6 @@ import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.ext.load
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
@@ -29,10 +28,6 @@ class StudyCreateActivity :
 
     private var localItem: LocalItem? = null
 
-    private val categoryImage by lazy {
-        intent.getIntExtra(KEY, 0)
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +35,6 @@ class StudyCreateActivity :
         setNavigationIcon(R.drawable.ic_back_24)
 
         binding.run {
-            image.transitionName = categoryImage.toString()
-            image.load(categoryImage, true) {
-                supportPostponeEnterTransition()
-            }
-
             introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
             proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
 
@@ -137,6 +127,5 @@ class StudyCreateActivity :
             Intent(context, StudyCreateActivity::class.java).apply {
                 putExtra(KEY, item)
             }
-
     }
 }
