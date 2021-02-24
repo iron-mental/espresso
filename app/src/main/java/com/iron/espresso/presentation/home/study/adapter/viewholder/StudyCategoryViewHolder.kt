@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
-import com.iron.espresso.presentation.StudyCategoryItem
+import com.iron.espresso.ext.setImage
 
 class StudyCategoryViewHolder(parent: ViewGroup) :
     RecyclerView.ViewHolder(
@@ -18,19 +17,15 @@ class StudyCategoryViewHolder(parent: ViewGroup) :
     private val binding =
         DataBindingUtil.bind<com.iron.espresso.databinding.ItemStudyCategoryBinding>(itemView)
 
-    fun bind(item: StudyCategoryItem, listener: StudyCategoryAdapterListener) {
-        binding?.run {
-            setVariable(BR.studyCategoryItem, item)
-            executePendingBindings()
-        }
+    fun bind(item: String, listener: StudyCategoryAdapterListener) {
 
         binding?.ivImage?.apply {
-            transitionName = item.image.toString()
             setOnClickListener { listener.getData(item, this) }
+            setImage("https://www.terminal-study.tk/images/category/${item}.png")
         }
     }
 }
 
 interface StudyCategoryAdapterListener {
-    fun getData(item: StudyCategoryItem, imageView: ImageView)
+    fun getData(item: String, imageView: ImageView)
 }

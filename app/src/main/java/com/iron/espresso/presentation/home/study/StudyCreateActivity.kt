@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
@@ -135,7 +133,7 @@ class StudyCreateActivity :
         private const val KEY = "key"
         private const val REQ_CODE = 0
 
-        fun getIntent(context: Context, item: Int) =
+        fun getIntent(context: Context, item: String) =
             Intent(context, StudyCreateActivity::class.java).apply {
                 putExtra(KEY, item)
             }

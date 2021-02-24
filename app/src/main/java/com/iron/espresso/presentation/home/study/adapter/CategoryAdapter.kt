@@ -2,13 +2,12 @@ package com.iron.espresso.presentation.home.study.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.iron.espresso.presentation.StudyCategoryItem
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryViewHolder
 
 class CategoryAdapter : RecyclerView.Adapter<StudyCategoryViewHolder>() {
 
-    private val categoryList = mutableListOf<StudyCategoryItem>()
+    private val categoryList = mutableListOf<String>()
 
     private lateinit var getClickDataListener: StudyCategoryAdapterListener
 
@@ -25,7 +24,7 @@ class CategoryAdapter : RecyclerView.Adapter<StudyCategoryViewHolder>() {
         categoryList.size
 
 
-    fun addAll(itemList: List<StudyCategoryItem>) {
+    fun addAll(itemList: List<String>) {
         categoryList.addAll(itemList)
         notifyDataSetChanged()
     }

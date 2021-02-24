@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityCategoryStudyBinding
-import com.iron.espresso.presentation.StudyCategoryItem
 import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
 
@@ -21,13 +20,13 @@ class StudyCategoryActivity :
 
     private val categoryAdapter by lazy { CategoryAdapter() }
 
-    override fun getData(item: StudyCategoryItem, imageView: ImageView) {
+    override fun getData(item: String, imageView: ImageView) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
             this,
             imageView,
             imageView.transitionName
         ).toBundle()
-        startActivity(StudyCreateActivity.getIntent(this, item.image), options)
+        startActivity(StudyCreateActivity.getIntent(this, item), options)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +41,6 @@ class StudyCategoryActivity :
         binding.apply {
             viewStudyCategory.adapter = categoryAdapter
             viewStudyCategory.layoutManager = GridLayoutManager(this@StudyCategoryActivity, 2)
-            categoryAdapter.addAll(StudyFragment.DUMMY_DATA)
         }
         categoryAdapter.setItemClickListener(this)
     }
