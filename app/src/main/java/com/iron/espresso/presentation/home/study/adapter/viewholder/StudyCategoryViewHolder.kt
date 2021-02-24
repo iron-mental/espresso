@@ -23,6 +23,7 @@ class StudyCategoryViewHolder(parent: ViewGroup) :
             setOnClickListener { listener.getData(item, this) }
             setImage("https://www.terminal-study.tk/images/category/${item}.png")
         }
+        binding?.title?.text = item
     }
 }
 
