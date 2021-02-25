@@ -23,7 +23,7 @@ class SearchResultFragment :
     private val viewModel by viewModels<StudyResultViewModel>()
     val studyListAdapter = StudyListAdapter()
     private val editText: EditText?
-        get() = baseActivity?.getCustomView() as? EditText
+        get() = baseActivity?.getCustomView()?.findViewById(R.id.edit_view) as? EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

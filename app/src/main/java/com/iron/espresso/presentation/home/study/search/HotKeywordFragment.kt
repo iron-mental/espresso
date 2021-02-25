@@ -3,7 +3,6 @@ package com.iron.espresso.presentation.home.study.search
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -25,15 +24,8 @@ class HotKeywordFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchEditText = EditText(context).apply {
-            hint = context.getString(R.string.search_hint)
-            setSingleLine()
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            requestFocus()
-            imeOptions = EditorInfo.IME_ACTION_SEARCH
+        val searchView = layoutInflater.inflate(R.layout.view_search, null)
+        searchEditText = searchView.findViewById<EditText>(R.id.edit_view).apply {
             setOnEditorActionListener { _, actionId, _ ->
                 if (text.isNotEmpty() && actionId == EditorInfo.IME_ACTION_SEARCH) {
                     //키보드 내리기
@@ -49,8 +41,7 @@ class HotKeywordFragment :
 
             }
         }
-
-        baseActivity?.setCustomView(searchEditText)
+        baseActivity?.setCustomView(searchView)
 
         binding.placeSearchButton.setOnClickListener {
             Toast.makeText(context, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
