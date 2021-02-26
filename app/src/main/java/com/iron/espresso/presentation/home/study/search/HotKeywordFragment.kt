@@ -28,11 +28,6 @@ class HotKeywordFragment :
         searchEditText = searchView.findViewById<EditText>(R.id.edit_view).apply {
             setOnEditorActionListener { _, actionId, _ ->
                 if (text.isNotEmpty() && actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //키보드 내리기
-                    val inputMethodManager =
-                        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-
                     showResultView(text.toString())
                     true
                 } else {
@@ -65,7 +60,14 @@ class HotKeywordFragment :
         }
     }
 
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
+
     private fun showResultView(keyword: String) {
+        hideKeyboard()
         searchEditText.setText(keyword)
         val fragment = parentFragmentManager.findFragmentByTag(RESULT_TAG)
         if (fragment != null) {
