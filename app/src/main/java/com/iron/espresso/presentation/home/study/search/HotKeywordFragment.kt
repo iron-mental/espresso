@@ -43,8 +43,7 @@ class HotKeywordFragment :
             }
         }
         clearButton.setOnClickListener {
-            searchEditText.text.clear()
-            searchEditText.requestFocus()
+            resetSearchView()
         }
 
         baseActivity?.setCustomView(searchView)
@@ -69,6 +68,14 @@ class HotKeywordFragment :
                 }
             })
         }
+    }
+    private fun resetSearchView() {
+        searchEditText.text.clear()
+        searchEditText.requestFocus()
+
+        val inputMethodManager =
+            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(searchEditText, 0)
     }
 
     private fun setSearchView(keyword: String) {
