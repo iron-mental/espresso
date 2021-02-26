@@ -6,12 +6,15 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.google.android.material.chip.Chip
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentHotKeywordBinding
+import com.iron.espresso.ext.visibleIf
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +28,7 @@ class HotKeywordFragment :
         super.onViewCreated(view, savedInstanceState)
 
         val searchView = layoutInflater.inflate(R.layout.view_search, null)
+        val clearButton = searchView.findViewById<ImageView>(R.id.clear_button)
         searchEditText = searchView.findViewById<EditText>(R.id.edit_view).apply {
             setOnEditorActionListener { _, actionId, _ ->
                 if (text.isNotEmpty() && actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -33,7 +37,9 @@ class HotKeywordFragment :
                 } else {
                     false
                 }
-
+            }
+            doOnTextChanged { text, _, _, _ ->
+                clearButton.visibleIf(text?.isNotEmpty())
             }
         }
         baseActivity?.setCustomView(searchView)
