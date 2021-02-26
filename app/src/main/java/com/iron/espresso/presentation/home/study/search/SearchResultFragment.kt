@@ -7,10 +7,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSearchResultBinding
+import com.iron.espresso.ext.visibleIf
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.study.StudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
@@ -47,6 +47,7 @@ class SearchResultFragment :
             showSearchStudyList(keyword)
             studyList.observe(viewLifecycleOwner, Observer { studyList ->
                 studyListAdapter.setItemList(studyList)
+                binding.emptyView.visibleIf(studyList.isNullOrEmpty())
             })
         }
 
