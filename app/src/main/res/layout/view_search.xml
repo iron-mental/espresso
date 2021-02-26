@@ -7,17 +7,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/bg_round"
-        android:backgroundTint="@color/ff39373b">
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/edit_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/clear_button"
-            android:background="@color/transparent"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/ff39373b"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="10dp"
             android:hint="@string/search_hint"
@@ -28,11 +26,10 @@
 
         <ImageView
             android:id="@+id/clear_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/edit_view"
-            android:layout_alignBottom="@+id/edit_view"
-            android:layout_alignParentEnd="true"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignEnd="@+id/edit_view"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:src="@drawable/ic_cancel"
             android:visibility="invisible" />

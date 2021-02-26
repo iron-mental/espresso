@@ -29,6 +29,9 @@ class HotKeywordFragment :
 
         val searchView = layoutInflater.inflate(R.layout.view_search, null)
         val clearButton = searchView.findViewById<ImageView>(R.id.clear_button)
+
+        baseActivity?.setCustomView(searchView)
+
         searchEditText = searchView.findViewById<EditText>(R.id.edit_view).apply {
             setOnEditorActionListener { _, actionId, _ ->
                 if (text.isNotEmpty() && actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -45,8 +48,6 @@ class HotKeywordFragment :
         clearButton.setOnClickListener {
             resetSearchView()
         }
-
-        baseActivity?.setCustomView(searchView)
 
         binding.placeSearchButton.setOnClickListener {
             Toast.makeText(context, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
