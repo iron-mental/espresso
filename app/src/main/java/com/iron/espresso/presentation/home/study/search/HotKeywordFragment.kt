@@ -42,6 +42,11 @@ class HotKeywordFragment :
                 clearButton.visibleIf(text?.isNotEmpty())
             }
         }
+        clearButton.setOnClickListener {
+            searchEditText.text.clear()
+            searchEditText.requestFocus()
+        }
+
         baseActivity?.setCustomView(searchView)
 
         binding.placeSearchButton.setOnClickListener {
@@ -66,15 +71,21 @@ class HotKeywordFragment :
         }
     }
 
-    private fun hideKeyboard() {
+    private fun setSearchView(keyword: String) {
+        searchEditText.apply {
+            setText(keyword)
+            isFocusable = false
+            isFocusableInTouchMode = true
+        }
+
         val inputMethodManager =
             context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun showResultView(keyword: String) {
-        hideKeyboard()
-        searchEditText.setText(keyword)
+        setSearchView(keyword)
+
         val fragment = parentFragmentManager.findFragmentByTag(RESULT_TAG)
         if (fragment != null) {
             parentFragmentManager.beginTransaction().remove(fragment).commit()
