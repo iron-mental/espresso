@@ -12,8 +12,8 @@ import com.iron.espresso.ext.plusAssign
 class MyApplyStudyViewModel @ViewModelInject constructor(private val getMyApplyList: GetMyApplyList) :
     BaseViewModel() {
 
-    private val _applyList = MutableLiveData<List<MyApplyStudyItem>>()
-    val applyList: LiveData<List<MyApplyStudyItem>>
+    private val _applyList = MutableLiveData<List<ApplyStudyItem>>()
+    val applyList: LiveData<List<ApplyStudyItem>>
         get() = _applyList
 
     init {
@@ -24,7 +24,7 @@ class MyApplyStudyViewModel @ViewModelInject constructor(private val getMyApplyL
         compositeDisposable += getMyApplyList()
             .map {
                 it.map { apply ->
-                    MyApplyStudyItem.of(apply)
+                    ApplyStudyItem.of(apply)
                 }
             }
             .networkSchedulers()

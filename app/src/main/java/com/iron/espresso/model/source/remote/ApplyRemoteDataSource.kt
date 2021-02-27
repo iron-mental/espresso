@@ -14,7 +14,7 @@ class ApplyRemoteDataSourceImpl @Inject constructor(private val applyApi: ApplyA
     ApplyRemoteDataSource {
     override fun registerApply(
         studyId: Int,
-        message: String
+        message: String,
     ): Single<BaseResponse<Nothing>> {
         return applyApi.registerApply(studyId = studyId, body = RegisterStudyApplyRequest(message))
     }

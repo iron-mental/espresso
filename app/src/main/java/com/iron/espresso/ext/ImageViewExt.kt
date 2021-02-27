@@ -18,7 +18,7 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
 
 @BindingAdapter("bind:setUrlImg", "bind:type")
-fun ImageView.setUrlImg(url: String?, type: ImageType?) {
+fun ImageView.setUrlImg(url: String?, type: ImageType? = ImageType.NORMAl) {
     when (type) {
         ImageType.NORMAl -> {
             Glide.with(context)

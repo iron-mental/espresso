@@ -8,12 +8,12 @@ import com.iron.espresso.ext.setRadiusImage
 
 class MyApplyViewHolder(
     parent: ViewGroup,
-    private val itemClick: (MyApplyStudyItem) -> Unit,
+    private val itemClick: (ApplyStudyItem) -> Unit,
     private val binding: ItemApplyStudyBinding =
         ItemApplyStudyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: MyApplyStudyItem) {
+    fun bind(item: ApplyStudyItem) {
         with(binding) {
             image.setRadiusImage(item.image)
             title.text = item.title
