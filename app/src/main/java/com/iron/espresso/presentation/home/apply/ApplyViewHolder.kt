@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.databinding.ItemApplyStudyBinding
 import com.iron.espresso.ext.setRadiusImage
 
-class MyApplyViewHolder(
+class ApplyViewHolder(
     parent: ViewGroup,
     private val itemClick: (ApplyStudyItem) -> Unit,
     private val binding: ItemApplyStudyBinding =

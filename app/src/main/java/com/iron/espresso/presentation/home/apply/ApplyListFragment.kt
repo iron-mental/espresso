@@ -12,10 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragment_apply_list) {
 
-    private val viewModel by viewModels<MyApplyStudyViewModel>()
+    private val viewModel by viewModels<ApplyStudyListViewModel>()
 
-    private val adapter: MyApplyStudyAdapter by lazy {
-        MyApplyStudyAdapter { item ->
+    private val adapter: ApplyStudyAdapter by lazy {
+        ApplyStudyAdapter { item ->
             showApplyDetail(item)
         }
     }

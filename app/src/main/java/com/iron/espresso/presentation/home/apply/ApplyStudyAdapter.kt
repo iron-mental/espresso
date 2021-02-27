@@ -4,14 +4,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
-class MyApplyStudyAdapter(private val itemClick: (ApplyStudyItem) -> Unit) :
-    ListAdapter<ApplyStudyItem, MyApplyViewHolder>(DIFF_CALLBACK) {
+class ApplyStudyAdapter(private val itemClick: (ApplyStudyItem) -> Unit) :
+    ListAdapter<ApplyStudyItem, ApplyViewHolder>(DIFF_CALLBACK) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyApplyViewHolder {
-        return MyApplyViewHolder(parent, itemClick)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplyViewHolder {
+        return ApplyViewHolder(parent, itemClick)
     }
 
-    override fun onBindViewHolder(holder: MyApplyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ApplyViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
 

@@ -9,7 +9,7 @@ import com.iron.espresso.domain.usecase.GetMyApplyList
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 
-class MyApplyStudyViewModel @ViewModelInject constructor(private val getMyApplyList: GetMyApplyList) :
+class ApplyStudyListViewModel @ViewModelInject constructor(private val getMyApplyList: GetMyApplyList) :
     BaseViewModel() {
 
     private val _applyList = MutableLiveData<List<ApplyStudyItem>>()
