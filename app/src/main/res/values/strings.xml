@@ -131,5 +131,6 @@
     <string name="leave">나가기</string>
 
     <string name="pass_permission">방장을 위임하셔야 합니다</string>
+    <string name="apply_cancel">신청 취소</string>
 
 </resources>
