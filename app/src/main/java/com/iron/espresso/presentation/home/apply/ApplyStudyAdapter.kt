@@ -21,7 +21,7 @@ class ApplyStudyAdapter(private val itemClick: (ApplyStudyItem) -> Unit) :
                 oldItem: ApplyStudyItem,
                 newItem: ApplyStudyItem
             ): Boolean =
-                oldItem.message == newItem.message
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: ApplyStudyItem,
