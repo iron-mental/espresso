@@ -60,6 +60,6 @@
 
         <include
             layout="@layout/view_edit_button"
-            bind:editable="@{false}" />
+            bind:editable="@{editable}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
