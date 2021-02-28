@@ -1,58 +1,61 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal">
+        android:paddingBottom="16dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/setting_profile_image"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="16dp" />
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/setting_profile_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/setting_profile_location"
+            app:layout_constraintStart_toEndOf="@+id/setting_profile_image"
+            app:layout_constraintTop_toTopOf="@+id/setting_profile_image"
+            tools:text="닉네임" />
 
-            <TextView
-                android:id="@+id/setting_profile_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="닉네임"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+        <TextView
+            android:id="@+id/setting_profile_location"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/setting_profile_nickname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/setting_profile_nickname"
+            tools:text="인천광역시 계양구" />
 
-            <TextView
-                android:id="@+id/setting_profile_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:maxLines="1"
-                android:padding="1dp"
-                android:text="인천광역시 계양구"
-                android:textSize="12sp" />
+        <TextView
+            android:id="@+id/setting_profile_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/setting_profile_image"
+            app:layout_constraintEnd_toEndOf="@+id/setting_profile_location"
+            app:layout_constraintStart_toStartOf="@+id/setting_profile_nickname"
+            tools:text="자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다." />
 
-            <TextView
-                android:id="@+id/setting_profile_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다."
-                android:textSize="15sp" />
-
-        </RelativeLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
