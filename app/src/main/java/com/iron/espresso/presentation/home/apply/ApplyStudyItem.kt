@@ -9,6 +9,7 @@ data class ApplyStudyItem(
     val id: Int,
     val userId: Int,
     val studyId: Int,
+    val nickname: String,
     val image: String,
     val message: String,
     val title: String
@@ -16,6 +17,6 @@ data class ApplyStudyItem(
 
     companion object {
         fun of(apply: Apply): ApplyStudyItem =
-            ApplyStudyItem(apply.id, apply.userId, apply.studyId, apply.image, apply.message, apply.title)
+            ApplyStudyItem(apply.id, apply.userId, apply.studyId, apply.nickname, apply.image, apply.message, apply.title)
     }
 }

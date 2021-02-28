@@ -8,6 +8,8 @@ import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentApplyListBinding
+import com.iron.espresso.presentation.home.apply.ApplyStudyListViewModel.Companion.KEY_STUDY_ID
+import com.iron.espresso.presentation.home.apply.ApplyStudyListViewModel.Companion.KEY_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,15 +17,19 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
 
     private val viewModel by viewModels<ApplyStudyListViewModel>()
 
+    private val type: Type by lazy {
+        (arguments?.getSerializable(KEY_TYPE) as? Type) ?: Type.NONE
+    }
+
     private val adapter: ApplyStudyAdapter by lazy {
-        ApplyStudyAdapter { item ->
+        ApplyStudyAdapter(type) { item ->
             showApplyDetail(item)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        baseActivity?.setToolbarTitle(R.string.title_apply_my_study)
+        baseActivity?.setToolbarTitle(if (type == Type.NONE) R.string.title_apply_study else R.string.title_apply_my_study)
         baseActivity?.setNavigationIcon(R.drawable.ic_back_24)
         setupView()
         setupViewModel()
@@ -52,8 +58,23 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
 
         fragment.setFragmentResultListener(fragment::class.java.simpleName) { _: String, bundle: Bundle ->
             if (bundle.containsKey(ApplyDetailFragment.REFRESH)) {
-                viewModel.getApplyList()
+                viewModel.getList()
             }
         }
+    }
+
+    enum class Type {
+        MY, NONE
+    }
+
+    companion object {
+
+        fun newInstance(type: Type, studyId: Int = -1): ApplyListFragment =
+            ApplyListFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(KEY_TYPE, type)
+                    putInt(KEY_STUDY_ID, studyId)
+                }
+            }
     }
 }

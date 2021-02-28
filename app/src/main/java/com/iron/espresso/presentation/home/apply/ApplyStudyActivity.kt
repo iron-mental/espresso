@@ -12,14 +12,20 @@ import com.iron.espresso.databinding.ActivityApplyStudyBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyApplyStudyActivity :
+class ApplyStudyActivity :
     BaseActivity<ActivityApplyStudyBinding>(R.layout.activity_apply_study) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         supportFragmentManager.commit {
-            replace(R.id.container, ApplyListFragment.newInstance(ApplyListFragment.Type.MY))
+            replace(
+                R.id.container,
+                ApplyListFragment.newInstance(
+                    ApplyListFragment.Type.NONE,
+                    intent.getIntExtra(KEY_STUDY_ID, -1)
+                )
+            )
         }
     }
 
@@ -42,7 +48,9 @@ class MyApplyStudyActivity :
     }
 
     companion object {
-        fun getIntent(context: Context): Intent =
-            Intent(context, MyApplyStudyActivity::class.java)
+        private const val KEY_STUDY_ID = "STUDY_ID"
+        fun getIntent(context: Context, studyId: Int): Intent =
+            Intent(context, ApplyStudyActivity::class.java)
+                .putExtra(KEY_STUDY_ID, studyId)
     }
 }

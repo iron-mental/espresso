@@ -10,6 +10,8 @@ data class ApplyResponse(
     val userId: Int = -1,
     @SerializedName("study_id")
     val studyId: Int = -1,
+    @SerializedName("nickname")
+    val nickname: String?,
     @SerializedName("image")
     val image: String?,
     @SerializedName("message")
@@ -22,6 +24,7 @@ data class ApplyResponse(
             id = id,
             userId = userId,
             studyId = studyId,
+            nickname = nickname.orEmpty(),
             image = image.orEmpty(),
             message = message.orEmpty(),
             title = title.orEmpty()

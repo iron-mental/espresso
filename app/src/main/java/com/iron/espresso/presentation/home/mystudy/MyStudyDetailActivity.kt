@@ -16,6 +16,7 @@ import com.iron.espresso.data.model.ParticipateItem
 import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
+import com.iron.espresso.presentation.home.apply.ApplyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.DelegateLeaderActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
@@ -117,7 +118,7 @@ class MyStudyDetailActivity :
                 onBackPressed()
             }
             R.id.apply_list -> {
-
+                startActivity(ApplyStudyActivity.getIntent(this, studyId))
             }
             R.id.leave_study -> {
                 if (checkAuthority(authority)) {
