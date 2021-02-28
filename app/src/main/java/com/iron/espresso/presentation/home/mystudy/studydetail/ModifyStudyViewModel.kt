@@ -47,7 +47,7 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyReposit
         this.image.value = image
     }
 
-    fun addItems(localItem: LocalItem?) {
+    fun replaceLocalItem(localItem: LocalItem?) {
         if (localItem != null) {
             _localItem.value = LocalItem(
                 lat = localItem.lat,
@@ -74,11 +74,7 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyReposit
     }
 
     private fun duplicateItemCheck(title: String, modifyTitle: String): String {
-        return if (title == modifyTitle) {
-            ""
-        } else {
-            modifyTitle
-        }
+        return if (title == modifyTitle) "" else modifyTitle
     }
 
     fun modifyStudy(studyId: Int, title: String, modifyStudyItem: ModifyStudyItem) {

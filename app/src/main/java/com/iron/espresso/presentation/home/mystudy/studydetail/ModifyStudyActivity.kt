@@ -154,7 +154,7 @@ class ModifyStudyActivity :
         if (requestCode == REQ_CODE && resultCode == RESULT_OK) {
             val localItem =
                 data?.getSerializableExtra(SearchPlaceDetailActivity.LOCAL_ITEM) as LocalItem?
-            viewModel.addItems(localItem)
+            viewModel.replaceLocalItem(localItem)
         }
     }
 
