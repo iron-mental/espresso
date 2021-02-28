@@ -12,7 +12,6 @@ import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentLocationBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.setLoading
-import com.iron.espresso.ext.visibleIf
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.study.StudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
@@ -27,7 +26,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val category = arguments?.getString(StudyListActivity.STUDY_CATEGORY).orEmpty()
+        val category = arguments?.getString(STUDY_CATEGORY).orEmpty()
         binding.run {
             studyList.adapter = studyListAdapter
             swipeRefresh.apply {
@@ -83,10 +82,11 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
     companion object {
         private const val SORT_LENGTH = "length"
         private const val OPTION = "distance"
+        private const val STUDY_CATEGORY = "study_category"
         fun newInstance(category: String) =
             LocationFragment().apply {
                 arguments = Bundle().apply {
-                    putString(StudyListActivity.STUDY_CATEGORY, category)
+                    putString(STUDY_CATEGORY, category)
                 }
             }
     }

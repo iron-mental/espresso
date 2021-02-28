@@ -27,7 +27,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val category = arguments?.getString(StudyListActivity.STUDY_CATEGORY).orEmpty()
+        val category = arguments?.getString(STUDY_CATEGORY).orEmpty()
         binding.run {
             studyList.adapter = studyListAdapter
             swipeRefresh.apply {
@@ -89,10 +89,11 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
     companion object {
         private const val SORT_NEW = "new"
         private const val OPTION = "default"
+        private const val STUDY_CATEGORY = "study_category"
         fun newInstance(category: String) =
             NewListFragment().apply {
                 arguments = Bundle().apply {
-                    putString(StudyListActivity.STUDY_CATEGORY, category)
+                    putString(STUDY_CATEGORY, category)
                 }
             }
     }

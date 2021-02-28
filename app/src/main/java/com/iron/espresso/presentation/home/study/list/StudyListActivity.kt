@@ -87,7 +87,7 @@ class StudyListActivity :
     }
 
     companion object {
-        const val STUDY_CATEGORY = "study_category"
+        private const val STUDY_CATEGORY = "study_category"
         fun getIntent(context: Context, item: String) =
             Intent(context, StudyListActivity::class.java)
                 .putExtra(STUDY_CATEGORY, item)
