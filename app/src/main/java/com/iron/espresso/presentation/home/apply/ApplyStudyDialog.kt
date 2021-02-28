@@ -12,7 +12,8 @@ import com.iron.espresso.base.BaseDialogFragment
 import com.iron.espresso.databinding.DialogApplyStudyBinding
 import com.iron.espresso.ext.toast
 
-class ApplyStudyDialog : BaseDialogFragment<DialogApplyStudyBinding>(R.layout.dialog_apply_study) {
+class ApplyStudyDialog :
+    BaseDialogFragment<DialogApplyStudyBinding>(R.layout.dialog_apply_study) {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -29,6 +30,12 @@ class ApplyStudyDialog : BaseDialogFragment<DialogApplyStudyBinding>(R.layout.di
     private fun setupView() {
         with(binding) {
             inputIntroduce.requestFocus()
+
+            arguments?.run {
+                setTitle(getString(KEY_TITLE, ""))
+                introduce = getString(KEY_INTRODUCE, "")
+            }
+
 
             yes.setOnClickListener {
                 val message = binding.inputIntroduce.text.toString()
@@ -54,7 +61,15 @@ class ApplyStudyDialog : BaseDialogFragment<DialogApplyStudyBinding>(R.layout.di
         const val SUBMIT = "submit"
         const val MESSAGE = "message"
 
-        fun newInstance() =
-            ApplyStudyDialog()
+        private const val KEY_TITLE = "TITLE"
+        private const val KEY_INTRODUCE = "INTRODUCE"
+
+        fun newInstance(title: String, introduce: String = "") =
+            ApplyStudyDialog().apply {
+                arguments = bundleOf(
+                    KEY_TITLE to title,
+                    KEY_INTRODUCE to introduce
+                )
+            }
     }
 }

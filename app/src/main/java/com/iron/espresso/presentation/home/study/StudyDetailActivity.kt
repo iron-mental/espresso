@@ -128,7 +128,7 @@ class StudyDetailActivity :
     }
 
     private fun showApplyDialog() {
-        val dialog = ApplyStudyDialog.newInstance()
+        val dialog = ApplyStudyDialog.newInstance(getString(R.string.apply_title))
 
         dialog.show(supportFragmentManager, dialog::class.simpleName)
 

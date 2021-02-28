@@ -136,4 +136,5 @@
     <string name="no">아니요</string>
     <string name="dialog_apply_cancel_title">스터디 신청을 취소 하시겠어요?</string>
 
+    <string name="apply_modify_title">가입 인사를 수정해보세요</string>
 </resources>

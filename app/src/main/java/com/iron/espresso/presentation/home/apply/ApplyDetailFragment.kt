@@ -6,7 +6,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
@@ -48,10 +50,17 @@ class ApplyDetailFragment :
     private fun setupViewModel() {
         with(viewModel) {
             modifiedEvent.observe(viewLifecycleOwner, EventObserver {
-
+                setFragmentResult(
+                    this@ApplyDetailFragment::class.java.simpleName,
+                    bundleOf(REFRESH to "")
+                )
             })
 
             deletedEvent.observe(viewLifecycleOwner, EventObserver {
+                setFragmentResult(
+                    this@ApplyDetailFragment::class.java.simpleName,
+                    bundleOf(REFRESH to "")
+                )
                 onBackPressed()
             })
 
@@ -68,7 +77,7 @@ class ApplyDetailFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.edit -> {
-
+                showApplyModifyDialog()
                 return true
             }
             R.id.cancel -> {
@@ -80,12 +89,30 @@ class ApplyDetailFragment :
         return super.onOptionsItemSelected(item)
     }
 
+    private fun showApplyModifyDialog() {
+        val prevMessage = binding.message.text.toString()
+
+        val dialog =
+            ApplyStudyDialog.newInstance(getString(R.string.apply_modify_title), prevMessage)
+
+        dialog.show(parentFragmentManager, dialog::class.simpleName)
+
+        dialog.setFragmentResultListener(ApplyStudyDialog.SUBMIT) { _: String, bundle: Bundle ->
+            val message = bundle.getString(ApplyStudyDialog.MESSAGE)
+
+            if (!message.isNullOrEmpty()) {
+                binding.message.text = message
+                viewModel.requestModify(message)
+            }
+        }
+    }
+
     private fun showApplyCancelDialog() {
         val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_apply_cancel_title))
 
         dialog.show(parentFragmentManager, dialog::class.java.simpleName)
 
-        dialog.setFragmentResultListener(dialog::class.java.simpleName) { requestKey: String, bundle: Bundle ->
+        dialog.setFragmentResultListener(dialog::class.java.simpleName) { _: String, bundle: Bundle ->
             val result = bundle.get(ConfirmDialog.RESULT)
 
             if (result == Activity.RESULT_OK) {
@@ -108,8 +135,8 @@ class ApplyDetailFragment :
         return prevFragment != null
     }
 
-
     companion object {
+        const val REFRESH = "refresh"
         const val ARG_APPLY = "apply"
 
         fun newInstance(item: ApplyStudyItem): ApplyDetailFragment =

@@ -3,6 +3,7 @@ package com.iron.espresso.presentation.home.apply
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.commit
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
@@ -47,6 +48,12 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
         parentFragmentManager.commit {
             hide(this@ApplyListFragment)
             add(R.id.container, fragment)
+        }
+
+        fragment.setFragmentResultListener(fragment::class.java.simpleName) { _: String, bundle: Bundle ->
+            if (bundle.containsKey(ApplyDetailFragment.REFRESH)) {
+                viewModel.getApplyList()
+            }
         }
     }
 }
