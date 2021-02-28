@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.ext.setImage
 
-class StudyCategoryViewHolder(parent: ViewGroup) :
+class StudyCategoryViewHolder(parent: ViewGroup, getClickDataListener: StudyCategoryAdapterListener) :
     RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(
-            R.layout.item_study_category, parent, false
-        )
+        LayoutInflater.from(parent.context).inflate(R.layout.item_study_category, parent, false)
     ) {
     private val binding =
         DataBindingUtil.bind<com.iron.espresso.databinding.ItemStudyCategoryBinding>(itemView)
 
-    fun bind(item: String, listener: StudyCategoryAdapterListener) {
+    private val listener = getClickDataListener
+
+    fun bind(item: String) {
 
         binding?.ivImage?.apply {
             setOnClickListener { listener.getData(item, this) }

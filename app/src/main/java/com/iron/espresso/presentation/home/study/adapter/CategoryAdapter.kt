@@ -12,11 +12,11 @@ class CategoryAdapter : RecyclerView.Adapter<StudyCategoryViewHolder>() {
     private lateinit var getClickDataListener: StudyCategoryAdapterListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudyCategoryViewHolder =
-        StudyCategoryViewHolder(parent)
+        StudyCategoryViewHolder(parent, getClickDataListener)
 
     override fun onBindViewHolder(holder: StudyCategoryViewHolder, position: Int) {
         if(::getClickDataListener.isInitialized){
-            holder.bind(categoryList[position], getClickDataListener)
+            holder.bind(categoryList[position])
         }
     }
 
