@@ -1,5 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -25,12 +26,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:maxLines="1"
-            android:text="닉네임"
             android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/setting_profile_location"
             app:layout_constraintStart_toEndOf="@+id/setting_profile_image"
-            app:layout_constraintTop_toTopOf="@+id/setting_profile_image" />
+            app:layout_constraintTop_toTopOf="@+id/setting_profile_image"
+            tools:text="닉네임" />
 
         <TextView
             android:id="@+id/setting_profile_location"
@@ -38,11 +39,11 @@
             android:layout_height="0dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
-            android:text="인천광역시 계양구"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/setting_profile_nickname"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/setting_profile_nickname" />
+            app:layout_constraintTop_toTopOf="@id/setting_profile_nickname"
+            tools:text="인천광역시 계양구" />
 
         <TextView
             android:id="@+id/setting_profile_text"
@@ -50,11 +51,11 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
-            android:text="자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다."
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/setting_profile_image"
             app:layout_constraintEnd_toEndOf="@+id/setting_profile_location"
-            app:layout_constraintStart_toStartOf="@+id/setting_profile_nickname" />
+            app:layout_constraintStart_toStartOf="@+id/setting_profile_nickname"
+            tools:text="자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
