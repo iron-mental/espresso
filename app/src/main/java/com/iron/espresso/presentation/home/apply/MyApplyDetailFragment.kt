@@ -26,10 +26,6 @@ class MyApplyDetailFragment :
 
     private val viewModel by viewModels<MyApplyDetailViewModel>()
 
-    private val applyStudyItem: ApplyStudyItem? by lazy {
-        arguments?.getParcelable(ARG_APPLY)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,7 +35,7 @@ class MyApplyDetailFragment :
 
     private fun setupView() {
         with(binding) {
-            applyStudyItem?.let {
+            viewModel.applyStudyItem?.let {
                 image.setUrlImg(it.image)
                 title.text = it.title
                 message.text = it.message

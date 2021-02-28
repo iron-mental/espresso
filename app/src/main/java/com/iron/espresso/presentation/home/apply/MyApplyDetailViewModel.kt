@@ -20,7 +20,7 @@ class MyApplyDetailViewModel @ViewModelInject constructor(
     private val deleteApply: DeleteApply
 ) : BaseViewModel() {
 
-    private val applyStudyItem: ApplyStudyItem? by lazy {
+    val applyStudyItem: ApplyStudyItem? by lazy {
         savedState.get(MyApplyDetailFragment.ARG_APPLY)
     }
 

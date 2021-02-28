@@ -19,11 +19,11 @@ class ApplyStudyListViewModel @ViewModelInject constructor(
 ) :
     BaseViewModel() {
 
-    private val type: ApplyListFragment.Type by lazy {
-        (state.get(KEY_TYPE) as? ApplyListFragment.Type) ?: ApplyListFragment.Type.NONE
+    val type: ApplyListFragment.Type by lazy {
+        state.get<ApplyListFragment.Type>(KEY_TYPE) ?: ApplyListFragment.Type.NONE
     }
 
-    private val studyId: Int by lazy {
+    val studyId: Int by lazy {
         (state.get(KEY_STUDY_ID) as? Int) ?: -1
     }
 

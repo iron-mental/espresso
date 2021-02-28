@@ -17,13 +17,16 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
 
     private val viewModel by viewModels<ApplyStudyListViewModel>()
 
-    private val type: Type by lazy {
-        (arguments?.getSerializable(KEY_TYPE) as? Type) ?: Type.NONE
-    }
+    private val type: Type
+        get() = viewModel.type
 
     private val adapter: ApplyStudyAdapter by lazy {
         ApplyStudyAdapter(type) { item ->
-            if (type == Type.NONE) showApplyDetail(item) else showMyApplyDetail(item)
+            if (type == Type.NONE) showApplyDetail(
+                viewModel.studyId,
+                item.id,
+                item.userId
+            ) else showMyApplyDetail(item)
         }
     }
 
@@ -49,8 +52,8 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
         }
     }
 
-    private fun showApplyDetail(item: ApplyStudyItem) {
-        val fragment = ApplyDetailFragment.newInstance(item)
+    private fun showApplyDetail(studyId: Int, applyId: Int, userId: Int) {
+        val fragment = ApplyDetailFragment.newInstance(studyId, applyId, userId)
         parentFragmentManager.commit {
             hide(this@ApplyListFragment)
             add(R.id.container, fragment)

@@ -1,10 +1,10 @@
 package com.iron.espresso.presentation.home.apply
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.commit
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
@@ -18,42 +18,30 @@ import dagger.hilt.android.AndroidEntryPoint
 class ApplyDetailFragment :
     BaseFragment<FragmentApplyDetailBinding>(R.layout.fragment_apply_detail) {
 
-    private val viewModel by viewModels<MyApplyDetailViewModel>()
-
-    private val applyStudyItem: ApplyStudyItem? by lazy {
-        arguments?.getParcelable(ARG_APPLY)
-    }
+    private val viewModel by viewModels<ApplyDetailViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupView()
         setupViewModel()
+        viewModel.getApplyDetail()
     }
 
     private fun setupView() {
         with(binding) {
-            applyStudyItem?.let {
-
-            }
+            binding.viewModel = this@ApplyDetailFragment.viewModel
         }
     }
 
     private fun setupViewModel() {
         with(viewModel) {
-            modifiedEvent.observe(viewLifecycleOwner, EventObserver {
-                setFragmentResult(
-                    this@ApplyDetailFragment::class.java.simpleName,
-                    bundleOf(REFRESH to "")
-                )
-            })
-
-            deletedEvent.observe(viewLifecycleOwner, EventObserver {
-                setFragmentResult(
-                    this@ApplyDetailFragment::class.java.simpleName,
-                    bundleOf(REFRESH to "")
-                )
-                onBackPressed()
+            showLinkEvent.observe(viewLifecycleOwner, EventObserver { url ->
+                if (url.startsWith("http://") || url.startsWith("https://")) {
+                    CustomTabsIntent.Builder()
+                        .build()
+                        .launchUrl(requireContext(), Uri.parse(url))
+                }
             })
 
             toastMessage.observe(viewLifecycleOwner, EventObserver(::toast))
@@ -77,12 +65,13 @@ class ApplyDetailFragment :
 
     companion object {
         const val REFRESH = "refresh"
-        const val ARG_APPLY = "apply"
 
-        fun newInstance(item: ApplyStudyItem): MyApplyDetailFragment =
-            MyApplyDetailFragment().apply {
+        fun newInstance(studyId: Int, applyId: Int, userId: Int): ApplyDetailFragment =
+            ApplyDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(ARG_APPLY, item)
+                    putInt(ApplyDetailViewModel.KEY_STUDY_ID, studyId)
+                    putInt(ApplyDetailViewModel.KEY_APPLY_ID, applyId)
+                    putInt(ApplyDetailViewModel.KEY_USER_ID, userId)
                 }
             }
     }
