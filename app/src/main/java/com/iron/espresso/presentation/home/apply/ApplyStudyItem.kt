@@ -8,6 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class ApplyStudyItem(
     val id: Int,
     val userId: Int,
+    val studyId: Int,
     val image: String,
     val message: String,
     val title: String
@@ -15,6 +16,6 @@ data class ApplyStudyItem(
 
     companion object {
         fun of(apply: Apply): ApplyStudyItem =
-            ApplyStudyItem(apply.id, apply.userId, apply.image, apply.message, apply.title)
+            ApplyStudyItem(apply.id, apply.userId, apply.studyId, apply.image, apply.message, apply.title)
     }
 }

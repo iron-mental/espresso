@@ -1,21 +1,25 @@
 package com.iron.espresso.presentation.home.apply
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.commit
+import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentApplyDetailBinding
 import com.iron.espresso.ext.setUrlImg
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class ApplyDetailFragment :
     BaseFragment<FragmentApplyDetailBinding>(R.layout.fragment_apply_detail) {
+
+    private val viewModel by viewModels<ApplyDetailViewModel>()
 
     private val applyStudyItem: ApplyStudyItem? by lazy {
         arguments?.getParcelable(ARG_APPLY)
@@ -54,12 +58,27 @@ class ApplyDetailFragment :
                 return true
             }
             R.id.cancel -> {
-
+                showApplyCancelDialog()
                 return true
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showApplyCancelDialog() {
+
+        val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_apply_cancel_title))
+
+        dialog.show(parentFragmentManager, dialog::class.java.simpleName)
+
+        dialog.setFragmentResultListener(dialog::class.java.simpleName) { requestKey: String, bundle: Bundle ->
+            val result = bundle.get(ConfirmDialog.RESULT)
+
+            if (result == Activity.RESULT_OK) {
+                viewModel.requestDelete()
+            }
+        }
     }
 
     override fun onBackPressed(): Boolean {
@@ -78,7 +97,7 @@ class ApplyDetailFragment :
 
 
     companion object {
-        private const val ARG_APPLY = "apply"
+        const val ARG_APPLY = "apply"
 
         fun newInstance(item: ApplyStudyItem): ApplyDetailFragment =
             ApplyDetailFragment().apply {

@@ -132,5 +132,8 @@
 
     <string name="pass_permission">방장을 위임하셔야 합니다</string>
     <string name="apply_cancel">신청 취소</string>
+    <string name="yes">네</string>
+    <string name="no">아니요</string>
+    <string name="dialog_apply_cancel_title">스터디 신청을 취소 하시겠어요?</string>
 
 </resources>
