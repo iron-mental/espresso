@@ -104,6 +104,7 @@ class MyStudyDetailActivity :
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         if (authority == AUTH_HOST) {
+            menu?.findItem(R.id.apply_list)?.isVisible = true
             menu?.findItem(R.id.delete_study)?.isVisible = true
             menu?.findItem(R.id.host_delegate)?.isVisible = true
         }
@@ -114,6 +115,9 @@ class MyStudyDetailActivity :
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
+            }
+            R.id.apply_list -> {
+
             }
             R.id.leave_study -> {
                 if (checkAuthority(authority)) {
