@@ -35,7 +35,7 @@ class StudyCreateActivity :
         setNavigationIcon(R.drawable.ic_back_24)
 
         binding.run {
-            category.text = intent.getStringExtra(STUDY_CATEGORY)
+            category.text = intent.getStringExtra(STUDY_CATEGORY).orEmpty()
             introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
             proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
 
