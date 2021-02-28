@@ -13,7 +13,7 @@ import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 
-class ApplyDetailViewModel @ViewModelInject constructor(
+class MyApplyDetailViewModel @ViewModelInject constructor(
     @Assisted
     private val savedState: SavedStateHandle,
     private val modifyApply: ModifyApply,
@@ -21,7 +21,7 @@ class ApplyDetailViewModel @ViewModelInject constructor(
 ) : BaseViewModel() {
 
     private val applyStudyItem: ApplyStudyItem? by lazy {
-        savedState.get(ApplyDetailFragment.ARG_APPLY)
+        savedState.get(MyApplyDetailFragment.ARG_APPLY)
     }
 
     private val _modifiedEvent = MutableLiveData<Event<Unit>>()

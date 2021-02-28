@@ -23,7 +23,7 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
 
     private val adapter: ApplyStudyAdapter by lazy {
         ApplyStudyAdapter(type) { item ->
-            showApplyDetail(item)
+            if (type == Type.NONE) showApplyDetail(item) else showMyApplyDetail(item)
         }
     }
 
@@ -58,6 +58,20 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
 
         fragment.setFragmentResultListener(fragment::class.java.simpleName) { _: String, bundle: Bundle ->
             if (bundle.containsKey(ApplyDetailFragment.REFRESH)) {
+                viewModel.getList()
+            }
+        }
+    }
+
+    private fun showMyApplyDetail(item: ApplyStudyItem) {
+        val fragment = MyApplyDetailFragment.newInstance(item)
+        parentFragmentManager.commit {
+            hide(this@ApplyListFragment)
+            add(R.id.container, fragment)
+        }
+
+        fragment.setFragmentResultListener(fragment::class.java.simpleName) { _: String, bundle: Bundle ->
+            if (bundle.containsKey(MyApplyDetailFragment.REFRESH)) {
                 viewModel.getList()
             }
         }
