@@ -28,7 +28,6 @@ class ModifyStudyActivity :
 
     private val viewModel by viewModels<ModifyStudyViewModel>()
 
-    private var localItem = LocalItem()
     private var studyImage: Uri? = null
 
     @SuppressLint("ClickableViewAccessibility")
@@ -86,7 +85,6 @@ class ModifyStudyActivity :
             }
 
             buttonSignUp.setOnClickListener {
-                localItem.locationDetail = placeDetailInputView.text.toString()
 
                 viewModel.modifyStudy(
                     studyInfoItem.id,
@@ -97,13 +95,7 @@ class ModifyStudyActivity :
                         introduce = introduceInputView.text.toString(),
                         progress = proceedInputView.text.toString(),
                         studyTime = timeInputView.text.toString(),
-                        latitude = localItem.lat,
-                        longitude = localItem.lng,
-                        sido = localItem.sido,
-                        sigungu = localItem.sigungu,
-                        addressName = localItem.addressName,
-                        placeName = localItem.placeName,
-                        locationDetail = localItem.locationDetail,
+                        locationDetail = placeDetailInputView.text.toString(),
                         snsNotion = notionInputView.inputUrl.text.toString(),
                         snsEverNote = evernoteInputView.inputUrl.text.toString(),
                         snsWeb = webInputView.inputUrl.text.toString(),
@@ -114,6 +106,8 @@ class ModifyStudyActivity :
         }
 
         viewModel.run {
+            initLocalItem(studyInfoItem.locationItem)
+
             image.observe(this@ModifyStudyActivity) { imageUri ->
                 binding.image.setImage(imageUri)
                 studyImage = imageUri
@@ -158,8 +152,8 @@ class ModifyStudyActivity :
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQ_CODE && resultCode == RESULT_OK) {
-            localItem =
-                data?.getSerializableExtra(SearchPlaceDetailActivity.LOCAL_ITEM) as LocalItem
+            val localItem =
+                data?.getSerializableExtra(SearchPlaceDetailActivity.LOCAL_ITEM) as LocalItem?
             viewModel.addItems(localItem)
         }
     }

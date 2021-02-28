@@ -33,6 +33,16 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyReposit
 
     val image = MutableLiveData<Uri>()
 
+    fun initLocalItem(locationItem: LocationItem) {
+        _localItem.value = LocalItem(
+            lat = locationItem.latitude.toDouble(),
+            lng = locationItem.longitude.toDouble(),
+            addressName = locationItem.addressName,
+            placeName = locationItem.placeName ?: "",
+            locationDetail = locationItem.locationDetail ?: ""
+        )
+    }
+
     fun setStudyImage(image: Uri) {
         this.image.value = image
     }
@@ -83,12 +93,12 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyReposit
                         introduce = modifyStudyItem.introduce,
                         progress = modifyStudyItem.progress,
                         studyTime = modifyStudyItem.studyTime,
-                        latitude = modifyStudyItem.latitude,
-                        longitude = modifyStudyItem.longitude,
-                        sido = modifyStudyItem.sido,
-                        sigungu = modifyStudyItem.sigungu,
-                        addressName = modifyStudyItem.addressName,
-                        placeName = modifyStudyItem.placeName,
+                        latitude = localItem.value?.lat,
+                        longitude = localItem.value?.lng,
+                        sido = localItem.value?.sido ?: "",
+                        sigungu = localItem.value?.sigungu ?: "",
+                        addressName = localItem.value?.addressName ?: "",
+                        placeName = localItem.value?.placeName ?: "",
                         locationDetail = modifyStudyItem.locationDetail,
                         snsNotion = modifyStudyItem.snsNotion,
                         snsEverNote = modifyStudyItem.snsEverNote,

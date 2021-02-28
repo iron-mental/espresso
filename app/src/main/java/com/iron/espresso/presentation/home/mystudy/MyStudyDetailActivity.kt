@@ -30,7 +30,7 @@ class MyStudyDetailActivity :
 
     private val viewModel by viewModels<MyStudyDetailViewModel>()
     private var studyId = -1
-    private var studyInfoItem = StudyInfoItem()
+    private var studyInfoItem: StudyInfoItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +67,7 @@ class MyStudyDetailActivity :
 
         viewModel.studyDetail.observe(this, { studyDetailItem ->
             studyInfoItem = studyDetailItem.studyInfoItem
-            setToolbarTitle(studyInfoItem.title)
+            setToolbarTitle(studyInfoItem?.title)
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
@@ -107,7 +107,7 @@ class MyStudyDetailActivity :
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (studyInfoItem.authority == AUTH_HOST) {
+        if (studyInfoItem?.authority == AUTH_HOST) {
             menu?.findItem(R.id.delete_study)?.isVisible = true
             menu?.findItem(R.id.host_delegate)?.isVisible = true
             menu?.findItem(R.id.modify_study)?.isVisible = true
@@ -121,7 +121,7 @@ class MyStudyDetailActivity :
                 onBackPressed()
             }
             R.id.leave_study -> {
-                if (checkAuthority(studyInfoItem.authority)) {
+                if (checkAuthority(studyInfoItem?.authority ?: "")) {
                     viewModel.leaveStudy(studyId)
                 } else {
                     toast(resources.getString(R.string.pass_permission))
@@ -135,15 +135,18 @@ class MyStudyDetailActivity :
                     DelegateLeaderActivity.getIntent(
                         this,
                         studyId,
-                        studyInfoItem.participateItem as ArrayList<ParticipateItem>
+                        studyInfoItem?.participateItem as ArrayList<ParticipateItem>
                     ), DELEGATE_CODE
                 )
             }
             R.id.modify_study -> {
-                startActivityForResult(
-                    ModifyStudyActivity.getIntent(this, studyInfoItem),
-                    MODIFY_CODE
-                )
+                val studyInfoItem = this.studyInfoItem
+                if (studyInfoItem != null) {
+                    startActivityForResult(
+                        ModifyStudyActivity.getIntent(this, studyInfoItem),
+                        MODIFY_CODE
+                    )
+                }
             }
             else -> {
                 return false
