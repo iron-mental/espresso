@@ -140,4 +140,6 @@
     <string name="success_delegate">위임이 완료되었습니다</string>
 
     <string name="apply_modify_title">가입 인사를 수정해보세요</string>
+    <string name="reject">거절</string>
+    <string name="accept">수락</string>
 </resources>

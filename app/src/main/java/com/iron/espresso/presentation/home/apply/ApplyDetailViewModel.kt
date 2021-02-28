@@ -2,10 +2,13 @@ package com.iron.espresso.presentation.home.apply
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.iron.espresso.Logger
 import com.iron.espresso.domain.usecase.GetApplyOwner
 import com.iron.espresso.domain.usecase.GetUser
+import com.iron.espresso.domain.usecase.HandleApply
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
@@ -17,7 +20,8 @@ class ApplyDetailViewModel @ViewModelInject constructor(
     @Assisted
     private val savedState: SavedStateHandle,
     private val getApply: GetApplyOwner,
-    private val getUser: GetUser
+    private val getUser: GetUser,
+    private val handleApply: HandleApply
 ) : AbsProfileViewModel() {
 
     private val studyId: Int by lazy {
@@ -31,6 +35,9 @@ class ApplyDetailViewModel @ViewModelInject constructor(
     private val userId: Int by lazy {
         savedState.get(KEY_USER_ID) ?: -1
     }
+
+    private val _successEvent = MutableLiveData<Event<Boolean>>()
+    val successEvent: LiveData<Event<Boolean>> get() = _successEvent
 
     fun getApplyDetail() {
         if (studyId == -1 || applyId == -1) return
@@ -60,6 +67,28 @@ class ApplyDetailViewModel @ViewModelInject constructor(
                     _toastMessage.value = Event(it.message.orEmpty())
                 }
                 Logger.d("$throwable")
+            })
+    }
+
+    fun requestHandleApply(allow: Boolean) {
+        if (studyId == -1 || applyId == -1) return
+
+        compositeDisposable += handleApply(
+            studyId = studyId,
+            applyId = applyId,
+            allow = allow
+        )
+            .networkSchedulers()
+            .subscribe({ (isSuccess, message) ->
+                _successEvent.value = Event(isSuccess)
+                _toastMessage.value = Event(message)
+            }, { throwable ->
+
+                throwable.toErrorResponse()?.let {
+                    _toastMessage.value = Event(it.message.orEmpty())
+                }
+                Logger.d("$throwable")
+
             })
     }
 

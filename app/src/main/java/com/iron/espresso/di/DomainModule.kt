@@ -141,5 +141,11 @@ object DomainModule {
     fun provideDeleteApply(repository: ApplyRepository): DeleteApply {
         return DeleteApply(repository)
     }
+
+    @Singleton
+    @Provides
+    fun provideHandleApply(repository: ApplyRepository): HandleApply {
+        return HandleApply(repository)
+    }
 }
 

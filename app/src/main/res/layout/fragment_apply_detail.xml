@@ -105,6 +105,41 @@
                     bind:editable="@{false}"
                     bind:viewModel="@{viewModel}" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/reject"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/ffeb5545"
+                        android:text="@string/reject"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/accept"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent=".3" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/accept"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/ff3f74eA"
+                        android:text="@string/accept"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/reject"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent=".3" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
 
         </ScrollView>

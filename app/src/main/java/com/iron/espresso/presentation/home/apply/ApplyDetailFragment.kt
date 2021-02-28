@@ -4,7 +4,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
@@ -18,24 +20,32 @@ import dagger.hilt.android.AndroidEntryPoint
 class ApplyDetailFragment :
     BaseFragment<FragmentApplyDetailBinding>(R.layout.fragment_apply_detail) {
 
-    private val viewModel by viewModels<ApplyDetailViewModel>()
+    private val applyDetailViewModel by viewModels<ApplyDetailViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupView()
         setupViewModel()
-        viewModel.getApplyDetail()
+        applyDetailViewModel.getApplyDetail()
     }
 
     private fun setupView() {
         with(binding) {
-            binding.viewModel = this@ApplyDetailFragment.viewModel
+            viewModel = applyDetailViewModel
+
+            reject.setOnClickListener {
+                applyDetailViewModel.requestHandleApply(false)
+            }
+
+            accept.setOnClickListener {
+                applyDetailViewModel.requestHandleApply(true)
+            }
         }
     }
 
     private fun setupViewModel() {
-        with(viewModel) {
+        with(applyDetailViewModel) {
             showLinkEvent.observe(viewLifecycleOwner, EventObserver { url ->
                 if (url.startsWith("http://") || url.startsWith("https://")) {
                     CustomTabsIntent.Builder()
@@ -43,7 +53,13 @@ class ApplyDetailFragment :
                         .launchUrl(requireContext(), Uri.parse(url))
                 }
             })
-
+            successEvent.observe(viewLifecycleOwner, EventObserver { isSuccess ->
+                setFragmentResult(
+                    this@ApplyDetailFragment::class.java.simpleName,
+                    bundleOf(MyApplyDetailFragment.REFRESH to "")
+                )
+                onBackPressed()
+            })
             toastMessage.observe(viewLifecycleOwner, EventObserver(::toast))
             loadingState.observe(viewLifecycleOwner, EventObserver(::setLoading))
         }

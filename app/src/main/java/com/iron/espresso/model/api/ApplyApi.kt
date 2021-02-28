@@ -1,5 +1,6 @@
 package com.iron.espresso.model.api
 
+import com.google.gson.annotations.SerializedName
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.apply.ApplyDetailResponse
@@ -15,6 +16,10 @@ data class ModifyStudyApplyRequest(
     val message: String
 )
 
+data class HandleApplyRequest(
+    @SerializedName("allow")
+    val allow: Boolean
+)
 interface ApplyApi {
 
     @POST("/v1/study/{study_id}/apply")
@@ -63,5 +68,13 @@ interface ApplyApi {
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int,
         @Path("apply_id") applyId: Int
+    ): Single<BaseResponse<Nothing>>
+
+    @POST("/v1/study/{study_id}/apply/{apply_id}")
+    fun handleApply(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int,
+        @Path("apply_id") applyId: Int,
+        @Body body: HandleApplyRequest
     ): Single<BaseResponse<Nothing>>
 }
