@@ -24,9 +24,13 @@ class ApplyDetailViewModel @ViewModelInject constructor(
         savedState.get(ApplyDetailFragment.ARG_APPLY)
     }
 
-    private val _successEvent = MutableLiveData<Event<String>>()
-    val successEvent: LiveData<Event<String>>
-        get() = _successEvent
+    private val _modifiedEvent = MutableLiveData<Event<Unit>>()
+    val modifiedEvent: LiveData<Event<Unit>>
+        get() = _modifiedEvent
+
+    private val _deletedEvent = MutableLiveData<Event<Unit>>()
+    val deletedEvent: LiveData<Event<Unit>>
+        get() = _deletedEvent
 
 
     fun requestModify(message: String) {
@@ -42,8 +46,9 @@ class ApplyDetailViewModel @ViewModelInject constructor(
         )
             .networkSchedulers()
             .subscribe({ (isSuccess, message) ->
+                _toastMessage.value = Event(message)
                 if (isSuccess) {
-                    _successEvent.value = Event(message)
+                    _modifiedEvent.value = Event(Unit)
                 }
             }, {
                 Logger.d("$it")
@@ -62,8 +67,9 @@ class ApplyDetailViewModel @ViewModelInject constructor(
         )
             .networkSchedulers()
             .subscribe({ (isSuccess, message) ->
+                _toastMessage.value = Event(message)
                 if (isSuccess) {
-                    _successEvent.value = Event(message)
+                    _deletedEvent.value = Event(Unit)
                 }
             }, {
                 Logger.d("$it")

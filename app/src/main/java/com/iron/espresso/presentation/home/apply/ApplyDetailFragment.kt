@@ -12,7 +12,10 @@ import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentApplyDetailBinding
+import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.setLoading
 import com.iron.espresso.ext.setUrlImg
+import com.iron.espresso.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,7 +46,18 @@ class ApplyDetailFragment :
     }
 
     private fun setupViewModel() {
+        with(viewModel) {
+            modifiedEvent.observe(viewLifecycleOwner, EventObserver {
 
+            })
+
+            deletedEvent.observe(viewLifecycleOwner, EventObserver {
+                onBackPressed()
+            })
+
+            toastMessage.observe(viewLifecycleOwner, EventObserver(::toast))
+            loadingState.observe(viewLifecycleOwner, EventObserver(::setLoading))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -67,7 +81,6 @@ class ApplyDetailFragment :
     }
 
     private fun showApplyCancelDialog() {
-
         val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_apply_cancel_title))
 
         dialog.show(parentFragmentManager, dialog::class.java.simpleName)
