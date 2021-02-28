@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/host_delegate"
+        android:title="@string/host_delegate"
+        android:visible="false"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/leave_study"
         android:title="@string/leave_study"
         app:showAsAction="never" />
@@ -10,6 +16,6 @@
     <item
         android:id="@+id/delete_study"
         android:title="@string/delete_study"
-        app:showAsAction="never"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="never" />
 </menu>

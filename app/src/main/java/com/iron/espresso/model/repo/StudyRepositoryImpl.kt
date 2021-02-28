@@ -67,4 +67,8 @@ class StudyRepositoryImpl @Inject constructor(
     override fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>> {
         return remoteDataSource.deleteStudy(studyId)
     }
+
+    override fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>> {
+        return remoteDataSource.delegateStudyLeader(studyId, newLeader)
+    }
 }

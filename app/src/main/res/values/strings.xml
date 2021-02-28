@@ -130,11 +130,13 @@
     <string name="complete">완료</string>
     <string name="leave">나가기</string>
 
-    <string name="pass_permission">방장을 위임하셔야 합니다</string>
     <string name="apply_cancel">신청 취소</string>
     <string name="yes">네</string>
     <string name="no">아니요</string>
     <string name="dialog_apply_cancel_title">스터디 신청을 취소 하시겠어요?</string>
+    <string name="pass_permission">스터디 장을 위임하셔야 합니다</string>
+    <string name="host_delegate">스터디 장 위임하기</string>
+    <string name="success_delegate">위임이 완료되었습니다</string>
 
     <string name="apply_modify_title">가입 인사를 수정해보세요</string>
 </resources>
