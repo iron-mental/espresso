@@ -3,14 +3,13 @@ package com.iron.espresso.presentation.home.study.search
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSearchResultBinding
-import com.iron.espresso.ext.visibleIf
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.study.StudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
@@ -45,9 +44,9 @@ class SearchResultFragment :
 
         viewModel.run {
             showSearchStudyList(keyword)
-            studyList.observe(viewLifecycleOwner, Observer { studyList ->
+            studyList.observe(viewLifecycleOwner, { studyList ->
                 studyListAdapter.setItemList(studyList)
-                binding.emptyView.visibleIf(studyList.isNullOrEmpty())
+                binding.emptyView.isVisible = studyList.isNullOrEmpty()
             })
         }
 
