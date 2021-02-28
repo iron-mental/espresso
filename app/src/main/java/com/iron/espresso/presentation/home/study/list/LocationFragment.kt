@@ -2,6 +2,7 @@ package com.iron.espresso.presentation.home.study.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +44,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
 
             studyList.observe(viewLifecycleOwner, Observer { studyList ->
                 studyListAdapter.setItemList(studyList)
-                binding.emptyView.visibleIf(studyList.isNullOrEmpty())
+                binding.emptyView.isVisible = studyList.isNullOrEmpty()
             })
 
             loadingState.observe(viewLifecycleOwner, EventObserver(::setLoading))
