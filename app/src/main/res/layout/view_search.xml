@@ -21,8 +21,10 @@
             android:hint="@string/search_hint"
             android:imeOptions="actionSearch"
             android:inputType="text"
+            android:lines="1"
             android:padding="8dp"
-            android:singleLine="true" />
+            android:paddingStart="8dp"
+            android:paddingEnd="25dp" />
 
         <ImageView
             android:id="@+id/clear_button"
