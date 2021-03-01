@@ -73,8 +73,8 @@ class NoticeCreateActivity :
             R.id.create_notice -> {
                 viewModel.createNotice(
                     studyId = studyId,
-                    title = binding.title.text.toString(),
-                    contents = binding.content.text.toString()
+                    title = binding.titleInputView.text.toString(),
+                    contents = binding.contentInputView.text.toString()
                 )
             }
         }
