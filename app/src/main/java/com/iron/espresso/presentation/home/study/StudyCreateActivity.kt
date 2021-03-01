@@ -3,11 +3,13 @@ package com.iron.espresso.presentation.home.study
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.net.toFile
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
@@ -15,9 +17,11 @@ import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.setImage
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
+import com.wswon.picker.ImagePickerFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +31,7 @@ class StudyCreateActivity :
     private val viewModel by viewModels<StudyCreateViewModel>()
 
     private var localItem: LocalItem? = null
+    private var studyImage: Uri? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +50,24 @@ class StudyCreateActivity :
                     REQ_CODE
                 )
             }
+            image.setOnClickListener {
+
+                val imagePickerFragment = ImagePickerFragment()
+                supportFragmentManager.setFragmentResultListener(
+                    ImagePickerFragment.REQ_IMAGE,
+                    this@StudyCreateActivity
+                ) { _, data ->
+                    val imageUri = data.getParcelable<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
+                    if (imageUri != null) {
+                        viewModel.setStudyImage(imageUri)
+                    }
+                }
+
+                imagePickerFragment.show(
+                    supportFragmentManager,
+                    imagePickerFragment::class.java.simpleName
+                )
+            }
 
             buttonSignUp.setOnClickListener {
                 localItem?.locationDetail = placeDetailInputView.text.toString()
@@ -60,13 +83,18 @@ class StudyCreateActivity :
                         snsNotion = notionInputView.inputUrl.text.toString(),
                         snsEverNote = evernoteInputView.inputUrl.text.toString(),
                         snsWeb = webInputView.inputUrl.text.toString(),
-                        image = null
+                        image = studyImage?.toFile()
                     )
                 )
             }
         }
 
         viewModel.run {
+            image.observe(this@StudyCreateActivity) { imageUri ->
+                binding.image.setImage(imageUri)
+                studyImage = imageUri
+            }
+
             localItem.observe(this@StudyCreateActivity) { localItem ->
                 val placeDetailText = localItem.addressName + " " + localItem.placeName
                 binding.placeDetail.text = placeDetailText
