@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/modify_study"
+        android:title="@string/modify_study"
+        android:visible="false"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/host_delegate"
         android:title="@string/host_delegate"
         android:visible="false"

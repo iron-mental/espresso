@@ -1,5 +1,6 @@
 package com.iron.espresso.domain.repo
 
+import com.iron.espresso.model.api.ModifyStudyRequest
 import com.iron.espresso.model.response.study.HotSearchKeywordResponse
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.MyStudyListResponse
@@ -25,6 +26,8 @@ interface StudyRepository {
     fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>>
 
     fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>>
+
+    fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>>
 
     fun getStudyCategory(): Single<List<String>>
 }

@@ -1,6 +1,7 @@
 package com.iron.espresso.model.repo
 
 import com.iron.espresso.domain.repo.StudyRepository
+import com.iron.espresso.model.api.ModifyStudyRequest
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.HotSearchKeywordResponse
 import com.iron.espresso.model.response.study.MyStudyListResponse
@@ -70,6 +71,10 @@ class StudyRepositoryImpl @Inject constructor(
 
     override fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>> {
         return remoteDataSource.delegateStudyLeader(studyId, newLeader)
+    }
+
+    override fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>> {
+        return remoteDataSource.modifyStudy(studyId, request)
     }
 
     override fun getStudyCategory(): Single<List<String>> {

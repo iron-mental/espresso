@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -136,14 +137,22 @@ class ImagePickerFragment : BottomSheetDialogFragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val resultUri = data?.getParcelableExtra(CropImage.CROP_IMAGE_EXTRA_RESULT) as? Uri
 
-                val uriListData = Intent().apply {
-                    putExtra(ARG_IMAGE_URI, resultUri)
+                if (resultUri != null) {
+                    val uriListData = Intent().apply {
+                        putExtra(ARG_IMAGE_URI, resultUri)
+                    }
+                    targetFragment?.onActivityResult(
+                        targetRequestCode,
+                        Activity.RESULT_OK,
+                        uriListData
+                    )
+
+                    val result = Bundle().apply {
+                        putParcelable(ARG_IMAGE_URI, resultUri)
+                    }
+
+                    setFragmentResult(REQ_IMAGE, result)
                 }
-                targetFragment?.onActivityResult(
-                    targetRequestCode,
-                    Activity.RESULT_OK,
-                    uriListData
-                )
 
                 dismiss()
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -209,6 +218,7 @@ class ImagePickerFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
+        const val REQ_IMAGE = "req_image"
         const val ARG_IMAGE_URI = "ARG_IMAGE_URI"
     }
 }
