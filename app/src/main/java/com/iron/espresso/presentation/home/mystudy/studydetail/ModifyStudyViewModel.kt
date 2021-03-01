@@ -14,7 +14,6 @@ import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.ModifyStudyRequest
-import retrofit2.HttpException
 
 class ModifyStudyViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
     BaseViewModel() {
@@ -83,7 +82,7 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyReposit
             compositeDisposable += studyRepository
                 .modifyStudy(
                     studyId = studyId,
-                    body = ModifyStudyRequest(
+                    request = ModifyStudyRequest(
                         category = modifyStudyItem.category,
                         title = duplicateItemCheck(title, modifyStudyItem.title),
                         introduce = modifyStudyItem.introduce,
@@ -100,7 +99,7 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyReposit
                         snsEverNote = modifyStudyItem.snsEverNote,
                         snsWeb = modifyStudyItem.snsWeb,
                         image = modifyStudyItem.image,
-                    ).toMultipartBody()
+                    )
                 )
                 .networkSchedulers()
                 .subscribe({
@@ -111,7 +110,7 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyReposit
                     Logger.d("$it")
                 }, {
                     Logger.d("$it")
-                    val errorResponse = (it as? HttpException)?.toErrorResponse()
+                    val errorResponse = it.toErrorResponse()
                     if (errorResponse?.message != null) {
                         _toastMessage.value = Event("${errorResponse.message}")
                     } else {
