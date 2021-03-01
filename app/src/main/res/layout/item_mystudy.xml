@@ -30,8 +30,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            bind:setUrlImg="@{myStudyItem.image}"
-            bind:type="@{glideType.ROUND}" />
+            android:src="@drawable/dummy_image"
+            bind:setCircleImage="@{myStudyItem.image}" />
 
         <TextView
             android:id="@+id/location"

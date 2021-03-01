@@ -95,6 +95,7 @@ fun ImageView.setImage(imageUrl: String) {
         .into(this)
 }
 
+@BindingAdapter("bind:setCircleImage")
 fun ImageView.setCircleImage(imageUrl: String) {
     if (imageUrl.isEmpty()) return
 

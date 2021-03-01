@@ -3,11 +3,10 @@ package com.iron.espresso.presentation.home.study.search
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSearchResultBinding
@@ -23,7 +22,7 @@ class SearchResultFragment :
     private val viewModel by viewModels<StudyResultViewModel>()
     val studyListAdapter = StudyListAdapter()
     private val editText: EditText?
-        get() = baseActivity?.getCustomView() as? EditText
+        get() = baseActivity?.getCustomView()?.findViewById(R.id.edit_view) as? EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,8 +44,9 @@ class SearchResultFragment :
 
         viewModel.run {
             showSearchStudyList(keyword)
-            studyList.observe(viewLifecycleOwner, Observer { studyList ->
+            studyList.observe(viewLifecycleOwner, { studyList ->
                 studyListAdapter.setItemList(studyList)
+                binding.emptyView.isVisible = studyList.isNullOrEmpty()
             })
         }
 
