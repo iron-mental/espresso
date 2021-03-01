@@ -74,11 +74,11 @@ data class ModifyStudyRequest(
     val sido: String = "",
     val sigungu: String = "",
     val addressName: String = "",
-    val placeName: String = "",
-    val locationDetail: String = "",
-    val snsNotion: String = "",
-    val snsEverNote: String = "",
-    val snsWeb: String = "",
+    val placeName: String? = null,
+    val locationDetail: String? = null,
+    val snsNotion: String? = null,
+    val snsEverNote: String? = null,
+    val snsWeb: String? = null,
     val image: File? = null,
 ) {
     fun toMultipartBody(): List<MultipartBody.Part> {
@@ -93,11 +93,11 @@ data class ModifyStudyRequest(
             if (sido.isNotEmpty()) addFormDataPart("sido", sido)
             if (sigungu.isNotEmpty()) addFormDataPart("sigungu", sigungu)
             if (addressName.isNotEmpty()) addFormDataPart("address_name", addressName)
-            if (placeName.isNotEmpty()) addFormDataPart("place_name", placeName)
-            if (locationDetail.isNotEmpty()) addFormDataPart("location_detail", locationDetail)
-            if (snsNotion.isNotEmpty()) addFormDataPart("sns_notion", snsNotion)
-            if (snsEverNote.isNotEmpty()) addFormDataPart("sns_evernote", snsEverNote)
-            if (snsWeb.isNotEmpty()) addFormDataPart("sns_web", snsWeb)
+            if (placeName != null) addFormDataPart("place_name", placeName)
+            if (locationDetail != null) addFormDataPart("location_detail", locationDetail)
+            if (snsNotion != null) addFormDataPart("sns_notion", snsNotion)
+            if (snsEverNote != null) addFormDataPart("sns_evernote", snsEverNote)
+            if (snsWeb != null) addFormDataPart("sns_web", snsWeb)
             if (image != null) {
                 addFormDataPart(
                     "image",
