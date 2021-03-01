@@ -2,6 +2,7 @@ package com.iron.espresso.presentation.home.study.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentNewListBinding
+import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.setLoading
+import com.iron.espresso.ext.visibleIf
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.study.StudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
@@ -23,13 +27,28 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.studyList.adapter = studyListAdapter
+        val category = arguments?.getString(STUDY_CATEGORY).orEmpty()
+        binding.run {
+            studyList.adapter = studyListAdapter
+            swipeRefresh.apply {
+                setOnRefreshListener {
+                    viewModel.getStudyList(category, SORT_NEW)
 
-        viewModel.getStudyList("android", SORT_NEW)
+                    this.isRefreshing = false
+                }
+            }
+        }
 
-        viewModel.studyList.observe(viewLifecycleOwner, Observer { studyList ->
-            studyListAdapter.setItemList(studyList)
-        })
+        viewModel.run {
+            getStudyList(category, SORT_NEW)
+
+            studyList.observe(viewLifecycleOwner, Observer { studyList ->
+                studyListAdapter.setItemList(studyList)
+                binding.emptyView.isVisible = studyList.isNullOrEmpty()
+            })
+
+            loadingState.observe(viewLifecycleOwner, EventObserver(::setLoading))
+        }
 
         studyListAdapter.setItemClickListener { studyItem ->
             if (studyItem.isMember) {
@@ -42,14 +61,6 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
                 )
             } else {
                 startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
-            }
-        }
-
-        binding.swipeRefresh.apply {
-            setOnRefreshListener {
-                viewModel.getStudyList("android", SORT_NEW)
-
-                this.isRefreshing = false
             }
         }
 
@@ -78,8 +89,13 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
     companion object {
         private const val SORT_NEW = "new"
         private const val OPTION = "default"
-        fun newInstance() =
-            NewListFragment()
+        private const val STUDY_CATEGORY = "study_category"
+        fun newInstance(category: String) =
+            NewListFragment().apply {
+                arguments = Bundle().apply {
+                    putString(STUDY_CATEGORY, category)
+                }
+            }
     }
 }
 

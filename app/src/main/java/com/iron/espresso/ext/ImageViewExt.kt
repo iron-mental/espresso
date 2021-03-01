@@ -83,6 +83,18 @@ fun ImageView.load(
     setStudyCategoryImg(drawable)
 }
 
+fun ImageView.setImage(imageUri: Uri) {
+    Glide.with(context)
+        .load(imageUri)
+        .into(this)
+}
+
+fun ImageView.setImage(imageUrl: String) {
+    Glide.with(context)
+        .load(imageUrl)
+        .into(this)
+}
+
 @BindingAdapter("bind:setCircleImage")
 fun ImageView.setCircleImage(imageUrl: String) {
     if (imageUrl.isEmpty()) return
@@ -122,4 +134,3 @@ fun ImageView.setRadiusImage(imageUrl: String) {
         .transform(CenterCrop(), RoundedCorners(30))
         .into(this)
 }
-
