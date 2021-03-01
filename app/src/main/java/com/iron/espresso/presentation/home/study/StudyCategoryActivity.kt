@@ -12,7 +12,9 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityCategoryStudyBinding
 import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StudyCategoryActivity :
     BaseActivity<ActivityCategoryStudyBinding>(R.layout.activity_category_study),
     StudyCategoryAdapterListener {
