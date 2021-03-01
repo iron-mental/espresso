@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
@@ -17,7 +15,6 @@ import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.ext.load
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
@@ -31,10 +28,6 @@ class StudyCreateActivity :
 
     private var localItem: LocalItem? = null
 
-    private val categoryImage by lazy {
-        intent.getIntExtra(KEY, 0)
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +35,7 @@ class StudyCreateActivity :
         setNavigationIcon(R.drawable.ic_back_24)
 
         binding.run {
-            image.transitionName = categoryImage.toString()
-            image.load(categoryImage, true) {
-                supportPostponeEnterTransition()
-            }
-
+            category.text = intent.getStringExtra(STUDY_CATEGORY).orEmpty()
             introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
             proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
 
@@ -62,7 +51,7 @@ class StudyCreateActivity :
 
                 viewModel.createStudy(
                     CreateStudyItem(
-                        category = "android",
+                        category = category.text.toString(),
                         title = titleInputView.text.toString(),
                         introduce = introduceInputView.text.toString(),
                         progress = proceedInputView.text.toString(),
@@ -132,13 +121,12 @@ class StudyCreateActivity :
     companion object {
 
         private const val TITLE = "스터디 만들기"
-        private const val KEY = "key"
+        private const val STUDY_CATEGORY = "study_category"
         private const val REQ_CODE = 0
 
-        fun getIntent(context: Context, item: Int) =
+        fun getIntent(context: Context, category: String) =
             Intent(context, StudyCreateActivity::class.java).apply {
-                putExtra(KEY, item)
+                putExtra(STUDY_CATEGORY, category)
             }
-
     }
 }

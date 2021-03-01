@@ -131,6 +131,11 @@
     <string name="pass_permission">스터디 장을 위임하셔야 합니다</string>
     <string name="host_delegate">스터디 장 위임하기</string>
     <string name="success_delegate">위임이 완료되었습니다</string>
+
     <string name="modify_study">스터디 수정하기</string>
+
+    <string name="empty_study">아직 스터디가 없어요</string>
+    <string name="select_category">카테고리 선택</string>
+    <string name="empty_search_study">검색된 스터디가 없어요</string>
 
 </resources>

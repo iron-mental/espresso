@@ -28,4 +28,6 @@ interface StudyRepository {
     fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>>
 
     fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>>
+
+    fun getStudyCategory(): Single<List<String>>
 }

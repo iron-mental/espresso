@@ -67,6 +67,10 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     override fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>> {
         return studyApi.modifyStudy(studyId = studyId, body = request.toMultipartBody())
     }
+
+    override fun getStudyCategory(): Single<BaseResponse<List<String>>> {
+        return studyApi.getStudyCategory()
+    }
 }
 
 interface StudyRemoteDataSource {
@@ -97,4 +101,6 @@ interface StudyRemoteDataSource {
     fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>>
 
     fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>>
+
+    fun getStudyCategory(): Single<BaseResponse<List<String>>>
 }

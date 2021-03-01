@@ -76,4 +76,11 @@ class StudyRepositoryImpl @Inject constructor(
     override fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>> {
         return remoteDataSource.modifyStudy(studyId, request)
     }
+
+    override fun getStudyCategory(): Single<List<String>> {
+        return remoteDataSource.getStudyCategory()
+            .map {
+                it.data
+            }
+    }
 }
