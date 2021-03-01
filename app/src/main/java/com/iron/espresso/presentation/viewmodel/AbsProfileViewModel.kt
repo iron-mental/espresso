@@ -12,7 +12,7 @@ enum class ProfileSns {
     GITHUB, GITHUB_REPO, LINKED_IN, WEB, APP_STORE, PLAY_STORE,
 }
 
-open class AbsProfileViewModel :
+abstract class AbsProfileViewModel :
     BaseViewModel() {
 
     protected val _projectItemList =
