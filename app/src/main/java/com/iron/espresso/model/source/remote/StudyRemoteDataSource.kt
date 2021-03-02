@@ -2,6 +2,7 @@ package com.iron.espresso.model.source.remote
 
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.api.DelegateRequest
+import com.iron.espresso.model.api.ModifyStudyRequest
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.HotSearchKeywordResponse
@@ -62,6 +63,14 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     override fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>> {
         return studyApi.delegateStudyLeader(studyId = studyId, body = DelegateRequest(newLeader))
     }
+
+    override fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>> {
+        return studyApi.modifyStudy(studyId = studyId, body = request.toMultipartBody())
+    }
+
+    override fun getStudyCategory(): Single<BaseResponse<List<String>>> {
+        return studyApi.getStudyCategory()
+    }
 }
 
 interface StudyRemoteDataSource {
@@ -90,4 +99,8 @@ interface StudyRemoteDataSource {
     fun deleteStudy(studyId: Int): Single<BaseResponse<Nothing>>
 
     fun delegateStudyLeader(studyId: Int, newLeader: Int): Single<BaseResponse<Nothing>>
+
+    fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>>
+
+    fun getStudyCategory(): Single<BaseResponse<List<String>>>
 }

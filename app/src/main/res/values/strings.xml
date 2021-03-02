@@ -142,4 +142,10 @@
     <string name="apply_modify_title">가입 인사를 수정해보세요</string>
     <string name="reject">거절</string>
     <string name="accept">수락</string>
+    <string name="modify_study">스터디 수정하기</string>
+
+    <string name="empty_study">아직 스터디가 없어요</string>
+    <string name="select_category">카테고리 선택</string>
+    <string name="empty_search_study">검색된 스터디가 없어요</string>
+
 </resources>

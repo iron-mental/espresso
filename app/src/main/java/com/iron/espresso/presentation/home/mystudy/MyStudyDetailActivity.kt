@@ -13,12 +13,14 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.ParticipateItem
+import com.iron.espresso.data.model.StudyInfoItem
 import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.apply.ApplyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.DelegateLeaderActivity
+import com.iron.espresso.presentation.home.mystudy.studydetail.ModifyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,9 +30,8 @@ class MyStudyDetailActivity :
     BaseActivity<ActivityMystudyDetailBinding>(R.layout.activity_mystudy_detail) {
 
     private val viewModel by viewModels<MyStudyDetailViewModel>()
-    private var authority = ""
     private var studyId = -1
-    private var participateList = arrayListOf<ParticipateItem>()
+    private var studyInfoItem: StudyInfoItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +67,8 @@ class MyStudyDetailActivity :
         viewModel.getStudy(studyId)
 
         viewModel.studyDetail.observe(this, { studyDetailItem ->
-            authority = studyDetailItem.studyInfoItem.authority
-            participateList =
-                studyDetailItem.studyInfoItem.participateItem as ArrayList<ParticipateItem>
+            studyInfoItem = studyDetailItem.studyInfoItem
+            setToolbarTitle(studyInfoItem?.title)
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
@@ -93,6 +93,10 @@ class MyStudyDetailActivity :
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == DELEGATE_CODE && resultCode == RESULT_OK) {
+            finish()
+            startActivity(intent)
+        } else if (requestCode == MODIFY_CODE && resultCode == RESULT_OK) {
+            finish()
             startActivity(intent)
         }
     }
@@ -104,10 +108,11 @@ class MyStudyDetailActivity :
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (authority == AUTH_HOST) {
+        if (studyInfoItem?.authority == AUTH_HOST) {
             menu?.findItem(R.id.apply_list)?.isVisible = true
             menu?.findItem(R.id.delete_study)?.isVisible = true
             menu?.findItem(R.id.host_delegate)?.isVisible = true
+            menu?.findItem(R.id.modify_study)?.isVisible = true
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -121,7 +126,7 @@ class MyStudyDetailActivity :
                 startActivity(ApplyStudyActivity.getIntent(this, studyId))
             }
             R.id.leave_study -> {
-                if (checkAuthority(authority)) {
+                if (checkAuthority(studyInfoItem?.authority ?: "")) {
                     viewModel.leaveStudy(studyId)
                 } else {
                     toast(resources.getString(R.string.pass_permission))
@@ -135,9 +140,18 @@ class MyStudyDetailActivity :
                     DelegateLeaderActivity.getIntent(
                         this,
                         studyId,
-                        participateList
+                        studyInfoItem?.participateItem as ArrayList<ParticipateItem>
                     ), DELEGATE_CODE
                 )
+            }
+            R.id.modify_study -> {
+                val studyInfoItem = this.studyInfoItem
+                if (studyInfoItem != null) {
+                    startActivityForResult(
+                        ModifyStudyActivity.getIntent(this, studyInfoItem),
+                        MODIFY_CODE
+                    )
+                }
             }
             else -> {
                 return false
@@ -152,6 +166,7 @@ class MyStudyDetailActivity :
         const val STUDY_ID = "studyId"
         private const val AUTH_HOST = "host"
         private const val DELEGATE_CODE = 1
+        private const val MODIFY_CODE = 2
 
         fun getInstance(context: Context, title: String, id: Int) =
             Intent(context, MyStudyDetailActivity::class.java)

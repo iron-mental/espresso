@@ -5,11 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
@@ -30,31 +33,30 @@ class SearchPlaceActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        searchEditText = EditText(this).apply {
-            hint = TOOLBAR_HINT
-            setSingleLine()
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            requestFocus()
-            imeOptions = EditorInfo.IME_ACTION_SEARCH
-            setOnEditorActionListener { search, _, _ ->
-                var handled = false     //키보드 내림
-                if (search.text.isNotEmpty()) {
-                    Log.d("TAG", "성공")
-                    viewModel.searchPlace(text.toString())
-                } else {
-                    Log.d("TAG", "실패")
-                    handled = true      //키보드 유지
-                }
-                handled
-            }
-        }
+        val searchView = layoutInflater.inflate(R.layout.view_search, null)
+        val clearButton = searchView.findViewById<ImageView>(R.id.clear_button)
 
         setToolbarTitle(null)
         setNavigationIcon(R.drawable.ic_back_24)
-        setCustomView(searchEditText)
+        setCustomView(searchView)
+
+        searchEditText = searchView.findViewById<EditText>(R.id.edit_view).apply {
+            hint = TOOLBAR_HINT
+            setOnEditorActionListener { _, actionId, _ ->
+                if (text.isNotEmpty() && actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    viewModel.searchPlace(text.toString())
+                    true
+                } else {
+                    false
+                }
+            }
+            doOnTextChanged { text, _, _, _ ->
+                clearButton.isVisible = !text.isNullOrEmpty()
+            }
+        }
+        clearButton.setOnClickListener {
+            resetSearchView()
+        }
 
         binding.placeList.run {
             adapter = placeAdapter
@@ -76,6 +78,15 @@ class SearchPlaceActivity :
                 REQ_CODE
             )
         }
+    }
+
+    private fun resetSearchView() {
+        searchEditText.text.clear()
+        searchEditText.requestFocus()
+
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(searchEditText, 0)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

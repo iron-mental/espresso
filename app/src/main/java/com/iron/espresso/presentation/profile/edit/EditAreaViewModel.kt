@@ -76,10 +76,8 @@ class EditAreaViewModel @ViewModelInject constructor(
         val addressStep1 = step1.value.orEmpty()
         val addressStep2 = step2.value.orEmpty()
 
-        if (
-            addressStep1.isNotEmpty()
-            && addressStep2.isNotEmpty()
-        ) {
+        if (addressStep1.isNotEmpty()
+            && addressStep2.isNotEmpty()) {
             showLoading()
             compositeDisposable += modifyUserLocation(addressStep1, addressStep2)
                 .networkSchedulers()

@@ -1,5 +1,7 @@
 package com.iron.espresso.data.model
 
+import java.io.Serializable
+
 data class StudyInfoItem(
     val participateItem: List<ParticipateItem> = listOf(),
     val id: Int = -1,
@@ -14,7 +16,7 @@ data class StudyInfoItem(
     val snsWeb: String? = null,
     val locationItem: LocationItem = LocationItem(),
     val authority: String = ""
-)
+): Serializable
 
 data class StudyDetailItem(
     val studyInfoItem: StudyInfoItem,
