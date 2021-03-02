@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.home.study
 
+import android.net.Uri
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,6 +27,12 @@ class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: St
     private val _emptyCheckMessage = MutableLiveData<Event<ValidationInputText>>()
     val emptyCheckMessage: LiveData<Event<ValidationInputText>>
         get() = _emptyCheckMessage
+
+    val image = MutableLiveData<Uri>()
+
+    fun setStudyImage(image: Uri) {
+        this.image.value = image
+    }
 
     fun addItems(localItem: LocalItem?) {
         if (localItem != null) {
@@ -66,8 +73,8 @@ class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: St
                         introduce = createStudyItem.introduce,
                         progress = createStudyItem.progress,
                         studyTime = createStudyItem.studyTime,
-                        latitude = createStudyItem.localItem.lat,
-                        longitude = createStudyItem.localItem.lng,
+                        latitude = createStudyItem.localItem.lat ?: -1.0,
+                        longitude = createStudyItem.localItem.lng ?: -1.0,
                         sido = createStudyItem.localItem.sido,
                         sigungu = createStudyItem.localItem.sigungu,
                         addressName = createStudyItem.localItem.addressName,

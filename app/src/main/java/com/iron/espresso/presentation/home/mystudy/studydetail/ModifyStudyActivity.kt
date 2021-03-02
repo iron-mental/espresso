@@ -1,4 +1,4 @@
-package com.iron.espresso.presentation.home.study
+package com.iron.espresso.presentation.home.mystudy.studydetail
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,51 +11,59 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.net.toFile
 import com.iron.espresso.R
-import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
-import com.iron.espresso.data.model.CreateStudyItem
-import com.iron.espresso.databinding.ActivityCreateStudyBinding
-import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.ext.setImage
-import com.iron.espresso.ext.toast
+import com.iron.espresso.data.model.ModifyStudyItem
+import com.iron.espresso.data.model.StudyInfoItem
+import com.iron.espresso.databinding.ActivityModifyStudyBinding
+import com.iron.espresso.ext.*
 import com.iron.espresso.presentation.place.SearchPlaceActivity
-import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
+import com.iron.espresso.presentation.place.SearchPlaceDetailActivity
 import com.wswon.picker.ImagePickerFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class StudyCreateActivity :
-    BaseActivity<ActivityCreateStudyBinding>(R.layout.activity_create_study) {
+class ModifyStudyActivity :
+    BaseActivity<ActivityModifyStudyBinding>(R.layout.activity_modify_study) {
 
-    private val viewModel by viewModels<StudyCreateViewModel>()
+    private val viewModel by viewModels<ModifyStudyViewModel>()
 
-    private var localItem: LocalItem? = null
     private var studyImage: Uri? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setToolbarTitle(TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
+        val studyInfoItem = intent.getSerializableExtra(STUDY_INFO) as StudyInfoItem
 
         binding.run {
-            category.text = intent.getStringExtra(STUDY_CATEGORY).orEmpty()
-            introduceInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
-            proceedInputView.setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
-
-            placeContainer.setOnClickListener {
-                startActivityForResult(
-                    SearchPlaceActivity.getInstance(this@StudyCreateActivity),
-                    REQ_CODE
-                )
+            image.setUrlImg(studyInfoItem.image, ImageType.NORMAl)
+            titleInputView.setText(studyInfoItem.title)
+            introduceInputView.apply {
+                setText(studyInfoItem.introduce)
+                setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
             }
+            proceedInputView.apply {
+                setText(studyInfoItem.progress)
+                setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
+            }
+            placeDetail.text = studyInfoItem.locationItem.run {
+                "$addressName $placeName"
+            }
+            placeDetailInputView.setText(studyInfoItem.locationItem.locationDetail)
+            timeInputView.setText(studyInfoItem.studyTime)
+            notionInputView.inputUrl.setText(studyInfoItem.snsNotion)
+            evernoteInputView.inputUrl.setText(studyInfoItem.snsEvernote)
+            webInputView.inputUrl.setText(studyInfoItem.snsWeb)
+
             image.setOnClickListener {
 
                 val imagePickerFragment = ImagePickerFragment()
                 supportFragmentManager.setFragmentResultListener(
                     ImagePickerFragment.REQ_IMAGE,
-                    this@StudyCreateActivity
+                    this@ModifyStudyActivity
                 ) { _, data ->
                     val imageUri = data.getParcelable<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
                     if (imageUri != null) {
@@ -69,17 +77,25 @@ class StudyCreateActivity :
                 )
             }
 
-            buttonSignUp.setOnClickListener {
-                localItem?.locationDetail = placeDetailInputView.text.toString()
+            placeContainer.setOnClickListener {
+                startActivityForResult(
+                    SearchPlaceActivity.getInstance(this@ModifyStudyActivity),
+                    REQ_CODE
+                )
+            }
 
-                viewModel.createStudy(
-                    CreateStudyItem(
-                        category = category.text.toString(),
+            buttonSignUp.setOnClickListener {
+
+                viewModel.modifyStudy(
+                    studyInfoItem.id,
+                    studyInfoItem.title,
+                    ModifyStudyItem(
+                        category = studyInfoItem.category,
                         title = titleInputView.text.toString(),
                         introduce = introduceInputView.text.toString(),
                         progress = proceedInputView.text.toString(),
                         studyTime = timeInputView.text.toString(),
-                        localItem = localItem,
+                        locationDetail = placeDetailInputView.text.toString(),
                         snsNotion = notionInputView.inputUrl.text.toString(),
                         snsEverNote = evernoteInputView.inputUrl.text.toString(),
                         snsWeb = webInputView.inputUrl.text.toString(),
@@ -90,26 +106,30 @@ class StudyCreateActivity :
         }
 
         viewModel.run {
-            image.observe(this@StudyCreateActivity) { imageUri ->
+            initLocalItem(studyInfoItem.locationItem)
+
+            image.observe(this@ModifyStudyActivity) { imageUri ->
                 binding.image.setImage(imageUri)
                 studyImage = imageUri
             }
 
-            localItem.observe(this@StudyCreateActivity) { localItem ->
+            localItem.observe(this@ModifyStudyActivity) { localItem ->
                 val placeDetailText = localItem.addressName + " " + localItem.placeName
                 binding.placeDetail.text = placeDetailText
                 binding.placeDetailInputView.setText(localItem.locationDetail)
             }
 
-            emptyCheckMessage.observe(this@StudyCreateActivity, EventObserver { message ->
+            emptyCheckMessage.observe(this@ModifyStudyActivity, EventObserver { message ->
                 toast(message.resId)
-                if (message == ValidationInputText.REGISTER_STUDY) {
-                    finish()
-                }
             })
 
-            toastMessage.observe(this@StudyCreateActivity, EventObserver { message ->
+            toastMessage.observe(this@ModifyStudyActivity, EventObserver { message ->
                 toast(message)
+            })
+
+            success.observe(this@ModifyStudyActivity, EventObserver {
+                setResult(RESULT_OK)
+                finish()
             })
         }
     }
@@ -132,8 +152,9 @@ class StudyCreateActivity :
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQ_CODE && resultCode == RESULT_OK) {
-            localItem = data?.getSerializableExtra(LOCAL_ITEM) as LocalItem
-            viewModel.addItems(localItem)
+            val localItem =
+                data?.getSerializableExtra(SearchPlaceDetailActivity.LOCAL_ITEM) as LocalItem?
+            viewModel.replaceLocalItem(localItem)
         }
     }
 
@@ -148,13 +169,12 @@ class StudyCreateActivity :
 
     companion object {
 
-        private const val TITLE = "스터디 만들기"
-        private const val STUDY_CATEGORY = "study_category"
+        private const val TITLE = "스터디 수정하기"
         private const val REQ_CODE = 0
+        private const val STUDY_INFO = "studyInfoItem"
 
-        fun getIntent(context: Context, category: String) =
-            Intent(context, StudyCreateActivity::class.java).apply {
-                putExtra(STUDY_CATEGORY, category)
-            }
+        fun getIntent(context: Context, studyInfoItem: StudyInfoItem) =
+            Intent(context, ModifyStudyActivity::class.java)
+                .putExtra(STUDY_INFO, studyInfoItem)
     }
 }

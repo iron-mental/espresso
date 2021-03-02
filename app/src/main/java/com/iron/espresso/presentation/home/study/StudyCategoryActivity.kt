@@ -5,36 +5,29 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
-import androidx.core.app.ActivityOptionsCompat
-import androidx.databinding.DataBindingUtil
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityCategoryStudyBinding
-import com.iron.espresso.presentation.StudyCategoryItem
 import com.iron.espresso.presentation.home.study.adapter.CategoryAdapter
 import com.iron.espresso.presentation.home.study.adapter.viewholder.StudyCategoryAdapterListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StudyCategoryActivity :
     BaseActivity<ActivityCategoryStudyBinding>(R.layout.activity_category_study),
     StudyCategoryAdapterListener {
 
     private val categoryAdapter by lazy { CategoryAdapter() }
+    private val viewModel by viewModels<StudyViewModel>()
 
-    override fun getData(item: StudyCategoryItem, imageView: ImageView) {
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            this,
-            imageView,
-            imageView.transitionName
-        ).toBundle()
-        startActivity(StudyCreateActivity.getIntent(this, item.image), options)
+    override fun getData(item: String, imageView: ImageView) {
+        startActivity(StudyCreateActivity.getIntent(this, item))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_category_study)
-        binding.lifecycleOwner = this
 
         setToolbarTitle(TITLE)
         setNavigationIcon(R.drawable.ic_back_24)
@@ -42,9 +35,15 @@ class StudyCategoryActivity :
         binding.apply {
             viewStudyCategory.adapter = categoryAdapter
             viewStudyCategory.layoutManager = GridLayoutManager(this@StudyCategoryActivity, 2)
-            categoryAdapter.addAll(StudyFragment.DUMMY_DATA)
         }
         categoryAdapter.setItemClickListener(this)
+
+        viewModel.run {
+            getStudyCategory()
+            categoryList.observe(this@StudyCategoryActivity, { categoryList ->
+                categoryAdapter.addAll(categoryList)
+            })
+        }
     }
 
 

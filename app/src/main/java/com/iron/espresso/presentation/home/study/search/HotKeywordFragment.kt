@@ -3,11 +3,13 @@ package com.iron.espresso.presentation.home.study.search
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.google.android.material.chip.Chip
 import com.iron.espresso.R
@@ -25,32 +27,27 @@ class HotKeywordFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchEditText = EditText(context).apply {
-            hint = context.getString(R.string.search_hint)
-            setSingleLine()
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            requestFocus()
-            imeOptions = EditorInfo.IME_ACTION_SEARCH
+        val searchView = layoutInflater.inflate(R.layout.view_search, null)
+        val clearButton = searchView.findViewById<ImageView>(R.id.clear_button)
+
+        baseActivity?.setCustomView(searchView)
+
+        searchEditText = searchView.findViewById<EditText>(R.id.edit_view).apply {
             setOnEditorActionListener { _, actionId, _ ->
                 if (text.isNotEmpty() && actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //키보드 내리기
-                    val inputMethodManager =
-                        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-
                     showResultView(text.toString())
                     true
                 } else {
                     false
                 }
-
+            }
+            doOnTextChanged { text, _, _, _ ->
+                clearButton.isVisible = !text.isNullOrEmpty()
             }
         }
-
-        baseActivity?.setCustomView(searchEditText)
+        clearButton.setOnClickListener {
+            resetSearchView()
+        }
 
         binding.placeSearchButton.setOnClickListener {
             Toast.makeText(context, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
@@ -73,9 +70,30 @@ class HotKeywordFragment :
             })
         }
     }
+    private fun resetSearchView() {
+        searchEditText.text.clear()
+        searchEditText.requestFocus()
+
+        val inputMethodManager =
+            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(searchEditText, 0)
+    }
+
+    private fun setSearchView(keyword: String) {
+        searchEditText.apply {
+            setText(keyword)
+            isFocusable = false
+            isFocusableInTouchMode = true
+        }
+
+        val inputMethodManager =
+            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
 
     private fun showResultView(keyword: String) {
-        searchEditText.setText(keyword)
+        setSearchView(keyword)
+
         val fragment = parentFragmentManager.findFragmentByTag(RESULT_TAG)
         if (fragment != null) {
             parentFragmentManager.beginTransaction().remove(fragment).commit()
