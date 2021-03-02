@@ -1,6 +1,7 @@
 package com.iron.espresso.model.repo
 
 import com.iron.espresso.domain.entity.Address
+import com.iron.espresso.domain.entity.User
 import com.iron.espresso.domain.repo.UserRepository
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
@@ -18,6 +19,13 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
         pushToken: String
     ): Single<BaseResponse<UserAuthResponse>> =
         userRemoteDataSource.login(email, password, pushToken)
+
+    override fun getUser(id: Int): Single<User> =
+        userRemoteDataSource.getUser(id)
+            .map { response ->
+                if (!response.result) error(response.message.orEmpty())
+                response.data?.toUser()
+            }
 
     override fun registerUser(
         email: String,

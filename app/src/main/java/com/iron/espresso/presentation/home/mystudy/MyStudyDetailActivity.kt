@@ -17,6 +17,7 @@ import com.iron.espresso.data.model.StudyInfoItem
 import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
+import com.iron.espresso.presentation.home.apply.ApplyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.DelegateLeaderActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.ModifyStudyActivity
@@ -108,6 +109,7 @@ class MyStudyDetailActivity :
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         if (studyInfoItem?.authority == AUTH_HOST) {
+            menu?.findItem(R.id.apply_list)?.isVisible = true
             menu?.findItem(R.id.delete_study)?.isVisible = true
             menu?.findItem(R.id.host_delegate)?.isVisible = true
             menu?.findItem(R.id.modify_study)?.isVisible = true
@@ -119,6 +121,9 @@ class MyStudyDetailActivity :
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
+            }
+            R.id.apply_list -> {
+                startActivity(ApplyStudyActivity.getIntent(this, studyId))
             }
             R.id.leave_study -> {
                 if (checkAuthority(studyInfoItem?.authority ?: "")) {

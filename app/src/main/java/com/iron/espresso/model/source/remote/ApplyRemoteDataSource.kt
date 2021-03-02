@@ -1,6 +1,7 @@
 package com.iron.espresso.model.source.remote
 
 import com.iron.espresso.model.api.ApplyApi
+import com.iron.espresso.model.api.HandleApplyRequest
 import com.iron.espresso.model.api.ModifyStudyApplyRequest
 import com.iron.espresso.model.api.RegisterStudyApplyRequest
 import com.iron.espresso.model.response.BaseResponse
@@ -14,7 +15,7 @@ class ApplyRemoteDataSourceImpl @Inject constructor(private val applyApi: ApplyA
     ApplyRemoteDataSource {
     override fun registerApply(
         studyId: Int,
-        message: String
+        message: String,
     ): Single<BaseResponse<Nothing>> {
         return applyApi.registerApply(studyId = studyId, body = RegisterStudyApplyRequest(message))
     }
@@ -56,6 +57,10 @@ class ApplyRemoteDataSourceImpl @Inject constructor(private val applyApi: ApplyA
     override fun deleteApply(studyId: Int, applyId: Int): Single<BaseResponse<Nothing>> {
         return applyApi.deleteApply(studyId = studyId, applyId = applyId)
     }
+
+    override fun handleApply(studyId: Int, applyId: Int, allow: Boolean): Single<BaseResponse<Nothing>> {
+        return applyApi.handleApply(studyId = studyId, applyId = applyId, body = HandleApplyRequest(allow))
+    }
 }
 
 interface ApplyRemoteDataSource {
@@ -87,5 +92,11 @@ interface ApplyRemoteDataSource {
     fun deleteApply(
         studyId: Int,
         applyId: Int
+    ): Single<BaseResponse<Nothing>>
+
+    fun handleApply(
+        studyId: Int,
+        applyId: Int,
+        allow: Boolean
     ): Single<BaseResponse<Nothing>>
 }

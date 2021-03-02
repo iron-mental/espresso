@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.User
+import com.iron.espresso.domain.usecase.GetUser
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
@@ -12,9 +13,11 @@ import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.response.ErrorCode
 import com.iron.espresso.model.source.remote.ReIssuanceTokenRequest
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
-import retrofit2.HttpException
 
-class SplashViewModel @ViewModelInject constructor(private val userRemoteDataSource: UserRemoteDataSource) :
+class SplashViewModel @ViewModelInject constructor(
+    private val userRemoteDataSource: UserRemoteDataSource,
+    private val getUser: GetUser
+) :
     BaseViewModel() {
 
     private val _userInfoResult = MutableLiveData<User>()
@@ -24,23 +27,21 @@ class SplashViewModel @ViewModelInject constructor(private val userRemoteDataSou
     val failedEvent: LiveData<Event<Unit>> get() = _failedEvent
 
     fun checkTokenAndResult(bearerToken: String, userId: Int) {
-        compositeDisposable += userRemoteDataSource.getUser(bearerToken, userId)
+        compositeDisposable += getUser(userId)
             .networkSchedulers()
             .subscribe({
-                if (it.result) {
-                    _userInfoResult.value = it.data?.toUser()
-                }
+                _userInfoResult.value = it
                 Logger.d("$it")
             }, {
-                Logger.d("$it")
-
-                val errorResponse = (it as? HttpException)?.toErrorResponse()
+                val errorResponse = it.toErrorResponse()
 
                 if (errorResponse != null && errorResponse.code == ErrorCode.JWT_EXPIRED) {
                     reIssuanceAccessToken(bearerToken, AuthHolder.refreshToken)
                 } else {
                     _failedEvent.value = Event(Unit)
                 }
+
+                Logger.d("$it")
             })
     }
 
@@ -51,13 +52,13 @@ class SplashViewModel @ViewModelInject constructor(private val userRemoteDataSou
             .networkSchedulers()
             .subscribe({
                 Logger.d("$it")
-                 if (it.result) {
-                     val newToken = it.data?.accessToken
+                if (it.result) {
+                    val newToken = it.data?.accessToken
 
-                     if (newToken != null) {
-                         saveNewAccessToken(newToken)
-                     }
-                 }
+                    if (newToken != null) {
+                        saveNewAccessToken(newToken)
+                    }
+                }
             }, {
                 _failedEvent.value = Event(Unit)
                 Logger.d("$it")

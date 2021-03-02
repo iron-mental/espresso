@@ -4,16 +4,10 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="glideType"
-            type="com.iron.espresso.ext.ImageType" />
-
         <variable
             name="myStudyItem"
             type="com.iron.espresso.data.model.MyStudyItem" />
     </data>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

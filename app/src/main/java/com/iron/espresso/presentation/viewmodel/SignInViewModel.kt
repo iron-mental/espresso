@@ -6,16 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.User
+import com.iron.espresso.domain.usecase.GetUser
 import com.iron.espresso.domain.usecase.LoginUser
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
+import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
-import com.iron.espresso.model.source.remote.UserRemoteDataSource
 
 class SignInViewModel @ViewModelInject constructor(
     private val loginUser: LoginUser,
-    private val userRemoteDataSource: UserRemoteDataSource
+    private val getUser: GetUser
 ) :
     BaseViewModel() {
 
@@ -51,19 +52,16 @@ class SignInViewModel @ViewModelInject constructor(
     }
 
     fun getUserInfo(bearerToken: String, userId: Int) {
-        compositeDisposable += userRemoteDataSource.getUser(
-            bearerToken,
-            userId
-        )
+        compositeDisposable += getUser(userId)
             .networkSchedulers()
             .subscribe({
-                if (it.result) {
-                    _userInfo.value = it.data?.toUser()
-                } else {
+                _userInfo.value = it
+            }, { throwable ->
+                throwable.toErrorResponse()?.let {
                     _toastMessage.value = Event(it.message.orEmpty())
                 }
-            }, {
-                Logger.d("$it")
+
+                Logger.d("$throwable")
             })
     }
 
