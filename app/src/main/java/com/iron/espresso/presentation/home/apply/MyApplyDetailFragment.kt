@@ -33,7 +33,7 @@ class MyApplyDetailFragment :
     private fun setupView() {
         with(binding) {
             viewModel.applyStudyItem?.let {
-                image.setImage(it.image)
+                image.setImage(it.image, centerCrop = true)
                 title.text = it.title
                 message.text = it.message
             }

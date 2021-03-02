@@ -16,7 +16,7 @@ fun ImageView.setImage(imageUri: Uri) {
         .into(this)
 }
 
-fun ImageView.setImage(imageUrl: String) {
+fun ImageView.setImage(imageUrl: String, centerCrop: Boolean = false) {
     if (imageUrl.isEmpty()) return
 
     Glide.with(context)
@@ -28,7 +28,11 @@ fun ImageView.setImage(imageUrl: String) {
                     .build()
             )
         )
-        .centerCrop()
+        .apply {
+            if (centerCrop) {
+                centerCrop()
+            }
+        }
         .into(this)
 }
 
