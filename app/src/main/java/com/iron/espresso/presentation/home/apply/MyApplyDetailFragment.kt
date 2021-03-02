@@ -14,10 +14,7 @@ import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentMyApplyDetailBinding
-import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.ext.setLoading
-import com.iron.espresso.ext.setUrlImg
-import com.iron.espresso.ext.toast
+import com.iron.espresso.ext.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,7 +33,7 @@ class MyApplyDetailFragment :
     private fun setupView() {
         with(binding) {
             viewModel.applyStudyItem?.let {
-                image.setUrlImg(it.image)
+                image.setImage(it.image)
                 title.text = it.title
                 message.text = it.message
             }
