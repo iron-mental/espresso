@@ -8,13 +8,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.google.android.material.chip.Chip
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentHotKeywordBinding
-import com.iron.espresso.ext.visibleIf
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,7 +42,7 @@ class HotKeywordFragment :
                 }
             }
             doOnTextChanged { text, _, _, _ ->
-                clearButton.visibleIf(text?.isNotEmpty())
+                clearButton.isVisible = !text.isNullOrEmpty()
             }
         }
         clearButton.setOnClickListener {
