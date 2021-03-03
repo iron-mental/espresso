@@ -137,5 +137,8 @@
     <string name="empty_study">아직 스터디가 없어요</string>
     <string name="select_category">카테고리 선택</string>
     <string name="empty_search_study">검색된 스터디가 없어요</string>
+    <string name="must_read">필독</string>
+    <string name="normal">일반</string>
+    <string name="ttl">제목</string>
 
 </resources>

@@ -4,7 +4,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="642dp">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -38,35 +38,33 @@
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/category_container"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:background="@drawable/bg_round"
                         android:backgroundTint="@color/ff39373b"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:tabGravity="center"
                         app:tabIndicator="@drawable/bg_round"
                         app:tabIndicatorColor="@color/colorCobaltBlue"
                         app:tabIndicatorGravity="center"
-                        app:tabIndicatorHeight="50dp"
-                        app:tabMode="fixed"
+                        app:tabIndicatorHeight="30dp"
                         app:tabTextColor="@color/white">
 
                         <com.google.android.material.tabs.TabItem
-                            android:id="@+id/notice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="필독" />
+                            android:text="@string/must_read" />
 
                         <com.google.android.material.tabs.TabItem
-                            android:id="@+id/general"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="일반" />
+                            android:text="@string/normal" />
 
                     </com.google.android.material.tabs.TabLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/writer_container2"
+                        android:id="@+id/title_container"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -78,7 +76,7 @@
                             android:id="@+id/title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="제목"
+                            android:text="@string/ttl"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="@+id/title_input_view"
@@ -106,19 +104,19 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/writer_container3"
+                        android:id="@+id/content_container"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/writer_container2">
+                        app:layout_constraintTop_toBottomOf="@+id/title_container">
 
                         <TextView
                             android:id="@+id/content"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="내용"
+                            android:text="@string/contents"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
