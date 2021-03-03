@@ -8,7 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
+import com.google.android.material.tabs.TabLayout
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
@@ -38,24 +38,35 @@ class NoticeModifyActivity :
         val noticeItem = intent.getSerializableExtra(NOTICE_ITEM) as NoticeDetailItem
         noticeId = noticeItem.id
 
-        binding.run {
-            title.setText(noticeItem.title)
-            content.setText(noticeItem.contents)
-        }
-
-        viewModel.initPin(noticeItem.pinned ?: false)
-
-        viewModel.pinnedType.observe(this, Observer { pinned ->
-
-            binding.category.apply {
-                text = resources.getString(pinned.title)
-                setBackgroundResource(pinned.color)
+        initSelectCategory(noticeItem.pinned)
+        binding.categoryContainer.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> {
+                        binding.categoryContainer.setSelectedTabIndicatorColor(getColor(R.color.theme_fc813e))
+                        viewModel.changePinned()
+                    }
+                    1 -> {
+                        binding.categoryContainer.setSelectedTabIndicatorColor(getColor(R.color.colorCobaltBlue))
+                        viewModel.changePinned()
+                    }
+                }
             }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
         })
 
-        binding.category.setOnClickListener {
-            viewModel.changePinned()
+        binding.run {
+            titleInputView.setText(noticeItem.title)
+            contentInputView.setText(noticeItem.contents)
         }
+
+        viewModel.initPin(noticeItem.pinned)
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -68,6 +79,20 @@ class NoticeModifyActivity :
                 finish()
             }
         })
+    }
+
+    private fun initSelectCategory(pinned: Boolean) {
+        if (pinned) {
+            binding.categoryContainer.run {
+                getTabAt(0)?.select()
+                setSelectedTabIndicatorColor(getColor(R.color.theme_fc813e))
+            }
+        } else {
+            binding.categoryContainer.run {
+                getTabAt(1)?.select()
+                setSelectedTabIndicatorColor(getColor(R.color.colorCobaltBlue))
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
