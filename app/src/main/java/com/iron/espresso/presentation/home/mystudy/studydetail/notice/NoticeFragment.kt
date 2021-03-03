@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,14 +38,8 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         viewModel.showNoticeList(studyId)
 
         viewModel.noticeListItem.observe(viewLifecycleOwner, { noticeListItem ->
-            if (noticeListItem.isNullOrEmpty()) {
-                binding.emptyView.visibility = View.VISIBLE
-                binding.noticeList.visibility = View.GONE
-            } else {
-                noticeAdapter.setItemList(noticeListItem)
-                binding.emptyView.visibility = View.GONE
-                binding.noticeList.visibility = View.VISIBLE
-            }
+            noticeAdapter.setItemList(noticeListItem)
+            binding.emptyView.isVisible = noticeListItem.isNullOrEmpty()
         })
 
         viewModel.scrollItem.observe(viewLifecycleOwner, Observer {
