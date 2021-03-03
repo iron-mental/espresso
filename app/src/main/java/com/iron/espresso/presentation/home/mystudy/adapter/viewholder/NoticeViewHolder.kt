@@ -28,13 +28,13 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         binding?.run {
             title.text = item.title
             category.apply {
-                if (item.pinned == true) {
+                if (item.pinned) {
                     text = context.getString(R.string.pined_true)
-                    setBackgroundResource(R.color.theme_fc813e)
-                }
-                else if (item.pinned == false) {
+                    backgroundTintList = resources.getColorStateList(R.color.theme_fc813e, null)
+                } else {
                     text = context.getString(R.string.pined_false)
-                    setBackgroundResource(R.color.colorCobaltBlue)
+                    backgroundTintList = resources.getColorStateList(R.color.colorCobaltBlue, null)
+
                 }
             }
             date.text = item.updatedAt
@@ -42,7 +42,7 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
             divider.apply {
                 layoutParams.height =
-                    if (item.pinned == true && nextItem?.pinned == false) {
+                    if (item.pinned && nextItem?.pinned == false) {
                         resources.getDimension(R.dimen.diff_divide_height).toInt()
                     } else {
                         resources.getDimension(R.dimen.same_divide_height).toInt()
