@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.fragment.app.commit
+import androidx.fragment.app.setFragmentResultListener
 import com.google.android.material.tabs.TabLayout
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
@@ -15,6 +18,7 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeDetailItem
 import com.iron.espresso.databinding.ActivityNoticeModifyBinding
 import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.presentation.home.apply.ConfirmDialog
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -107,14 +111,41 @@ class NoticeModifyActivity :
                 onBackPressed()
             }
             R.id.complete -> {
+                showNoticeModifyDialog()
+            }
+        }
+        return true
+    }
+
+    private fun showNoticeModifyDialog() {
+        val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_notice_modify_title))
+
+        dialog.show(supportFragmentManager, dialog::class.java.simpleName)
+
+        dialog.setFragmentResultListener(dialog::class.java.simpleName) { _: String, bundle: Bundle ->
+            val result = bundle.get(ConfirmDialog.RESULT)
+
+            if (result == Activity.RESULT_OK) {
                 viewModel.modifyNotice(
-                    studyId, noticeId,
+                    studyId,
+                    noticeId,
                     binding.titleInputView.text.toString(),
                     binding.contentInputView.text.toString()
                 )
             }
         }
-        return true
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.fragments.find { it is ConfirmDialog }
+
+        if (fragment != null) {
+            supportFragmentManager.commit {
+                remove(fragment)
+            }
+        } else {
+            return super.onBackPressed()
+        }
     }
 
 

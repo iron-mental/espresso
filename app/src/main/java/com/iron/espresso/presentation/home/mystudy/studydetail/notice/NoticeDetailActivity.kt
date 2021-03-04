@@ -109,9 +109,7 @@ class NoticeDetailActivity :
     private fun showNoticeDeleteDialog() {
         val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_notice_delete_title))
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.dialog_container, dialog)
-            .commit()
+        dialog.show(supportFragmentManager, dialog::class.java.simpleName)
 
         dialog.setFragmentResultListener(dialog::class.java.simpleName) { _: String, bundle: Bundle ->
             val result = bundle.get(ConfirmDialog.RESULT)
