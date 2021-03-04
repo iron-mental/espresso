@@ -106,8 +106,7 @@ class NoticeModifyActivity :
             android.R.id.home -> {
                 onBackPressed()
             }
-            R.id.create_notice -> {
-
+            R.id.complete -> {
                 viewModel.modifyNotice(
                     studyId, noticeId,
                     binding.titleInputView.text.toString(),

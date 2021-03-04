@@ -80,7 +80,7 @@ class NoticeCreateActivity :
             android.R.id.home -> {
                 onBackPressed()
             }
-            R.id.create_notice -> {
+            R.id.complete -> {
                 viewModel.createNotice(
                     studyId = studyId,
                     title = binding.titleInputView.text.toString(),
