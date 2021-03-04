@@ -8,7 +8,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.iron.espresso.R
@@ -74,12 +73,6 @@ class NoticeDetailActivity :
                 finish()
             }
         })
-
-        binding.deleteButton.setOnClickListener {
-            viewModel.deleteNotice(studyId, noticeId)
-        }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -101,6 +94,9 @@ class NoticeDetailActivity :
                         noticeItem
                     ), REQUEST_MODIFY_CODE
                 )
+            }
+            R.id.delete_notice -> {
+                viewModel.deleteNotice(studyId, noticeId)
             }
         }
         return true

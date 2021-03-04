@@ -3,8 +3,12 @@
 
     <item
         android:id="@+id/modify_notice"
-        android:icon="@drawable/ic_edit_24"
-        android:title="@null"
-        app:showAsAction="ifRoom" />
+        android:title="스터디 수정"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/delete_notice"
+        android:title="스터디 삭제"
+        app:showAsAction="never" />
 
 </menu>
