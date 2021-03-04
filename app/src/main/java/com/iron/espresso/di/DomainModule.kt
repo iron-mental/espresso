@@ -23,6 +23,12 @@ object DomainModule {
 
     @Singleton
     @Provides
+    fun provideGetUser(repository: UserRepository): GetUser {
+        return GetUser(repository)
+    }
+
+    @Singleton
+    @Provides
     fun provideRegisterUser(repository: UserRepository): RegisterUser {
         return RegisterUser(repository)
     }
@@ -134,6 +140,12 @@ object DomainModule {
     @Provides
     fun provideDeleteApply(repository: ApplyRepository): DeleteApply {
         return DeleteApply(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideHandleApply(repository: ApplyRepository): HandleApply {
+        return HandleApply(repository)
     }
 }
 

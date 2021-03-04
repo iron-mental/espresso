@@ -1,6 +1,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,7 +12,11 @@
 
         <variable
             name="viewModel"
-            type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
+            type="com.iron.espresso.presentation.viewmodel.AbsProfileViewModel" />
+
+        <variable
+            name="editable"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,11 +41,11 @@
             android:id="@+id/sns_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibleIf="@{viewModel.user.snsEmpty}"
             android:padding="20dp"
             android:text="@string/empty_sns"
             android:textColor="@color/white"
             android:textSize="14sp"
+            android:visibleIf="@{viewModel.user.snsEmpty}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
@@ -86,6 +91,7 @@
             app:layout_constraintTop_toTopOf="@id/github_icon" />
 
         <include
-            layout="@layout/view_edit_button"/>
+            layout="@layout/view_edit_button"
+            bind:editable="@{editable}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

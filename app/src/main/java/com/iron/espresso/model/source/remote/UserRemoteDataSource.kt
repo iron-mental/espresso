@@ -13,7 +13,6 @@ import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
 
-
 class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi) :
     UserRemoteDataSource {
 
@@ -24,8 +23,8 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     ): Single<BaseResponse<UserAuthResponse>> =
         userApi.login(LoginRequest(email, password, pushToken))
 
-    override fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>> =
-        userApi.getUser(bearerToken, id)
+    override fun getUser(id: Int): Single<BaseResponse<UserResponse>> =
+        userApi.getUser(id = id)
 
     override fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>> =
         userApi.checkDuplicateEmail(email)
@@ -158,7 +157,7 @@ interface UserRemoteDataSource {
         pushToken: String
     ): Single<BaseResponse<UserAuthResponse>>
 
-    fun getUser(bearerToken: String, id: Int): Single<BaseResponse<UserResponse>>
+    fun getUser(id: Int): Single<BaseResponse<UserResponse>>
 
     fun registerUser(
         email: String,

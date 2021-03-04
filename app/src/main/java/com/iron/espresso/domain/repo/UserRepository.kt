@@ -1,6 +1,7 @@
 package com.iron.espresso.domain.repo
 
 import com.iron.espresso.domain.entity.Address
+import com.iron.espresso.domain.entity.User
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import io.reactivex.Completable
@@ -13,6 +14,8 @@ interface UserRepository {
         password: String,
         pushToken: String
     ): Single<BaseResponse<UserAuthResponse>>
+
+    fun getUser(id: Int): Single<User>
 
     fun registerUser(
         email: String,

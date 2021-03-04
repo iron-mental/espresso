@@ -14,6 +14,7 @@ import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.data.model.MyStudyItem
 import com.iron.espresso.databinding.FragmentMystudyBinding
 import com.iron.espresso.ext.toast
+import com.iron.espresso.presentation.home.apply.MyApplyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -70,6 +71,10 @@ class MyStudyFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.notify -> {
+            }
+
+            R.id.more -> {
+                startActivity(MyApplyStudyActivity.getIntent(requireContext()))
             }
             else -> {
                 toast("${item.title}")

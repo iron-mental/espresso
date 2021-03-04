@@ -72,4 +72,11 @@ class ApplyRepositoryImpl @Inject constructor(private val remoteDataSource: Appl
                 it.result to it.message.orEmpty()
             }
     }
+
+    override fun handleApply(studyId: Int, applyId: Int, allow: Boolean): Single<Pair<Boolean, String>> {
+        return remoteDataSource.handleApply(studyId, applyId, allow)
+            .map {
+                it.result to it.message.orEmpty()
+            }
+    }
 }

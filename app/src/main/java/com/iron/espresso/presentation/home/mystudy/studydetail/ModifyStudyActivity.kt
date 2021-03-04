@@ -39,7 +39,7 @@ class ModifyStudyActivity :
         val studyInfoItem = intent.getSerializableExtra(STUDY_INFO) as StudyInfoItem
 
         binding.run {
-            image.setUrlImg(studyInfoItem.image, ImageType.NORMAl)
+            image.setImage(studyInfoItem.image.orEmpty(), centerCrop = true)
             titleInputView.setText(studyInfoItem.title)
             introduceInputView.apply {
                 setText(studyInfoItem.introduce)

@@ -9,9 +9,8 @@
             type="String" />
 
         <variable
-            name="introduce"
+            name="subTitle"
             type="String" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,33 +67,33 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:fontFamily="@font/noto_sans_bold"
                 android:text="@{title}"
+                android:textColor="@color/white"
                 android:textSize="18sp"
+                android:visibleIf="@{title.length() > 0}"
+                app:layout_constraintBottom_toTopOf="@id/sub_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/status_bar" />
+                app:layout_constraintTop_toBottomOf="@id/status_bar"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="타이틀" />
 
-            <EditText
-                android:id="@+id/input_introduce"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:background="@color/transparent"
-                android:cursorVisible="true"
-                android:gravity="top"
-                android:hint="@string/toast_empty_introduce"
-                android:imeOptions="actionSend"
-                android:inputType="text"
-                android:textColor="@color/white"
-                android:text="@{introduce}"
-                android:textSize="12sp"
-                android:theme="@style/ChatEditText"
-                app:layout_constraintBottom_toTopOf="@id/yes"
+            <TextView
+                android:id="@+id/sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/noto_sans_medium"
+                android:text="@{subTitle}"
+                android:textColor="@color/white_alpha70"
+                android:textSize="18sp"
+                android:visibleIf="@{subTitle.length() > 0}"
+                app:layout_constraintBottom_toTopOf="@id/no"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title"
-                app:layout_constraintWidth_percent=".8" />
+                tools:text="서브타이틀" />
 
             <TextView
                 android:id="@+id/no"
@@ -103,7 +102,7 @@
                 android:background="?android:selectableItemBackgroundBorderless"
                 android:fontFamily="@font/noto_sans_regular"
                 android:padding="15dp"
-                android:text="@string/cancel"
+                android:text="@string/no"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -118,7 +117,7 @@
                 android:background="?android:selectableItemBackgroundBorderless"
                 android:fontFamily="@font/noto_sans_regular"
                 android:padding="15dp"
-                android:text="@string/apply"
+                android:text="@string/yes"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"

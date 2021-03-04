@@ -34,4 +34,10 @@ interface ApplyRepository {
         studyId: Int,
         applyId: Int
     ): Single<Pair<Boolean, String>>
+
+    fun handleApply(
+        studyId: Int,
+        applyId: Int,
+        allow: Boolean
+    ): Single<Pair<Boolean, String>>
 }

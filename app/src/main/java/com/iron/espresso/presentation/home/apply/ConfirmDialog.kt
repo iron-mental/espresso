@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.home.apply
 
+import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,12 +10,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseDialogFragment
-import com.iron.espresso.databinding.DialogApplyStudyBinding
-import com.iron.espresso.ext.toast
+import com.iron.espresso.databinding.DialogConfirmBinding
 
-class ApplyStudyDialog :
-    BaseDialogFragment<DialogApplyStudyBinding>(R.layout.dialog_apply_study) {
-
+class ConfirmDialog : BaseDialogFragment<DialogConfirmBinding>(R.layout.dialog_confirm) {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -29,46 +27,40 @@ class ApplyStudyDialog :
 
     private fun setupView() {
         with(binding) {
-            inputIntroduce.requestFocus()
-
             arguments?.run {
                 setTitle(getString(KEY_TITLE, ""))
-                introduce = getString(KEY_INTRODUCE, "")
+                setSubTitle(getString(KEY_SUB_TITLE, ""))
             }
 
-
             yes.setOnClickListener {
-                val message = binding.inputIntroduce.text.toString()
-
-                if (message.isNotEmpty()) {
-                    binding.inputIntroduce.text.clear()
-
-                    val data = bundleOf(MESSAGE to message)
-                    setFragmentResult(SUBMIT, data)
-                    dismiss()
-                } else {
-                    toast(R.string.toast_empty_introduce)
-                }
+                setFragmentResult(
+                    this@ConfirmDialog::class.java.simpleName,
+                    bundleOf(RESULT to Activity.RESULT_OK)
+                )
+                dismiss()
             }
 
             no.setOnClickListener {
+                setFragmentResult(
+                    this@ConfirmDialog::class.java.simpleName,
+                    bundleOf(RESULT to Activity.RESULT_CANCELED)
+                )
                 dismiss()
             }
         }
     }
 
     companion object {
-        const val SUBMIT = "submit"
-        const val MESSAGE = "message"
+        const val RESULT = "result"
 
         private const val KEY_TITLE = "TITLE"
-        private const val KEY_INTRODUCE = "INTRODUCE"
+        private const val KEY_SUB_TITLE = "SUB_TITLE"
 
-        fun newInstance(title: String, introduce: String = "") =
-            ApplyStudyDialog().apply {
+        fun newInstance(title: String, subTitle: String = "") =
+            ConfirmDialog().apply {
                 arguments = bundleOf(
                     KEY_TITLE to title,
-                    KEY_INTRODUCE to introduce
+                    KEY_SUB_TITLE to subTitle
                 )
             }
     }

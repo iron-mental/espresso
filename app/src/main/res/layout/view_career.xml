@@ -8,7 +8,11 @@
 
         <variable
             name="viewModel"
-            type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
+            type="com.iron.espresso.presentation.viewmodel.AbsProfileViewModel" />
+
+        <variable
+            name="editable"
+            type="Boolean" />
 
     </data>
 
@@ -55,6 +59,7 @@
             app:layout_constraintTop_toBottomOf="@id/title" />
 
         <include
-            layout="@layout/view_edit_button"/>
+            layout="@layout/view_edit_button"
+            bind:editable="@{editable}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

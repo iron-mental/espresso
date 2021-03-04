@@ -6,54 +6,21 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.UserHolder
-import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.User
 import com.iron.espresso.domain.usecase.GetMyProjectList
+import com.iron.espresso.domain.usecase.GetUser
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
-import com.iron.espresso.model.source.remote.UserRemoteDataSource
 import com.iron.espresso.presentation.profile.ProjectItem
 
-enum class ProfileSns {
-    GITHUB, GITHUB_REPO, LINKED_IN, WEB, APP_STORE, PLAY_STORE,
-}
-
 class ProfileViewModel @ViewModelInject constructor(
-    private val userRemoteDataSource: UserRemoteDataSource,
+    private val getUser: GetUser,
     private val getMyProjectList: GetMyProjectList
-) :
-    BaseViewModel() {
+) : AbsProfileViewModel() {
 
     private val _refreshed = MutableLiveData<Event<Unit>>()
     val refreshed: LiveData<Event<Unit>> get() = _refreshed
-
-    val user = MutableLiveData<User>()
-
-    val clickSns: (sns: ProfileSns, url: String) -> Unit = { sns, url ->
-        Logger.d("$url")
-        val snsLink = if (url.isEmpty()) {
-            when (sns) {
-                ProfileSns.GITHUB -> user.value?.snsGithub
-                ProfileSns.LINKED_IN -> user.value?.snsLinkedin
-                ProfileSns.WEB -> user.value?.snsWeb
-                else -> ""
-            }
-        } else {
-            url
-        }
-
-        if (!snsLink.isNullOrEmpty()) {
-            _showLinkEvent.value = Event(snsLink)
-        }
-    }
-
-    private val _showLinkEvent = MutableLiveData<Event<String>>()
-    val showLinkEvent: LiveData<Event<String>> get() = _showLinkEvent
-
-    private val _projectItemList =
-        MutableLiveData(listOf(ProjectItem(), ProjectItem(), ProjectItem()))
-    val projectItemList: LiveData<List<ProjectItem>> get() = _projectItemList
 
     init {
         getProjectList()
@@ -82,24 +49,17 @@ class ProfileViewModel @ViewModelInject constructor(
         if (bearerToken.isNotEmpty()
             && id != -1
         ) {
-            compositeDisposable += userRemoteDataSource.getUser(
-                bearerToken, id
-            )
+            compositeDisposable += getUser(id)
                 .networkSchedulers()
-                .subscribe({
-                    if (it.result) {
+                .subscribe({ user ->
+                    if (user != null) {
+                        UserHolder.set(user)
+                        setProfile(user)
 
-                        val user = it.data?.toUser()
-
-                        if (user != null) {
-                            UserHolder.set(user)
-                            setProfile(user)
-
-                            _refreshed.value = Event(Unit)
-                        }
+                        _refreshed.value = Event(Unit)
                     }
                 }, {
-
+                    Logger.d("$it")
                 })
         }
     }
@@ -108,7 +68,3 @@ class ProfileViewModel @ViewModelInject constructor(
         this.user.value = user
     }
 }
-
-
-
-

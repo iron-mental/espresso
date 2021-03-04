@@ -18,6 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".presentation.home.apply.ApplyStudyActivity" />
+        <activity android:name=".presentation.home.apply.MyApplyStudyActivity" />
         <activity android:name=".presentation.home.mystudy.studydetail.ModifyStudyActivity" />
         <activity android:name=".presentation.home.mystudy.studydetail.DelegateLeaderActivity" />
         <activity android:name=".presentation.home.study.StudyDetailActivity" />
