@@ -40,7 +40,7 @@ class NoticeDetailActivity :
 
         viewModel.showNotice(studyId, noticeId)
 
-        viewModel.notice.observe(this, Observer { notice ->
+        viewModel.notice.observe(this, { notice ->
             binding.run {
                 title.text = notice.title
                 writerName.text = notice.leaderNickname
@@ -53,15 +53,17 @@ class NoticeDetailActivity :
                     .error(R.drawable.dummy_image)
                     .into(writerImage)
 
-                viewModel.initPin(notice.pinned)
-                noticeItem = notice
-            }
-        })
+                category.apply {
+                    if (notice.pinned) {
+                        text = context.getString(R.string.pined_true)
+                        backgroundTintList = resources.getColorStateList(R.color.theme_fc813e, null)
+                    } else {
+                        text = context.getString(R.string.pined_false)
+                        backgroundTintList = resources.getColorStateList(R.color.colorCobaltBlue, null)
 
-        viewModel.pinnedType.observe(this, Observer { pinned ->
-            binding.category.apply {
-                text = resources.getString(pinned.title)
-                setBackgroundResource(pinned.color)
+                    }
+                }
+                noticeItem = notice
             }
         })
 
