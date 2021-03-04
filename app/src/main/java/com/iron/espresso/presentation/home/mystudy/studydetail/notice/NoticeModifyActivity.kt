@@ -110,8 +110,8 @@ class NoticeModifyActivity :
 
                 viewModel.modifyNotice(
                     studyId, noticeId,
-                    binding.title.text.toString(),
-                    binding.content.text.toString()
+                    binding.titleInputView.text.toString(),
+                    binding.contentInputView.text.toString()
                 )
             }
         }
