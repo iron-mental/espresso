@@ -9,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResultListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -118,6 +119,18 @@ class NoticeDetailActivity :
             if (result == Activity.RESULT_OK) {
                 viewModel.deleteNotice(studyId, noticeId)
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.fragments.find { it is ConfirmDialog }
+
+        if (fragment != null) {
+            supportFragmentManager.commit {
+                remove(fragment)
+            }
+        } else {
+            return super.onBackPressed()
         }
     }
 
