@@ -150,5 +150,8 @@
     <string name="must_read">필독</string>
     <string name="normal">일반</string>
     <string name="ttl">제목</string>
+    <string name="confirm">확인</string>
+    <string name="to_modify">수정하기</string>
+    <string name="to_delete">삭제하기</string>
 
 </resources>
