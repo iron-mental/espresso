@@ -154,4 +154,7 @@
     <string name="to_modify">수정하기</string>
     <string name="to_delete">삭제하기</string>
 
+    <string name="dialog_notice_delete_title">공지사항을 삭제하시겠습니까?</string>
+    <string name="dialog_notice_modify_title">공지사항을 수정하시겠습니까?</string>
+
 </resources>

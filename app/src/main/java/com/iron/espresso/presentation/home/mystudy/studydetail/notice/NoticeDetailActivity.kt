@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.fragment.app.setFragmentResultListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.iron.espresso.R
@@ -15,6 +17,7 @@ import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeDetailItem
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.presentation.home.apply.ConfirmDialog
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -96,10 +99,26 @@ class NoticeDetailActivity :
                 )
             }
             R.id.delete_notice -> {
-                viewModel.deleteNotice(studyId, noticeId)
+                showNoticeDeleteDialog()
             }
         }
         return true
+    }
+
+    private fun showNoticeDeleteDialog() {
+        val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_notice_delete_title))
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.dialog_container, dialog)
+            .commit()
+
+        dialog.setFragmentResultListener(dialog::class.java.simpleName) { _: String, bundle: Bundle ->
+            val result = bundle.get(ConfirmDialog.RESULT)
+
+            if (result == Activity.RESULT_OK) {
+                viewModel.deleteNotice(studyId, noticeId)
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

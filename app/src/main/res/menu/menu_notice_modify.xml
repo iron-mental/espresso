@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/modify_notice"
-        android:title="스터디 수정"
+        android:title="@string/to_modify"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/delete_notice"
-        android:title="스터디 삭제"
+        android:title="@string/to_delete"
         app:showAsAction="never" />
 
 </menu>
