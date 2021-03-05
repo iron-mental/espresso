@@ -26,6 +26,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
 
     private val noticeAdapter = NoticeAdapter()
     private var studyId = 0
+    private var authority: String? = null
 
     private val viewModel by viewModels<NoticeViewModel>()
 
@@ -59,6 +60,11 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
 
         scrollListener()
 
+    }
+
+    fun setAuthority(authority: String) {
+        this.authority = authority
+        activity?.invalidateOptionsMenu()
     }
 
     private fun scrollListener() {
