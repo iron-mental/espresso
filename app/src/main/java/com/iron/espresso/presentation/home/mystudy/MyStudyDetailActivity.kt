@@ -173,7 +173,7 @@ class MyStudyDetailActivity :
                 if (checkAuthority(studyInfoItem?.authority ?: "")) {
                     viewModel.leaveStudy(studyId)
                 } else {
-                    toast(resources.getString(R.string.pass_permission))
+                    toast(R.string.pass_permission)
                 }
             }
         }
@@ -190,18 +190,6 @@ class MyStudyDetailActivity :
             if (result == Activity.RESULT_OK) {
                 viewModel.deleteStudy(studyId)
             }
-        }
-    }
-
-    override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments.find { it is ConfirmDialog }
-
-        if (fragment != null) {
-            supportFragmentManager.commit {
-                remove(fragment)
-            }
-        } else {
-            return super.onBackPressed()
         }
     }
 

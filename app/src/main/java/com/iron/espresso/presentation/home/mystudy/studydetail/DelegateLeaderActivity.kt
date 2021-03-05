@@ -77,18 +77,6 @@ class DelegateLeaderActivity :
         }
     }
 
-    override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments.find { it is ConfirmDialog }
-
-        if (fragment != null) {
-            supportFragmentManager.commit {
-                remove(fragment)
-            }
-        } else {
-            return super.onBackPressed()
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
