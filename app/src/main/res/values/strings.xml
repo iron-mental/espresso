@@ -148,4 +148,8 @@
     <string name="select_category">카테고리 선택</string>
     <string name="empty_search_study">검색된 스터디가 없어요</string>
 
+    <string name="dialog_leave_study_title">스터디를 나가시겠어요?</string>
+    <string name="dialog_delete_study_title">스터디를 삭제하시겠어요?</string>
+    <string name="dialog_delegate_leader_title">방장을 위임하시겠어요?</string>
+
 </resources>
