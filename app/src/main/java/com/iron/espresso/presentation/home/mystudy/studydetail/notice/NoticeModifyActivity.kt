@@ -136,19 +136,6 @@ class NoticeModifyActivity :
         }
     }
 
-    override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments.find { it is ConfirmDialog }
-
-        if (fragment != null) {
-            supportFragmentManager.commit {
-                remove(fragment)
-            }
-        } else {
-            return super.onBackPressed()
-        }
-    }
-
-
     companion object {
         private const val NOTICE_ITEM = "noticeItem"
         fun getIntent(
