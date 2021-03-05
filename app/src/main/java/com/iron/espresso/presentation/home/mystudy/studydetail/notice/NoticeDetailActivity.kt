@@ -63,7 +63,7 @@ class NoticeDetailActivity :
                         text = context.getString(R.string.pined_true)
                         backgroundTintList = resources.getColorStateList(R.color.theme_fc813e, null)
                     } else {
-                        text = context.getString(R.string.pined_false)
+                        text = context.getString(R.string.normal)
                         backgroundTintList = resources.getColorStateList(R.color.colorCobaltBlue, null)
 
                     }
