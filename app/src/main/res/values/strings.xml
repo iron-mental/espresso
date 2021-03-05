@@ -147,5 +147,14 @@
     <string name="empty_study">아직 스터디가 없어요</string>
     <string name="select_category">카테고리 선택</string>
     <string name="empty_search_study">검색된 스터디가 없어요</string>
+    <string name="must_read">필독</string>
+    <string name="normal">일반</string>
+    <string name="ttl">제목</string>
+    <string name="confirm">확인</string>
+    <string name="to_modify">수정하기</string>
+    <string name="to_delete">삭제하기</string>
+
+    <string name="dialog_notice_delete_title">공지사항을 삭제하시겠습니까?</string>
+    <string name="dialog_notice_modify_title">공지사항을 수정하시겠습니까?</string>
 
 </resources>

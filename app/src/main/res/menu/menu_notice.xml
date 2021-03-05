@@ -6,6 +6,7 @@
         android:id="@+id/create_notice"
         android:icon="@drawable/ic_add"
         android:title="@null"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 
 </menu>

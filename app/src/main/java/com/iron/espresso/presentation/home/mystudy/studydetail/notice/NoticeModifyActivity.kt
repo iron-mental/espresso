@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,13 +9,16 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
+import androidx.fragment.app.commit
+import androidx.fragment.app.setFragmentResultListener
+import com.google.android.material.tabs.TabLayout
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.NoticeDetailItem
 import com.iron.espresso.databinding.ActivityNoticeModifyBinding
 import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.presentation.home.apply.ConfirmDialog
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,24 +42,35 @@ class NoticeModifyActivity :
         val noticeItem = intent.getSerializableExtra(NOTICE_ITEM) as NoticeDetailItem
         noticeId = noticeItem.id
 
-        binding.run {
-            title.setText(noticeItem.title)
-            content.setText(noticeItem.contents)
-        }
-
-        viewModel.initPin(noticeItem.pinned ?: false)
-
-        viewModel.pinnedType.observe(this, Observer { pinned ->
-
-            binding.category.apply {
-                text = resources.getString(pinned.title)
-                setBackgroundResource(pinned.color)
+        initSelectCategory(noticeItem.pinned)
+        binding.categoryContainer.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> {
+                        binding.categoryContainer.setSelectedTabIndicatorColor(getColor(R.color.theme_fc813e))
+                        viewModel.changePinned()
+                    }
+                    1 -> {
+                        binding.categoryContainer.setSelectedTabIndicatorColor(getColor(R.color.colorCobaltBlue))
+                        viewModel.changePinned()
+                    }
+                }
             }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
         })
 
-        binding.category.setOnClickListener {
-            viewModel.changePinned()
+        binding.run {
+            titleInputView.setText(noticeItem.title)
+            contentInputView.setText(noticeItem.contents)
         }
+
+        viewModel.initPin(noticeItem.pinned)
 
         viewModel.toastMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -70,6 +85,20 @@ class NoticeModifyActivity :
         })
     }
 
+    private fun initSelectCategory(pinned: Boolean) {
+        if (pinned) {
+            binding.categoryContainer.run {
+                getTabAt(0)?.select()
+                setSelectedTabIndicatorColor(getColor(R.color.theme_fc813e))
+            }
+        } else {
+            binding.categoryContainer.run {
+                getTabAt(1)?.select()
+                setSelectedTabIndicatorColor(getColor(R.color.colorCobaltBlue))
+            }
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_notice_create, menu)
@@ -81,18 +110,31 @@ class NoticeModifyActivity :
             android.R.id.home -> {
                 onBackPressed()
             }
-            R.id.create_notice -> {
-
-                viewModel.modifyNotice(
-                    studyId, noticeId,
-                    binding.title.text.toString(),
-                    binding.content.text.toString()
-                )
+            R.id.complete -> {
+                showNoticeModifyDialog()
             }
         }
         return true
     }
 
+    private fun showNoticeModifyDialog() {
+        val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_notice_modify_title))
+
+        dialog.show(supportFragmentManager, dialog::class.java.simpleName)
+
+        dialog.setFragmentResultListener(dialog::class.java.simpleName) { _: String, bundle: Bundle ->
+            val result = bundle.get(ConfirmDialog.RESULT)
+
+            if (result == Activity.RESULT_OK) {
+                viewModel.modifyNotice(
+                    studyId,
+                    noticeId,
+                    binding.titleInputView.text.toString(),
+                    binding.contentInputView.text.toString()
+                )
+            }
+        }
+    }
 
     companion object {
         private const val NOTICE_ITEM = "noticeItem"

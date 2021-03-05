@@ -8,12 +8,14 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
+import com.iron.espresso.data.model.AuthorityType
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
@@ -25,6 +27,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
 
     private val noticeAdapter = NoticeAdapter()
     private var studyId = 0
+    private var authority: String? = null
 
     private val viewModel by viewModels<NoticeViewModel>()
 
@@ -37,14 +40,8 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         viewModel.showNoticeList(studyId)
 
         viewModel.noticeListItem.observe(viewLifecycleOwner, { noticeListItem ->
-            if (noticeListItem.isNullOrEmpty()) {
-                binding.emptyView.visibility = View.VISIBLE
-                binding.noticeList.visibility = View.GONE
-            } else {
-                noticeAdapter.setItemList(noticeListItem)
-                binding.emptyView.visibility = View.GONE
-                binding.noticeList.visibility = View.VISIBLE
-            }
+            noticeAdapter.setItemList(noticeListItem)
+            binding.emptyView.isVisible = noticeListItem.isNullOrEmpty()
         })
 
         viewModel.scrollItem.observe(viewLifecycleOwner, Observer {
@@ -56,7 +53,8 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
                 NoticeDetailActivity.getIntent(
                     requireContext(),
                     noticeItem.id,
-                    studyId
+                    studyId,
+                    authority
                 ), REQUEST_DETAIL_CODE
             )
         }
@@ -64,6 +62,11 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
 
         scrollListener()
 
+    }
+
+    fun setAuthority(authority: String) {
+        this.authority = authority
+        activity?.invalidateOptionsMenu()
     }
 
     private fun scrollListener() {
@@ -99,6 +102,13 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_notice, menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        if (authority == AuthorityType.HOST.authority) {
+            menu.findItem(R.id.create_notice).isVisible = true
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -8,7 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
+import com.google.android.material.tabs.TabLayout
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
@@ -33,18 +33,28 @@ class NoticeCreateActivity :
 
         studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
 
-        viewModel.initPin()
-
-        viewModel.pinnedType.observe(this, Observer { pinned ->
-            binding.category.apply {
-                text = resources.getString(pinned.title)
-                setBackgroundResource(pinned.color)
+        binding.categoryContainer.getTabAt(1)?.select()
+        binding.categoryContainer.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> {
+                        binding.categoryContainer.setSelectedTabIndicatorColor(getColor(R.color.theme_fc813e))
+                        viewModel.changePinned()
+                    }
+                    1 -> {
+                        binding.categoryContainer.setSelectedTabIndicatorColor(getColor(R.color.colorCobaltBlue))
+                        viewModel.changePinned()
+                    }
+                }
             }
-        })
 
-        binding.category.setOnClickListener {
-            viewModel.changePinned()
-        }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+        })
 
         viewModel.emptyCheckMessage.observe(this, EventObserver { message ->
             Toast.makeText(this, resources.getString(message.resId), Toast.LENGTH_SHORT).show()
@@ -70,11 +80,11 @@ class NoticeCreateActivity :
             android.R.id.home -> {
                 onBackPressed()
             }
-            R.id.create_notice -> {
+            R.id.complete -> {
                 viewModel.createNotice(
                     studyId = studyId,
-                    title = binding.title.text.toString(),
-                    contents = binding.content.text.toString()
+                    title = binding.titleInputView.text.toString(),
+                    contents = binding.contentInputView.text.toString()
                 )
             }
         }
