@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
+import com.iron.espresso.data.model.AuthorityType
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.FragmentNoticeBinding
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
@@ -100,6 +101,13 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_notice, menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        if (authority == AuthorityType.HOST.authority) {
+            menu.findItem(R.id.create_notice).isVisible = true
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
