@@ -19,6 +19,7 @@ import com.iron.espresso.data.model.AuthorityType
 import com.iron.espresso.data.model.NoticeDetailItem
 import com.iron.espresso.databinding.ActivityNoticeDetailBinding
 import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.setCircleImage
 import com.iron.espresso.presentation.home.apply.ConfirmDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,11 +53,9 @@ class NoticeDetailActivity :
                 content.text = notice.contents
                 date.text = notice.updatedAt
 
-                Glide.with(this@NoticeDetailActivity)
-                    .load(notice.leaderImage)
-                    .apply(RequestOptions.circleCropTransform())
-                    .error(R.drawable.dummy_image)
-                    .into(writerImage)
+                if (!notice.leaderImage.isNullOrEmpty()) {
+                    writerImage.setCircleImage(notice.leaderImage)
+                }
 
                 category.apply {
                     if (notice.pinned) {
