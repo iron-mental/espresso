@@ -4,11 +4,13 @@
     <item
         android:id="@+id/modify_notice"
         android:title="@string/to_modify"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/delete_notice"
         android:title="@string/to_delete"
+        android:visible="false"
         app:showAsAction="never" />
 
 </menu>

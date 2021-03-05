@@ -53,7 +53,8 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
                 NoticeDetailActivity.getIntent(
                     requireContext(),
                     noticeItem.id,
-                    studyId
+                    studyId,
+                    authority
                 ), REQUEST_DETAIL_CODE
             )
         }
