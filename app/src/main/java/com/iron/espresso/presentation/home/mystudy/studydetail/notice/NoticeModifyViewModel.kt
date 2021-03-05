@@ -7,7 +7,6 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
@@ -23,24 +22,14 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
     val emptyCheckMessage: LiveData<Event<ValidationInputText>>
         get() = _emptyCheckMessage
 
-    private val _pinnedType = MutableLiveData<NoticeItemType>()
-    val pinnedType: LiveData<NoticeItemType>
-        get() = _pinnedType
+    private var pinnedType: Boolean = false
 
     fun initPin(pinned: Boolean) {
-        _pinnedType.value = if (pinned) {
-            NoticeItemType.HEADER
-        } else {
-            NoticeItemType.ITEM
-        }
+        pinnedType = pinned
     }
 
     fun changePinned() {
-        _pinnedType.value = if (_pinnedType.value == NoticeItemType.HEADER) {
-            NoticeItemType.ITEM
-        } else {
-            NoticeItemType.HEADER
-        }
+        pinnedType = !pinnedType
     }
 
     private fun emptyCheck(title: String, contents: String): ValidationInputText {
@@ -64,7 +53,7 @@ class NoticeModifyViewModel @ViewModelInject constructor(private val noticeApi: 
                     body = ModifyNoticeRequest(
                         title = title,
                         contents = contents,
-                        pinned = _pinnedType.value == NoticeItemType.HEADER
+                        pinned = pinnedType
                     )
                 )
                 .networkSchedulers()

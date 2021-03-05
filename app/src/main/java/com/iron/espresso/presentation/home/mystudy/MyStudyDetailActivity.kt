@@ -69,6 +69,10 @@ class MyStudyDetailActivity :
         viewModel.studyDetail.observe(this, { studyDetailItem ->
             studyInfoItem = studyDetailItem.studyInfoItem
             setToolbarTitle(studyInfoItem?.title)
+
+            val findFragment = supportFragmentManager.fragments.find { it is NoticeFragment } as NoticeFragment
+            findFragment.setAuthority(studyInfoItem?.authority.orEmpty())
+
         })
 
         viewModel.toastMessage.observe(this, EventObserver { message ->

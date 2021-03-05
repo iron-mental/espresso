@@ -22,18 +22,6 @@ class NoticeDetailViewModel @ViewModelInject constructor(private val noticeApi: 
     val notice: LiveData<NoticeDetailItem>
         get() = _notice
 
-    private val _pinnedType = MutableLiveData<NoticeItemType>()
-    val pinnedType: LiveData<NoticeItemType>
-        get() = _pinnedType
-
-    fun initPin(pinned: Boolean) {
-        _pinnedType.value = if (pinned) {
-            NoticeItemType.HEADER
-        } else {
-            NoticeItemType.ITEM
-        }
-    }
-
     fun showNotice(studyId: Int, noticeId: Int) {
         compositeDisposable += noticeApi
             .getNotice(
