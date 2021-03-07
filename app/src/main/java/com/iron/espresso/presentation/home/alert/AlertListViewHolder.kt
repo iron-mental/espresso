@@ -2,6 +2,7 @@ package com.iron.espresso.presentation.home.alert
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.databinding.ItemAlertBinding
 
@@ -21,6 +22,10 @@ class AlertListViewHolder(
             title.text = item.studyTitle
             date.text = item.pastDate
             message.text = item.message
+
+            layout.children.forEach {
+                it.alpha = if (item.confirm) 0.5f else 1f
+            }
         }
     }
 }

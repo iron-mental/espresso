@@ -20,8 +20,10 @@ class AlertListActivity : BaseActivity<ActivityAlertListBinding>(R.layout.activi
     private val viewModel by viewModels<AlertListViewModel>()
 
     private val adapter: AlertListAdapter by lazy {
-        AlertListAdapter {
-            viewModel.read(alertId = it.id)
+        AlertListAdapter { item ->
+            if (!item.confirm) {
+                viewModel.read(alertId = item.id)
+            }
         }
     }
 
