@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
@@ -86,4 +87,8 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.0-beta01"
     implementation "com.airbnb.android:lottie:3.6.0"
     implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
+
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }
