@@ -17,9 +17,9 @@ class AlertListViewHolder(
             root.setOnClickListener {
                 itemClick(item)
             }
-            type.text = "☺️"
+            type.text = item.alertType?.emoji
             title.text = item.studyTitle
-            date.text = item.createdAt
+            date.text = item.pastDate
             message.text = item.message
         }
     }

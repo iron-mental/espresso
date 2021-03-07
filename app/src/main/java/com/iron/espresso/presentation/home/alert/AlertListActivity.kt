@@ -2,12 +2,16 @@ package com.iron.espresso.presentation.home.alert
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityAlertListBinding
+import com.iron.espresso.ext.dp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,6 +39,20 @@ class AlertListActivity : BaseActivity<ActivityAlertListBinding>(R.layout.activi
     private fun setupView() {
         with(binding) {
             alertList.adapter = adapter
+
+            alertList.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    super.getItemOffsets(outRect, view, parent, state)
+
+                    outRect.bottom = 10.dp
+                }
+            })
+
         }
     }
 

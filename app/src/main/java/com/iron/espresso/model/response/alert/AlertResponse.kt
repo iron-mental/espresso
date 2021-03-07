@@ -3,6 +3,7 @@ package com.iron.espresso.model.response.alert
 
 import com.google.gson.annotations.SerializedName
 import com.iron.espresso.domain.entity.Alert
+import com.iron.espresso.domain.entity.AlertType
 
 data class AlertResponse(
     @SerializedName("id")
@@ -12,7 +13,7 @@ data class AlertResponse(
     @SerializedName("study_title")
     val studyTitle: String?,
     @SerializedName("pushEvent")
-    val pushEvent: String?,
+    val alertType: AlertType?,
     @SerializedName("message")
     val message: String?,
     @SerializedName("confirm")
@@ -25,7 +26,7 @@ data class AlertResponse(
             id,
             studyId,
             studyTitle.orEmpty(),
-            pushEvent.orEmpty(),
+            alertType,
             message.orEmpty(),
             confirm,
             createdAt.orEmpty()
