@@ -161,5 +161,6 @@
     <string name="dialog_leave_study_title">스터디를 나가시겠어요?</string>
     <string name="dialog_delete_study_title">스터디를 삭제하시겠어요?</string>
     <string name="dialog_delegate_leader_title">방장을 위임하시겠어요?</string>
+    <string name="alert">알림</string>
 
 </resources>
