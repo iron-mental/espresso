@@ -59,22 +59,11 @@ class ModifyStudyActivity :
             webInputView.inputUrl.setText(studyInfoItem.snsWeb)
 
             image.setOnClickListener {
-
-                val imagePickerFragment = ImagePickerFragment()
-                supportFragmentManager.setFragmentResultListener(
-                    ImagePickerFragment.REQ_IMAGE,
-                    this@ModifyStudyActivity
-                ) { _, data ->
-                    val imageUri = data.getParcelable<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
-                    if (imageUri != null) {
-                        viewModel.setStudyImage(imageUri)
+                checkReadStoragePermission(this@ModifyStudyActivity) { isSuccess ->
+                    if (isSuccess) {
+                        showImagePicker()
                     }
                 }
-
-                imagePickerFragment.show(
-                    supportFragmentManager,
-                    imagePickerFragment::class.java.simpleName
-                )
             }
 
             placeContainer.setOnClickListener {
@@ -132,6 +121,24 @@ class ModifyStudyActivity :
                 finish()
             })
         }
+    }
+
+    private fun showImagePicker() {
+        val imagePickerFragment = ImagePickerFragment()
+        supportFragmentManager.setFragmentResultListener(
+            ImagePickerFragment.REQ_IMAGE,
+            this@ModifyStudyActivity
+        ) { _, data ->
+            val imageUri = data.getParcelable<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
+            if (imageUri != null) {
+                viewModel.setStudyImage(imageUri)
+            }
+        }
+
+        imagePickerFragment.show(
+            supportFragmentManager,
+            imagePickerFragment::class.java.simpleName
+        )
     }
 
     private fun inputViewTouchEvent(v: View, event: MotionEvent): Boolean {
