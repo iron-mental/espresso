@@ -161,4 +161,5 @@
     <string name="dialog_delete_study_title">스터디를 삭제하시겠어요?</string>
     <string name="dialog_delegate_leader_title">방장을 위임하시겠어요?</string>
 
+    <string name="empty_delegate_member">위임할 멤버가 존재하지 않아요</string>
 </resources>
