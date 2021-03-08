@@ -62,7 +62,7 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
                 }
 
                 memberView.setOnClickListener {
-                    startActivity(MemberProfileActivity.getIntent(requireContext()))
+                    startActivity(MemberProfileActivity.getIntent(requireContext(), memberList.userId))
                 }
 
                 binding.memberContainer.addView(memberView)
