@@ -177,7 +177,11 @@ class MyStudyDetailActivity :
                 if (checkAuthority(studyInfoItem?.authority ?: "")) {
                     viewModel.leaveStudy(studyId)
                 } else {
-                    toast(R.string.pass_permission)
+                    if (studyInfoItem?.participateItem?.size == 1) {
+                        viewModel.leaveStudy(studyId)
+                    } else {
+                        toast(R.string.pass_permission)
+                    }
                 }
             }
         }
