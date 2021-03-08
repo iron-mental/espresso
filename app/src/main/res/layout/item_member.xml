@@ -19,7 +19,8 @@
             android:layout_width="46dp"
             android:layout_height="46dp"
             android:layout_marginTop="12dp"
-            android:src="@drawable/ic_github"
+            android:background="@drawable/circle_shape"
+            android:src="@drawable/ic_person_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
