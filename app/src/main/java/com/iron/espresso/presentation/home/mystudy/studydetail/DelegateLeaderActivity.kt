@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.fragment.app.commit
+import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import com.iron.espresso.DEF_VALUE
 import com.iron.espresso.R
@@ -27,7 +27,7 @@ class DelegateLeaderActivity :
     private val viewModel by viewModels<DelegateLeaderViewModel>()
     private val participateAdapter = ParticipateAdapter()
     private var studyId = -1
-    private var memberList = listOf<ParticipateItem>()
+    private var participateList = listOf<ParticipateItem>()
     private var authority: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,15 +38,20 @@ class DelegateLeaderActivity :
 
         studyId =
             intent.getIntExtra(MyStudyDetailActivity.STUDY_ID, DEF_VALUE)
-        memberList = intent.getSerializableExtra(PARTICIPATE_LIST) as List<ParticipateItem>
+        participateList = intent.getSerializableExtra(PARTICIPATE_LIST) as List<ParticipateItem>
         authority = intent.getStringExtra(KEY_AUTHORITY)
 
         binding.participateList.adapter = participateAdapter
 
         participateAdapter.apply {
-            setItemList(memberList)
-            setItemClickListener { participateItem ->
-                showDelegateLeaderDialog(participateItem.userId)
+            val memberList = excludeOneself(participateList)
+            if (memberList.isEmpty()) {
+                binding.emptyView.isVisible = true
+            } else {
+                setItemList(memberList)
+                setItemClickListener { participateItem ->
+                    showDelegateLeaderDialog(participateItem.userId)
+                }
             }
         }
 
@@ -60,6 +65,12 @@ class DelegateLeaderActivity :
             })
 
             toastMessage.observe(this@DelegateLeaderActivity, EventObserver(::toast))
+        }
+    }
+
+    private fun excludeOneself(memberList: List<ParticipateItem>): List<ParticipateItem> {
+        return memberList.filter {
+            !it.leader
         }
     }
 
