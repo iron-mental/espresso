@@ -76,9 +76,6 @@ class MyStudyFragment :
             R.id.more -> {
                 startActivity(MyApplyStudyActivity.getIntent(requireContext()))
             }
-            else -> {
-                toast("${item.title}")
-            }
         }
         return super.onOptionsItemSelected(item)
     }
