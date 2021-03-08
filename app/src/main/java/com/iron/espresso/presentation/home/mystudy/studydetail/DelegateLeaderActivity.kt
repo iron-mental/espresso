@@ -44,7 +44,7 @@ class DelegateLeaderActivity :
         binding.participateList.adapter = participateAdapter
 
         participateAdapter.apply {
-            setItemList(memberList)
+            setItemList(excludeOneself(memberList))
             setItemClickListener { participateItem ->
                 showDelegateLeaderDialog(participateItem.userId)
             }
@@ -60,6 +60,12 @@ class DelegateLeaderActivity :
             })
 
             toastMessage.observe(this@DelegateLeaderActivity, EventObserver(::toast))
+        }
+    }
+
+    private fun excludeOneself(memberList: List<ParticipateItem>): List<ParticipateItem> {
+        return memberList.filter {
+            !it.leader
         }
     }
 
