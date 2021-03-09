@@ -43,7 +43,6 @@ class ProfileFragment :
     private fun setupView() {
         binding.run {
             this.viewModel = profileViewModel
-
             layoutHeader.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 val user = profileViewModel.user.value ?: return@setOnClickListener
                 showFragment(
@@ -54,6 +53,7 @@ class ProfileFragment :
                     )
                 )
             }
+
             layoutCareer.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 val user = profileViewModel.user.value ?: return@setOnClickListener
                 showFragment(

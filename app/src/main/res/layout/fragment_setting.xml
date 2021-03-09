@@ -174,22 +174,17 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include
-                    layout="@layout/setting_item_layout"
-                    bind:title="@{`공지사항`}" />
-
-                <include
-                    layout="@layout/setting_item_layout"
-                    bind:title="@{`도움말`}" />
-
-                <include
+                    android:id="@+id/contact"
                     layout="@layout/setting_item_layout"
                     bind:title="@{`문의하기`}" />
 
                 <include
+                    android:id="@+id/terms"
                     layout="@layout/setting_item_layout"
                     bind:title="@{`이용약관`}" />
 
                 <include
+                    android:id="@+id/policy"
                     layout="@layout/setting_item_layout"
                     bind:title="@{`개인정보 취급방침`}" />
 
