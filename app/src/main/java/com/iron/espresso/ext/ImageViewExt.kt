@@ -60,6 +60,7 @@ fun ImageView.setCircleImage(imageUri: Uri) {
         .into(this)
 }
 
+@BindingAdapter("bind:setRadiusImage")
 fun ImageView.setRadiusImage(imageUrl: String) {
     if (imageUrl.isEmpty()) return
 

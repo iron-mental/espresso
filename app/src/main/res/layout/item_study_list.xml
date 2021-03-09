@@ -64,7 +64,8 @@
             android:layout_alignTop="@+id/date"
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@+id/date"
-            android:src="@drawable/dummy_image"
+            android:background="@drawable/circle_shape"
+            android:src="@drawable/ic_person_24"
             app:layout_constraintBottom_toBottomOf="@+id/date"
             app:layout_constraintStart_toEndOf="@+id/date"
             app:layout_constraintTop_toTopOf="@+id/date" />
@@ -75,7 +76,7 @@
             android:layout_height="75dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/dummy_image"
+            android:src="@drawable/bg_dash_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

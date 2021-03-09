@@ -28,13 +28,13 @@ class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             date.text = item.createdAt
 
             if (item.image.isNullOrEmpty()) {
-                image.setImageResource(R.drawable.dummy_image)
+                image.setImageResource(R.drawable.bg_dash_line)
             } else {
                 image.setRadiusImage(item.image)
             }
 
             if (item.leaderImage.isNullOrEmpty()) {
-                profileImage.setImageResource(R.drawable.dummy_image)
+                profileImage.setImageResource(R.drawable.ic_person)
             } else {
                 profileImage.setCircleImage(item.leaderImage)
             }
