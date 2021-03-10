@@ -37,8 +37,8 @@ fun ImageView.setImage(imageUrl: String, centerCrop: Boolean = false) {
 }
 
 @BindingAdapter("bind:setCircleImage")
-fun ImageView.setCircleImage(imageUrl: String) {
-    if (imageUrl.isEmpty()) return
+fun ImageView.setCircleImage(imageUrl: String?) {
+    if (imageUrl.isNullOrEmpty()) return
 
     Glide.with(context)
         .load(

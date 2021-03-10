@@ -147,8 +147,6 @@ class ProfileFragment :
     private fun setProfile() {
         UserHolder.get()?.let {
             profileViewModel.setProfile(user = it)
-
-            binding.layoutHeader.profileImage.setCircleImage(it.image)
         }
     }
 
