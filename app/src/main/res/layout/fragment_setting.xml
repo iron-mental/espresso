@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.viewmodel.AbsProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +37,8 @@
 
                 <include
                     android:id="@+id/profile"
-                    layout="@layout/setting_profile" />
+                    layout="@layout/setting_profile"
+                    bind:viewModel="@{viewModel}" />
 
                 <include
                     layout="@layout/setting_category_layout"
