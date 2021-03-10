@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
@@ -44,6 +45,11 @@ class SettingFragment :
         setupViewModel()
     }
 
+    override fun onResume() {
+        settingViewModel.refreshProfile()
+        super.onResume()
+    }
+
     private fun setupView() {
         binding.run {
             viewModel = settingViewModel
@@ -53,6 +59,10 @@ class SettingFragment :
             }
 
             certifyEmail.setOnClickListener {
+                toast("인증된 이메일입니다 (임시)")
+            }
+
+            notCertifyEmail.setOnClickListener {
                 showVerifyEmailDialog()
             }
 
@@ -99,7 +109,11 @@ class SettingFragment :
         UserHolder.get()?.let {
             settingViewModel.setProfile(user = it)
 
-            binding.profile.settingProfileImage.setCircleImage(it.image)
+            binding.run {
+                certifyEmail.isVisible = it.emailVerified
+                notCertifyEmail.isVisible = !it.emailVerified
+                profile.settingProfileImage.setCircleImage(it.image)
+            }
         }
     }
 
