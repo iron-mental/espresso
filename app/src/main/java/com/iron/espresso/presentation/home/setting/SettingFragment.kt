@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.UserHolder
@@ -15,6 +16,7 @@ import com.iron.espresso.databinding.FragmentSettingBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.setCircleImage
 import com.iron.espresso.ext.toast
+import com.iron.espresso.presentation.home.apply.ConfirmDialog
 import com.iron.espresso.presentation.profile.ProfileActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +28,7 @@ class SettingFragment :
     private val requestActivity = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { activityResult ->
-        when(activityResult.resultCode) {
+        when (activityResult.resultCode) {
             RESULT_OK -> {
                 toast("resarea")
                 settingViewModel.refreshProfile()
@@ -49,6 +51,11 @@ class SettingFragment :
             profile.root.setOnClickListener {
                 requestActivity.launch(ProfileActivity.getInstance(requireContext()))
             }
+
+            certifyEmail.setOnClickListener {
+                showVerifyEmailDialog()
+            }
+
             contact.root.setOnClickListener {
                 val email = Intent(Intent.ACTION_SEND)
                 email.type = "plain/text"
@@ -66,9 +73,25 @@ class SettingFragment :
 
     private fun setupViewModel() {
         settingViewModel.run {
+            toastMessage.observe(viewLifecycleOwner, EventObserver(::toast))
+
             refreshed.observe(viewLifecycleOwner, EventObserver {
                 setProfile()
             })
+        }
+    }
+
+    private fun showVerifyEmailDialog() {
+        val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_certify_email))
+
+        dialog.show(parentFragmentManager, dialog::class.java.simpleName)
+
+        dialog.setFragmentResultListener(dialog::class.java.simpleName) { _: String, bundle: Bundle ->
+            val result = bundle.get(ConfirmDialog.RESULT)
+
+            if (result == RESULT_OK) {
+                settingViewModel.emailVerify()
+            }
         }
     }
 
