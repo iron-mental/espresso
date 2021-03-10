@@ -56,7 +56,7 @@ interface UserApi {
     @GET("/v1/user/{id}/emailVerify")
     fun verifyEmail(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int
+        @Path("id") id: Int = AuthHolder.requireId()
     ): Single<BaseResponse<Nothing>>
 
     @POST("/v1/firebase/reset-password/{email}")

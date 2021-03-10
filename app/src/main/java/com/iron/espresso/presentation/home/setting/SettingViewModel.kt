@@ -9,12 +9,14 @@ import com.iron.espresso.Logger
 import com.iron.espresso.UserHolder
 import com.iron.espresso.domain.entity.User
 import com.iron.espresso.domain.usecase.GetUser
+import com.iron.espresso.domain.usecase.VerifyEmail
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 
 class SettingViewModel @ViewModelInject constructor(
-    private val getUser: GetUser
+    private val getUser: GetUser,
+    private val verifyEmail: VerifyEmail
 ) : AbsProfileViewModel() {
 
     private val _refreshed = MutableLiveData<Event<Unit>>()
@@ -44,5 +46,20 @@ class SettingViewModel @ViewModelInject constructor(
 
     fun setProfile(user: User) {
         this.user.value = user
+    }
+
+    fun emailVerify() {
+        compositeDisposable += verifyEmail()
+            .networkSchedulers()
+            .subscribe({
+                if (it.result) {
+                    if (it.message != null) {
+                        _toastMessage.value = Event(it.message)
+                    }
+                }
+                Logger.d("$it")
+            }, {
+                Logger.d("$it")
+            })
     }
 }

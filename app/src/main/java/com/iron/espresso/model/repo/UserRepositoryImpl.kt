@@ -90,4 +90,8 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
                 response.data?.map { it.toAddress() }
             }
     }
+
+    override fun verifyEmail(): Single<BaseResponse<Nothing>> {
+        return userRemoteDataSource.verifyEmail()
+    }
 }
