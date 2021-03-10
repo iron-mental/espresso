@@ -162,4 +162,11 @@
     <string name="dialog_delegate_leader_title">방장을 위임하시겠어요?</string>
 
     <string name="empty_delegate_member">위임할 멤버가 존재하지 않아요</string>
+
+    <string name="e_mail">이메일</string>
+    <string name="account">계정</string>
+    <string name="notification">알림</string>
+    <string name="information">정보</string>
+    <string name="logout">로그아웃</string>
+    <string name="membership_withdrawal">회원탈퇴</string>
 </resources>
