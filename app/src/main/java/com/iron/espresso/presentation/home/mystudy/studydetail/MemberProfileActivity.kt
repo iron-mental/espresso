@@ -21,7 +21,7 @@ class MemberProfileActivity : BaseActivity<ActivityMemberProfileBinding>(R.layou
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle("프로필")
+        setToolbarTitle(intent.getStringExtra(KEY_USER_NICKNAME))
         setNavigationIcon(R.drawable.ic_back_24)
 
         setupView()
@@ -59,8 +59,10 @@ class MemberProfileActivity : BaseActivity<ActivityMemberProfileBinding>(R.layou
     }
 
     companion object {
-        fun getIntent(context: Context, userId: Int) =
+        private const val KEY_USER_NICKNAME = "NICKNAME"
+        fun getIntent(context: Context, userId: Int, nickname: String) =
             Intent(context, MemberProfileActivity::class.java)
                 .putExtra(MemberProfileViewModel.KEY_USER_ID, userId)
+                .putExtra(KEY_USER_NICKNAME, nickname)
     }
 }
