@@ -90,26 +90,4 @@ class SettingViewModel @ViewModelInject constructor(
                 }
             })
     }
-
-    fun membershipWithdrawal(email: String, password: String) {
-        compositeDisposable += deleteUser(
-            email = email,
-            password = password,
-        )
-            .networkSchedulers()
-            .subscribe({
-                if (it.result) {
-                    if (it.message != null) {
-                        _toastMessage.value = Event(it.message)
-                        _successEvent.value = Event(Unit)
-                    }
-                }
-                Logger.d("$it")
-            }, {
-                Logger.d("$it")
-                it.toErrorResponse()?.let { response ->
-                    _toastMessage.value = Event(response.message.orEmpty())
-                }
-            })
-    }
 }
