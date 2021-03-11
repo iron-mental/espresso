@@ -175,6 +175,7 @@
                     android:background="@color/black" />
 
                 <TextView
+                    android:id="@+id/logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"

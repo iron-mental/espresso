@@ -18,6 +18,12 @@ interface UserApi {
         @Body body: LoginRequest
     ): Single<BaseResponse<UserAuthResponse>>
 
+    @POST("/v1/user/logout")
+    fun logout(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Body body: LogoutRequest = LogoutRequest(AuthHolder.requireId())
+    ): Single<BaseResponse<Nothing>>
+
     @GET("/v1/user/{id}")
     fun getUser(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,

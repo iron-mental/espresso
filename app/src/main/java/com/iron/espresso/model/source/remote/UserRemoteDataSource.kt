@@ -39,6 +39,9 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     ): Single<BaseResponse<Nothing>> =
         userApi.registerUser(RegisterUserRequest(email, password, nickname))
 
+    override fun logout(): Single<BaseResponse<Nothing>> =
+        userApi.logout()
+
     override fun modifyUserImage(image: File?): Single<BaseResponse<Nothing>> =
         userApi.modifyUserImage(image = ModifyUserImageRequest(image).toMultipartBody())
 
@@ -104,6 +107,10 @@ data class LoginRequest(
     @SerializedName("device") val deviceToken: String = "android"
 )
 
+data class LogoutRequest(
+    val id: Int
+)
+
 data class ReIssuanceTokenRequest(@SerializedName("refresh_token") val refreshToken: String)
 
 data class ModifyUserImageRequest(
@@ -164,6 +171,8 @@ interface UserRemoteDataSource {
         password: String,
         nickname: String
     ): Single<BaseResponse<Nothing>>
+
+    fun logout(): Single<BaseResponse<Nothing>>
 
     fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
 

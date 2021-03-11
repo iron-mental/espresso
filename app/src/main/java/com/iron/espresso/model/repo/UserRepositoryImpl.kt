@@ -20,6 +20,9 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
     ): Single<BaseResponse<UserAuthResponse>> =
         userRemoteDataSource.login(email, password, pushToken)
 
+    override fun logout(): Single<BaseResponse<Nothing>> =
+        userRemoteDataSource.logout()
+
     override fun getUser(id: Int): Single<User> =
         userRemoteDataSource.getUser(id)
             .map { response ->

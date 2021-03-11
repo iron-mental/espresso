@@ -15,6 +15,8 @@ interface UserRepository {
         pushToken: String
     ): Single<BaseResponse<UserAuthResponse>>
 
+    fun logout(): Single<BaseResponse<Nothing>>
+
     fun getUser(id: Int): Single<User>
 
     fun registerUser(

@@ -9,18 +9,25 @@ import com.iron.espresso.Logger
 import com.iron.espresso.UserHolder
 import com.iron.espresso.domain.entity.User
 import com.iron.espresso.domain.usecase.GetUser
+import com.iron.espresso.domain.usecase.LogoutUser
 import com.iron.espresso.domain.usecase.VerifyEmail
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
+import com.iron.espresso.ext.toErrorResponse
 
 class SettingViewModel @ViewModelInject constructor(
     private val getUser: GetUser,
-    private val verifyEmail: VerifyEmail
+    private val verifyEmail: VerifyEmail,
+    private val logoutUser: LogoutUser
 ) : AbsProfileViewModel() {
 
     private val _refreshed = MutableLiveData<Event<Unit>>()
     val refreshed: LiveData<Event<Unit>> get() = _refreshed
+
+    private val _successEvent = MutableLiveData<Event<Unit>>()
+    val successEvent: LiveData<Event<Unit>> get() = _successEvent
+
 
     fun refreshProfile() {
         val bearerToken = AuthHolder.bearerToken
@@ -60,6 +67,25 @@ class SettingViewModel @ViewModelInject constructor(
                 Logger.d("$it")
             }, {
                 Logger.d("$it")
+            })
+    }
+
+    fun logout() {
+        compositeDisposable += logoutUser()
+            .networkSchedulers()
+            .subscribe({
+                if (it.result) {
+                    if (it.message != null) {
+                        _toastMessage.value = Event(it.message)
+                        _successEvent.value = Event(Unit)
+                    }
+                }
+                Logger.d("$it")
+            }, {
+                Logger.d("$it")
+                it.toErrorResponse()?.let { response ->
+                    _toastMessage.value = Event(response.message.orEmpty())
+                }
             })
     }
 }
