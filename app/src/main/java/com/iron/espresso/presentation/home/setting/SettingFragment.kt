@@ -87,6 +87,10 @@ class SettingFragment :
             logout.setOnClickListener {
                 settingViewModel.logout()
             }
+
+            membershipWithdrawal.setOnClickListener {
+                settingViewModel.membershipWithdrawal("rhdudcks@naver.com","rhdudcks")
+            }
         }
     }
 

@@ -32,6 +32,9 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     override fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>> =
         userApi.checkDuplicateNickname(nickname)
 
+    override fun deleteUser(email: String, password: String): Single<BaseResponse<Nothing>> =
+        userApi.deleteUser(body = DeleteUserRequest(email, password))
+
     override fun registerUser(
         email: String,
         password: String,
@@ -82,9 +85,6 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     override fun getAddressList(): Single<BaseResponse<List<AddressResponse>>> =
         userApi.getAddressList()
 
-    override fun deleteUser(bearerToken: String, id: Int): Single<BaseResponse<Nothing>> =
-        userApi.deleteUser(bearerToken, id)
-
 
     override fun verifyEmail(): Single<BaseResponse<Nothing>> =
         userApi.verifyEmail()
@@ -108,7 +108,12 @@ data class LoginRequest(
 )
 
 data class LogoutRequest(
-    val id: Int
+    @SerializedName("id") val id: Int
+)
+
+data class DeleteUserRequest(
+    @SerializedName("email") val email: String,
+    @SerializedName("password") val password: String,
 )
 
 data class ReIssuanceTokenRequest(@SerializedName("refresh_token") val refreshToken: String)
@@ -178,7 +183,7 @@ interface UserRemoteDataSource {
 
     fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>
 
-    fun deleteUser(bearerToken: String, id: Int): Single<BaseResponse<Nothing>>
+    fun deleteUser(email: String, password: String): Single<BaseResponse<Nothing>>
 
     fun verifyEmail(): Single<BaseResponse<Nothing>>
 

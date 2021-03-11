@@ -25,6 +25,8 @@ interface UserRepository {
         nickname: String
     ): Single<BaseResponse<Nothing>>
 
+    fun deleteUser(email: String, password: String): Single<BaseResponse<Nothing>>
+
     fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
 
     fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>

@@ -37,6 +37,8 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
     ): Single<BaseResponse<Nothing>> =
         userRemoteDataSource.registerUser(email, password, nickname)
 
+    override fun deleteUser(email: String, password: String): Single<BaseResponse<Nothing>> =
+        userRemoteDataSource.deleteUser(email, password)
 
     override fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>> =
         userRemoteDataSource.checkDuplicateEmail(email)

@@ -8,6 +8,7 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.UserHolder
 import com.iron.espresso.domain.entity.User
+import com.iron.espresso.domain.usecase.DeleteUser
 import com.iron.espresso.domain.usecase.GetUser
 import com.iron.espresso.domain.usecase.LogoutUser
 import com.iron.espresso.domain.usecase.VerifyEmail
@@ -19,7 +20,8 @@ import com.iron.espresso.ext.toErrorResponse
 class SettingViewModel @ViewModelInject constructor(
     private val getUser: GetUser,
     private val verifyEmail: VerifyEmail,
-    private val logoutUser: LogoutUser
+    private val logoutUser: LogoutUser,
+    private val deleteUser: DeleteUser
 ) : AbsProfileViewModel() {
 
     private val _refreshed = MutableLiveData<Event<Unit>>()
@@ -72,6 +74,28 @@ class SettingViewModel @ViewModelInject constructor(
 
     fun logout() {
         compositeDisposable += logoutUser()
+            .networkSchedulers()
+            .subscribe({
+                if (it.result) {
+                    if (it.message != null) {
+                        _toastMessage.value = Event(it.message)
+                        _successEvent.value = Event(Unit)
+                    }
+                }
+                Logger.d("$it")
+            }, {
+                Logger.d("$it")
+                it.toErrorResponse()?.let { response ->
+                    _toastMessage.value = Event(response.message.orEmpty())
+                }
+            })
+    }
+
+    fun membershipWithdrawal(email: String, password: String) {
+        compositeDisposable += deleteUser(
+            email = email,
+            password = password,
+        )
             .networkSchedulers()
             .subscribe({
                 if (it.result) {
