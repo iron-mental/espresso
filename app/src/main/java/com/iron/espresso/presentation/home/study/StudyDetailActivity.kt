@@ -78,6 +78,10 @@ class StudyDetailActivity :
                     memberImage.setCircleImage(memberList.image)
                 }
 
+                memberView.setOnClickListener {
+                    toast(R.string.please_sign_up_study)
+                }
+
                 binding.memberContainer.addView(memberView)
             }
 

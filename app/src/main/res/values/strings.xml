@@ -157,4 +157,6 @@
     <string name="dialog_notice_delete_title">공지사항을 삭제하시겠습니까?</string>
     <string name="dialog_notice_modify_title">공지사항을 수정하시겠습니까?</string>
 
+    <string name="please_sign_up_study">스터디 가입을 해주세요</string>
+
 </resources>
