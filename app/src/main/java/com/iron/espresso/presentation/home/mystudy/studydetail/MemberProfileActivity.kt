@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MemberProfileActivity : BaseActivity<ActivityMemberProfileBinding>(R.layout.activity_member_profile) {
 
-    private val applyDetailViewModel by viewModels<MemberProfileViewModel>()
+    private val memberProfileViewModel by viewModels<MemberProfileViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,17 +26,17 @@ class MemberProfileActivity : BaseActivity<ActivityMemberProfileBinding>(R.layou
 
         setupView()
         setupViewModel()
-        applyDetailViewModel.getMemberDetail()
+        memberProfileViewModel.getMemberDetail()
     }
 
     private fun setupView() {
         with(binding) {
-            viewModel = applyDetailViewModel
+            viewModel = memberProfileViewModel
         }
     }
 
     private fun setupViewModel() {
-        with(applyDetailViewModel) {
+        with(memberProfileViewModel) {
             showLinkEvent.observe(this@MemberProfileActivity, EventObserver { url ->
                 if (url.startsWith("http://") || url.startsWith("https://")) {
                     androidx.browser.customtabs.CustomTabsIntent.Builder()
