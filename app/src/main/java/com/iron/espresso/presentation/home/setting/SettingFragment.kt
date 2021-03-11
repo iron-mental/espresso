@@ -85,7 +85,7 @@ class SettingFragment :
             }
 
             logout.setOnClickListener {
-                settingViewModel.logout()
+                showLogoutDialog()
             }
 
             membershipWithdrawal.setOnClickListener {
@@ -121,6 +121,20 @@ class SettingFragment :
 
             if (result == RESULT_OK) {
                 settingViewModel.emailVerify()
+            }
+        }
+    }
+
+    private fun showLogoutDialog() {
+        val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_logout_title))
+
+        dialog.show(parentFragmentManager, dialog::class.java.simpleName)
+
+        dialog.setFragmentResultListener(dialog::class.java.simpleName) { _: String, bundle: Bundle ->
+            val result = bundle.get(ConfirmDialog.RESULT)
+
+            if (result == RESULT_OK) {
+                settingViewModel.logout()
             }
         }
     }
