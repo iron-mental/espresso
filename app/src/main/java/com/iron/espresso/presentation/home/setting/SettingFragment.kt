@@ -89,7 +89,7 @@ class SettingFragment :
             }
 
             membershipWithdrawal.setOnClickListener {
-                settingViewModel.membershipWithdrawal("rhdudcks@naver.com","rhdudcks")
+                startActivity(DeleteUserActivity.getIntent(requireContext()))
             }
         }
     }
