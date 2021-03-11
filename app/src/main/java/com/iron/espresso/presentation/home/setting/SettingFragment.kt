@@ -105,8 +105,11 @@ class SettingFragment :
             successEvent.observe(viewLifecycleOwner, EventObserver {
                 AuthHolder.set(UserAuthResponse("", "", -1))
 
-                activity?.finish()
-                startActivity(IntroActivity.getIntent(requireContext()))
+                startActivity(
+                    IntroActivity.getIntent(requireContext())
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
             })
         }
     }
