@@ -6,6 +6,10 @@
     <data>
 
         <import type="com.iron.espresso.R" />
+
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.home.mystudy.studydetail.ModifyStudyViewModel" />
     </data>
 
     <LinearLayout
@@ -126,7 +130,8 @@
                     android:layout_height="wrap_content"
                     bind:hint="@{`Notion URL`}"
                     bind:icon="@{R.drawable.notion}"
-                    bind:title="@{`Notion`}" />
+                    bind:title="@{`Notion`}"
+                    bind:url="@{viewModel.notion}" />
 
                 <include
                     android:id="@+id/evernote_input_view"
@@ -135,7 +140,8 @@
                     android:layout_height="wrap_content"
                     bind:hint="@{`EverNote URL`}"
                     bind:icon="@{R.drawable.ever_note}"
-                    bind:title="@{`EverNote`}" />
+                    bind:title="@{`EverNote`}"
+                    bind:url="@{viewModel.everNote}" />
 
                 <include
                     android:id="@+id/web_input_view"
@@ -144,7 +150,8 @@
                     android:layout_height="wrap_content"
                     bind:hint="@{`URL (blog etc)`}"
                     bind:icon="@{R.drawable.icon_web}"
-                    bind:title="@{`Web`}" />
+                    bind:title="@{`Web`}"
+                    bind:url="@{viewModel.web}" />
 
                 <include layout="@layout/view_divider" />
 
@@ -212,8 +219,8 @@
                         android:layout_marginEnd="15dp"
                         android:background="@drawable/bg_round"
                         android:backgroundTint="@color/theme_292929"
-                        android:padding="10dp"
                         android:hint="@string/empty_place"
+                        android:padding="10dp"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
