@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:ellipsize="end"
-            android:fontFamily="@font/noto_sans_bold"
             android:lines="1"
             android:textColor="@color/white"
             android:textSize="16sp"

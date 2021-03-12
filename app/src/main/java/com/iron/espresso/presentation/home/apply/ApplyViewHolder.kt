@@ -3,7 +3,9 @@ package com.iron.espresso.presentation.home.apply
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.emoji.text.EmojiCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.iron.espresso.Logger
 import com.iron.espresso.databinding.ItemApplyStudyBinding
 import com.iron.espresso.ext.setRadiusImage
 
@@ -22,7 +24,10 @@ sealed class ApplyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         override fun bind(item: ApplyStudyItem) {
             with(binding) {
                 image.setRadiusImage(item.image)
-                title.text = item.nickname
+
+                val nickname = EmojiCompat.get().process(item.nickname)
+                Logger.d("$nickname")
+                title.text = nickname
                 content.text = item.message
                 root.setOnClickListener {
                     itemClick(item)
