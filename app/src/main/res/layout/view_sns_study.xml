@@ -26,11 +26,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            android:activationIf="@{viewModel.studyDetail.studyInfoItem.snsNotion.length() > 0}"
             android:background="?android:selectableItemBackgroundBorderless"
             android:onClick="@{_ -> viewModel.clickSns(StudySns.NOTION)}"
             android:padding="4dp"
             android:src="@drawable/notion"
-            android:visibleIf="@{viewModel.studyDetail.studyInfoItem.snsNotion.length() > 0}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,11 +39,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:activationIf="@{viewModel.studyDetail.studyInfoItem.snsEvernote.length() > 0}"
             android:background="?android:selectableItemBackgroundBorderless"
             android:onClick="@{() -> viewModel.clickSns(StudySns.EVER_NOTE)}"
             android:padding="4dp"
             android:src="@drawable/ever_note"
-            android:visibleIf="@{viewModel.studyDetail.studyInfoItem.snsEvernote.length() > 0}"
             app:layout_constraintStart_toEndOf="@id/notion_icon"
             app:layout_constraintTop_toTopOf="@id/notion_icon" />
 
@@ -52,11 +52,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:activationIf="@{viewModel.studyDetail.studyInfoItem.snsWeb.length() > 0}"
             android:background="?android:selectableItemBackgroundBorderless"
             android:onClick="@{_ -> viewModel.clickSns(StudySns.WEB)}"
             android:padding="4dp"
             android:src="@drawable/icon_web"
-            android:visibleIf="@{viewModel.studyDetail.studyInfoItem.snsWeb.length() > 0}"
             app:layout_constraintStart_toEndOf="@id/evernote_icon"
             app:layout_constraintTop_toTopOf="@id/notion_icon" />
 
