@@ -32,6 +32,9 @@ class StudyDetailViewModel @ViewModelInject constructor(
     val success: LiveData<Event<Unit>>
         get() = _success
 
+    private val _showLinkEvent = MutableLiveData<Event<String>>()
+    val showLinkEvent: LiveData<Event<String>> get() = _showLinkEvent
+
     private fun emptyCheck(message: String): ValidationInputText {
         return if (message.isEmpty()) {
             ValidationInputText.EMPTY_CONTENTS
@@ -89,4 +92,19 @@ class StudyDetailViewModel @ViewModelInject constructor(
         }
     }
 
+    fun clickSns(sns: StudySns) {
+        val snsLink = when(sns) {
+            StudySns.NOTION -> studyDetail.value?.studyInfoItem?.snsNotion
+            StudySns.EVER_NOTE -> studyDetail.value?.studyInfoItem?.snsEvernote
+            StudySns.WEB -> studyDetail.value?.studyInfoItem?.snsWeb
+        }
+
+        if (!snsLink.isNullOrEmpty()) {
+            _showLinkEvent.value = Event(snsLink)
+        }
+    }
+}
+
+enum class StudySns {
+    NOTION, EVER_NOTE, WEB
 }
