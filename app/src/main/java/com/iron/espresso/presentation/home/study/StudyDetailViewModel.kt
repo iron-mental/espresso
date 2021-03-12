@@ -6,23 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.ValidationInputText
-import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.data.model.StudyDetailItem
 import com.iron.espresso.domain.usecase.RegisterApply
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.StudyApi
+import retrofit2.HttpException
 
 class StudyDetailViewModel @ViewModelInject constructor(
     private val studyApi: StudyApi,
     private val registerApply: RegisterApply
-) : BaseViewModel() {
-
-    private val _studyDetail = MutableLiveData<StudyDetailItem>()
-    val studyDetail: LiveData<StudyDetailItem>
-        get() = _studyDetail
+) : AbsStudyDetailViewModel() {
 
     private val _emptyCheckMessage = MutableLiveData<Event<ValidationInputText>>()
     val emptyCheckMessage: LiveData<Event<ValidationInputText>>
@@ -31,9 +26,6 @@ class StudyDetailViewModel @ViewModelInject constructor(
     private val _success = MutableLiveData<Event<Unit>>()
     val success: LiveData<Event<Unit>>
         get() = _success
-
-    private val _showLinkEvent = MutableLiveData<Event<String>>()
-    val showLinkEvent: LiveData<Event<String>> get() = _showLinkEvent
 
     private fun emptyCheck(message: String): ValidationInputText {
         return if (message.isEmpty()) {
@@ -56,7 +48,7 @@ class StudyDetailViewModel @ViewModelInject constructor(
                 }
                 Logger.d("$it")
             }, {
-                val errorResponse = it.toErrorResponse()
+                val errorResponse = (it as? HttpException)?.toErrorResponse()
                 if (errorResponse != null) {
                     Logger.d("$errorResponse")
                 }
@@ -91,20 +83,4 @@ class StudyDetailViewModel @ViewModelInject constructor(
             _emptyCheckMessage.value = Event(checkMessage)
         }
     }
-
-    fun clickSns(sns: StudySns) {
-        val snsLink = when(sns) {
-            StudySns.NOTION -> studyDetail.value?.studyInfoItem?.snsNotion
-            StudySns.EVER_NOTE -> studyDetail.value?.studyInfoItem?.snsEvernote
-            StudySns.WEB -> studyDetail.value?.studyInfoItem?.snsWeb
-        }
-
-        if (!snsLink.isNullOrEmpty()) {
-            _showLinkEvent.value = Event(snsLink)
-        }
-    }
-}
-
-enum class StudySns {
-    NOTION, EVER_NOTE, WEB
 }

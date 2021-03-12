@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.iron.espresso.presentation.home.study.StudyDetailViewModel" />
+            type="com.iron.espresso.presentation.home.study.AbsStudyDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
