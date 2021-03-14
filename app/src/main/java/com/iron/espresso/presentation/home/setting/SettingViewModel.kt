@@ -13,6 +13,7 @@ import com.iron.espresso.domain.usecase.VerifyEmail
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
+import com.iron.espresso.ext.toErrorResponse
 
 class SettingViewModel @ViewModelInject constructor(
     private val getUser: GetUser,
@@ -51,15 +52,16 @@ class SettingViewModel @ViewModelInject constructor(
     fun emailVerify() {
         compositeDisposable += verifyEmail()
             .networkSchedulers()
-            .subscribe({
-                if (it.result) {
-                    if (it.message != null) {
-                        _toastMessage.value = Event(it.message)
-                    }
+            .subscribe({ (isSuccess, message) ->
+                if (isSuccess) {
+                    _toastMessage.value = Event(message)
                 }
-                Logger.d("$it")
+                Logger.d("{$isSuccess + $message}")
             }, {
                 Logger.d("$it")
+                it.toErrorResponse()?.let { response ->
+                    _toastMessage.value = Event(response.message.orEmpty())
+                }
             })
     }
 }
