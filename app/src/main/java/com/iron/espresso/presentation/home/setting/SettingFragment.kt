@@ -26,6 +26,7 @@ class SettingFragment :
     }
 
     companion object {
+
         fun newInstance() =
             SettingFragment()
     }
