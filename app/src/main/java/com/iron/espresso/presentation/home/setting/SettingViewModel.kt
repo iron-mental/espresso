@@ -24,25 +24,20 @@ class SettingViewModel @ViewModelInject constructor(
     val refreshed: LiveData<Event<Unit>> get() = _refreshed
 
     fun refreshProfile() {
-        val bearerToken = AuthHolder.bearerToken
         val id = AuthHolder.id ?: return
 
-        if (bearerToken.isNotEmpty()
-            && id != -1
-        ) {
-            compositeDisposable += getUser(id)
-                .networkSchedulers()
-                .subscribe({ user ->
-                    if (user != null) {
-                        UserHolder.set(user)
-                        setProfile(user)
+        compositeDisposable += getUser(id)
+            .networkSchedulers()
+            .subscribe({ user ->
+                if (user != null) {
+                    UserHolder.set(user)
+                    setProfile(user)
 
-                        _refreshed.value = Event(Unit)
-                    }
-                }, {
-                    Logger.d("$it")
-                })
-        }
+                    _refreshed.value = Event(Unit)
+                }
+            }, {
+                Logger.d("$it")
+            })
     }
 
     fun setProfile(user: User) {
