@@ -1,29 +1,25 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
+            type="com.iron.espresso.presentation.viewmodel.AbsProfileViewModel" />
+
+        <variable
+            name="editable"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
         tools:background="@color/colorPrimaryDark">
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:background="@color/theme_292929"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/title"
@@ -35,7 +31,20 @@
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/area_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:goneIf="@{viewModel.user.sido.length() > 0}"
+            android:padding="20dp"
+            android:text="@string/empty_area"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
         <TextView
             android:id="@+id/description"
@@ -44,14 +53,18 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="@{viewModel.user.sido + ` ` + viewModel.user.siGungu}"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:text="@{viewModel.user.address}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="강남, 사당, 이수 가능합니다." />
+
+        <include
+            layout="@layout/view_edit_button"
+            bind:editable="@{editable}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

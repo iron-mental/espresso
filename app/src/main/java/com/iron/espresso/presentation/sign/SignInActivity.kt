@@ -6,10 +6,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import com.iron.espresso.App
-import com.iron.espresso.AuthHolder
-import com.iron.espresso.R
-import com.iron.espresso.UserHolder
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
+import com.iron.espresso.*
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySignInBinding
 import com.iron.espresso.ext.EventObserver
@@ -41,10 +40,24 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                         startFragment(SignInPasswordFragment())
                     }
                     CheckType.CHECK_PASSWORD_SUCCESS -> {
-                        viewModel.checkLogin(
-                            viewModel.signInEmail.value.orEmpty(),
-                            viewModel.signInPassword.value.orEmpty()
-                        )
+                        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                            OnCompleteListener { task ->
+                                if (!task.isSuccessful) {
+                                    Logger.d("Fetching FCM registration token failed ${task.exception}")
+                                    return@OnCompleteListener
+                                }
+
+                                // Get new FCM registration token
+                                val token = task.result
+
+                                if (token != null) {
+                                    viewModel.checkLogin(
+                                        viewModel.signInEmail.value.orEmpty(),
+                                        viewModel.signInPassword.value.orEmpty(),
+                                        pushToken = token
+                                    )
+                                }
+                            })
                     }
                     CheckType.CHECK_ALL_SUCCESS -> {
                         Toast.makeText(App.instance.context(), "로그인 성공", Toast.LENGTH_SHORT).show()
@@ -61,7 +74,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
             userAuth.observe(this@SignInActivity) { authResponse ->
                 if (AuthHolder.set(authResponse)) {
-                    val accessToken  = authResponse.accessToken
+                    val accessToken = authResponse.accessToken
                     val userId = authResponse.id
 
                     if (accessToken != null && userId != null) {

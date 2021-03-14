@@ -17,6 +17,10 @@
             name="hint"
             type="String" />
 
+        <variable
+            name="url"
+            type="androidx.lifecycle.MutableLiveData&lt;String>" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,8 +70,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@={url}"
                 android:imeOptions="actionDone" />
         </com.google.android.material.textfield.TextInputLayout>
 

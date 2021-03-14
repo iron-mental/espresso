@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "896432052475",
+    "firebase_url": "https://terminal-fd69d.firebaseio.com",
+    "project_id": "terminal-fd69d",
+    "storage_bucket": "terminal-fd69d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896432052475:android:a7b222261fad601d04385e",
+        "android_client_info": {
+          "package_name": "com.iron.espresso"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896432052475-kjp2enia44q2q2rfbq600pm2ocop2nso.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iron.espresso",
+            "certificate_hash": "530b47cf2da4332a5e55198a1849a34286a6a67f"
+          }
+        },
+        {
+          "client_id": "896432052475-f9rp3j7hi0aq5d4bo6n2bib57b5c728v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTnpel_wYav0EbAN9JAvR1uB_hfpf7V2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896432052475-f9rp3j7hi0aq5d4bo6n2bib57b5c728v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

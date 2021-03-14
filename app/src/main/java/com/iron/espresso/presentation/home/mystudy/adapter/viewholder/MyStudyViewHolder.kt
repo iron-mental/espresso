@@ -18,14 +18,16 @@ class MyStudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemMystudyBinding>(itemView)
 
-    fun bind(item: MyStudyItem, itemClickListener: MyStudyAdapter.ItemClickListener) {
+    fun bind(
+        item: MyStudyItem,
+        itemClickListener: MyStudyAdapter.ItemClickListener
+    ) {
         binding?.run {
             setVariable(BR.myStudyItem, item)
             executePendingBindings()
 
-            itemView.tag = item.name
             itemView.setOnClickListener {
-                itemClickListener.onClick(it)
+                itemClickListener.onClick(item)
             }
         }
     }

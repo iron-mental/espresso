@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.iron.espresso">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
 
     <application
         android:name=".App"
@@ -10,9 +14,18 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".presentation.home.alert.AlertListActivity"></activity>
+        <activity android:name=".presentation.home.apply.ApplyStudyActivity" />
+        <activity android:name=".presentation.home.apply.MyApplyStudyActivity" />
+        <activity android:name=".presentation.home.mystudy.studydetail.ModifyStudyActivity" />
+        <activity android:name=".presentation.home.mystudy.studydetail.DelegateLeaderActivity" />
+        <activity android:name=".presentation.home.study.StudyDetailActivity" />
+        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeModifyActivity" />
+        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeCreateActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,25 +33,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.home.mystudy.studydetail.NoticeDetailActivity" />
-        <activity android:name=".presentation.sign.IntroActivity"/>
+        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeDetailActivity" />
+        <activity android:name=".presentation.sign.IntroActivity" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="zwhswglizn" />
 
         <activity android:name=".presentation.profile.ProfileActivity" />
-        <activity android:name=".presentation.home.mystudy.StudyDetailActivity" />
+        <activity android:name=".presentation.home.mystudy.MyStudyDetailActivity" />
         <activity
             android:name=".presentation.home.HomeActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.sign.SignInActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".presentation.sign.SignUpActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".presentation.home.study.StudyListActivity" />
+        <activity android:name=".presentation.home.study.list.StudyListActivity" />
         <activity android:name=".presentation.home.setting.SettingProfileActivity" />
         <activity android:name=".presentation.home.setting.SettingPolicyActivity" />
         <activity android:name=".presentation.home.setting.SettingTermsActivity" />
@@ -47,11 +60,36 @@
         <activity android:name=".presentation.home.setting.SettingNoticeActivity" />
         <activity android:name=".presentation.home.study.StudyCategoryActivity" />
         <activity android:name=".presentation.home.study.StudyCreateActivity" />
-        <activity android:name=".presentation.home.study.SearchStudyActivity" />
+        <activity android:name=".presentation.home.study.search.SearchStudyActivity" />
         <activity
             android:name=".presentation.place.SearchPlaceDetailActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".presentation.place.SearchPlaceActivity" />
+
+        <service
+            android:name=".fcm.TerminalFirebaseMessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_person_24" />
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
     </application>
 
 </manifest>

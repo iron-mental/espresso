@@ -15,10 +15,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 object ApiModule {
-    private const val BASE_URL = "https://api.github.com"
-    private const val BASE_V3_HEADER = "Accept: application/vnd.github.v3+json"
-
-    private const val API_URL = "http://3.35.154.27:3000"
+    private const val API_URL = "https://www.terminal-study.tk"
+    private const val KAKAO_URL = "https://dapi.kakao.com/"
 
     private fun getLoggingClient() =
         OkHttpClient.Builder()
@@ -27,19 +25,7 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideGitHubApi(): GitHubApi {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(GitHubApi::class.java)
-    }
-
-    @Singleton
-    @Provides
     fun provideProjectApi(): ProjectApi {
-
         return Retrofit.Builder()
             .baseUrl(API_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -96,5 +82,29 @@ object ApiModule {
             .client(getLoggingClient())
             .build()
             .create(NoticeApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideKakaoApi(): KakaoApi {
+        return Retrofit.Builder()
+            .baseUrl(KAKAO_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(getLoggingClient())
+            .build()
+            .create(KakaoApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAlertApi(): AlertApi {
+        return Retrofit.Builder()
+            .baseUrl(API_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(getLoggingClient())
+            .build()
+            .create(AlertApi::class.java)
     }
 }

@@ -4,12 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.iron.espresso.R
+import com.iron.espresso.data.model.StudyItem
 import com.iron.espresso.databinding.ItemStudyListBinding
-import com.iron.espresso.presentation.home.study.model.StudyListItem
+import com.iron.espresso.ext.setCircleImage
+import com.iron.espresso.ext.setRadiusImage
 
 class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(
@@ -19,25 +18,26 @@ class StudyListViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding =
         DataBindingUtil.bind<ItemStudyListBinding>(itemView)
 
-    fun bind(item: StudyListItem, itemClickListener: (title: String) -> Unit) {
+    fun bind(item: StudyItem, itemClickListener: (studyItem: StudyItem) -> Unit) {
         itemView.setOnClickListener {
-            itemClickListener(item.title)
+            itemClickListener(item)
         }
         binding?.run {
             title.text = item.title
-            caption.text = item.caption
-            location.text = item.location
-            date.text = item.date
+            location.text = item.sigungu
+            date.text = item.createdAt
 
-            Glide.with(itemView)
-                .load("https://appsamurai.com/wp-content/uploads/2017/07/android-and-ios-development.jpg")
-                .transform(CenterCrop(), RoundedCorners(30))
-                .into(image)
+            if (item.image.isNullOrEmpty()) {
+                image.setImageResource(R.drawable.bg_dash_line)
+            } else {
+                image.setRadiusImage(item.image)
+            }
 
-            Glide.with(itemView)
-                .load("https://www.leaders.kr/news/photo/201709/54250_45831_2657.jpg")
-                .circleCrop()
-                .into(profileImage)
+            if (item.leaderImage.isNullOrEmpty()) {
+                profileImage.setImageResource(R.drawable.ic_person)
+            } else {
+                profileImage.setCircleImage(item.leaderImage)
+            }
         }
     }
 }

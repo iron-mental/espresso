@@ -6,7 +6,8 @@ data class User(
     val email: String,
     val image: String,
     val introduce: String,
-    val address: String,
+    val sido: String,
+    val siGungu: String,
     val careerTitle: String,
     val careerContents: String,
     val snsGithub: String,
@@ -14,4 +15,7 @@ data class User(
     val snsWeb: String,
     val emailVerified: Boolean,
     val createdAt: String
-)
+) {
+    val isSnsEmpty: Boolean
+        get() = snsGithub.isEmpty() && snsLinkedin.isEmpty() && snsWeb.isEmpty()
+}

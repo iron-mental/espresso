@@ -1,9 +1,7 @@
 package com.iron.espresso.di
 
-import com.iron.espresso.domain.repo.ProfileRepository
-import com.iron.espresso.domain.repo.UserRepository
-import com.iron.espresso.model.repo.ProfileRepositoryImpl
-import com.iron.espresso.model.repo.UserRepositoryImpl
+import com.iron.espresso.domain.repo.*
+import com.iron.espresso.model.repo.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,11 +15,26 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun bindProfileRepository(profileRepositoryImpl: ProfileRepositoryImpl): ProfileRepository
+    abstract fun bindProjectRepository(profileRepositoryImpl: ProjectRepositoryImpl): ProjectRepository
 
 
     @Singleton
     @Binds
     abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
 
+    @Singleton
+    @Binds
+    abstract fun bindApplyRepository(applyRepositoryImpl: ApplyRepositoryImpl): ApplyRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindKakaoRepository(kakaoRepositoryImpl: KakaoRepositoryImpl): KakaoRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindStudyRepository(studyRepositoryImpl: StudyRepositoryImpl): StudyRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindAlertRepository(alertRepositoryImpl: AlertRepositoryImpl): AlertRepository
 }

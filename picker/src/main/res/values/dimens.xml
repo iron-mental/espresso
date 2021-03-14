@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="chat_profile_corner">14dp</dimen>
+    <dimen name="marker_corner">24dp</dimen>
+</resources>

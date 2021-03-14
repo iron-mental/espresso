@@ -2,20 +2,13 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="com.iron.espresso.R" />
-
-        <variable
-            name="viewModel"
-            type="com.iron.espresso.presentation.viewmodel.ProfileViewModel" />
-
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -29,52 +22,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="40dp">
-
-                <include
-                    android:id="@+id/layout_header"
-                    layout="@layout/view_profile_header"
-                    bind:viewModel="@{viewModel}" />
-
-                <include
-                    android:id="@+id/layout_career"
-                    layout="@layout/view_info"
-                    bind:title="@{`경력`}"
-                    bind:subTitle="@{viewModel.user.careerTitle}"
-                    bind:description="@{viewModel.user.careerContents}" />
-
-                <include
-                    android:id="@+id/layout_project"
-                    layout="@layout/view_project"
-                    bind:viewModel="@{viewModel}" />
-
-                <include
-                    android:id="@+id/layout_sns"
-                    layout="@layout/view_sns"
-                    bind:viewModel="@{viewModel}" />
-
-                <include
-                    android:id="@+id/layout_email"
-                    layout="@layout/view_email"
-                    bind:viewModel="@{viewModel}" />
-
-                <include
-                    android:id="@+id/layout_area"
-                    layout="@layout/view_area"
-                    bind:viewModel="@{viewModel}" />
-
-            </LinearLayout>
-
-        </ScrollView>
-
-    </LinearLayout>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/edit_frag_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

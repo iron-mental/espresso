@@ -1,6 +1,9 @@
 package com.iron.espresso.model.api
 
+import com.google.gson.annotations.SerializedName
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.study.HotSearchKeywordResponse
 import com.iron.espresso.model.response.study.MyStudyListResponse
 import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
@@ -45,7 +48,7 @@ data class RegisterStudyRequest(
             if (placeName.isNotEmpty()) addFormDataPart("place_name", placeName)
             if (locationDetail.isNotEmpty()) addFormDataPart("location_detail", locationDetail)
             if (snsNotion.isNotEmpty()) addFormDataPart("sns_notion", snsNotion)
-            if (snsEverNote.isNotEmpty()) addFormDataPart("sns_ever_note", snsEverNote)
+            if (snsEverNote.isNotEmpty()) addFormDataPart("sns_evernote", snsEverNote)
             if (snsWeb.isNotEmpty()) addFormDataPart("sns_web", snsWeb)
             if (image != null) {
                 addFormDataPart(
@@ -54,7 +57,6 @@ data class RegisterStudyRequest(
                     image.asRequestBody(MultipartBody.FORM)
                 )
             }
-
             build().parts
         }
     }
@@ -72,11 +74,11 @@ data class ModifyStudyRequest(
     val sido: String = "",
     val sigungu: String = "",
     val addressName: String = "",
-    val placeName: String = "",
-    val locationDetail: String = "",
-    val snsNotion: String = "",
-    val snsEverNote: String = "",
-    val snsWeb: String = "",
+    val placeName: String? = null,
+    val locationDetail: String? = null,
+    val snsNotion: String? = null,
+    val snsEverNote: String? = null,
+    val snsWeb: String? = null,
     val image: File? = null,
 ) {
     fun toMultipartBody(): List<MultipartBody.Part> {
@@ -91,11 +93,11 @@ data class ModifyStudyRequest(
             if (sido.isNotEmpty()) addFormDataPart("sido", sido)
             if (sigungu.isNotEmpty()) addFormDataPart("sigungu", sigungu)
             if (addressName.isNotEmpty()) addFormDataPart("address_name", addressName)
-            if (placeName.isNotEmpty()) addFormDataPart("place_name", placeName)
-            if (locationDetail.isNotEmpty()) addFormDataPart("location_detail", locationDetail)
-            if (snsNotion.isNotEmpty()) addFormDataPart("sns_notion", snsNotion)
-            if (snsEverNote.isNotEmpty()) addFormDataPart("sns_ever_note", snsEverNote)
-            if (snsWeb.isNotEmpty()) addFormDataPart("sns_web", snsWeb)
+            if (placeName != null) addFormDataPart("place_name", placeName)
+            if (locationDetail != null) addFormDataPart("location_detail", locationDetail)
+            if (snsNotion != null) addFormDataPart("sns_notion", snsNotion)
+            if (snsEverNote != null) addFormDataPart("sns_evernote", snsEverNote)
+            if (snsWeb != null) addFormDataPart("sns_web", snsWeb)
             if (image != null) {
                 addFormDataPart(
                     "image",
@@ -109,6 +111,11 @@ data class ModifyStudyRequest(
     }
 }
 
+data class DelegateRequest(
+    @SerializedName("new_leader")
+    val newLeader: Int
+)
+
 interface StudyApi {
 
 
@@ -116,40 +123,78 @@ interface StudyApi {
     @Multipart
     @POST("/v1/study")
     fun registerStudy(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/study/{study_id}")
     fun getStudyDetail(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int
     ): Single<BaseResponse<StudyDetailResponse>>
 
     /** ModifyStudyRequest 만들어서 toMultipartBody */
+    @Multipart
     @PUT("/v1/study/{study_id}")
     fun modifyStudy(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("study_id") studyId: Int,
         @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/user/{id}/study")
     fun getMyStudyList(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Path("id") userId: Int
     ): Single<BaseResponse<MyStudyListResponse>>
 
     @GET("/v1/study")
     fun getStudyList(
-        @Header("Authorization") bearerToken: String,
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Query("category") category: String,
         @Query("sort") sort: String // new, length
     ): Single<BaseResponse<StudyListResponse>>
 
     @GET("/v1/study/paging/list")
-    fun getStudy(
-        @Header("Authorization") bearerToken: String,
-        @Query("values") studyIds: String
+    fun getStudyPagingList(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Query("values") studyIds: String,
+        @Query("option") option: String
     ): Single<BaseResponse<StudyListResponse>>
+
+
+    @GET("/v1/study/search")
+    fun getSearchStudyList(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Query("word") word: String
+    ): Single<BaseResponse<StudyListResponse>>
+
+    @GET("/v1/study/ranking")
+    fun getHotSearchKeyword(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+    ): Single<BaseResponse<List<HotSearchKeywordResponse>>>
+
+    @POST("/v1/study/{study_id}/leave")
+    fun leaveStudy(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<Nothing>>
+
+    @DELETE("/v1/study/{study_id}")
+    fun deleteStudy(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int
+    ): Single<BaseResponse<Nothing>>
+
+    @PUT("/v1/study/{study_id}/delegate")
+    fun delegateStudyLeader(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int,
+        @Body body: DelegateRequest
+    ): Single<BaseResponse<Nothing>>
+
+    @GET("/v1/study/category")
+    fun getStudyCategory(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken
+    ): Single<BaseResponse<List<String>>>
 }

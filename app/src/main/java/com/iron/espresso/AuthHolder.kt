@@ -27,6 +27,9 @@ object AuthHolder {
     val id: Int?
         get() = get()?.id
 
+    fun requireId(): Int =
+        id ?: -1
+
     fun set(authResponse: UserAuthResponse): Boolean {
         userAuthResponse = authResponse
         return PrefUtil.setString(

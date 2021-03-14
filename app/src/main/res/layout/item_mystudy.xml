@@ -4,45 +4,40 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="glideType"
-            type="com.iron.espresso.ext.ImageType" />
-
         <variable
             name="myStudyItem"
             type="com.iron.espresso.data.model.MyStudyItem" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:background="?attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="53dp"
             android:layout_height="53dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="15dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            bind:setUrlImg="@{myStudyItem.image}"
-            bind:type="@{glideType.ROUND}" />
+            android:src="@drawable/bg_dash_line"
+            bind:setRadiusImage="@{myStudyItem.image}" />
 
         <TextView
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="31dp"
             android:layout_marginStart="24dp"
+            android:fontFamily="@font/noto_sans_bold"
             android:gravity="center_vertical"
             android:lineSpacingExtra="17sp"
-            android:text="@{myStudyItem.location}"
+            android:text="@{myStudyItem.sigungu}"
             android:textColor="#0047ab"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,7 +47,7 @@
             android:layout_height="35dp"
             android:gravity="center_vertical"
             android:lineSpacingExtra="19sp"
-            android:text="@{myStudyItem.name}"
+            android:text="@{myStudyItem.title}"
             android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="normal"

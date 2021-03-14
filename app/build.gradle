@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
@@ -40,6 +41,8 @@ android {
 }
 
 dependencies {
+    implementation project(":picker")
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -50,16 +53,12 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
 
     implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.fragment:fragment:$fragmentVersion"
+    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+    implementation "androidx.activity:activity-ktx:$activityVersion"
 
     //RxJava2 : https://github.com/ReactiveX/RxJava
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
-
-    //Koin lib : https://github.com/InsertKoinIO/koin
-    implementation "org.koin:koin-androidx-scope:$koinVersion"
-    implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
-    implementation "org.koin:koin-androidx-ext:$koinVersion"
 
     //Retrofit
     implementation "com.google.code.gson:gson:$gsonVersion"
@@ -83,10 +82,17 @@ dependencies {
     implementation 'com.naver.maps:map-sdk:3.10.0'
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
-    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.0.1'
-
     implementation ('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.2.0'
+
+    implementation "androidx.recyclerview:recyclerview:1.2.0-beta01"
+    implementation "com.airbnb.android:lottie:3.6.0"
+    implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
+
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }

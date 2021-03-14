@@ -1,102 +1,63 @@
 package com.iron.espresso.presentation.profile
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
+import androidx.fragment.app.commit
+import androidx.fragment.app.commitNow
 import com.iron.espresso.R
-import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseActivity
-import com.iron.espresso.base.MenuSet
 import com.iron.espresso.databinding.ActivityProfileBinding
-import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileActivity :
     BaseActivity<ActivityProfileBinding>(R.layout.activity_profile) {
 
-    private val viewModel by viewModels<ProfileViewModel>()
-
-    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.viewModel = viewModel
-
-        UserHolder.get()?.let {
-            viewModel.setProfile(user = it)
-        }
-
-        setToolbarTitle(R.string.profile_title)
         setNavigationIcon(R.drawable.ic_back_24)
 
-        viewModel.run {
-            avatarUrl.observe(this@ProfileActivity, { avatarUrl ->
-                Glide.with(this@ProfileActivity)
-                    .load(avatarUrl)
-                    .into(binding.layoutHeader.profileImage)
-            })
-
-            showLinkEvent.observe(this@ProfileActivity, EventObserver { url ->
-                CustomTabsIntent.Builder()
-                    .build()
-                    .launchUrl(this@ProfileActivity, Uri.parse(url))
-            })
+        val fragment = ProfileFragment.newInstance()
+        supportFragmentManager.commit {
+            replace(R.id.edit_frag_container, fragment, fragment::class.java.simpleName)
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (menu != null) {
-            setMenuItems(menu)
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.edit_frag_container)
+
+        when {
+            fragment is ProfileFragment -> finish()
+            fragment != null -> {
+                supportFragmentManager.commitNow {
+                    remove(fragment)
+                }
+                val profileFragment = supportFragmentManager.fragments.find { it is ProfileFragment }
+                if (profileFragment != null) {
+                    supportFragmentManager.commit {
+                        show(profileFragment)
+                    }
+                }
+            }
+            else -> {
+                super.onBackPressed()
+            }
         }
-
-        return super.onPrepareOptionsMenu(menu)
-    }
-
-    private fun setMenuItems(menu: Menu) {
-        val groupId = 0
-        val set = MenuSet.ICON_SHARE
-
-        if (menu.findItem(set.menuId) == null) {
-            menu.add(groupId, set.menuId, 0, set.titleResId)
-                .setIcon(ContextCompat.getDrawable(this, set.imageResId))
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_profile, menu)
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
-            }
-            R.id.menu_item_share -> {
-                Toast.makeText(this, "공유하기 클릭", Toast.LENGTH_SHORT).show()
-            }
-            R.id.edit_profile -> {
-                viewModel.enableEditMode()
-                Toast.makeText(this, "${item.title}", Toast.LENGTH_SHORT).show()
+                return true
             }
             else -> {
 
             }
         }
-        return true
+        return false
     }
 
     companion object {

@@ -11,3 +11,6 @@ fun HttpException.toErrorResponse(): ErrorResponse =
         this.response()?.errorBody()?.string(),
         BaseResponse::class.java
     )
+
+fun Throwable.toErrorResponse(): ErrorResponse? =
+    (this as? HttpException)?.toErrorResponse()

@@ -2,6 +2,8 @@ package com.iron.espresso.model.api
 
 import com.iron.espresso.model.response.LocalResponse
 import com.iron.espresso.model.response.PlaceResponse
+import com.iron.espresso.model.response.kakao.KakaoAddressListResponse
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -23,4 +25,12 @@ interface KakaoApi {
         @Query("x") lng: Double,
         @Query("y") lat: Double
     ): Call<LocalResponse>
+
+    //주소 검색
+    @GET("v2/local/search/address.json")
+    fun getAddress(
+        @Header("Authorization") authorization: String = "KakaoAK 58071fbe087f96f72e3baf3fb28f2f6a",
+        @Query("query") query: String,
+        @Query("analyze_type") analyzeType: String = "similar"
+    ): Single<KakaoAddressListResponse>
 }

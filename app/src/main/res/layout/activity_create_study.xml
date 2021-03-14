@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="com.iron.espresso.R" />
     </data>
 
     <LinearLayout
@@ -54,66 +57,96 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
-                        android:id="@+id/title"
+                        android:id="@+id/title_input_view"
                         android:layout_width="283dp"
                         android:layout_height="54dp"
                         android:background="@drawable/bg_round"
                         android:backgroundTint="@color/white"
                         android:gravity="center"
+                        android:singleLine="true"
                         android:textColor="@color/black"
-                        app:layout_constraintBottom_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/image"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/image"
-                        app:layout_constraintVertical_bias=".1" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toBottomOf="@+id/image" />
 
-                <include layout="@layout/view_divider" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
 
                     <TextView
                         android:id="@+id/introduce"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:lineSpacingExtra="24sp"
-                        android:text="스터디 소개"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:text="@string/study_introduce"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:lineSpacingExtra="27sp"
-                        android:text="안드로이드"
+                        android:fontFamily="@font/noto_sans_bold"
                         android:textSize="13sp"
-                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="카테고리" />
 
-                    <TextView
-                        android:layout_width="224dp"
+                    <EditText
+                        android:id="@+id/introduce_input_view"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
-                        android:lineSpacingExtra="11sp"
-                        android:text="안녕하세요 Swift를 정복하기 위한
-스터디에 함께 할 분을 모집중입니다.
-열심히 하실 분이라면 언제든 환영합니다.
-아래의 노션링크도 참고해주세요"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/theme_292929"
+                        android:gravity="top"
+                        android:hint="@string/empty_introduce"
+                        android:lines="6"
+                        android:padding="10dp"
+                        android:scrollbars="vertical"
                         android:textSize="14sp"
-                        android:textStyle="normal"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/introduce" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <include
+                    android:id="@+id/notion_input_view"
+                    layout="@layout/view_input_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:hint="@{`Notion URL`}"
+                    bind:icon="@{R.drawable.notion}"
+                    bind:title="@{`Notion`}" />
+
+                <include
+                    android:id="@+id/evernote_input_view"
+                    layout="@layout/view_input_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:hint="@{`EverNote URL`}"
+                    bind:icon="@{R.drawable.ever_note}"
+                    bind:title="@{`EverNote`}" />
+
+                <include
+                    android:id="@+id/web_input_view"
+                    layout="@layout/view_input_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:hint="@{`URL (blog etc)`}"
+                    bind:icon="@{R.drawable.icon_web}"
+                    bind:title="@{`Web`}" />
 
                 <include layout="@layout/view_divider" />
 
@@ -127,27 +160,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:lineSpacingExtra="24sp"
-                        android:text="스터디 진행"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:text="@string/study_proceed"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:layout_width="285dp"
+                    <EditText
+                        android:id="@+id/proceed_input_view"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
-                        android:lineSpacingExtra="11sp"
-                        android:text="진행은 이렇게 저렇게 합니다. 1주차는 Swift의 문법
-에 대해서 공부하고 직접 코드를 작성하며 ~~ 해서
-진행은 이렇게 저렇게 합니다. 1주차는 Swift의 문법
-에 대해서 공부하고 직접 코드를 작성하며 ~~ 해서
-Swift의 기본을 다집니다.
-"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/theme_292929"
+                        android:gravity="top"
+                        android:hint="@string/empty_progress"
+                        android:lines="6"
+                        android:padding="10dp"
                         android:textSize="14sp"
-                        android:textStyle="normal"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/proceed" />
 
@@ -166,25 +199,44 @@ Swift의 기본을 다집니다.
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:lineSpacingExtra="24sp"
-                        android:text="장소"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:text="@string/place"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/place_detail"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
-                        android:lineSpacingExtra="11sp"
-                        android:text="장소"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/theme_292929"
+                        android:padding="10dp"
+                        android:text="@string/empty_place"
                         android:textSize="14sp"
-                        android:textStyle="normal"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/place" />
+
+                    <EditText
+                        android:id="@+id/place_detail_input_View"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/theme_292929"
+                        android:hint="@string/empty_place_detail"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/place_detail" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -200,22 +252,27 @@ Swift의 기본을 다집니다.
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:lineSpacingExtra="24sp"
-                        android:text="시간"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:text="@string/time"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/time_input_view"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
-                        android:lineSpacingExtra="11sp"
-                        android:text="시간"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/theme_292929"
+                        android:gravity="top"
+                        android:hint="@string/empty_time"
+                        android:padding="10dp"
+                        android:singleLine="true"
                         android:textSize="14sp"
-                        android:textStyle="normal"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/time" />
 
@@ -237,7 +294,7 @@ Swift의 기본을 다집니다.
                         android:layout_marginEnd="15dp"
                         android:layout_marginBottom="10dp"
                         android:backgroundTint="@color/colorCobaltBlue"
-                        android:text="완료"
+                        android:text="@string/complete"
                         android:textSize="30sp"
                         app:layout_constraintTop_toTopOf="parent" />
 

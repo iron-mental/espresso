@@ -5,5 +5,22 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textViewStyle">@style/NotoSansKrTextViewStyle</item>
+        <item name="android:buttonStyle">@style/NotoSansKrButtonStyle</item>
     </style>
+
+
+    <style name="ChatEditText">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
+    <style name="NotoSansKrTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+    </style>
+
+    <style name="NotoSansKrButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+    </style>
+
 </resources>

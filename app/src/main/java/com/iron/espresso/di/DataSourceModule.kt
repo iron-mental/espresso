@@ -1,9 +1,6 @@
 package com.iron.espresso.di
 
-import com.iron.espresso.model.source.remote.ProfileRemoteDataSource
-import com.iron.espresso.model.source.remote.ProfileRemoteDataSourceImpl
-import com.iron.espresso.model.source.remote.UserRemoteDataSource
-import com.iron.espresso.model.source.remote.UserRemoteDataSourceImpl
+import com.iron.espresso.model.source.remote.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,10 +13,25 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindProfileRemoteDataSource(profileRemoteDataSourceImpl: ProfileRemoteDataSourceImpl): ProfileRemoteDataSource
+    abstract fun bindProjectRemoteDataSource(projectRemoteDataSourceImpl: ProjectRemoteDataSourceImpl): ProjectRemoteDataSource
 
     @Singleton
     @Binds
     abstract fun bindUserRemoteDataSource(userRemoteDataSourceImpl: UserRemoteDataSourceImpl): UserRemoteDataSource
 
+    @Singleton
+    @Binds
+    abstract fun bindApplyRemoteDataSource(applyRemoteDataSourceImpl: ApplyRemoteDataSourceImpl): ApplyRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindKakaoRemoteDataSource(kakaoRemoteDataSourceImpl: KakaoRemoteDataSourceImpl): KakaoRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindStudyRemoteDataSource(studyRemoteDataSourceImpl: StudyRemoteDataSourceImpl): StudyRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindAlertRemoteDataSource(alertRemoteDataSourceImpl: AlertRemoteDataSourceImpl): AlertRemoteDataSource
 }

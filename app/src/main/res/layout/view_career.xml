@@ -1,0 +1,65 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.viewmodel.AbsProfileViewModel" />
+
+        <variable
+            name="editable"
+            type="Boolean" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        tools:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:text="경력"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibleIf="@{title.length() > 0}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            layout="@layout/view_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            bind:description="@{viewModel.user.careerContents}"
+            bind:subTitle="@{viewModel.user.careerTitle}" />
+
+        <TextView
+            android:id="@+id/career_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="@string/empty_career"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibleIf="@{viewModel.user.careerTitle.length() == 0 &amp;&amp; viewModel.user.careerContents.length() == 0}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <include
+            layout="@layout/view_edit_button"
+            bind:editable="@{editable}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

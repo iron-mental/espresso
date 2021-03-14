@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/apply_list"
+        android:title="@string/apply_study_list"
+        android:visible="false"
+        app:showAsAction="never"
+        tools:visible="true" />
+
+    <item
+        android:id="@+id/modify_study"
+        android:title="@string/modify_study"
+        android:visible="false"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/host_delegate"
+        android:title="@string/host_delegate"
+        android:visible="false"
+        app:showAsAction="never"
+        tools:visible="true" />
+
+    <item
+        android:id="@+id/leave_study"
+        android:title="@string/leave_study"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/delete_study"
+        android:title="@string/delete_study"
+        android:visible="false"
+        app:showAsAction="never"
+        tools:visible="true" />
+</menu>
