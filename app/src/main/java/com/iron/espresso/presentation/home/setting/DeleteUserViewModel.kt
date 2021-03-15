@@ -23,14 +23,12 @@ class DeleteUserViewModel @ViewModelInject constructor(private val deleteUser: D
             password = password,
         )
             .networkSchedulers()
-            .subscribe({
-                if (it.result) {
-                    if (it.message != null) {
-                        _toastMessage.value = Event(it.message)
-                        _successEvent.value = Event(Unit)
-                    }
+            .subscribe({ (isSuccess, message) ->
+                if (isSuccess) {
+                    _toastMessage.value = Event(message)
+                    _successEvent.value = Event(Unit)
                 }
-                Logger.d("$it")
+                Logger.d("$isSuccess $message")
             }, {
                 Logger.d("$it")
                 it.toErrorResponse()?.let { response ->

@@ -20,8 +20,7 @@ import com.iron.espresso.ext.toErrorResponse
 class SettingViewModel @ViewModelInject constructor(
     private val getUser: GetUser,
     private val verifyEmail: VerifyEmail,
-    private val logoutUser: LogoutUser,
-    private val deleteUser: DeleteUser
+    private val logoutUser: LogoutUser
 ) : AbsProfileViewModel() {
 
     private val _refreshed = MutableLiveData<Event<Unit>>()
@@ -75,14 +74,12 @@ class SettingViewModel @ViewModelInject constructor(
     fun logout() {
         compositeDisposable += logoutUser()
             .networkSchedulers()
-            .subscribe({
-                if (it.result) {
-                    if (it.message != null) {
-                        _toastMessage.value = Event(it.message)
-                        _successEvent.value = Event(Unit)
-                    }
+            .subscribe({ (isSuccess, message) ->
+                if (isSuccess) {
+                    _toastMessage.value = Event(message)
+                    _successEvent.value = Event(Unit)
                 }
-                Logger.d("$it")
+                Logger.d("$isSuccess $message")
             }, {
                 Logger.d("$it")
                 it.toErrorResponse()?.let { response ->

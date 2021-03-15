@@ -15,7 +15,7 @@ interface UserRepository {
         pushToken: String
     ): Single<BaseResponse<UserAuthResponse>>
 
-    fun logout(): Single<BaseResponse<Nothing>>
+    fun logout(): Single<Pair<Boolean, String>>
 
     fun getUser(id: Int): Single<User>
 
@@ -25,7 +25,7 @@ interface UserRepository {
         nickname: String
     ): Single<BaseResponse<Nothing>>
 
-    fun deleteUser(email: String, password: String): Single<BaseResponse<Nothing>>
+    fun deleteUser(email: String, password: String): Single<Pair<Boolean, String>>
 
     fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
 
