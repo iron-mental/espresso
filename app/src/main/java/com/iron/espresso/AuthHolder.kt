@@ -18,7 +18,7 @@ object AuthHolder {
             ""
         }
 
-    private val accessToken: String
+    val accessToken: String
         get() = get()?.accessToken.orEmpty()
 
     val refreshToken: String

@@ -37,8 +37,8 @@ class SignInViewModel @ViewModelInject constructor(
     private val _userInfo = MutableLiveData<User>()
     val userInfo: LiveData<User> get() = _userInfo
 
-    fun checkLogin(userId: String, userPass: String) {
-        compositeDisposable += loginUser(userId, userPass, "나중에 넣기")
+    fun checkLogin(userId: String, userPass: String, pushToken: String) {
+        compositeDisposable += loginUser(userId, userPass, pushToken)
             .networkSchedulers()
             .subscribe({
                 if (it.result) {

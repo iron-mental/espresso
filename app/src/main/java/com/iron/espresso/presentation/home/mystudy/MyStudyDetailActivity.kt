@@ -9,7 +9,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResultListener
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -22,7 +21,7 @@ import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.apply.ApplyStudyActivity
 import com.iron.espresso.presentation.home.apply.ConfirmDialog
-import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
+import com.iron.espresso.presentation.home.mystudy.studydetail.chat.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.DelegateLeaderActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.ModifyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
@@ -58,7 +57,7 @@ class MyStudyDetailActivity :
                     when (position) {
                         0 -> NoticeFragment.newInstance(studyId)
                         1 -> StudyInfoFragment.newInstance(studyId)
-                        2 -> ChattingFragment.newInstance()
+                        2 -> ChattingFragment.newInstance(studyId)
                         else -> error("Invalid position")
                     }
             }

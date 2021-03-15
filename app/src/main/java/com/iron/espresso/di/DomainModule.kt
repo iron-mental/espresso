@@ -1,9 +1,6 @@
 package com.iron.espresso.di
 
-import com.iron.espresso.domain.repo.ApplyRepository
-import com.iron.espresso.domain.repo.KakaoRepository
-import com.iron.espresso.domain.repo.ProjectRepository
-import com.iron.espresso.domain.repo.UserRepository
+import com.iron.espresso.domain.repo.*
 import com.iron.espresso.domain.usecase.*
 import dagger.Module
 import dagger.Provides
@@ -146,6 +143,18 @@ object DomainModule {
     @Provides
     fun provideHandleApply(repository: ApplyRepository): HandleApply {
         return HandleApply(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetAlertList(repository: AlertRepository): GetAlertList {
+        return GetAlertList(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideReadAlert(repository: AlertRepository): ReadAlert {
+        return ReadAlert(repository)
     }
 }
 

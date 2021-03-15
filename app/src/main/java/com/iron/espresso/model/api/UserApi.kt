@@ -7,6 +7,7 @@ import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
 import com.iron.espresso.model.source.remote.*
+import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -118,4 +119,10 @@ interface UserApi {
     fun getAddressList(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken
     ): Single<BaseResponse<List<AddressResponse>>>
+
+    @PUT("/v1/user/{id}/push_token")
+    fun refreshPushToken(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("id") id: Int = AuthHolder.requireId()
+    ): Completable
 }
