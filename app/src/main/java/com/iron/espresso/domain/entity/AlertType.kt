@@ -25,8 +25,8 @@ enum class AlertType(val emoji: String) {
     PUSH_TEST("");
 
     companion object {
-        fun getAlertType(event: String): AlertType {
-            return values().find { it.name == event.toUpperCase() } ?: PUSH_TEST
+        fun getAlertType(event: String): AlertType? {
+            return values().find { it.name == event.toUpperCase() }
         }
     }
 }

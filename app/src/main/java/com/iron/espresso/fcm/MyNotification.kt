@@ -5,13 +5,14 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.RemoteMessage
 import com.iron.espresso.Logger
 import com.iron.espresso.R
-import com.iron.espresso.presentation.home.apply.ApplyStudyActivity
 
 
 //터미널 title
@@ -146,7 +147,7 @@ class MyNotification(context: Context, remoteMessage: RemoteMessage) {
     }
 
     private fun createToIntent(context: Context, remoteMessage: RemoteMessage): PendingIntent? {
-        val action = ApplyStudyActivity.getIntent(context, remoteMessage.data["study_id"]?.toIntOrNull() ?: 0)
+        val action = createIntent(remoteMessage.data)
         try {
             return PendingIntent.getActivity(context, 0, action, PendingIntent.FLAG_UPDATE_CURRENT)
         } catch (e: NullPointerException) {
@@ -157,5 +158,15 @@ class MyNotification(context: Context, remoteMessage: RemoteMessage) {
 
     companion object {
         private const val NOTI_CHANNEL_ID = "terminal_notification_01"
+
+        fun createIntent(data: Map<String, String>): Intent {
+            val uri = Uri.parse("terminal://")
+            Logger.d("SchemeActivity ${uri.scheme}")
+            return Intent(Intent.ACTION_VIEW, uri).apply {
+                data.forEach { (key, value) ->
+                    putExtra(key, value)
+                }
+            }
+        }
     }
 }

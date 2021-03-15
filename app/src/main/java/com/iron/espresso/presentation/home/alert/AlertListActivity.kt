@@ -52,6 +52,41 @@ object AlertGateway {
             }
         }
     }
+
+
+    fun goToPageByPush(context: Context, alertType: AlertType, studyId: Int, alertId: Int) {
+        when (alertType) {
+            AlertType.APPLY_NEW -> {
+                context.startActivity(ApplyStudyActivity.getIntent(context, studyId = studyId))
+            }
+            AlertType.STUDY_UPDATE -> {
+                context.startActivity(MyStudyDetailActivity.getInstance(context, id = studyId))
+            }
+            AlertType.STUDY_DELEGATE -> {
+                context.startActivity(MyStudyDetailActivity.getInstance(context, id = studyId))
+            }
+            AlertType.STUDY_DELETE -> {
+                context.startActivity(AlertListActivity.getIntent(context))
+            }
+            AlertType.APPLY_ALLOW -> {
+                context.startActivity(MyStudyDetailActivity.getInstance(context, id = studyId))
+            }
+            AlertType.APPLY_REJECT -> {
+                context.startActivity(AlertListActivity.getIntent(context))
+            }
+            AlertType.NOTICE_NEW -> {
+                context.startActivity(MyStudyDetailActivity.getInstance(context, id = studyId))
+            }
+            AlertType.NOTICE_UPDATE -> {
+                context.startActivity(MyStudyDetailActivity.getInstance(context, id = studyId))
+            }
+            AlertType.CHAT -> {
+            }
+            AlertType.PUSH_TEST -> {
+                context.startActivity(AlertListActivity.getIntent(context))
+            }
+        }
+    }
 }
 
 
