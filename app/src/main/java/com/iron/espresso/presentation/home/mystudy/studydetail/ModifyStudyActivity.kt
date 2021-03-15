@@ -42,6 +42,7 @@ class ModifyStudyActivity :
             viewModel = modifyStudyViewModel
             image.setImage(studyInfoItem.image.orEmpty(), centerCrop = true)
             titleInputView.setText(studyInfoItem.title)
+            category.text = studyInfoItem.category
             introduceInputView.apply {
                 setText(studyInfoItem.introduce)
                 setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }

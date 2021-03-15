@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -92,14 +93,15 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:fontFamily="@font/noto_sans_bold"
-                        android:text="안드로이드"
                         android:textSize="13sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="안드로이드" />
 
                     <EditText
                         android:id="@+id/introduce_input_view"
@@ -128,9 +130,9 @@
                     layout="@layout/view_input_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:hint="@{`Notion URL`}"
+                    bind:hint="@{@string/sns_notion_input_hint}"
                     bind:icon="@{R.drawable.notion}"
-                    bind:title="@{`Notion`}"
+                    bind:title="@{@string/sns_notion_input_title}"
                     bind:url="@{viewModel.notion}" />
 
                 <include
@@ -138,9 +140,9 @@
                     layout="@layout/view_input_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:hint="@{`EverNote URL`}"
+                    bind:hint="@{@string/sns_ever_note_input_hint}"
                     bind:icon="@{R.drawable.ever_note}"
-                    bind:title="@{`EverNote`}"
+                    bind:title="@{@string/sns_ever_note_input_title}"
                     bind:url="@{viewModel.everNote}" />
 
                 <include
@@ -148,9 +150,9 @@
                     layout="@layout/view_input_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:hint="@{`URL (blog etc)`}"
+                    bind:hint="@{@string/sns_web_input_hint}"
                     bind:icon="@{R.drawable.icon_web}"
-                    bind:title="@{`Web`}"
+                    bind:title="@{@string/sns_web_input_title}"
                     bind:url="@{viewModel.web}" />
 
                 <include layout="@layout/view_divider" />
