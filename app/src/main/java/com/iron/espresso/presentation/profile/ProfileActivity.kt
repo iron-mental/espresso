@@ -23,6 +23,13 @@ class ProfileActivity :
         supportFragmentManager.commit {
             replace(R.id.edit_frag_container, fragment, fragment::class.java.simpleName)
         }
+
+        supportFragmentManager.setFragmentResultListener(
+            ProfileFragment.KEY_UPDATE_PROFILE,
+            this
+        ) { _, _ ->
+            setResult(RESULT_OK)
+        }
     }
 
     override fun onBackPressed() {
