@@ -7,8 +7,6 @@
 
         <import type="com.iron.espresso.presentation.home.study.StudySns" />
 
-        <import type="com.iron.espresso.R" />
-
         <variable
             name="viewModel"
             type="com.iron.espresso.presentation.home.study.AbsStudyDetailViewModel" />

@@ -48,7 +48,7 @@ class StudyDetailViewModel @ViewModelInject constructor(
                 }
                 Logger.d("$it")
             }, {
-                val errorResponse = (it as? HttpException)?.toErrorResponse()
+                val errorResponse = it.toErrorResponse()
                 if (errorResponse != null) {
                     Logger.d("$errorResponse")
                 }
