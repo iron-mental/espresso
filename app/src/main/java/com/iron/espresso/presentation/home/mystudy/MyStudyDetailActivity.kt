@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.ParticipateItem
@@ -167,7 +166,6 @@ class MyStudyDetailActivity :
     }
 
     override fun onBackPressed() {
-        Logger.d("$isTaskRoot")
         if (isTaskRoot) {
             startActivity(HomeActivity.getIntent(this))
         }

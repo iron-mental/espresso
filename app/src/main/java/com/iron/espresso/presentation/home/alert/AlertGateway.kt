@@ -72,7 +72,7 @@ object AlertGateway {
             AlertType.CHAT -> {
             }
             AlertType.PUSH_TEST -> {
-                context.startActivity(AlertListActivity.getIntent(context))
+                context.startActivity(ApplyStudyActivity.getIntent(context, studyId = studyId))
             }
         }
     }

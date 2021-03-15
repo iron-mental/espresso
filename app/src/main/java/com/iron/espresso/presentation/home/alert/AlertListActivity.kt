@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityAlertListBinding
@@ -82,7 +81,6 @@ class AlertListActivity : BaseActivity<ActivityAlertListBinding>(R.layout.activi
     }
 
     override fun onBackPressed() {
-        Logger.d("$isTaskRoot")
         if (isTaskRoot) {
             startActivity(HomeActivity.getIntent(this))
         }
