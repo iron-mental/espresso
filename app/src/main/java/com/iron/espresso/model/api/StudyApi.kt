@@ -198,7 +198,8 @@ interface StudyApi {
     @GET("/v1/study/{study_id}/chat")
     fun getChat(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int,
         @Query("date") date: Long,
-        @Path("study_id") studyId: Int
+        @Query("first") first: Boolean
     ): Single<BaseResponse<ChattingResponse>>
 }
