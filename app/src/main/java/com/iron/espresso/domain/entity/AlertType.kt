@@ -23,4 +23,10 @@ enum class AlertType(val emoji: String) {
     NOTICE_UPDATE("📌"),
     @SerializedName("push_test")
     PUSH_TEST("");
+
+    companion object {
+        fun getAlertType(event: String): AlertType {
+            return values().find { it.name == event.toUpperCase() } ?: PUSH_TEST
+        }
+    }
 }

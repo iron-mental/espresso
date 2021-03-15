@@ -9,7 +9,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResultListener
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -40,7 +39,7 @@ class MyStudyDetailActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle(intent.getStringExtra(TOOLBAR_TITLE))
+        setToolbarTitle(intent?.getStringExtra(TOOLBAR_TITLE))
         setNavigationIcon(R.drawable.ic_back_24)
 
         studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
@@ -209,7 +208,7 @@ class MyStudyDetailActivity :
         private const val DELEGATE_CODE = 1
         private const val MODIFY_CODE = 2
 
-        fun getInstance(context: Context, title: String, id: Int) =
+        fun getInstance(context: Context, title: String = "", id: Int) =
             Intent(context, MyStudyDetailActivity::class.java)
                 .putExtra(TOOLBAR_TITLE, title)
                 .putExtra(STUDY_ID, id)
