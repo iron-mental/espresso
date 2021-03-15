@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.browser.customtabs.CustomTabsIntent
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityMemberProfileBinding
@@ -26,7 +27,8 @@ class MemberProfileActivity : BaseActivity<ActivityMemberProfileBinding>(R.layou
 
         setupView()
         setupViewModel()
-        memberProfileViewModel.getMemberDetail()
+        memberProfileViewModel.getMember()
+        memberProfileViewModel.getMemberProject()
     }
 
     private fun setupView() {
@@ -39,7 +41,7 @@ class MemberProfileActivity : BaseActivity<ActivityMemberProfileBinding>(R.layou
         with(memberProfileViewModel) {
             showLinkEvent.observe(this@MemberProfileActivity, EventObserver { url ->
                 if (url.startsWith("http://") || url.startsWith("https://")) {
-                    androidx.browser.customtabs.CustomTabsIntent.Builder()
+                    CustomTabsIntent.Builder()
                         .build()
                         .launchUrl(this@MemberProfileActivity, android.net.Uri.parse(url))
                 }

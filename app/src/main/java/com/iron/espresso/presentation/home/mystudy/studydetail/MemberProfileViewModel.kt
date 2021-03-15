@@ -24,14 +24,22 @@ class MemberProfileViewModel @ViewModelInject constructor(
         savedState.get(KEY_USER_ID) ?: -1
     }
 
-    fun getMemberDetail() {
+    fun getMember() {
         compositeDisposable += getUser(userId)
-            .map {
-                user.postValue(it)
-            }
-            .flatMap {
-                getMyProjectList()
-            }
+            .networkSchedulers()
+            .subscribe({
+                user.value = it
+            }, { throwable ->
+
+                throwable.toErrorResponse()?.let {
+                    _toastMessage.value = Event(it.message.orEmpty())
+                }
+                Logger.d("$throwable")
+            })
+    }
+
+    fun getMemberProject() {
+        compositeDisposable += getMyProjectList(userId)
             .networkSchedulers()
             .subscribe({ projectList ->
                 val list = projectList.map { ProjectItem.of(it) }.toMutableList()
