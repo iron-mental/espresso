@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.ParticipateItem
@@ -19,6 +20,7 @@ import com.iron.espresso.data.model.StudyInfoItem
 import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
+import com.iron.espresso.presentation.home.HomeActivity
 import com.iron.espresso.presentation.home.apply.ApplyStudyActivity
 import com.iron.espresso.presentation.home.apply.ConfirmDialog
 import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
@@ -162,6 +164,14 @@ class MyStudyDetailActivity :
             }
         }
         return true
+    }
+
+    override fun onBackPressed() {
+        Logger.d("$isTaskRoot")
+        if (isTaskRoot) {
+            startActivity(HomeActivity.getIntent(this))
+        }
+        super.onBackPressed()
     }
 
     private fun showLeaveStudyDialog() {

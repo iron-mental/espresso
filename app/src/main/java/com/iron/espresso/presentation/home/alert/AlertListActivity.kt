@@ -8,10 +8,12 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityAlertListBinding
 import com.iron.espresso.ext.dp
+import com.iron.espresso.presentation.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +29,6 @@ class AlertListActivity : BaseActivity<ActivityAlertListBinding>(R.layout.activi
             item.alertType?.let { type ->
                 AlertGateway.goToPage(this, type, item.studyId, item.studyTitle)
             }
-
         }
     }
 
@@ -78,6 +79,14 @@ class AlertListActivity : BaseActivity<ActivityAlertListBinding>(R.layout.activi
                 adapter.submitList(list)
             })
         }
+    }
+
+    override fun onBackPressed() {
+        Logger.d("$isTaskRoot")
+        if (isTaskRoot) {
+            startActivity(HomeActivity.getIntent(this))
+        }
+        super.onBackPressed()
     }
 
     companion object {
