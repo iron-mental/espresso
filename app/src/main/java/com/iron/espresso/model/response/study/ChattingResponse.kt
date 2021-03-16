@@ -1,36 +1,29 @@
 package com.iron.espresso.model.response.study
 
 import com.google.gson.annotations.SerializedName
-import com.iron.espresso.AuthHolder
-import com.iron.espresso.presentation.home.mystudy.studydetail.chat.ChatItem
+import com.iron.espresso.domain.entity.Chat
+import com.iron.espresso.domain.entity.ChatUser
+import com.iron.espresso.domain.entity.Chatting
 
 data class ChattingResponse(
     @SerializedName("chat")
-    val chat: List<Chat>?,
+    val chatResponseList: List<ChatResponse>?,
     @SerializedName("user_list")
-    val userList: List<ChatUser>?
+    val chatUserResponseList: List<ChatUserResponse>?
 ) {
-    fun toChatItem(): List<ChatItem> {
-        val chatItem = mutableListOf<ChatItem>()
-        chat?.forEach { chat ->
-            userList?.forEach { chatUser ->
-                if (chat.userId == chatUser.userId) {
-                    chatItem.add(
-                        ChatItem(
-                            name = chatUser.nickname.orEmpty(),
-                            message = chat.message.orEmpty(),
-                            timeStamp = chat.date,
-                            isMyChat = chat.userId == AuthHolder.requireId()
-                        )
-                    )
-                }
-            }
-        }
-        return chatItem
-    }
+    fun toChatting(): Chatting =
+        Chatting(
+            chatList = chatResponseList?.map {
+                it.toChat()
+            }.orEmpty(),
+            chatUserList = chatUserResponseList?.map {
+                it.toChatUser()
+            }.orEmpty()
+        )
+
 }
 
-data class Chat(
+data class ChatResponse(
     @SerializedName("uuid")
     val uuid: String?,
     @SerializedName("study_id")
@@ -41,11 +34,26 @@ data class Chat(
     val message: String?,
     @SerializedName("date")
     val date: Long = -1
-)
+) {
+    fun toChat(): Chat =
+        Chat(
+            uuid = uuid.orEmpty(),
+            studyId = studyId,
+            userId = userId,
+            message = message.orEmpty(),
+            date = date
+        )
+}
 
-data class ChatUser(
+data class ChatUserResponse(
     @SerializedName("user_id")
     val userId: Int = -1,
     @SerializedName("nickname")
     val nickname: String?
-)
+) {
+    fun toChatUser(): ChatUser =
+        ChatUser(
+            userId = userId,
+            nickname = nickname.orEmpty()
+        )
+}

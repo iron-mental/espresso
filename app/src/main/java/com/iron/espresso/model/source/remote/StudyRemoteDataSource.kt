@@ -5,10 +5,7 @@ import com.iron.espresso.model.api.DelegateRequest
 import com.iron.espresso.model.api.ModifyStudyRequest
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
-import com.iron.espresso.model.response.study.HotSearchKeywordResponse
-import com.iron.espresso.model.response.study.MyStudyListResponse
-import com.iron.espresso.model.response.study.StudyDetailResponse
-import com.iron.espresso.model.response.study.StudyListResponse
+import com.iron.espresso.model.response.study.*
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -71,6 +68,10 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     override fun getStudyCategory(): Single<BaseResponse<List<String>>> {
         return studyApi.getStudyCategory()
     }
+
+    override fun getChat(studyId: Int, date: Long, first: Boolean): Single<BaseResponse<ChattingResponse>> {
+        return studyApi.getChat(studyId = studyId, date = date, first = first)
+    }
 }
 
 interface StudyRemoteDataSource {
@@ -103,4 +104,6 @@ interface StudyRemoteDataSource {
     fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>>
 
     fun getStudyCategory(): Single<BaseResponse<List<String>>>
+
+    fun getChat(studyId: Int, date: Long, first: Boolean): Single<BaseResponse<ChattingResponse>>
 }

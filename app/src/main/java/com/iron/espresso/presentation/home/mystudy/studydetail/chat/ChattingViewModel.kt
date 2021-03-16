@@ -6,12 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.di.ApiModule
+import com.iron.espresso.domain.entity.ChatUser
+import com.iron.espresso.domain.usecase.GetChat
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
-import com.iron.espresso.model.response.study.ChatUser
 
-class ChattingViewModel @ViewModelInject constructor() : BaseViewModel() {
+class ChattingViewModel @ViewModelInject constructor(private val getChat: GetChat) : BaseViewModel() {
 
     private val _chatList = MutableLiveData<List<ChatItem>>()
     val chatList: LiveData<List<ChatItem>> get() = _chatList
@@ -20,19 +20,17 @@ class ChattingViewModel @ViewModelInject constructor() : BaseViewModel() {
     val userNickname: LiveData<String> get() = _userNickname
 
     fun getChat(studyId: Int) {
-        compositeDisposable += ApiModule.provideStudyApi().getChat(
+        compositeDisposable += getChat(
             studyId = studyId,
             date = 1613638463257,
             first = true
-        ).map {
-            it.data
-        }
+        )
             .networkSchedulers()
             .subscribe({
                 if (it != null) {
-                    setNickname(it.userList.orEmpty())
+                    setNickname(it.chatUserList)
 
-                    _chatList.value = it.toChatItem()
+                    _chatList.value = ChatItem.of(it.chatList, it.chatUserList)
                 }
                 Logger.d("$it")
             }, {
