@@ -18,6 +18,7 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import java.net.URI
 import java.util.*
 
@@ -31,9 +32,11 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
     private val chatAdapter by lazy { ChatAdapter() }
     private val inputChatAdapter by lazy {
         InputChatAdapter { chatMessage ->
+            val uuid = UUID.randomUUID().toString()
             chatAdapter.submitList(
                 chatAdapter.currentList +
                     ChatItem(
+                        uuid,
                         nickname.orEmpty(),
                         chatMessage,
                         System.currentTimeMillis(),
@@ -43,11 +46,9 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
 
             val data = JsonObject()
             data.addProperty("message", chatMessage.trim())
-            data.addProperty("uuid", UUID.randomUUID().toString())
+            data.addProperty("uuid", uuid)
 
-            if (data != null) {
-                chatSocket?.emit(CHAT, data)
-            }
+            chatSocket?.emit(CHAT, data)
         }
     }
 
@@ -61,9 +62,23 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
 
     private val onChatReceiver = Emitter.Listener { args ->
         activity?.runOnUiThread {
-            val response = args.getOrNull(0)
+            val response = JSONObject(args.getOrNull(0).toString())
 
             Logger.d("chatResponse: $response")
+            if (response.getString("uuid") == chatAdapter.currentList.last().uuid){
+
+            } else {
+                chatAdapter.submitList(
+                    chatAdapter.currentList +
+                        ChatItem(
+                            uuid = response.getString("uuid"),
+                            name = response.getString("nickname"),
+                            message = response.getString("message"),
+                            timeStamp = response.getLong("date"),
+                            isMyChat = false
+                        )
+                )
+            }
         }
     }
 
@@ -77,6 +92,7 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
         inputChatAdapter.submitList(
             listOf(
                 ChatItem(
+                    "",
                     "원우석",
                     "",
                     System.currentTimeMillis(),

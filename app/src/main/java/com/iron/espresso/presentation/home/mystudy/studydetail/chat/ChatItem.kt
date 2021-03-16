@@ -5,6 +5,7 @@ import com.iron.espresso.domain.entity.Chat
 import com.iron.espresso.domain.entity.ChatUser
 
 data class ChatItem(
+    val uuid: String,
     val name: String,
     val message: String,
     val timeStamp: Long,
@@ -18,6 +19,7 @@ data class ChatItem(
                     if (chat.userId == chatUser.userId) {
                         chatItem.add(
                             ChatItem(
+                                uuid = chat.uuid,
                                 name = chatUser.nickname,
                                 message = chat.message,
                                 timeStamp = chat.date,
