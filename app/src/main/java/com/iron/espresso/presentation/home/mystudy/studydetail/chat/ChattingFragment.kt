@@ -2,13 +2,16 @@ package com.iron.espresso.presentation.home.mystudy.studydetail.chat
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
+import com.google.gson.JsonObject
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentChattingBinding
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.socket.client.IO
 import io.socket.client.Manager
 import io.socket.client.Socket
@@ -16,8 +19,14 @@ import io.socket.emitter.Emitter
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.net.URI
+import java.util.*
 
+@AndroidEntryPoint
 class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment_chatting) {
+
+    private val chattingViewModel by viewModels<ChattingViewModel>()
+
+    private var nickname: String? = null
 
     private val chatAdapter by lazy { ChatAdapter() }
     private val inputChatAdapter by lazy {
@@ -25,16 +34,19 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             chatAdapter.submitList(
                 chatAdapter.currentList +
                     ChatItem(
-                        "원우석",
+                        nickname.orEmpty(),
                         chatMessage,
                         System.currentTimeMillis(),
                         true
                     )
             )
 
-            val message = chatMessage.trim()
-            if (message.isNotEmpty()) {
-                chatSocket?.emit(CHAT, message)
+            val data = JsonObject()
+            data.addProperty("message", chatMessage.trim())
+            data.addProperty("uuid", UUID.randomUUID().toString())
+
+            if (data != null) {
+                chatSocket?.emit(CHAT, data)
             }
         }
     }
@@ -75,6 +87,16 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
 
         val studyId = arguments?.getInt(MyStudyDetailActivity.STUDY_ID) ?: -1
         connect(studyId)
+
+        chattingViewModel.run {
+            getChat(studyId)
+            chatList.observe(viewLifecycleOwner, {
+                chatAdapter.submitList(chatAdapter.currentList + it)
+            })
+            userNickname.observe(viewLifecycleOwner, {
+                nickname = it
+            })
+        }
     }
 
     override fun onDestroyView() {
@@ -106,16 +128,16 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
                 on(CHAT, onChatSendReceiver)
                 on(CHAT_MESSAGE, onChatReceiver)
 
-                on(Socket.EVENT_CONNECT) {
-                    Logger.d("EVENT_CONNECT ${it.map { it.toString() }}")
+                on(Socket.EVENT_CONNECT) { response ->
+                    Logger.d("EVENT_CONNECT ${response.map { it.toString() }}")
                 }
 
-                on(Socket.EVENT_DISCONNECT) {
-                    Logger.d("EVENT_DISCONNECT ${it.map { it.toString() }}")
+                on(Socket.EVENT_DISCONNECT) { response ->
+                    Logger.d("EVENT_DISCONNECT ${response.map { it.toString() }}")
                 }
 
-                on(Socket.EVENT_MESSAGE) {
-                    Logger.d("EVENT_MESSAGE ${it.map { it.toString() }}")
+                on(Socket.EVENT_MESSAGE) { response ->
+                    Logger.d("EVENT_MESSAGE ${response.map { it.toString() }}")
                 }
 
                 connect()
