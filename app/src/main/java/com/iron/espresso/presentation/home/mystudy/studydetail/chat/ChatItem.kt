@@ -15,17 +15,29 @@ data class ChatItem(
         fun of(chatList: List<Chat>, userList: List<ChatUser>): List<ChatItem> {
             val chatItem = mutableListOf<ChatItem>()
             chatList.forEach { chat ->
-                userList.forEach { chatUser ->
-                    if (chat.userId == chatUser.userId) {
-                        chatItem.add(
-                            ChatItem(
-                                uuid = chat.uuid,
-                                name = chatUser.nickname,
-                                message = chat.message,
-                                timeStamp = chat.date,
-                                isMyChat = chat.userId == AuthHolder.requireId()
-                            )
+                if (chat.userId == 0){
+                    chatItem.add(
+                        ChatItem(
+                            uuid = "",
+                            name = "__SYSTEM__",
+                            message = chat.message,
+                            timeStamp = chat.date,
+                            isMyChat = false
                         )
+                    )
+                } else {
+                    userList.forEach { chatUser ->
+                        if (chat.userId == chatUser.userId) {
+                            chatItem.add(
+                                ChatItem(
+                                    uuid = chat.uuid,
+                                    name = chatUser.nickname,
+                                    message = chat.message,
+                                    timeStamp = chat.date,
+                                    isMyChat = chat.userId == AuthHolder.requireId()
+                                )
+                            )
+                        }
                     }
                 }
             }
