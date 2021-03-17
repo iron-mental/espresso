@@ -98,6 +98,7 @@ dependencies {
 
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-rxjava2:$roomVersion"
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$roomVersion"
@@ -106,5 +107,4 @@ dependencies {
     testImplementation "androidx.room:room-testing:$roomVersion"
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
-
 }

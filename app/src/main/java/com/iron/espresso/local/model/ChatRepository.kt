@@ -1,28 +1,35 @@
 package com.iron.espresso.local.model
 
-import kotlinx.coroutines.flow.Flow
+import androidx.annotation.WorkerThread
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 interface ChatRepository {
-    fun getAll(): Flow<List<Chat>>
+    fun getAll(): Flowable<List<Chat>>
 
-    fun insert(chat: Chat)
+    @WorkerThread
+    suspend fun insert(chat: Chat)
 
-    fun insertAll(chat: List<Chat>)
+    @WorkerThread
+    suspend fun insertAll(chat: List<Chat>)
 
-    fun delete(chat: Chat)
+    @WorkerThread
+    suspend fun delete(chat: Chat)
 }
 
 class ChatRepositoryImpl @Inject constructor(private val chatLocalDataSource: ChatLocalDataSource) : ChatRepository {
-    override fun getAll(): Flow<List<Chat>> =
+    override fun getAll(): Flowable<List<Chat>> =
         chatLocalDataSource.getAll()
 
-    override fun insert(chat: Chat) =
+    @WorkerThread
+    override suspend fun insert(chat: Chat) =
         chatLocalDataSource.insert(chat)
 
-    override fun insertAll(chat: List<Chat>) =
+    @WorkerThread
+    override suspend fun insertAll(chat: List<Chat>) =
         chatLocalDataSource.insertAll(chat)
 
-    override fun delete(chat: Chat) =
+    @WorkerThread
+    override suspend fun delete(chat: Chat) =
         chatLocalDataSource.delete(chat)
 }

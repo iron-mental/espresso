@@ -4,19 +4,19 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.Flowable
 
 @Dao
 interface ChatDao {
     @Query("SELECT * FROM chat_table")
-    fun getAll(): Flow<List<Chat>>
+    fun getAll(): Flowable<List<Chat>>
 
     @Insert
-    fun insert(chat: Chat)
+    suspend fun insert(chat: Chat)
 
     @Insert
-    fun insertAll(chat: List<Chat>)
+    suspend fun insertAll(chat: List<Chat>)
 
     @Delete
-    fun delete(chat: Chat)
+    suspend fun delete(chat: Chat)
 }
