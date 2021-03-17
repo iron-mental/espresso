@@ -26,7 +26,7 @@ class DatabaseModule {
         return Room.databaseBuilder(
             appContext,
             AppDatabase::class.java,
-            "RssReader"
+            "app_database"
         ).build()
     }
 }
