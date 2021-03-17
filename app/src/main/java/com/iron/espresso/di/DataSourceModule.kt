@@ -1,5 +1,7 @@
 package com.iron.espresso.di
 
+import com.iron.espresso.local.model.ChatLocalDataSource
+import com.iron.espresso.local.model.ChatLocalDataSourceImpl
 import com.iron.espresso.model.source.remote.*
 import dagger.Binds
 import dagger.Module
@@ -34,4 +36,8 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindAlertRemoteDataSource(alertRemoteDataSourceImpl: AlertRemoteDataSourceImpl): AlertRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindChatLocalDataSource(chatLocalDataSourceImpl: ChatLocalDataSourceImpl): ChatLocalDataSource
 }
