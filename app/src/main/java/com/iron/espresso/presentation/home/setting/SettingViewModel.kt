@@ -31,25 +31,20 @@ class SettingViewModel @ViewModelInject constructor(
 
 
     fun refreshProfile() {
-        val bearerToken = AuthHolder.bearerToken
         val id = AuthHolder.id ?: return
 
-        if (bearerToken.isNotEmpty()
-            && id != -1
-        ) {
-            compositeDisposable += getUser(id)
-                .networkSchedulers()
-                .subscribe({ user ->
-                    if (user != null) {
-                        UserHolder.set(user)
-                        setProfile(user)
+        compositeDisposable += getUser(id)
+            .networkSchedulers()
+            .subscribe({ user ->
+                if (user != null) {
+                    UserHolder.set(user)
+                    setProfile(user)
 
-                        _refreshed.value = Event(Unit)
-                    }
-                }, {
-                    Logger.d("$it")
-                })
-        }
+                    _refreshed.value = Event(Unit)
+                }
+            }, {
+                Logger.d("$it")
+            })
     }
 
     fun setProfile(user: User) {
@@ -59,15 +54,16 @@ class SettingViewModel @ViewModelInject constructor(
     fun emailVerify() {
         compositeDisposable += verifyEmail()
             .networkSchedulers()
-            .subscribe({
-                if (it.result) {
-                    if (it.message != null) {
-                        _toastMessage.value = Event(it.message)
-                    }
+            .subscribe({ (isSuccess, message) ->
+                if (isSuccess) {
+                    _toastMessage.value = Event(message)
                 }
-                Logger.d("$it")
+                Logger.d("{$isSuccess + $message}")
             }, {
                 Logger.d("$it")
+                it.toErrorResponse()?.let { response ->
+                    _toastMessage.value = Event(response.message.orEmpty())
+                }
             })
     }
 

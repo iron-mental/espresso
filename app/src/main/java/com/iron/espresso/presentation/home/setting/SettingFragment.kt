@@ -34,7 +34,6 @@ class SettingFragment :
     ) { activityResult ->
         when (activityResult.resultCode) {
             RESULT_OK -> {
-                toast("resarea")
                 settingViewModel.refreshProfile()
             }
         }

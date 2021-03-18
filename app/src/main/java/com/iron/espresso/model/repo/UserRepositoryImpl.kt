@@ -100,7 +100,9 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
             }
     }
 
-    override fun verifyEmail(): Single<BaseResponse<Nothing>> {
-        return userRemoteDataSource.verifyEmail()
+    override fun verifyEmail(): Single<Pair<Boolean, String>> {
+        return userRemoteDataSource.verifyEmail().map {
+            it.result to it.message.orEmpty()
+        }
     }
 }
