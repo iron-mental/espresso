@@ -32,12 +32,18 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     override fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>> =
         userApi.checkDuplicateNickname(nickname)
 
+    override fun deleteUser(email: String, password: String): Single<BaseResponse<Nothing>> =
+        userApi.deleteUser(body = DeleteUserRequest(email, password))
+
     override fun registerUser(
         email: String,
         password: String,
         nickname: String
     ): Single<BaseResponse<Nothing>> =
         userApi.registerUser(RegisterUserRequest(email, password, nickname))
+
+    override fun logout(): Single<BaseResponse<Nothing>> =
+        userApi.logout()
 
     override fun modifyUserImage(image: File?): Single<BaseResponse<Nothing>> =
         userApi.modifyUserImage(image = ModifyUserImageRequest(image).toMultipartBody())
@@ -79,9 +85,6 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     override fun getAddressList(): Single<BaseResponse<List<AddressResponse>>> =
         userApi.getAddressList()
 
-    override fun deleteUser(bearerToken: String, id: Int): Single<BaseResponse<Nothing>> =
-        userApi.deleteUser(bearerToken, id)
-
 
     override fun verifyEmail(): Single<BaseResponse<Nothing>> =
         userApi.verifyEmail()
@@ -102,6 +105,15 @@ data class LoginRequest(
     val password: String,
     @SerializedName("push_token") val pushToken: String,
     @SerializedName("device") val deviceToken: String = "android"
+)
+
+data class LogoutRequest(
+    @SerializedName("id") val id: Int
+)
+
+data class DeleteUserRequest(
+    @SerializedName("email") val email: String,
+    @SerializedName("password") val password: String,
 )
 
 data class ReIssuanceTokenRequest(@SerializedName("refresh_token") val refreshToken: String)
@@ -165,11 +177,13 @@ interface UserRemoteDataSource {
         nickname: String
     ): Single<BaseResponse<Nothing>>
 
+    fun logout(): Single<BaseResponse<Nothing>>
+
     fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
 
     fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>
 
-    fun deleteUser(bearerToken: String, id: Int): Single<BaseResponse<Nothing>>
+    fun deleteUser(email: String, password: String): Single<BaseResponse<Nothing>>
 
     fun verifyEmail(): Single<BaseResponse<Nothing>>
 

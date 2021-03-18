@@ -8,7 +8,9 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.UserHolder
 import com.iron.espresso.domain.entity.User
+import com.iron.espresso.domain.usecase.DeleteUser
 import com.iron.espresso.domain.usecase.GetUser
+import com.iron.espresso.domain.usecase.LogoutUser
 import com.iron.espresso.domain.usecase.VerifyEmail
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
@@ -17,11 +19,16 @@ import com.iron.espresso.ext.toErrorResponse
 
 class SettingViewModel @ViewModelInject constructor(
     private val getUser: GetUser,
-    private val verifyEmail: VerifyEmail
+    private val verifyEmail: VerifyEmail,
+    private val logoutUser: LogoutUser
 ) : AbsProfileViewModel() {
 
     private val _refreshed = MutableLiveData<Event<Unit>>()
     val refreshed: LiveData<Event<Unit>> get() = _refreshed
+
+    private val _successEvent = MutableLiveData<Event<Unit>>()
+    val successEvent: LiveData<Event<Unit>> get() = _successEvent
+
 
     fun refreshProfile() {
         val id = AuthHolder.id ?: return
@@ -52,6 +59,23 @@ class SettingViewModel @ViewModelInject constructor(
                     _toastMessage.value = Event(message)
                 }
                 Logger.d("{$isSuccess + $message}")
+            }, {
+                Logger.d("$it")
+                it.toErrorResponse()?.let { response ->
+                    _toastMessage.value = Event(response.message.orEmpty())
+                }
+            })
+    }
+
+    fun logout() {
+        compositeDisposable += logoutUser()
+            .networkSchedulers()
+            .subscribe({ (isSuccess, message) ->
+                if (isSuccess) {
+                    _toastMessage.value = Event(message)
+                    _successEvent.value = Event(Unit)
+                }
+                Logger.d("$isSuccess $message")
             }, {
                 Logger.d("$it")
                 it.toErrorResponse()?.let { response ->

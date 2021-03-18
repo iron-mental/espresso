@@ -45,6 +45,9 @@ class HotKeywordFragment :
                 clearButton.isVisible = !text.isNullOrEmpty()
             }
         }
+
+        resetSearchView()
+
         clearButton.setOnClickListener {
             resetSearchView()
         }
@@ -74,9 +77,8 @@ class HotKeywordFragment :
         searchEditText.text.clear()
         searchEditText.requestFocus()
 
-        val inputMethodManager =
-            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(searchEditText, 0)
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
     private fun setSearchView(keyword: String) {
