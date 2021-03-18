@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.iron.espresso.presentation.home.study.StudySns" />
+
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.home.study.AbsStudyDetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        tools:background="@color/colorPrimaryDark">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/notion_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:activationIf="@{viewModel.studyDetail.studyInfoItem.snsNotion.length() > 0}"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns(StudySns.NOTION)}"
+            android:padding="4dp"
+            android:src="@drawable/notion"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/evernote_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:activationIf="@{viewModel.studyDetail.studyInfoItem.snsEvernote.length() > 0}"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{() -> viewModel.clickSns(StudySns.EVER_NOTE)}"
+            android:padding="4dp"
+            android:src="@drawable/ever_note"
+            app:layout_constraintStart_toEndOf="@id/notion_icon"
+            app:layout_constraintTop_toTopOf="@id/notion_icon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/web_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:activationIf="@{viewModel.studyDetail.studyInfoItem.snsWeb.length() > 0}"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{_ -> viewModel.clickSns(StudySns.WEB)}"
+            android:padding="4dp"
+            android:src="@drawable/icon_web"
+            app:layout_constraintStart_toEndOf="@id/evernote_icon"
+            app:layout_constraintTop_toTopOf="@id/notion_icon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

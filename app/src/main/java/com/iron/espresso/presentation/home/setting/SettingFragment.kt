@@ -10,6 +10,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
 import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseFragment
@@ -17,8 +18,10 @@ import com.iron.espresso.databinding.FragmentSettingBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.setCircleImage
 import com.iron.espresso.ext.toast
+import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.presentation.home.apply.ConfirmDialog
 import com.iron.espresso.presentation.profile.ProfileActivity
+import com.iron.espresso.presentation.sign.IntroActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -71,11 +74,21 @@ class SettingFragment :
                 email.putExtra(Intent.EXTRA_EMAIL, arrayOf(TO_EMAIL))
                 startActivity(email)
             }
+
             terms.root.setOnClickListener {
                 startWeb(TERMS_URL)
             }
+
             policy.root.setOnClickListener {
                 startWeb(PRIVACY_URL)
+            }
+
+            logout.setOnClickListener {
+                showLogoutDialog()
+            }
+
+            membershipWithdrawal.setOnClickListener {
+                startActivity(DeleteUserActivity.getIntent(requireContext()))
             }
         }
     }
@@ -86,6 +99,16 @@ class SettingFragment :
 
             refreshed.observe(viewLifecycleOwner, EventObserver {
                 setProfile()
+            })
+
+            successEvent.observe(viewLifecycleOwner, EventObserver {
+                AuthHolder.set(UserAuthResponse("", "", -1))
+
+                startActivity(
+                    IntroActivity.getIntent(requireContext())
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
             })
         }
     }
@@ -100,6 +123,20 @@ class SettingFragment :
 
             if (result == RESULT_OK) {
                 settingViewModel.emailVerify()
+            }
+        }
+    }
+
+    private fun showLogoutDialog() {
+        val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_logout_title))
+
+        dialog.show(parentFragmentManager, dialog::class.java.simpleName)
+
+        dialog.setFragmentResultListener(dialog::class.java.simpleName) { _: String, bundle: Bundle ->
+            val result = bundle.get(ConfirmDialog.RESULT)
+
+            if (result == RESULT_OK) {
+                settingViewModel.logout()
             }
         }
     }

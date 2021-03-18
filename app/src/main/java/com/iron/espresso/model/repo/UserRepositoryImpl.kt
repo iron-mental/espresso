@@ -20,6 +20,11 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
     ): Single<BaseResponse<UserAuthResponse>> =
         userRemoteDataSource.login(email, password, pushToken)
 
+    override fun logout(): Single<Pair<Boolean, String>> =
+        userRemoteDataSource.logout().map {
+            it.result to it.message.orEmpty()
+        }
+
     override fun getUser(id: Int): Single<User> =
         userRemoteDataSource.getUser(id)
             .map { response ->
@@ -34,6 +39,10 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
     ): Single<BaseResponse<Nothing>> =
         userRemoteDataSource.registerUser(email, password, nickname)
 
+    override fun deleteUser(email: String, password: String): Single<Pair<Boolean, String>> =
+        userRemoteDataSource.deleteUser(email, password).map {
+            it.result to it.message.orEmpty()
+        }
 
     override fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>> =
         userRemoteDataSource.checkDuplicateEmail(email)

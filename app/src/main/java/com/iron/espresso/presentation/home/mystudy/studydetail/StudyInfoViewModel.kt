@@ -1,24 +1,17 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
-import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.data.model.StudyDetailItem
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.StudyApi
+import com.iron.espresso.presentation.home.study.AbsStudyDetailViewModel
 import retrofit2.HttpException
 
 class StudyInfoViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
-    BaseViewModel() {
-
-    private val _studyDetail = MutableLiveData<StudyDetailItem>()
-    val studyDetail: LiveData<StudyDetailItem>
-        get() = _studyDetail
+    AbsStudyDetailViewModel() {
 
     fun getStudy(studyId: Int) {
         compositeDisposable += studyApi
