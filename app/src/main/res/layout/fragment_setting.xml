@@ -1,23 +1,18 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.viewmodel.AbsProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -25,7 +20,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appbar">
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -34,11 +29,12 @@
 
                 <include
                     android:id="@+id/profile"
-                    layout="@layout/setting_profile" />
+                    layout="@layout/setting_profile"
+                    bind:viewModel="@{viewModel}" />
 
                 <include
                     layout="@layout/setting_category_layout"
-                    bind:title="@{`계정`}" />
+                    bind:title="@{@string/account}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -51,24 +47,39 @@
                         android:id="@+id/email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="이메일"
+                        android:text="@string/e_mail"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="이메일" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/certify"
+                        android:id="@+id/certify_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_certify"
                         android:padding="5dp"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
-                        android:text="인증"
-                        android:textColor="@color/white"
+                        android:text="@string/certify"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="11sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/email"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/email"
+                        app:strokeColor="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/not_certify_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_not_certify"
+                        android:padding="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:text="@string/not_certify"
+                        android:textColor="@color/gray7C7C7C"
                         android:textSize="11sp"
                         app:layout_constraintBottom_toBottomOf="@+id/email"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -77,39 +88,9 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:minHeight="48dp">
-
-                    <TextView
-                        android:id="@+id/sns"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SNS"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/setting_item_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/github"
-                        app:layout_constraintBottom_toBottomOf="@+id/sns"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/sns" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <include
                     layout="@layout/setting_category_layout"
-                    bind:title="@{`알림`}" />
+                    bind:title="@{@string/notification}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -122,7 +103,7 @@
                         android:id="@+id/push_alarm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="푸쉬 알림 사용"
+                        android:text="@string/push_alarm"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -140,7 +121,7 @@
 
                 <include
                     layout="@layout/setting_category_layout"
-                    bind:title="@{`정보`}" />
+                    bind:title="@{@string/information}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -153,7 +134,7 @@
                         android:id="@+id/app_version"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="앱 버전"
+                        android:text="@string/app_version"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -164,7 +145,7 @@
                         android:id="@+id/setting_item_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0.0.0"
+                        android:text="@string/version_text"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@+id/app_version"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -174,30 +155,73 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include
+                    android:id="@+id/contact"
                     layout="@layout/setting_item_layout"
-                    bind:title="@{`공지사항`}" />
+                    bind:title="@{@string/contact}"/>
 
                 <include
+                    android:id="@+id/terms"
                     layout="@layout/setting_item_layout"
-                    bind:title="@{`도움말`}" />
+                    bind:title="@{@string/terms}"/>
 
                 <include
+                    android:id="@+id/policy"
                     layout="@layout/setting_item_layout"
-                    bind:title="@{`문의하기`}" />
+                    bind:title="@{@string/policy}"/>
 
-                <include
-                    layout="@layout/setting_item_layout"
-                    bind:title="@{`이용약관`}" />
+                <View
+                    android:id="@+id/category_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/black" />
 
-                <include
-                    layout="@layout/setting_item_layout"
-                    bind:title="@{`개인정보 취급방침`}" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical"
+                    android:minHeight="48dp"
+                    android:text="@string/logout"
+                    android:textColor="@color/white" />
 
-                <include
-                    layout="@layout/setting_item_layout"
-                    bind:title="@{`로그아웃`}" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical"
+                    android:minHeight="48dp"
+                    android:text="@string/membership_withdrawal"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
         </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp">
+
+            <EditText
+                android:id="@+id/input_message"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/send_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전송"
+                app:layout_constraintStart_toEndOf="@id/input_message"
+                app:layout_constraintTop_toTopOf="@id/input_message" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

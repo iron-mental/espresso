@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".presentation.home.mystudy.studydetail.MemberProfileActivity" />
+        <activity android:name=".presentation.home.alert.AlertListActivity" />
         <activity android:name=".presentation.home.apply.ApplyStudyActivity" />
         <activity android:name=".presentation.home.apply.MyApplyStudyActivity" />
         <activity android:name=".presentation.home.mystudy.studydetail.ModifyStudyActivity" />
@@ -52,12 +54,6 @@
             android:name=".presentation.sign.SignUpActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".presentation.home.study.list.StudyListActivity" />
-        <activity android:name=".presentation.home.setting.SettingProfileActivity" />
-        <activity android:name=".presentation.home.setting.SettingPolicyActivity" />
-        <activity android:name=".presentation.home.setting.SettingTermsActivity" />
-        <activity android:name=".presentation.home.setting.SettingContactActivity" />
-        <activity android:name=".presentation.home.setting.SettingHelpActivity" />
-        <activity android:name=".presentation.home.setting.SettingNoticeActivity" />
         <activity android:name=".presentation.home.study.StudyCategoryActivity" />
         <activity android:name=".presentation.home.study.StudyCreateActivity" />
         <activity android:name=".presentation.home.study.search.SearchStudyActivity" />
@@ -65,6 +61,31 @@
             android:name=".presentation.place.SearchPlaceDetailActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".presentation.place.SearchPlaceActivity" />
+
+        <service
+            android:name=".fcm.TerminalFirebaseMessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_person_24" />
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
     </application>
 
 </manifest>

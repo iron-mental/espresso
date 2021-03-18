@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     bind:hint="@{`EverNote URL`}"
                     bind:icon="@{R.drawable.ever_note}"
-                    bind:title="@{`EverNote`}" />
+                    bind:title="@{`EverNote`}" />de
 
                 <include
                     android:id="@+id/web_input_view"

@@ -81,6 +81,11 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
                         studyDetail.studyInfoItem.locationItem.longitude.toDouble()
                     ), 16.0
                 )
+                naverMap.uiSettings.run {
+                    isZoomControlEnabled = false
+                    isZoomGesturesEnabled = false
+                    isScrollGesturesEnabled = false
+                }
             }
         })
     }

@@ -83,8 +83,8 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
         userApi.deleteUser(bearerToken, id)
 
 
-    override fun verifyEmail(bearerToken: String, id: Int): Single<BaseResponse<Nothing>> =
-        userApi.verifyEmail(bearerToken, id)
+    override fun verifyEmail(): Single<BaseResponse<Nothing>> =
+        userApi.verifyEmail()
 
     override fun resetPassword(email: String): Single<BaseResponse<Nothing>> =
         userApi.resetPassword(email)
@@ -171,7 +171,7 @@ interface UserRemoteDataSource {
 
     fun deleteUser(bearerToken: String, id: Int): Single<BaseResponse<Nothing>>
 
-    fun verifyEmail(bearerToken: String, id: Int): Single<BaseResponse<Nothing>>
+    fun verifyEmail(): Single<BaseResponse<Nothing>>
 
     fun resetPassword(email: String): Single<BaseResponse<Nothing>>
 

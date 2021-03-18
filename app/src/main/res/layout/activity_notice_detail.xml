@@ -81,7 +81,8 @@
                         android:layout_width="34dp"
                         android:layout_height="34dp"
                         android:layout_marginTop="13dp"
-                        android:src="@drawable/dummy_image"
+                        android:background="@drawable/circle_shape"
+                        android:src="@drawable/ic_person_24"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/category" />
 

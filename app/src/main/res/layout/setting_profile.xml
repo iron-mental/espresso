@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.viewmodel.AbsProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +20,8 @@
             android:layout_height="55dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="16dp"
+            android:background="@drawable/circle_shape"
+            android:src="@drawable/ic_person_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:maxLines="1"
+            android:text="@{viewModel.user.nickname}"
             android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/setting_profile_location"
@@ -39,6 +45,7 @@
             android:layout_height="0dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
+            android:text="@{viewModel.user.siGungu}"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/setting_profile_nickname"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +58,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
+            android:text="@{viewModel.user.introduce}"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/setting_profile_image"
             app:layout_constraintEnd_toEndOf="@+id/setting_profile_location"

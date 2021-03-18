@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.home.mystudy
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.iron.espresso.R
@@ -18,7 +20,8 @@ import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.apply.ApplyStudyActivity
-import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
+import com.iron.espresso.presentation.home.apply.ConfirmDialog
+import com.iron.espresso.presentation.home.mystudy.studydetail.chat.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.DelegateLeaderActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.ModifyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
@@ -54,7 +57,7 @@ class MyStudyDetailActivity :
                     when (position) {
                         0 -> NoticeFragment.newInstance(studyId)
                         1 -> StudyInfoFragment.newInstance(studyId)
-                        2 -> ChattingFragment.newInstance()
+                        2 -> ChattingFragment.newInstance(studyId)
                         else -> error("Invalid position")
                     }
             }
@@ -130,21 +133,18 @@ class MyStudyDetailActivity :
                 startActivity(ApplyStudyActivity.getIntent(this, studyId))
             }
             R.id.leave_study -> {
-                if (checkAuthority(studyInfoItem?.authority ?: "")) {
-                    viewModel.leaveStudy(studyId)
-                } else {
-                    toast(resources.getString(R.string.pass_permission))
-                }
+                showLeaveStudyDialog()
             }
             R.id.delete_study -> {
-                viewModel.deleteStudy(studyId)
+                showDeleteStudyDialog()
             }
             R.id.host_delegate -> {
                 startActivityForResult(
                     DelegateLeaderActivity.getIntent(
                         this,
                         studyId,
-                        studyInfoItem?.participateItem as ArrayList<ParticipateItem>
+                        studyInfoItem?.participateItem as ArrayList<ParticipateItem>,
+                        studyInfoItem?.authority.orEmpty()
                     ), DELEGATE_CODE
                 )
             }
@@ -162,6 +162,42 @@ class MyStudyDetailActivity :
             }
         }
         return true
+    }
+
+    private fun showLeaveStudyDialog() {
+        val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_leave_study_title))
+
+        dialog.show(supportFragmentManager, dialog::class.java.simpleName)
+
+        dialog.setFragmentResultListener(dialog::class.java.simpleName) { _: String, bundle: Bundle ->
+            val result = bundle.get(ConfirmDialog.RESULT)
+
+            if (result == Activity.RESULT_OK) {
+                if (checkAuthority(studyInfoItem?.authority ?: "")) {
+                    viewModel.leaveStudy(studyId)
+                } else {
+                    if (studyInfoItem?.participateItem?.size == 1) {
+                        viewModel.leaveStudy(studyId)
+                    } else {
+                        toast(R.string.pass_permission)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showDeleteStudyDialog() {
+        val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_delete_study_title))
+
+        dialog.show(supportFragmentManager, dialog::class.java.simpleName)
+
+        dialog.setFragmentResultListener(dialog::class.java.simpleName) { _: String, bundle: Bundle ->
+            val result = bundle.get(ConfirmDialog.RESULT)
+
+            if (result == Activity.RESULT_OK) {
+                viewModel.deleteStudy(studyId)
+            }
+        }
     }
 
     companion object {

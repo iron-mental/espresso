@@ -30,4 +30,8 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindStudyRemoteDataSource(studyRemoteDataSourceImpl: StudyRemoteDataSourceImpl): StudyRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindAlertRemoteDataSource(alertRemoteDataSourceImpl: AlertRemoteDataSourceImpl): AlertRemoteDataSource
 }

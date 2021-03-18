@@ -17,6 +17,7 @@ import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
 import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.checkReadStoragePermission
 import com.iron.espresso.ext.setImage
 import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.place.SearchPlaceActivity
@@ -51,22 +52,11 @@ class StudyCreateActivity :
                 )
             }
             image.setOnClickListener {
-
-                val imagePickerFragment = ImagePickerFragment()
-                supportFragmentManager.setFragmentResultListener(
-                    ImagePickerFragment.REQ_IMAGE,
-                    this@StudyCreateActivity
-                ) { _, data ->
-                    val imageUri = data.getParcelable<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
-                    if (imageUri != null) {
-                        viewModel.setStudyImage(imageUri)
+                checkReadStoragePermission(this@StudyCreateActivity) { isSuccess ->
+                    if (isSuccess) {
+                        showImagePicker()
                     }
                 }
-
-                imagePickerFragment.show(
-                    supportFragmentManager,
-                    imagePickerFragment::class.java.simpleName
-                )
             }
 
             buttonSignUp.setOnClickListener {
@@ -112,6 +102,24 @@ class StudyCreateActivity :
                 toast(message)
             })
         }
+    }
+
+    private fun showImagePicker() {
+        val imagePickerFragment = ImagePickerFragment()
+        supportFragmentManager.setFragmentResultListener(
+            ImagePickerFragment.REQ_IMAGE,
+            this@StudyCreateActivity
+        ) { _, data ->
+            val imageUri = data.getParcelable<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
+            if (imageUri != null) {
+                viewModel.setStudyImage(imageUri)
+            }
+        }
+
+        imagePickerFragment.show(
+            supportFragmentManager,
+            imagePickerFragment::class.java.simpleName
+        )
     }
 
     private fun inputViewTouchEvent(v: View, event: MotionEvent): Boolean {

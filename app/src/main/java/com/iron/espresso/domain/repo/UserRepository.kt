@@ -49,4 +49,6 @@ interface UserRepository {
     ): Single<BaseResponse<Nothing>>
 
     fun getAddressList(): Single<List<Address>>
+
+    fun verifyEmail(): Single<Pair<Boolean, String>>
 }
