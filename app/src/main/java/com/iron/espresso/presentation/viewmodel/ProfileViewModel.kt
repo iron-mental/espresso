@@ -27,7 +27,7 @@ class ProfileViewModel @ViewModelInject constructor(
     }
 
     private fun getProjectList() {
-        compositeDisposable += getMyProjectList()
+        compositeDisposable += getMyProjectList(user.value?.id ?: -1)
             .networkSchedulers()
             .subscribe({ projectList ->
                 val list = projectList.map { ProjectItem.of(it) }.toMutableList()
