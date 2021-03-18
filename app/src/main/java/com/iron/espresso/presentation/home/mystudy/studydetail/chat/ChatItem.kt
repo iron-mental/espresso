@@ -15,7 +15,7 @@ data class ChatItem(
         fun of(chatList: List<Chat>, userList: List<ChatUser>): List<ChatItem> {
             val chatItem = mutableListOf<ChatItem>()
             chatList.forEach { chat ->
-                if (chat.userId == 0){
+                if (chat.userId == 0) {
                     chatItem.add(
                         ChatItem(
                             uuid = "",
@@ -42,6 +42,18 @@ data class ChatItem(
                 }
             }
             return chatItem
+        }
+
+        fun of(chatList: List<com.iron.espresso.local.model.Chat>): List<ChatItem> {
+            return chatList.map {
+                ChatItem(
+                    uuid = it.uuid,
+                    name = it.name,
+                    message = it.message,
+                    timeStamp = it.timeStamp,
+                    isMyChat = it.isMyChat
+                )
+            }
         }
     }
 }
