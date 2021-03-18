@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ModifyStudyActivity :
     BaseActivity<ActivityModifyStudyBinding>(R.layout.activity_modify_study) {
 
-    private val viewModel by viewModels<ModifyStudyViewModel>()
+    private val modifyStudyViewModel by viewModels<ModifyStudyViewModel>()
 
     private var studyImage: Uri? = null
 
@@ -39,8 +39,10 @@ class ModifyStudyActivity :
         val studyInfoItem = intent.getSerializableExtra(STUDY_INFO) as StudyInfoItem
 
         binding.run {
+            viewModel = modifyStudyViewModel
             image.setImage(studyInfoItem.image.orEmpty(), centerCrop = true)
             titleInputView.setText(studyInfoItem.title)
+            category.text = studyInfoItem.category
             introduceInputView.apply {
                 setText(studyInfoItem.introduce)
                 setOnTouchListener { v, event -> inputViewTouchEvent(v, event) }
@@ -54,9 +56,11 @@ class ModifyStudyActivity :
             }
             placeDetailInputView.setText(studyInfoItem.locationItem.locationDetail)
             timeInputView.setText(studyInfoItem.studyTime)
-            notionInputView.inputUrl.setText(studyInfoItem.snsNotion)
-            evernoteInputView.inputUrl.setText(studyInfoItem.snsEvernote)
-            webInputView.inputUrl.setText(studyInfoItem.snsWeb)
+            modifyStudyViewModel.initSnsData(
+                studyInfoItem.snsNotion.orEmpty(),
+                studyInfoItem.snsEvernote.orEmpty(),
+                studyInfoItem.snsWeb.orEmpty()
+            )
 
             image.setOnClickListener {
                 checkReadStoragePermission(this@ModifyStudyActivity) { isSuccess ->
@@ -75,7 +79,7 @@ class ModifyStudyActivity :
 
             buttonSignUp.setOnClickListener {
 
-                viewModel.modifyStudy(
+                modifyStudyViewModel.modifyStudy(
                     studyInfoItem.id,
                     studyInfoItem.title,
                     ModifyStudyItem(
@@ -94,7 +98,7 @@ class ModifyStudyActivity :
             }
         }
 
-        viewModel.run {
+        modifyStudyViewModel.run {
             initLocalItem(studyInfoItem.locationItem)
 
             image.observe(this@ModifyStudyActivity) { imageUri ->
@@ -131,7 +135,7 @@ class ModifyStudyActivity :
         ) { _, data ->
             val imageUri = data.getParcelable<Uri>(ImagePickerFragment.ARG_IMAGE_URI)
             if (imageUri != null) {
-                viewModel.setStudyImage(imageUri)
+                modifyStudyViewModel.setStudyImage(imageUri)
             }
         }
 
@@ -161,7 +165,7 @@ class ModifyStudyActivity :
         if (requestCode == REQ_CODE && resultCode == RESULT_OK) {
             val localItem =
                 data?.getSerializableExtra(SearchPlaceDetailActivity.LOCAL_ITEM) as LocalItem?
-            viewModel.replaceLocalItem(localItem)
+            modifyStudyViewModel.replaceLocalItem(localItem)
         }
     }
 

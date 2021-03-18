@@ -168,6 +168,13 @@
 
     <string name="empty_delegate_member">위임할 멤버가 존재하지 않아요</string>
 
+    <string name="sns_notion_input_hint">Notion URL</string>
+    <string name="sns_notion_input_title">Notion</string>
+    <string name="sns_ever_note_input_hint">EverNote URL</string>
+    <string name="sns_ever_note_input_title">EverNote</string>
+    <string name="sns_web_input_hint">URL (blog etc)</string>
+    <string name="sns_web_input_title">Web</string>
+
     <string name="e_mail">이메일</string>
     <string name="account">계정</string>
     <string name="notification">알림</string>
@@ -182,6 +189,4 @@
     <string name="delete_user_password_hint">비밀번호</string>
     <string name="delete_user_explain">회원님의 소중한 계정 보호를 위해, 터미널계정의 이메일과 비밀번호를 확인해 주세요.</string>
     <string name="dialog_delete_user_title">정말 회원탈퇴를 하시겠어요?</string>
-
-
 </resources>

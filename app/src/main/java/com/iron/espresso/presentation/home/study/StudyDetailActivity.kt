@@ -2,6 +2,7 @@ package com.iron.espresso.presentation.home.study
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
@@ -39,6 +41,8 @@ class StudyDetailActivity :
         setupViewModel()
 
         viewModel.getStudy(studyId)
+
+        binding.viewModel = viewModel
 
         binding.joinButton.setOnClickListener {
             showApplyDialog()
@@ -107,11 +111,17 @@ class StudyDetailActivity :
     }
 
     private fun setupView() {
-
     }
 
     private fun setupViewModel() {
         with(viewModel) {
+            showLinkEvent.observe(this@StudyDetailActivity, EventObserver { url ->
+                if (url.startsWith("http://") || url.startsWith("https://")) {
+                    CustomTabsIntent.Builder()
+                        .build()
+                        .launchUrl(this@StudyDetailActivity, Uri.parse(url))
+                }
+            })
             toastMessage.observe(this@StudyDetailActivity, EventObserver(::toast))
             loadingState.observe(this@StudyDetailActivity, EventObserver(::setLoading))
             success.observe(this@StudyDetailActivity, EventObserver {
