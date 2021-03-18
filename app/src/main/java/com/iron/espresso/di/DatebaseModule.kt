@@ -27,6 +27,8 @@ class DatabaseModule {
             appContext,
             AppDatabase::class.java,
             "app_database"
-        ).build()
+        )
+            .allowMainThreadQueries()
+            .build()
     }
 }
