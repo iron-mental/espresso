@@ -7,6 +7,7 @@ import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
 import com.iron.espresso.model.source.remote.*
+import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -17,6 +18,12 @@ interface UserApi {
     fun login(
         @Body body: LoginRequest
     ): Single<BaseResponse<UserAuthResponse>>
+
+    @POST("/v1/user/logout")
+    fun logout(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Body body: LogoutRequest = LogoutRequest(AuthHolder.requireId())
+    ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/user/{id}")
     fun getUser(
@@ -47,16 +54,17 @@ interface UserApi {
         @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
-    @DELETE("/v1/user/{id}")
+    @HTTP(method = "DELETE", path = "/v1/user/{id}", hasBody = true)
     fun deleteUser(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int
+        @Path("id") id: Int = AuthHolder.requireId(),
+        @Body body: DeleteUserRequest
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/user/{id}/emailVerify")
     fun verifyEmail(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int
+        @Path("id") id: Int = AuthHolder.requireId()
     ): Single<BaseResponse<Nothing>>
 
     @POST("/v1/firebase/reset-password/{email}")
@@ -118,4 +126,10 @@ interface UserApi {
     fun getAddressList(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken
     ): Single<BaseResponse<List<AddressResponse>>>
+
+    @PUT("/v1/user/{id}/push_token")
+    fun refreshPushToken(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("id") id: Int = AuthHolder.requireId()
+    ): Completable
 }

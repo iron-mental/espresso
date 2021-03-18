@@ -65,6 +65,10 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
                     memberImage.setCircleImage(memberList.image)
                 }
 
+                memberView.setOnClickListener {
+                    startActivity(MemberProfileActivity.getIntent(requireContext(), memberList.userId, memberList.nickname))
+                }
+
                 binding.memberContainer.addView(memberView)
             }
 

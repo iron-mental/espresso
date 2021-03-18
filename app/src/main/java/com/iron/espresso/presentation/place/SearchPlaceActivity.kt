@@ -54,6 +54,9 @@ class SearchPlaceActivity :
                 clearButton.isVisible = !text.isNullOrEmpty()
             }
         }
+
+        resetSearchView()
+
         clearButton.setOnClickListener {
             resetSearchView()
         }

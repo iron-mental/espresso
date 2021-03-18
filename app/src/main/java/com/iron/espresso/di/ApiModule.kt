@@ -95,4 +95,16 @@ object ApiModule {
             .build()
             .create(KakaoApi::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideAlertApi(): AlertApi {
+        return Retrofit.Builder()
+            .baseUrl(API_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(getLoggingClient())
+            .build()
+            .create(AlertApi::class.java)
+    }
 }
