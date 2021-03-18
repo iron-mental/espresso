@@ -28,21 +28,17 @@ class ChattingViewModel @ViewModelInject constructor(
     private val _userNickname = MutableLiveData<String>()
     val userNickname: LiveData<String> get() = _userNickname
 
-    private val _allChats = MutableLiveData<List<Chat>>()
-    val allChats: LiveData<List<Chat>> get() = _allChats
-
     fun getChat(studyId: Int) {
         compositeDisposable += getChat(
             studyId = studyId,
-            date = 1613638463257,
-            first = true
+            date = System.currentTimeMillis(),
+            first = false
         )
             .networkSchedulers()
             .subscribe({
                 if (it != null) {
                     setNickname(it.chatUserList)
-
-                    _chatList.value = ChatItem.of(it.chatList, it.chatUserList)
+                    insertAll(ChatItem.of(it.chatList, it.chatUserList))
                 }
                 Logger.d("$it")
             }, {
@@ -63,9 +59,9 @@ class ChattingViewModel @ViewModelInject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                _allChats.value = it
+                _chatList.value = ChatItem.of(it)
                 Logger.d("$it")
-            },{
+            }, {
                 Logger.d("$it")
             })
     }
@@ -74,7 +70,15 @@ class ChattingViewModel @ViewModelInject constructor(
         chatRepository.insert(chat)
     }
 
-    fun insertAll(chat: List<Chat>) = viewModelScope.launch {
-        chatRepository.insertAll(chat)
+    private fun insertAll(chat: List<ChatItem>) = viewModelScope.launch {
+        chatRepository.insertAll(chat.map {
+            Chat(
+                uuid = it.uuid,
+                name = it.name,
+                message = it.message,
+                timeStamp = it.timeStamp,
+                isMyChat = it.isMyChat
+            )
+        })
     }
 }

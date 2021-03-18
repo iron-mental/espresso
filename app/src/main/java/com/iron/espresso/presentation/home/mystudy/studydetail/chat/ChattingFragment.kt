@@ -44,15 +44,6 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
                         true
                     )
             )
-            chattingViewModel.insert(
-                Chat(
-                    uuid,
-                    nickname.orEmpty(),
-                    chatMessage,
-                    System.currentTimeMillis(),
-                    true
-                )
-            )
 
             val data = JsonObject()
             data.addProperty("message", chatMessage.trim())
@@ -75,20 +66,15 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             val response = JSONObject(args.getOrNull(0).toString())
 
             Logger.d("chatResponse: $response")
-            if (response.getString("uuid") == chatAdapter.currentList.last().uuid) {
-
-            } else {
-                chatAdapter.submitList(
-                    chatAdapter.currentList +
-                        ChatItem(
-                            uuid = response.getString("uuid"),
-                            name = response.getString("nickname"),
-                            message = response.getString("message"),
-                            timeStamp = response.getLong("date"),
-                            isMyChat = false
-                        )
+            chattingViewModel.insert(
+                Chat(
+                    uuid = response.getString("uuid"),
+                    name = response.getString("nickname"),
+                    message = response.getString("message"),
+                    timeStamp = response.getLong("date"),
+                    isMyChat = response.getString("uuid") == chatAdapter.currentList.last().uuid
                 )
-            }
+            )
         }
     }
 
@@ -118,13 +104,10 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             getChat(studyId)
             getAllChats()
             chatList.observe(viewLifecycleOwner, {
-                chatAdapter.submitList(chatAdapter.currentList + it)
+                chatAdapter.submitList(it)
             })
             userNickname.observe(viewLifecycleOwner, {
                 nickname = it
-            })
-            chattingViewModel.allChats.observe(viewLifecycleOwner, {
-                Logger.d(it.toString())
             })
         }
     }
