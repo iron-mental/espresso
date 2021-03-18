@@ -11,6 +11,9 @@ interface ChatDao {
     @Query("SELECT * FROM chat_table")
     fun getAll(): Flowable<List<Chat>>
 
+    @Query("SELECT max(timeStamp) FROM chat_table")
+    fun getTimeStamp(): Long
+
     @Insert
     suspend fun insert(chat: Chat)
 

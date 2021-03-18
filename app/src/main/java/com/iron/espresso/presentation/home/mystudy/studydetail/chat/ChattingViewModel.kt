@@ -28,10 +28,12 @@ class ChattingViewModel @ViewModelInject constructor(
     private val _userNickname = MutableLiveData<String>()
     val userNickname: LiveData<String> get() = _userNickname
 
+    private val timeStamp: Long = chatRepository.getTimeStamp()
+
     fun getChat(studyId: Int) {
         compositeDisposable += getChat(
             studyId = studyId,
-            date = System.currentTimeMillis(),
+            date = timeStamp,
             first = false
         )
             .networkSchedulers()

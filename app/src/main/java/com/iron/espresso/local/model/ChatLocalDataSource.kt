@@ -7,6 +7,8 @@ import javax.inject.Inject
 interface ChatLocalDataSource {
     fun getAll(): Flowable<List<Chat>>
 
+    fun getTimeStamp(): Long
+
     @WorkerThread
     suspend fun insert(chat: Chat)
 
@@ -20,6 +22,9 @@ interface ChatLocalDataSource {
 class ChatLocalDataSourceImpl @Inject constructor(private val chatDao: ChatDao) : ChatLocalDataSource {
     override fun getAll(): Flowable<List<Chat>> =
         chatDao.getAll()
+
+    override fun getTimeStamp(): Long =
+        chatDao.getTimeStamp()
 
     @WorkerThread
     override suspend fun insert(chat: Chat) =
