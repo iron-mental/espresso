@@ -8,11 +8,11 @@ import io.reactivex.Flowable
 
 @Dao
 interface ChatDao {
-    @Query("SELECT * FROM chat_table")
-    fun getAll(): Flowable<List<Chat>>
+    @Query("SELECT * FROM chat_table WHERE study_id IN (:studyId)")
+    fun getAll(studyId: Int): Flowable<List<Chat>>
 
-    @Query("SELECT max(timeStamp) FROM chat_table")
-    fun getTimeStamp(): Long
+    @Query("SELECT max(time_stamp) FROM chat_table WHERE study_id IN (:studyId)")
+    fun getTimeStamp(studyId: Int): Long
 
     @Insert
     suspend fun insert(chat: Chat)

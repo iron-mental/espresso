@@ -172,7 +172,7 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
         fun newInstance(studyId: Int) =
             ChattingFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(MyStudyDetailActivity.STUDY_ID, studyId)
+                    putInt(ChattingViewModel.KEY_STUDY_ID, studyId)
                 }
             }
     }
