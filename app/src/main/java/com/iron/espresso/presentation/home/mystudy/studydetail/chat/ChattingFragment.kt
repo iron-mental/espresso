@@ -29,6 +29,9 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
     private val chattingViewModel by viewModels<ChattingViewModel>()
 
     private var nickname: String? = null
+    private val studyId: Int by lazy {
+        arguments?.getInt(ChattingViewModel.KEY_STUDY_ID) ?: -1
+    }
 
     private val chatAdapter by lazy { ChatAdapter() }
     private val inputChatAdapter by lazy {
@@ -37,11 +40,13 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             chatAdapter.submitList(
                 chatAdapter.currentList +
                     ChatItem(
-                        uuid,
-                        nickname.orEmpty(),
-                        chatMessage,
-                        System.currentTimeMillis(),
-                        true
+                        uuid = uuid,
+                        studyId = studyId,
+                        userId = AuthHolder.requireId(),
+                        name = nickname.orEmpty(),
+                        message = chatMessage,
+                        timeStamp = System.currentTimeMillis(),
+                        isMyChat = true
                     )
             )
 
@@ -69,10 +74,12 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             chattingViewModel.insert(
                 Chat(
                     uuid = response.getString("uuid"),
-                    name = response.getString("nickname"),
+                    studyId = response.getInt("study_id"),
+                    userId = AuthHolder.requireId(),
+                    nickname = response.getString("nickname"),
                     message = response.getString("message"),
                     timeStamp = response.getLong("date"),
-                    isMyChat = response.getString("uuid") == chatAdapter.currentList.last().uuid
+                    isMyChat = response.getInt("user_id") == AuthHolder.requireId()
                 )
             )
         }
@@ -89,6 +96,8 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             listOf(
                 ChatItem(
                     "",
+                    0,
+                    0,
                     "원우석",
                     "",
                     System.currentTimeMillis(),
@@ -97,7 +106,6 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             )
         )
 
-        val studyId = arguments?.getInt(MyStudyDetailActivity.STUDY_ID) ?: -1
         connect(studyId)
 
         chattingViewModel.run {

@@ -1,8 +1,10 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.chat
 
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
@@ -18,9 +20,15 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
 class ChattingViewModel @ViewModelInject constructor(
+    @Assisted
+    private val savedState: SavedStateHandle,
     private val getChat: GetChat,
     private val chatRepository: ChatRepository
 ) : BaseViewModel() {
+
+    private val studyId: Int by lazy {
+        savedState.get(KEY_STUDY_ID) ?: -1
+    }
 
     private val _chatList = MutableLiveData<List<ChatItem>>()
     val chatList: LiveData<List<ChatItem>> get() = _chatList
@@ -28,12 +36,17 @@ class ChattingViewModel @ViewModelInject constructor(
     private val _userNickname = MutableLiveData<String>()
     val userNickname: LiveData<String> get() = _userNickname
 
-    private val timeStamp: Long = chatRepository.getTimeStamp()
+    private val _timeStamp = MutableLiveData<Long>()
+    val timeStamp: LiveData<Long> get() = _timeStamp
 
-    fun getChat(studyId: Int) {
+    fun getTimeStamp() {
+        _timeStamp.value = chatRepository.getTimeStamp(studyId)
+    }
+
+    fun getChat(studyId: Int, timeStamp: Long) {
         compositeDisposable += getChat(
             studyId = studyId,
-            date = timeStamp,
+            date = -1,
             first = false
         )
             .networkSchedulers()
@@ -57,7 +70,7 @@ class ChattingViewModel @ViewModelInject constructor(
     }
 
     fun getAllChats() {
-        compositeDisposable += chatRepository.getAll()
+        compositeDisposable += chatRepository.getAll(studyId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -76,11 +89,17 @@ class ChattingViewModel @ViewModelInject constructor(
         chatRepository.insertAll(chat.map {
             Chat(
                 uuid = it.uuid,
-                name = it.name,
+                studyId = it.studyId,
+                userId = it.userId,
+                nickname = it.name,
                 message = it.message,
                 timeStamp = it.timeStamp,
                 isMyChat = it.isMyChat
             )
         })
+    }
+
+    companion object {
+        const val KEY_STUDY_ID = "STUDY_ID"
     }
 }

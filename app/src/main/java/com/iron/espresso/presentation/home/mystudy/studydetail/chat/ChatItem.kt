@@ -6,6 +6,8 @@ import com.iron.espresso.domain.entity.ChatUser
 
 data class ChatItem(
     val uuid: String,
+    val studyId: Int,
+    val userId: Int,
     val name: String,
     val message: String,
     val timeStamp: Long,
@@ -19,6 +21,8 @@ data class ChatItem(
                     chatItem.add(
                         ChatItem(
                             uuid = "",
+                            studyId = chat.studyId,
+                            userId = chat.userId,
                             name = "__SYSTEM__",
                             message = chat.message,
                             timeStamp = chat.date,
@@ -31,6 +35,8 @@ data class ChatItem(
                             chatItem.add(
                                 ChatItem(
                                     uuid = chat.uuid,
+                                    studyId = chat.studyId,
+                                    userId = chat.userId,
                                     name = chatUser.nickname,
                                     message = chat.message,
                                     timeStamp = chat.date,
@@ -48,7 +54,9 @@ data class ChatItem(
             return chatList.map {
                 ChatItem(
                     uuid = it.uuid,
-                    name = it.name,
+                    studyId = it.studyId,
+                    userId = it.userId,
+                    name = it.nickname,
                     message = it.message,
                     timeStamp = it.timeStamp,
                     isMyChat = it.isMyChat
