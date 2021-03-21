@@ -10,11 +10,11 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.ChatUser
+import com.iron.espresso.domain.repo.ChatRepository
 import com.iron.espresso.domain.usecase.GetChat
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.local.model.ChatEntity
-import com.iron.espresso.local.model.ChatRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
@@ -40,7 +40,7 @@ class ChattingViewModel @ViewModelInject constructor(
     val timeStamp: LiveData<Long> get() = _timeStamp
 
     fun getTimeStamp() {
-        _timeStamp.value = chatRepository.getTimeStamp(studyId)
+        chatRepository.getTimeStamp(studyId)
     }
 
     fun getChat(studyId: Int) {

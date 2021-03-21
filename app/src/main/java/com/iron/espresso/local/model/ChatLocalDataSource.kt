@@ -1,41 +1,36 @@
 package com.iron.espresso.local.model
 
-import androidx.annotation.WorkerThread
+import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import javax.inject.Inject
 
 interface ChatLocalDataSource {
     fun getAll(studyId: Int): Flowable<List<ChatEntity>>
 
-    fun getTimeStamp(studyId: Int): Long
+    fun getTimeStamp(studyId: Int): Single<Long>
 
-    @WorkerThread
-    suspend fun insert(chatEntity: ChatEntity)
+    fun insert(chatEntity: ChatEntity): Completable
 
-    @WorkerThread
-    suspend fun insertAll(chatEntity: List<ChatEntity>)
+    fun insertAll(chatEntity: List<ChatEntity>): Completable
 
-    @WorkerThread
-    suspend fun delete(chatEntity: ChatEntity)
+    fun delete(chatEntity: ChatEntity): Completable
 }
 
 class ChatLocalDataSourceImpl @Inject constructor(private val chatDao: ChatDao) : ChatLocalDataSource {
     override fun getAll(studyId: Int): Flowable<List<ChatEntity>> =
         chatDao.getAll(studyId)
 
-    override fun getTimeStamp(studyId: Int): Long =
+    override fun getTimeStamp(studyId: Int): Single<Long> =
         chatDao.getTimeStamp(studyId)
 
-    @WorkerThread
-    override suspend fun insert(chatEntity: ChatEntity) =
+    override fun insert(chatEntity: ChatEntity): Completable =
         chatDao.insert(chatEntity)
 
-    @WorkerThread
-    override suspend fun insertAll(chatEntity: List<ChatEntity>) =
+    override fun insertAll(chatEntity: List<ChatEntity>): Completable =
         chatDao.insertAll(chatEntity)
 
-    @WorkerThread
-    override suspend fun delete(chatEntity: ChatEntity) =
+    override fun delete(chatEntity: ChatEntity): Completable =
         chatDao.delete(chatEntity)
 
 }
