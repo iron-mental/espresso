@@ -68,10 +68,6 @@ class StudyRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyA
     override fun getStudyCategory(): Single<BaseResponse<List<String>>> {
         return studyApi.getStudyCategory()
     }
-
-    override fun getChat(studyId: Int, date: Long, first: Boolean): Single<BaseResponse<ChattingResponse>> {
-        return studyApi.getChat(studyId = studyId, date = date, first = first)
-    }
 }
 
 interface StudyRemoteDataSource {
@@ -104,6 +100,4 @@ interface StudyRemoteDataSource {
     fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>>
 
     fun getStudyCategory(): Single<BaseResponse<List<String>>>
-
-    fun getChat(studyId: Int, date: Long, first: Boolean): Single<BaseResponse<ChattingResponse>>
 }

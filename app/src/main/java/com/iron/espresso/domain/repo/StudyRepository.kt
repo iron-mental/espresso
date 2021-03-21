@@ -1,6 +1,5 @@
 package com.iron.espresso.domain.repo
 
-import com.iron.espresso.domain.entity.Chatting
 import com.iron.espresso.model.api.ModifyStudyRequest
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.*
@@ -28,6 +27,4 @@ interface StudyRepository {
     fun modifyStudy(studyId: Int, request: ModifyStudyRequest): Single<BaseResponse<Nothing>>
 
     fun getStudyCategory(): Single<List<String>>
-
-    fun getChat(studyId: Int, date: Long, first: Boolean): Single<Chatting>
 }

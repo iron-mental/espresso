@@ -159,7 +159,7 @@ object DomainModule {
 
     @Singleton
     @Provides
-    fun provideGetChat(repository: StudyRepository): GetChat {
+    fun provideGetChat(repository: ChatRepository): GetChat {
         return GetChat(repository)
     }
 
