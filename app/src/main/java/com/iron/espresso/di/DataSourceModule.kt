@@ -39,5 +39,9 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
+    abstract fun bindChatRemoteDataSource(chatRemoteDataSourceImpl: ChatRemoteDataSourceImpl): ChatRemoteDataSource
+
+    @Singleton
+    @Binds
     abstract fun bindChatLocalDataSource(chatLocalDataSourceImpl: ChatLocalDataSourceImpl): ChatLocalDataSource
 }
