@@ -28,7 +28,7 @@ class DatabaseModule {
             ChatDatabase::class.java,
             "chat_database"
         )
-            .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
             .build()
     }
 }
