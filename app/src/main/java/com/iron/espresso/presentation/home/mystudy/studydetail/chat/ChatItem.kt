@@ -3,6 +3,7 @@ package com.iron.espresso.presentation.home.mystudy.studydetail.chat
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.domain.entity.Chat
 import com.iron.espresso.domain.entity.ChatUser
+import com.iron.espresso.local.model.ChatEntity
 
 data class ChatItem(
     val uuid: String,
@@ -50,8 +51,8 @@ data class ChatItem(
             return chatItem
         }
 
-        fun of(chatList: List<com.iron.espresso.local.model.Chat>): List<ChatItem> {
-            return chatList.map {
+        fun of(chatEntityList: List<ChatEntity>): List<ChatItem> {
+            return chatEntityList.map {
                 ChatItem(
                     uuid = it.uuid,
                     studyId = it.studyId,

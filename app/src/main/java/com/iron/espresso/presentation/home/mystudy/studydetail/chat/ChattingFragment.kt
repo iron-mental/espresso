@@ -10,8 +10,7 @@ import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentChattingBinding
-import com.iron.espresso.local.model.Chat
-import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
+import com.iron.espresso.local.model.ChatEntity
 import dagger.hilt.android.AndroidEntryPoint
 import io.socket.client.IO
 import io.socket.client.Manager
@@ -72,7 +71,7 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
 
             Logger.d("chatResponse: $response")
             chattingViewModel.insert(
-                Chat(
+                ChatEntity(
                     uuid = response.getString("uuid"),
                     studyId = response.getInt("study_id"),
                     userId = AuthHolder.requireId(),

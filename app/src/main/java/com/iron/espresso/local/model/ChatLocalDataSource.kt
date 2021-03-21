@@ -5,37 +5,37 @@ import io.reactivex.Flowable
 import javax.inject.Inject
 
 interface ChatLocalDataSource {
-    fun getAll(studyId: Int): Flowable<List<Chat>>
+    fun getAll(studyId: Int): Flowable<List<ChatEntity>>
 
     fun getTimeStamp(studyId: Int): Long
 
     @WorkerThread
-    suspend fun insert(chat: Chat)
+    suspend fun insert(chatEntity: ChatEntity)
 
     @WorkerThread
-    suspend fun insertAll(chat: List<Chat>)
+    suspend fun insertAll(chatEntity: List<ChatEntity>)
 
     @WorkerThread
-    suspend fun delete(chat: Chat)
+    suspend fun delete(chatEntity: ChatEntity)
 }
 
 class ChatLocalDataSourceImpl @Inject constructor(private val chatDao: ChatDao) : ChatLocalDataSource {
-    override fun getAll(studyId: Int): Flowable<List<Chat>> =
+    override fun getAll(studyId: Int): Flowable<List<ChatEntity>> =
         chatDao.getAll(studyId)
 
     override fun getTimeStamp(studyId: Int): Long =
         chatDao.getTimeStamp(studyId)
 
     @WorkerThread
-    override suspend fun insert(chat: Chat) =
-        chatDao.insert(chat)
+    override suspend fun insert(chatEntity: ChatEntity) =
+        chatDao.insert(chatEntity)
 
     @WorkerThread
-    override suspend fun insertAll(chat: List<Chat>) =
-        chatDao.insertAll(chat)
+    override suspend fun insertAll(chatEntity: List<ChatEntity>) =
+        chatDao.insertAll(chatEntity)
 
     @WorkerThread
-    override suspend fun delete(chat: Chat) =
-        chatDao.delete(chat)
+    override suspend fun delete(chatEntity: ChatEntity) =
+        chatDao.delete(chatEntity)
 
 }

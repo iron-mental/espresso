@@ -5,23 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Chat::class], version = 1)
-abstract class AppDatabase : RoomDatabase() {
+@Database(entities = [ChatEntity::class], version = 1)
+abstract class ChatDatabase : RoomDatabase() {
 
     abstract fun chatDao(): ChatDao
 
     companion object {
 
         @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var INSTANCE: ChatDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase {
+        fun getDatabase(context: Context): ChatDatabase {
 
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    AppDatabase::class.java,
-                    "app_database"
+                    ChatDatabase::class.java,
+                    "chat_database"
                 )
                     .allowMainThreadQueries()
                     .build()

@@ -13,7 +13,7 @@ import com.iron.espresso.domain.entity.ChatUser
 import com.iron.espresso.domain.usecase.GetChat
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
-import com.iron.espresso.local.model.Chat
+import com.iron.espresso.local.model.ChatEntity
 import com.iron.espresso.local.model.ChatRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -43,7 +43,7 @@ class ChattingViewModel @ViewModelInject constructor(
         _timeStamp.value = chatRepository.getTimeStamp(studyId)
     }
 
-    fun getChat(studyId: Int, timeStamp: Long) {
+    fun getChat(studyId: Int) {
         compositeDisposable += getChat(
             studyId = studyId,
             date = -1,
@@ -81,13 +81,13 @@ class ChattingViewModel @ViewModelInject constructor(
             })
     }
 
-    fun insert(chat: Chat) = viewModelScope.launch {
-        chatRepository.insert(chat)
+    fun insert(chatEntity: ChatEntity) = viewModelScope.launch {
+        chatRepository.insert(chatEntity)
     }
 
     private fun insertAll(chat: List<ChatItem>) = viewModelScope.launch {
         chatRepository.insertAll(chat.map {
-            Chat(
+            ChatEntity(
                 uuid = it.uuid,
                 studyId = it.studyId,
                 userId = it.userId,

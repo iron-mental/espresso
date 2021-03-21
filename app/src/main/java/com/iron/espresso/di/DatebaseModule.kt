@@ -2,7 +2,7 @@ package com.iron.espresso.di
 
 import android.content.Context
 import androidx.room.Room
-import com.iron.espresso.local.model.AppDatabase
+import com.iron.espresso.local.model.ChatDatabase
 import com.iron.espresso.local.model.ChatDao
 import dagger.Module
 import dagger.Provides
@@ -16,17 +16,17 @@ import javax.inject.Singleton
 class DatabaseModule {
 
     @Provides
-    fun provideChatDao(appDatabase: AppDatabase): ChatDao {
+    fun provideChatDao(appDatabase: ChatDatabase): ChatDao {
         return appDatabase.chatDao()
     }
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+    fun provideAppDatabase(@ApplicationContext appContext: Context): ChatDatabase {
         return Room.databaseBuilder(
             appContext,
-            AppDatabase::class.java,
-            "app_database"
+            ChatDatabase::class.java,
+            "chat_database"
         )
             .allowMainThreadQueries()
             .build()
