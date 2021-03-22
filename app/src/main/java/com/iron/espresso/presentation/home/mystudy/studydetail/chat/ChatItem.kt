@@ -60,7 +60,7 @@ data class ChatItem(
                     name = it.nickname,
                     message = it.message,
                     timeStamp = it.timeStamp,
-                    isMyChat = it.isMyChat
+                    isMyChat = it.userId == AuthHolder.requireId()
                 )
             }
         }
