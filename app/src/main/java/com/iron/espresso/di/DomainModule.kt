@@ -156,13 +156,5 @@ object DomainModule {
     fun provideReadAlert(repository: AlertRepository): ReadAlert {
         return ReadAlert(repository)
     }
-
-    @Singleton
-    @Provides
-    fun provideGetChat(repository: ChatRepository): GetChat {
-        return GetChat(repository)
-    }
-
-
 }
 
