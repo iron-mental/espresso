@@ -107,7 +107,7 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
         connect(studyId)
 
         chattingViewModel.run {
-            getChat(studyId)
+            setChat(studyId)
             getAllChats()
             chatList.observe(viewLifecycleOwner, {
                 chatAdapter.submitList(it)
