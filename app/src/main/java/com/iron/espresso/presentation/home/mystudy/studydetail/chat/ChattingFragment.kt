@@ -74,7 +74,7 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
                 ChatEntity(
                     uuid = response.getString("uuid"),
                     studyId = response.getInt("study_id"),
-                    userId = AuthHolder.requireId(),
+                    userId = response.getInt("user_id"),
                     nickname = response.getString("nickname"),
                     message = response.getString("message"),
                     timeStamp = response.getLong("date")
