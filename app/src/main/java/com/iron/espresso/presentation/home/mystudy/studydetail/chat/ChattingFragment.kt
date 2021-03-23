@@ -5,21 +5,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import com.google.gson.JsonObject
-import com.iron.espresso.AuthHolder
-import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentChattingBinding
-import com.iron.espresso.local.model.ChatEntity
 import dagger.hilt.android.AndroidEntryPoint
-import io.socket.client.IO
-import io.socket.client.Manager
-import io.socket.client.Socket
-import io.socket.emitter.Emitter
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONObject
-import java.net.URI
 import java.util.*
 
 @AndroidEntryPoint
@@ -53,33 +42,7 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             data.addProperty("message", chatMessage.trim())
             data.addProperty("uuid", uuid)
 
-            chatSocket?.emit(CHAT, data)
-        }
-    }
-
-    private var chatSocket: Socket? = null
-
-    private val onChatSendReceiver = Emitter.Listener { args ->
-        activity?.runOnUiThread {
-            Logger.d("${args.map { it.toString() }}")
-        }
-    }
-
-    private val onChatReceiver = Emitter.Listener { args ->
-        activity?.runOnUiThread {
-            val response = JSONObject(args.getOrNull(0).toString())
-
-            Logger.d("chatResponse: $response")
-            chattingViewModel.insert(
-                ChatEntity(
-                    uuid = response.getString("uuid"),
-                    studyId = response.getInt("study_id"),
-                    userId = response.getInt("user_id"),
-                    nickname = response.getString("nickname"),
-                    message = response.getString("message"),
-                    timeStamp = response.getLong("date")
-                )
-            )
+            chattingViewModel.sendMessage(data)
         }
     }
 
@@ -104,9 +67,8 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             )
         )
 
-        connect(studyId)
-
         chattingViewModel.run {
+            onConnect()
             setChat(studyId)
             getAllChats()
             chatList.observe(viewLifecycleOwner, {
@@ -119,53 +81,11 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
     }
 
     override fun onDestroyView() {
-        chatSocket?.disconnect()
-        chatSocket?.off(CHAT, onChatSendReceiver)
-        chatSocket?.off(CHAT_MESSAGE, onChatReceiver)
+        chattingViewModel.onDisconnect()
         super.onDestroyView()
     }
 
-    private fun connect(studyId: Int) {
-        if (chatSocket?.connected() == true) return
-
-        val options = IO.Options().apply {
-            val interceptor = HttpLoggingInterceptor().apply {
-                setLevel(HttpLoggingInterceptor.Level.BODY)
-            }
-
-            val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-            callFactory = client
-            webSocketFactory = client
-            transports = arrayOf("websocket")
-            query = "token=${AuthHolder.accessToken}&study_id=$studyId"
-        }
-
-        val chatManager = Manager(URI("https://www.terminal-study.tk"), options)
-
-        chatSocket =
-            chatManager.socket("/terminal").apply {
-                on(CHAT, onChatSendReceiver)
-                on(CHAT_MESSAGE, onChatReceiver)
-
-                on(Socket.EVENT_CONNECT) { response ->
-                    Logger.d("EVENT_CONNECT ${response.map { it.toString() }}")
-                }
-
-                on(Socket.EVENT_DISCONNECT) { response ->
-                    Logger.d("EVENT_DISCONNECT ${response.map { it.toString() }}")
-                }
-
-                on(Socket.EVENT_MESSAGE) { response ->
-                    Logger.d("EVENT_MESSAGE ${response.map { it.toString() }}")
-                }
-
-                connect()
-            }
-    }
-
     companion object {
-        private const val CHAT = "chat"
-        private const val CHAT_MESSAGE = "message"
 
         fun newInstance(studyId: Int) =
             ChattingFragment().apply {
