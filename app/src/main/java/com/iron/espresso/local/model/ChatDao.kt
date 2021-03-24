@@ -1,9 +1,6 @@
 package com.iron.espresso.local.model
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -24,4 +21,7 @@ interface ChatDao {
 
     @Delete
     fun delete(chatEntity: ChatEntity): Completable
+
+    @Query("UPDATE chat_table SET nickname = (:nickname) WHERE user_id IN (:userId)")
+    fun updateNickname(userId: Int, nickname: String): Completable
 }

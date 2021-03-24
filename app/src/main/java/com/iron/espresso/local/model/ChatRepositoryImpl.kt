@@ -2,6 +2,7 @@ package com.iron.espresso.local.model
 
 import com.google.gson.JsonObject
 import com.iron.espresso.Logger
+import com.iron.espresso.domain.entity.ChatUser
 import com.iron.espresso.domain.repo.ChatRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.model.source.remote.ChatRemoteDataSource
@@ -58,6 +59,7 @@ class ChatRepositoryImpl @Inject constructor(
             .networkSchedulers()
             .subscribe({
                 if (it != null) {
+                    updateNicknames(it.chatUserList)
                     if (it.chatList.isNotEmpty()) {
                         chatLocalDataSource.insertAll(ChatEntity.of(it.chatList, it.chatUserList))
                             .networkSchedulers()
@@ -68,6 +70,14 @@ class ChatRepositoryImpl @Inject constructor(
             }, {
                 disposable?.dispose()
             })
+    }
+
+    private fun updateNicknames(chatUserList: List<ChatUser>) {
+        chatUserList.forEach {
+            chatLocalDataSource.updateNickname(it.userId, it.nickname)
+                .networkSchedulers()
+                .subscribe()
+        }
     }
 
     override fun onConnect(studyId: Int) {
