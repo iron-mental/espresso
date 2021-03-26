@@ -5,7 +5,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import com.google.gson.JsonObject
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
+import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentChattingBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,8 +17,6 @@ import java.util.*
 class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment_chatting) {
 
     private val chattingViewModel by viewModels<ChattingViewModel>()
-
-    private var nickname: String? = null
     private val studyId: Int by lazy {
         arguments?.getInt(ChattingViewModel.KEY_STUDY_ID) ?: -1
     }
@@ -31,7 +31,7 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
                         uuid = uuid,
                         studyId = studyId,
                         userId = AuthHolder.requireId(),
-                        name = nickname.orEmpty(),
+                        name = UserHolder.get()?.nickname.orEmpty(),
                         message = chatMessage,
                         timeStamp = System.currentTimeMillis(),
                         isMyChat = true
@@ -73,9 +73,6 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             getAllChats()
             chatList.observe(viewLifecycleOwner, {
                 chatAdapter.submitList(it)
-            })
-            userNickname.observe(viewLifecycleOwner, {
-                nickname = it
             })
         }
     }
