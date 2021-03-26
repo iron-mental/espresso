@@ -1,6 +1,7 @@
 package com.iron.espresso.local.model
 
 import com.google.gson.JsonObject
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.domain.entity.ChatUser
 import com.iron.espresso.domain.repo.ChatRepository
@@ -11,7 +12,9 @@ import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import io.socket.emitter.Emitter
 import org.json.JSONObject
+import java.util.*
 import javax.inject.Inject
+import kotlin.concurrent.schedule
 
 class ChatRepositoryImpl @Inject constructor(
     private val chatLocalDataSource: ChatLocalDataSource,
@@ -26,19 +29,35 @@ class ChatRepositoryImpl @Inject constructor(
         val response = JSONObject(args.getOrNull(0).toString())
 
         Logger.d("chatResponse: $response")
-
-        chatLocalDataSource.insert(
-            ChatEntity(
-                uuid = response.getString("uuid"),
-                studyId = response.getInt("study_id"),
-                userId = response.getInt("user_id"),
-                nickname = response.getString("nickname"),
-                message = response.getString("message"),
-                timeStamp = response.getLong("date")
+        if (response.getInt("user_id") == AuthHolder.requireId()) {
+            Timer().schedule(500) {
+                chatLocalDataSource.insert(
+                    ChatEntity(
+                        uuid = response.getString("uuid"),
+                        studyId = response.getInt("study_id"),
+                        userId = response.getInt("user_id"),
+                        nickname = response.getString("nickname"),
+                        message = response.getString("message"),
+                        timeStamp = response.getLong("date")
+                    )
+                )
+                    .networkSchedulers()
+                    .subscribe()
+            }
+        } else {
+            chatLocalDataSource.insert(
+                ChatEntity(
+                    uuid = response.getString("uuid"),
+                    studyId = response.getInt("study_id"),
+                    userId = response.getInt("user_id"),
+                    nickname = response.getString("nickname"),
+                    message = response.getString("message"),
+                    timeStamp = response.getLong("date")
+                )
             )
-        )
-            .networkSchedulers()
-            .subscribe()
+                .networkSchedulers()
+                .subscribe()
+        }
     }
 
     override fun getAll(studyId: Int): Flowable<List<ChatEntity>> =
