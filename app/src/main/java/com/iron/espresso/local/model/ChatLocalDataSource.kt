@@ -17,6 +17,8 @@ interface ChatLocalDataSource {
     fun delete(chatEntity: ChatEntity): Completable
 
     fun updateNickname(userId: Int, nickname: String): Completable
+
+    fun getChatCount(studyId: Int): Single<Int>
 }
 
 class ChatLocalDataSourceImpl @Inject constructor(private val chatDao: ChatDao) : ChatLocalDataSource {
@@ -38,4 +40,6 @@ class ChatLocalDataSourceImpl @Inject constructor(private val chatDao: ChatDao) 
     override fun updateNickname(userId: Int, nickname: String): Completable =
         chatDao.updateNickname(userId, nickname)
 
+    override fun getChatCount(studyId: Int): Single<Int> =
+        chatDao.getChatCount(studyId)
 }
