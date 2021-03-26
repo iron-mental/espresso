@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.databinding.ItemChatBinding
+import com.iron.espresso.ext.activationIf
 import java.text.SimpleDateFormat
 
 class ChatViewHolder(
@@ -21,6 +22,12 @@ class ChatViewHolder(
             message.text = item.message
             time.text = dateFormat.format(item.timeStamp)
             myChat.isVisible = item.isMyChat
+
+            name.activationIf(item.sent)
+            message.activationIf(item.sent)
+            time.activationIf(item.sent)
+            myChat.activationIf(item.sent)
+
         }
     }
 }
