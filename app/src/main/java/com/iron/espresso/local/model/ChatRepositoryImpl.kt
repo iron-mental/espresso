@@ -21,6 +21,8 @@ class ChatRepositoryImpl @Inject constructor(
     private val chatRemoteDataSource: ChatRemoteDataSource
 ) : ChatRepository {
 
+    private var dbCount: Int = -1
+
     private val onChatSendReceiver = Emitter.Listener { args ->
         Logger.d("${args.map { it.toString() }}")
     }
@@ -66,11 +68,29 @@ class ChatRepositoryImpl @Inject constructor(
     override fun insert(chatEntity: ChatEntity): Completable =
         chatLocalDataSource.insert(chatEntity)
 
-    override fun setChat(studyId: Int, first: Boolean) {
+    override fun setChat(studyId: Int) {
+        var disposable: Disposable? = null
+        disposable = chatLocalDataSource.getChatCount(studyId)
+            .networkSchedulers()
+            .subscribe({ count ->
+                if (count > 0) {
+                    getChat(studyId)
+                    dbCount = count
+                } else {
+                    getAllChat(studyId, -1, true)
+                }
+                disposable?.dispose()
+            }, {
+                Logger.d("$it")
+                disposable?.dispose()
+            })
+    }
+
+    private fun getChat(studyId: Int) {
         var disposable: Disposable? = null
         disposable = chatLocalDataSource.getTimeStamp(studyId)
-            .flatMap { timeStamp ->
-                chatRemoteDataSource.getChat(studyId, timeStamp, first)
+            .flatMap { timestamp ->
+                chatRemoteDataSource.getChat(studyId, timestamp, false)
                     .map {
                         it.data?.toChatting()
                     }
@@ -80,9 +100,27 @@ class ChatRepositoryImpl @Inject constructor(
                 if (it != null) {
                     updateNicknames(it.chatUserList)
                     if (it.chatList.isNotEmpty()) {
-                        chatLocalDataSource.insertAll(ChatEntity.of(it.chatList, it.chatUserList))
-                            .networkSchedulers()
-                            .subscribe()
+                        insertAll(ChatEntity.of(it.chatList, it.chatUserList))
+                    }
+                }
+                disposable?.dispose()
+            }, {
+                disposable?.dispose()
+            })
+    }
+
+    private fun getAllChat(studyId: Int, timestamp: Long, first: Boolean) {
+        var disposable: Disposable? = null
+        disposable = chatRemoteDataSource.getChat(studyId, timestamp, first)
+            .map {
+                it.data?.toChatting()
+            }
+            .networkSchedulers()
+            .subscribe({
+                if (it != null) {
+                    updateNicknames(it.chatUserList)
+                    if (it.chatList.isNotEmpty()) {
+                        insertAll(ChatEntity.of(it.chatList, it.chatUserList))
                     }
                 }
                 disposable?.dispose()
@@ -92,11 +130,31 @@ class ChatRepositoryImpl @Inject constructor(
     }
 
     private fun updateNicknames(chatUserList: List<ChatUser>) {
-        chatUserList.forEach {
-            chatLocalDataSource.updateNickname(it.userId, it.nickname)
-                .networkSchedulers()
-                .subscribe()
+        if (dbCount > 0) {
+            chatUserList.forEach {
+                var disposable: Disposable? = null
+                disposable = chatLocalDataSource.updateNickname(it.userId, it.nickname)
+                    .networkSchedulers()
+                    .subscribe({
+                        disposable?.dispose()
+                    }, { throwable ->
+                        Logger.d("$throwable")
+                        disposable?.dispose()
+                    })
+            }
         }
+    }
+
+    private fun insertAll(chatList: List<ChatEntity>) {
+        var disposable: Disposable? = null
+        disposable = chatLocalDataSource.insertAll(chatList)
+            .networkSchedulers()
+            .subscribe({
+                disposable?.dispose()
+            }, {
+                Logger.d("$it")
+                disposable?.dispose()
+            })
     }
 
     override fun onConnect(studyId: Int) {

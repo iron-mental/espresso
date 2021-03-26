@@ -27,7 +27,7 @@ class ChattingViewModel @ViewModelInject constructor(
     val chatList: LiveData<List<ChatItem>> get() = _chatList
 
     fun setChat(studyId: Int) {
-        chatRepository.setChat(studyId, false)
+        chatRepository.setChat(studyId)
     }
 
     fun getAllChats() {
