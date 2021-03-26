@@ -34,7 +34,8 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
                         name = UserHolder.get()?.nickname.orEmpty(),
                         message = chatMessage,
                         timeStamp = System.currentTimeMillis(),
-                        isMyChat = true
+                        isMyChat = true,
+                        sent = false
                     )
             )
 
@@ -62,7 +63,8 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
                     "원우석",
                     "",
                     System.currentTimeMillis(),
-                    true
+                    true,
+                    sent = true
                 )
             )
         )
