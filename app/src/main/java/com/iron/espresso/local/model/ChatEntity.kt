@@ -8,7 +8,8 @@ import com.iron.espresso.domain.entity.ChatUser
 
 @Entity(tableName = "chat_table")
 data class ChatEntity(
-    @PrimaryKey @ColumnInfo(name = "uuid") val uuid: String,
+    @PrimaryKey (autoGenerate = true) val id: Int = 0,
+    @ColumnInfo(name = "uuid") val uuid: String,
     @ColumnInfo(name = "study_id") val studyId: Int,
     @ColumnInfo(name = "user_id") val userId: Int,
     @ColumnInfo(name = "nickname") val nickname: String,
