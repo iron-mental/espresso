@@ -30,6 +30,7 @@
     <string name="sign_up_password_explain">사용하실 비밀번호\n입력해 주세요.</string>
     <string name="sign_up_password_hint">비밀번호</string>
     <string name="sign_up_password_helper">8자 이상 입력해 주세요.</string>
+    <string name="sign_up_password_helper2">20자 이하로 입력해 주세요.</string>
 
 
     <string name="sign_in_email_explain">이메일을\n입력해 주세요.</string>
@@ -189,4 +190,6 @@
     <string name="delete_user_password_hint">비밀번호</string>
     <string name="delete_user_explain">회원님의 소중한 계정 보호를 위해, 터미널계정의 이메일과 비밀번호를 확인해 주세요.</string>
     <string name="dialog_delete_user_title">정말 회원탈퇴를 하시겠어요?</string>
+    <string name="login_failed">로그인 실패</string>
+    <string name="login_success">로그인 성공</string>
 </resources>

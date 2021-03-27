@@ -38,6 +38,7 @@ class SignInViewModel @ViewModelInject constructor(
     val userInfo: LiveData<User> get() = _userInfo
 
     fun checkLogin(userId: String, userPass: String, pushToken: String) {
+        showLoading()
         compositeDisposable += loginUser(userId, userPass, pushToken)
             .networkSchedulers()
             .subscribe({ response ->
@@ -51,6 +52,7 @@ class SignInViewModel @ViewModelInject constructor(
                 }
             }, {
                 Logger.d("$it")
+                hideLoading()
             })
     }
 
@@ -59,12 +61,13 @@ class SignInViewModel @ViewModelInject constructor(
             .networkSchedulers()
             .subscribe({
                 _userInfo.value = it
+                hideLoading()
             }, { throwable ->
+                Logger.d("$throwable")
                 throwable.toErrorResponse()?.let {
                     _toastMessage.value = Event(it.message.orEmpty())
                 }
-
-                Logger.d("$throwable")
+                hideLoading()
             })
     }
 

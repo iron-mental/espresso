@@ -3,7 +3,6 @@ package com.iron.espresso.presentation.sign
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnCompleteListener
@@ -12,6 +11,8 @@ import com.iron.espresso.*
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySignInBinding
 import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.setLoading
+import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.HomeActivity
 import com.iron.espresso.presentation.viewmodel.CheckType
 import com.iron.espresso.presentation.viewmodel.SignInViewModel
@@ -60,17 +61,16 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                             })
                     }
                     CheckType.CHECK_ALL_SUCCESS -> {
-                        Toast.makeText(App.instance.context(), "로그인 성공", Toast.LENGTH_SHORT).show()
+                        toast(R.string.login_success)
                     }
                     CheckType.CHECK_ALL_FAIL -> {
-                        Toast.makeText(App.instance.context(), "로그인 실패", Toast.LENGTH_SHORT).show()
+                        toast(R.string.login_failed)
                     }
                 }
             }
 
-            toastMessage.observe(this@SignInActivity, EventObserver {
-                Toast.makeText(this@SignInActivity, it, Toast.LENGTH_SHORT).show()
-            })
+            toastMessage.observe(this@SignInActivity, EventObserver(::toast))
+            loadingState.observe(this@SignInActivity, EventObserver(::setLoading))
 
             userAuth.observe(this@SignInActivity) { authResponse ->
                 if (AuthHolder.set(authResponse)) {

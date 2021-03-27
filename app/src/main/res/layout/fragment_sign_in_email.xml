@@ -40,7 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
             android:layout_marginEnd="15dp"
-            android:lineSpacingExtra="18sp"
             app:boxBackgroundMode="filled"
             app:boxStrokeColor="@color/colorCobaltBlue"
             app:boxStrokeWidth="0dp"
