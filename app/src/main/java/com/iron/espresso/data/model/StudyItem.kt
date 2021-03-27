@@ -7,7 +7,7 @@ data class StudyItem(
     val image: String?,
     val sigungu: String,
     val leaderImage: String?,
-    val createdAt: String,
+    val createdAt: Long,
     val distance: Double,
     val memberCount: Int,
     val isMember: Boolean,
