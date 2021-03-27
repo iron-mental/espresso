@@ -6,8 +6,8 @@ import androidx.core.view.isVisible
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentLoadingBinding
 import com.iron.espresso.ext.plusAssign
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
 import java.util.concurrent.TimeUnit
 
 class LoadingFragment : BaseFragment<FragmentLoadingBinding>(R.layout.fragment_loading) {

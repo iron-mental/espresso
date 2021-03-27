@@ -8,7 +8,7 @@ import dagger.hilt.android.components.ApplicationComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -28,7 +28,7 @@ object ApiModule {
     fun provideProjectApi(): ProjectApi {
         return Retrofit.Builder()
             .baseUrl(API_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(getLoggingClient())
             .build()
@@ -40,7 +40,7 @@ object ApiModule {
     fun provideUserApi(): UserApi {
         return Retrofit.Builder()
             .baseUrl(API_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(getLoggingClient())
             .build()
@@ -52,7 +52,7 @@ object ApiModule {
     fun provideStudyApi(): StudyApi {
         return Retrofit.Builder()
             .baseUrl(API_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(getLoggingClient())
             .build()
@@ -64,7 +64,7 @@ object ApiModule {
     fun provideApplyApi(): ApplyApi {
         return Retrofit.Builder()
             .baseUrl(API_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(getLoggingClient())
             .build()
@@ -77,7 +77,7 @@ object ApiModule {
     fun provideNoticeApi(): NoticeApi {
         return Retrofit.Builder()
             .baseUrl(API_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(getLoggingClient())
             .build()
@@ -89,7 +89,7 @@ object ApiModule {
     fun provideKakaoApi(): KakaoApi {
         return Retrofit.Builder()
             .baseUrl(KAKAO_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(getLoggingClient())
             .build()
@@ -101,7 +101,7 @@ object ApiModule {
     fun provideAlertApi(): AlertApi {
         return Retrofit.Builder()
             .baseUrl(API_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(getLoggingClient())
             .build()

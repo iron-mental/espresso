@@ -4,7 +4,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.iron.espresso.Logger
 import com.iron.espresso.di.ApiModule
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 class TerminalFirebaseMessageService : FirebaseMessagingService() {
 

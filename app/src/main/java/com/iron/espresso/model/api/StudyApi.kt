@@ -7,7 +7,7 @@ import com.iron.espresso.model.response.study.HotSearchKeywordResponse
 import com.iron.espresso.model.response.study.MyStudyListResponse
 import com.iron.espresso.model.response.study.StudyDetailResponse
 import com.iron.espresso.model.response.study.StudyListResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.http.*

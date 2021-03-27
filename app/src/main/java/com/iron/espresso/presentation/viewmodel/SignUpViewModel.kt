@@ -10,8 +10,8 @@ import com.iron.espresso.domain.usecase.CheckDuplicateEmail
 import com.iron.espresso.domain.usecase.CheckDuplicateNickname
 import com.iron.espresso.domain.usecase.RegisterUser
 import com.iron.espresso.ext.plusAssign
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class SignUpViewModel @ViewModelInject constructor(
     private val registerUser: RegisterUser,

@@ -57,14 +57,14 @@ dependencies {
     implementation "androidx.activity:activity-ktx:$activityVersion"
 
     //RxJava2 : https://github.com/ReactiveX/RxJava
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    implementation "io.reactivex.rxjava3:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava3:rxandroid:$rxAndroidVersion"
 
     //Retrofit
     implementation "com.google.code.gson:gson:$gsonVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
@@ -90,9 +90,11 @@ dependencies {
 
     implementation "androidx.recyclerview:recyclerview:1.2.0-beta01"
     implementation "com.airbnb.android:lottie:3.6.0"
-    implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
+    implementation 'gun0912.ted:tedpermission:2.2.3'
 
     implementation platform('com.google.firebase:firebase-bom:26.2.0')
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
 }

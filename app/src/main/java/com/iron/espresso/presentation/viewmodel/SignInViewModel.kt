@@ -40,18 +40,21 @@ class SignInViewModel @ViewModelInject constructor(
     fun checkLogin(userId: String, userPass: String, pushToken: String) {
         compositeDisposable += loginUser(userId, userPass, pushToken)
             .networkSchedulers()
-            .subscribe({
-                if (it.result) {
-                    _userAuth.value = it.data
+            .subscribe({ response ->
+                if (response.result) {
+                    response.data?.let {
+                        _userAuth.value = it
+                    }
+
                 } else {
-                    _toastMessage.value = Event(it.message.orEmpty())
+                    _toastMessage.value = Event(response.message.orEmpty())
                 }
             }, {
                 Logger.d("$it")
             })
     }
 
-    fun getUserInfo(bearerToken: String, userId: Int) {
+    fun getUserInfo(userId: Int) {
         compositeDisposable += getUser(userId)
             .networkSchedulers()
             .subscribe({
@@ -78,7 +81,7 @@ class SignInViewModel @ViewModelInject constructor(
 
     fun verifyPasswordCheck(password: String?) {
         password?.let {
-            if (password.length > 6) {
+            if (password.length >= 8) {
                 _checkType.value = CheckType.CHECK_PASSWORD_SUCCESS
             } else {
                 _checkType.value = CheckType.CHECK_PASSWORD_FAIL

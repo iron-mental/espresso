@@ -14,7 +14,7 @@ import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 class EditProfileHeaderViewModel @ViewModelInject constructor(
     private val modifyUserImage: ModifyUserImage,

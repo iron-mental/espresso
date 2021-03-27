@@ -78,7 +78,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
                     val userId = authResponse.id
 
                     if (accessToken != null && userId != null) {
-                        viewModel.getUserInfo("Bearer $accessToken", userId)
+                        viewModel.getUserInfo(userId)
                     }
                 }
             }

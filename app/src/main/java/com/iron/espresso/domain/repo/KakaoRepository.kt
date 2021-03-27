@@ -1,6 +1,6 @@
 package com.iron.espresso.domain.repo
 
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 interface KakaoRepository {
 

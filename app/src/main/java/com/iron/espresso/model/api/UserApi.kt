@@ -7,8 +7,8 @@ import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
 import com.iron.espresso.model.source.remote.*
-import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import retrofit2.http.*
 

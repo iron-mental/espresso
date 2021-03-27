@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.wswon.picker.common.BaseViewModel
 import com.wswon.picker.ext.plusAssign
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ImagePickerViewModel @ViewModelInject constructor(private val imageLoadManager: ImageLoadManager) : BaseViewModel() {
 

@@ -3,7 +3,7 @@ package com.iron.espresso.model.api
 import com.iron.espresso.model.response.LocalResponse
 import com.iron.espresso.model.response.PlaceResponse
 import com.iron.espresso.model.response.kakao.KakaoAddressListResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header

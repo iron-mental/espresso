@@ -7,7 +7,7 @@ import com.iron.espresso.model.response.address.AddressResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File

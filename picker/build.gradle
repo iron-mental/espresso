@@ -52,9 +52,9 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.activity:activity-ktx:$activityVersion"
 
-    //RxJava2 : https://github.com/ReactiveX/RxJava
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    //RxJava3 : https://github.com/ReactiveX/RxJava
+    implementation "io.reactivex.rxjava3:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava3:rxandroid:$rxAndroidVersion"
 
     implementation "com.google.dagger:hilt-android:2.28-alpha"
     kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"

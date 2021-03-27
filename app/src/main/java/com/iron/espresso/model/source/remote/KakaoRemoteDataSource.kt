@@ -2,7 +2,7 @@ package com.iron.espresso.model.source.remote
 
 import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.kakao.KakaoAddressListResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 interface KakaoRemoteDataSource {

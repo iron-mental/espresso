@@ -1,7 +1,7 @@
 package com.iron.espresso.domain.repo
 
 import com.iron.espresso.domain.entity.Alert
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 interface AlertRepository {
     fun getAlertList(): Single<List<Alert>>

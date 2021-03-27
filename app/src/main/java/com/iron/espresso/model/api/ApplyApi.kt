@@ -5,7 +5,7 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.apply.ApplyDetailResponse
 import com.iron.espresso.model.response.apply.ApplyListResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 
 data class RegisterStudyApplyRequest(

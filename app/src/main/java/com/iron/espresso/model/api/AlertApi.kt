@@ -3,7 +3,7 @@ package com.iron.espresso.model.api
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.alert.AlertResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path

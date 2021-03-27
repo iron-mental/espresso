@@ -4,8 +4,8 @@ import com.iron.espresso.domain.entity.Address
 import com.iron.espresso.domain.entity.User
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
-import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import java.io.File
 
 interface UserRepository {

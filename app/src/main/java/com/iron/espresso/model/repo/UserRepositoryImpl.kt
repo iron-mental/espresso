@@ -6,8 +6,8 @@ import com.iron.espresso.domain.repo.UserRepository
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
-import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import java.io.File
 import javax.inject.Inject
 

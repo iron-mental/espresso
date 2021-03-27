@@ -3,7 +3,7 @@ package com.iron.espresso.model.repo
 import com.iron.espresso.domain.entity.Alert
 import com.iron.espresso.domain.repo.AlertRepository
 import com.iron.espresso.model.source.remote.AlertRemoteDataSource
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class AlertRepositoryImpl @Inject constructor(private val alertRemoteDataSource: AlertRemoteDataSource) :
