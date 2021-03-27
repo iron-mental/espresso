@@ -60,9 +60,9 @@ class HomeActivity :
                 })
 
                 setupWithViewPager(homePager)
-                getTabAt(0)?.setIcon(R.drawable.ic_baseline_settings_24)
-                getTabAt(1)?.setIcon(R.drawable.ic_baseline_settings_24)
-                getTabAt(2)?.setIcon(R.drawable.ic_baseline_settings_24)
+                getTabAt(0)?.setIcon(R.drawable.ic_book_24)
+                getTabAt(1)?.setIcon(R.drawable.ic_groups_24)
+                getTabAt(2)?.setIcon(R.drawable.ic_settings_24)
             }
         }
     }
