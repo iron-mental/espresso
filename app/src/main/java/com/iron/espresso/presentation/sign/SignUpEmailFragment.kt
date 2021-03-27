@@ -6,12 +6,16 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignUpEmailBinding
+import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.presentation.viewmodel.CheckType
 import com.iron.espresso.presentation.viewmodel.SignUpViewModel
+import com.jakewharton.rxbinding4.widget.textChanges
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 @AndroidEntryPoint
 class SignUpEmailFragment :
@@ -29,12 +33,24 @@ class SignUpEmailFragment :
 
         signUpViewModel.run {
             checkType.observe(viewLifecycleOwner) { type ->
-                when (type) {
-                    CheckType.CHECK_EMAIL_FAIL -> {
+                if (type == CheckType.CHECK_EMAIL_FAIL) {
+                    Logger.d("SignUpViewModel type.message ${type.message}")
+                    if (type.message.isNotEmpty()) {
+                        binding.emailField.error = type.message
+                    } else {
+                        binding.emailField.error = getString(R.string.invalid_email)
                     }
                 }
             }
         }
+
+        compositeDisposable += binding.inputEmail.textChanges()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ email ->
+                binding.emailField.error = null
+            }, {
+
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

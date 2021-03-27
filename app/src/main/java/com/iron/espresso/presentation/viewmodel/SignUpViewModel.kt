@@ -10,6 +10,7 @@ import com.iron.espresso.domain.usecase.CheckDuplicateEmail
 import com.iron.espresso.domain.usecase.CheckDuplicateNickname
 import com.iron.espresso.domain.usecase.RegisterUser
 import com.iron.espresso.ext.plusAssign
+import com.iron.espresso.ext.toErrorResponse
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -42,11 +43,11 @@ class SignUpViewModel @ViewModelInject constructor(
                         if (message.result) {
                             _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
                         } else {
-                            _checkType.value = CheckType.CHECK_EMAIL_FAIL
+                            _checkType.value = CheckType.CHECK_EMAIL_FAIL.setMessage(message.message)
                         }
-                        Logger.d(it)
+                        Logger.d("$message")
                     }, {
-                        _checkType.value = CheckType.CHECK_EMAIL_FAIL
+                        _checkType.value = CheckType.CHECK_EMAIL_FAIL.setMessage(it.toErrorResponse()?.message.orEmpty())
                         Logger.d("$it")
                     })
             } else {
@@ -74,7 +75,6 @@ class SignUpViewModel @ViewModelInject constructor(
             } else {
                 _checkType.value = CheckType.CHECK_NICKNAME_FAIL
             }
-
         }
     }
 
@@ -106,7 +106,12 @@ class SignUpViewModel @ViewModelInject constructor(
     }
 }
 
-enum class CheckType {
+enum class CheckType(var message: String = "") {
     CHECK_EMAIL_SUCCESS, CHECK_NICKNAME_SUCCESS, CHECK_PASSWORD_SUCCESS, CHECK_ALL_SUCCESS,
-    CHECK_EMAIL_FAIL, CHECK_NICKNAME_FAIL, CHECK_PASSWORD_FAIL, CHECK_ALL_FAIL
+    CHECK_EMAIL_FAIL, CHECK_NICKNAME_FAIL, CHECK_PASSWORD_FAIL, CHECK_ALL_FAIL;
+
+    fun setMessage(message: String): CheckType {
+        this.message = message
+        return this
+    }
 }

@@ -37,6 +37,8 @@ class SignUpNicknameFragment :
                 }
             }
         }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
