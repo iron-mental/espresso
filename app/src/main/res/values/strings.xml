@@ -12,7 +12,7 @@
     <string name="version_text">0.0.0</string>
     <string name="push_alarm">푸쉬 알림 사용</string>
 
-    <string name="intro_sign_up">1분만에 시작하기</string>
+    <string name="intro_sign_up">시작하기</string>
     <string name="intro_sign_in">로그인</string>
     <string name="intro_explain">혼자하는 개발 공부 힘들었다면?\n개발자들이 개발자를 알고 만든\n‘터미널’ 에서 스터디를 시작해보세요.</string>
     <string name="search_place">장소로 검색</string>
@@ -21,23 +21,23 @@
 
     <string name="sign_next">다음</string>
 
-    <string name="sign_up_email_explain">사용하실 이메일을\n입력해 주세요.</string>
-    <string name="sign_up_email_hint">email@inputinput.com</string>
+    <string name="sign_up_email_explain">이메일을\n입력해 주세요.</string>
+    <string name="sign_up_email_hint">abc1234@terminal.com</string>
 
     <string name="sign_up_nickname_explain">가입을 위해\n닉네임을 입력해 주세요.</string>
     <string name="sign_up_nickname_hint">닉네임</string>
 
     <string name="sign_up_password_explain">사용하실 비밀번호\n입력해 주세요.</string>
     <string name="sign_up_password_hint">비밀번호</string>
-    <string name="sign_up_password_helper">6글자 이상 입력하세요</string>
+    <string name="sign_up_password_helper">8자 이상 입력해 주세요.</string>
 
 
-    <string name="sign_in_email_explain">사용하실 이메일을\n입력해 주세요.</string>
+    <string name="sign_in_email_explain">이메일을\n입력해 주세요.</string>
     <string name="sign_in_email_hint">email@inputinput.com</string>
 
-    <string name="sign_in_password_explain">사용하실 비밀번호\n입력해 주세요.</string>
+    <string name="sign_in_password_explain">로그인을 위해\n계정의 비밀번호를\n입력해 주세요.</string>
     <string name="sign_in_password_hint">비밀번호</string>
-    <string name="sign_in_password_helper">6글자 이상 입력하세요</string>
+    <string name="sign_in_password_helper">8자 이상 입력해 주세요.</string>
 
 
     <string name="my_study_explain1">내 스터디</string>
