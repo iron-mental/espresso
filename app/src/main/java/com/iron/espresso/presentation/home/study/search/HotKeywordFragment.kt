@@ -7,7 +7,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -50,10 +49,6 @@ class HotKeywordFragment :
 
         clearButton.setOnClickListener {
             resetSearchView()
-        }
-
-        binding.placeSearchButton.setOnClickListener {
-            Toast.makeText(context, binding.placeSearchButton.text, Toast.LENGTH_SHORT).show()
         }
 
         viewModel.run {
