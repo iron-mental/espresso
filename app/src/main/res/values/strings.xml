@@ -193,4 +193,5 @@
     <string name="login_failed">로그인 실패</string>
     <string name="login_success">로그인 성공</string>
     <string name="invalid_email">이메일 형식이 올바르지 않습니다.</string>
+    <string name="invalid_nickname">닉네임을 2~7자로 입력해 주세요.</string>
 </resources>

@@ -71,7 +71,7 @@ class SignUpPasswordFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.next -> {
-                signUpViewModel.verifyPasswordCheck(signUpViewModel.signUpPassword.value)
+                signUpViewModel.verifyPasswordCheck()
             }
             android.R.id.home -> {
                 activity?.finish()

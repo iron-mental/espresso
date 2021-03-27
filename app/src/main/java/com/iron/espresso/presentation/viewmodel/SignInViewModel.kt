@@ -84,7 +84,7 @@ class SignInViewModel @ViewModelInject constructor(
 
     fun verifyPasswordCheck(password: String?) {
         password?.let {
-            if (password.length >= 8) {
+            if (password.length in 8..20) {
                 _checkType.value = CheckType.CHECK_PASSWORD_SUCCESS
             } else {
                 _checkType.value = CheckType.CHECK_PASSWORD_FAIL

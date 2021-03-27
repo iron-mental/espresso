@@ -6,7 +6,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignUpEmailBinding
@@ -34,15 +33,11 @@ class SignUpEmailFragment :
         signUpViewModel.run {
             checkType.observe(viewLifecycleOwner) { type ->
                 if (type == CheckType.CHECK_EMAIL_FAIL) {
-                    Logger.d("SignUpViewModel type.message ${type.message}")
-                    if (type.message.isNotEmpty()) {
-                        binding.emailField.error = type.message
-                    } else {
-                        binding.emailField.error = getString(R.string.invalid_email)
-                    }
+                    binding.emailField.error = type.message
                 }
             }
         }
+        binding.inputEmail.requestFocus()
 
         compositeDisposable += binding.inputEmail.textChanges()
             .observeOn(AndroidSchedulers.mainThread())
@@ -62,7 +57,7 @@ class SignUpEmailFragment :
         when (item.itemId) {
             R.id.next -> {
                 signUpViewModel.run {
-                    verifyEmailCheck(signUpViewModel.signUpEmail.value)
+                    verifyEmailCheck()
                 }
             }
             android.R.id.home -> {

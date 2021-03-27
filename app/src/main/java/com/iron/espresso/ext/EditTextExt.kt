@@ -5,7 +5,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.databinding.BindingAdapter
 
-@BindingAdapter("onEditorEnterAction")
+@BindingAdapter("bind:onEditorEnterAction")
 fun EditText.onEditorEnterAction(f: (email: String) -> Unit?) {
 
     setOnEditorActionListener { v, actionId, event ->

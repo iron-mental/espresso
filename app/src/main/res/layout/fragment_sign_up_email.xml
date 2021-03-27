@@ -63,7 +63,7 @@
                 android:text="@={VM.signUpEmail}"
                 android:textCursorDrawable="@null"
                 android:textSize="18sp"
-                app:onEditorEnterAction="@{VM.checkEmail}" />
+                bind:onEditorEnterAction="@{VM.checkEmail}" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
