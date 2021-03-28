@@ -1,10 +1,12 @@
 package com.iron.espresso.model.source.remote
 
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
+import com.iron.espresso.model.response.SocketChatResponse
 import com.iron.espresso.model.response.study.ChattingResponse
 import io.reactivex.Single
 import io.socket.client.IO
@@ -22,7 +24,29 @@ class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyAp
 
     private var chatSocket: Socket? = null
 
-    override fun getChat(studyId: Int, date: Long, first: Boolean): Single<BaseResponse<ChattingResponse>> {
+    private val onChatSendReceiver = Emitter.Listener { args ->
+        Logger.d("${args.map { it.toString() }}")
+    }
+
+    private val onChatReceiver = Emitter.Listener { args ->
+        val message = args.getOrNull(0).toString()
+
+        val response: SocketChatResponse = Gson().fromJson(message, SocketChatResponse::class.java)
+        Logger.d("chatResponse: $response")
+        callback?.invoke(response)
+    }
+
+    private var callback: ((SocketChatResponse) -> Unit)? = null
+
+    override fun setChatCallback(callback: (SocketChatResponse) -> Unit) {
+        this.callback = callback
+    }
+
+    override fun getChat(
+        studyId: Int,
+        date: Long,
+        first: Boolean
+    ): Single<BaseResponse<ChattingResponse>> {
         return studyApi.getChat(studyId = studyId, date = date, first = first)
     }
 
@@ -30,13 +54,14 @@ class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyAp
         chatSocket?.emit(CHAT, chatMessage)
     }
 
-    override fun onDisconnect(onChatSendReceiver: Emitter.Listener, onChatReceiver: Emitter.Listener) {
+    override fun onDisconnect() {
         chatSocket?.disconnect()
         chatSocket?.off(CHAT, onChatSendReceiver)
         chatSocket?.off(CHAT_MESSAGE, onChatReceiver)
+        chatSocket = null
     }
 
-    override fun onConnect(studyId: Int, onChatSendReceiver: Emitter.Listener, onChatReceiver: Emitter.Listener) {
+    override fun onConnect(studyId: Int) {
         if (chatSocket?.connected() == true) return
 
         val options = IO.Options().apply {
@@ -83,9 +108,11 @@ class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyAp
 interface ChatRemoteDataSource {
     fun getChat(studyId: Int, date: Long, first: Boolean): Single<BaseResponse<ChattingResponse>>
 
-    fun onConnect(studyId: Int, onChatSendReceiver: Emitter.Listener, onChatReceiver: Emitter.Listener)
+    fun onConnect(studyId: Int)
 
-    fun onDisconnect(onChatSendReceiver: Emitter.Listener, onChatReceiver: Emitter.Listener)
+    fun onDisconnect()
 
     fun sendMessage(chatMessage: JsonObject)
+
+    fun setChatCallback(callback: (SocketChatResponse) -> Unit)
 }

@@ -10,7 +10,7 @@ interface ChatRepository {
 
     fun insert(chatEntity: ChatEntity): Completable
 
-    fun setChat(studyId: Int)
+    fun setChat(studyId: Int): Completable
 
     fun onConnect(studyId: Int)
 
