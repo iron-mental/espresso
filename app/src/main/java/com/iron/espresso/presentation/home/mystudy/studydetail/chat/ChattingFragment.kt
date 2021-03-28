@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import com.iron.espresso.R
-import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentChattingBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,17 +31,21 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
         inputChatAdapter.submitList(listOf(InputItem))
 
         chattingViewModel.run {
-            onConnect()
-            setup()
             chatList.observe(viewLifecycleOwner, {
                 chatAdapter.submitList(it)
             })
         }
     }
 
-    override fun onDestroyView() {
+    override fun onResume() {
+        super.onResume()
+        chattingViewModel.onConnect()
+        chattingViewModel.setup()
+    }
+
+    override fun onStop() {
         chattingViewModel.onDisconnect()
-        super.onDestroyView()
+        super.onStop()
     }
 
     companion object {

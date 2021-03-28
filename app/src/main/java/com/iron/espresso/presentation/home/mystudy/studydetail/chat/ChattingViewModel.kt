@@ -14,6 +14,7 @@ import com.iron.espresso.domain.repo.ChatRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
@@ -30,6 +31,8 @@ class ChattingViewModel @ViewModelInject constructor(
     private val _chatList = MutableLiveData<List<ChatItem>>()
     val chatList: LiveData<List<ChatItem>> get() = _chatList
 
+    private var disposable: Disposable? = null
+
     fun setup() {
         compositeDisposable += chatRepository.setChat(studyId)
             .networkSchedulers()
@@ -41,12 +44,12 @@ class ChattingViewModel @ViewModelInject constructor(
     }
 
     private fun getAllChats() {
-        compositeDisposable += chatRepository.getAll(studyId)
+        disposable = chatRepository.getAll(studyId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 _chatList.value = ChatItem.of(it)
-                Logger.d("$it")
+                Logger.d("${(1..10).random()}$it")
             }, {
                 Logger.d("$it")
             })
@@ -56,7 +59,13 @@ class ChattingViewModel @ViewModelInject constructor(
         chatRepository.onConnect(studyId)
     }
 
+    override fun onCleared() {
+        chatRepository.onDisconnect()
+        super.onCleared()
+    }
+
     fun onDisconnect() {
+        disposable?.dispose()
         chatRepository.onDisconnect()
     }
 

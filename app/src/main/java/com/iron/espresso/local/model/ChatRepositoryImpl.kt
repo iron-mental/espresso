@@ -14,7 +14,6 @@ import io.reactivex.Completable
 import io.reactivex.CompletableEmitter
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import java.util.*
 import javax.inject.Inject
 import kotlin.concurrent.schedule
@@ -90,44 +89,49 @@ class ChatRepositoryImpl @Inject constructor(
             .networkSchedulers()
             .subscribe({ chatting: Chatting? ->
                 if (chatting != null) {
+                    val jobList = mutableListOf<Completable>()
                     if (timeStamp != -1L) {
-                        updateNicknames(chatting.chatUserList)
+                        jobList.addAll(updateNicknames(chatting.chatUserList))
                     }
                     if (chatting.chatList.isNotEmpty()) {
-                        insertAll(ChatEntity.of(chatting.chatList, chatting.chatUserList))
+                        jobList.add(
+                            insertAll(
+                                ChatEntity.of(
+                                    chatting.chatList,
+                                    chatting.chatUserList
+                                )
+                            )
+                        )
+                    }
+
+                    if (jobList.isEmpty()) {
+                        emitter.onComplete()
+                    } else {
+                        compositeDisposable += Completable.concat(jobList)
+                            .networkSchedulers()
+                            .subscribe({
+                                emitter.onComplete()
+                            }, { throwable ->
+                                emitter.onError(throwable)
+                                Logger.d("$throwable")
+                            })
                     }
                 }
-                emitter.onComplete()
+
             }, {
                 emitter.onError(it)
                 Logger.d("$it")
             })
 
 
-    private fun updateNicknames(chatUserList: List<ChatUser>) {
-        chatUserList.forEach {
-            var disposable: Disposable? = null
-            disposable = chatLocalDataSource.updateNickname(it.userId, it.nickname)
-                .networkSchedulers()
-                .subscribe({
-                    disposable?.dispose()
-                }, { throwable ->
-                    Logger.d("$throwable")
-                    disposable?.dispose()
-                })
+    private fun updateNicknames(chatUserList: List<ChatUser>): List<Completable> {
+        return chatUserList.map {
+            chatLocalDataSource.updateNickname(it.userId, it.nickname)
         }
     }
 
-    private fun insertAll(chatList: List<ChatEntity>) {
-        var disposable: Disposable? = null
-        disposable = chatLocalDataSource.insertAll(chatList)
-            .networkSchedulers()
-            .subscribe({
-                disposable?.dispose()
-            }, {
-                Logger.d("$it")
-                disposable?.dispose()
-            })
+    private fun insertAll(chatList: List<ChatEntity>): Completable {
+        return chatLocalDataSource.insertAll(chatList)
     }
 
     override fun onConnect(studyId: Int) {
