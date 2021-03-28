@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentChattingBinding
+import com.iron.espresso.ext.hideLoading
+import com.iron.espresso.ext.showLoading
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,18 +30,23 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
         val adapter = ConcatAdapter(chatAdapter, inputChatAdapter)
 
         binding.chatList.adapter = adapter
-
-        inputChatAdapter.submitList(listOf(InputItem))
-
         chattingViewModel.run {
             chatList.observe(viewLifecycleOwner, {
                 chatAdapter.submitList(it)
+
+                if (inputChatAdapter.currentList.isEmpty()) {
+                    inputChatAdapter.submitList(listOf(InputItem))
+                    (binding.chatList.layoutManager as LinearLayoutManager)
+                        .scrollToPositionWithOffset(chatAdapter.currentList.lastIndex, 0)
+                }
+                hideLoading()
             })
         }
     }
 
     override fun onResume() {
         super.onResume()
+        showLoading()
         chattingViewModel.onConnect()
         chattingViewModel.setup()
     }

@@ -49,7 +49,6 @@ class ChattingViewModel @ViewModelInject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 _chatList.value = ChatItem.of(it)
-                Logger.d("${(1..10).random()}$it")
             }, {
                 Logger.d("$it")
             })
