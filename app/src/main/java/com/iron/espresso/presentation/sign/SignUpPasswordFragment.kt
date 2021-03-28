@@ -48,7 +48,7 @@ class SignUpPasswordFragment :
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ text ->
                 when {
-                    text.length in 1..7 -> {
+                    text.length in 1..5 -> {
                         binding.passwordField.error = getString(R.string.sign_up_password_helper)
                     }
                     text.length > 20 -> {

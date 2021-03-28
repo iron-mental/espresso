@@ -45,7 +45,7 @@ class SignUpViewModel @ViewModelInject constructor(
     }
 
     private val isValidPassWord: (nickname: String) -> Boolean = { password ->
-        password.length in 8..20
+        password.length in 6..20
     }
 
 

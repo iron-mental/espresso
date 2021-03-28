@@ -46,7 +46,7 @@ class SignInPasswordFragment :
             .debounce(500, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ text ->
-                if (text.length in 1..7) {
+                if (text.length in 1..5) {
                     binding.passwordField.error = getString(R.string.sign_in_password_helper)
                 } else {
                     binding.passwordField.error = null
