@@ -23,11 +23,16 @@ class ChatViewHolder(
             time.text = dateFormat.format(item.timeStamp)
             myChat.isVisible = item.isMyChat
 
-            name.activationIf(item.sent)
-            message.activationIf(item.sent)
-            time.activationIf(item.sent)
-            myChat.activationIf(item.sent)
+            checkActivation(item.sent)
+        }
+    }
 
+    fun checkActivation(isActivate: Boolean) {
+        with(binding) {
+            name.activationIf(isActivate)
+            message.activationIf(isActivate)
+            time.activationIf(isActivate)
+            myChat.activationIf(isActivate)
         }
     }
 }
