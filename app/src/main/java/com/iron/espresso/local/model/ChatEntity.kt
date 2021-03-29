@@ -3,6 +3,7 @@ package com.iron.espresso.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.domain.entity.Chat
 import com.iron.espresso.domain.entity.ChatUser
 
@@ -14,7 +15,8 @@ data class ChatEntity(
     @ColumnInfo(name = "user_id") val userId: Int,
     @ColumnInfo(name = "nickname") val nickname: String,
     @ColumnInfo(name = "message") val message: String,
-    @ColumnInfo(name = "time_stamp") val timeStamp: Long
+    @ColumnInfo(name = "time_stamp") val timeStamp: Long,
+    @ColumnInfo(name = "connect_id") val connectId: Int = AuthHolder.requireId()
 ) {
     companion object {
         fun of(chatList: List<Chat>, userList: List<ChatUser>): List<ChatEntity> {
