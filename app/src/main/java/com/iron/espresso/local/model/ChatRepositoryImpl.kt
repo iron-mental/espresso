@@ -1,17 +1,18 @@
 package com.iron.espresso.local.model
 
-import com.google.gson.JsonObject
+import androidx.room.EmptyResultSetException
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.domain.entity.ChatUser
+import com.iron.espresso.domain.entity.Chatting
 import com.iron.espresso.domain.repo.ChatRepository
 import com.iron.espresso.ext.networkSchedulers
+import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.model.source.remote.ChatRemoteDataSource
 import io.reactivex.Completable
+import io.reactivex.CompletableEmitter
 import io.reactivex.Flowable
-import io.reactivex.disposables.Disposable
-import io.socket.emitter.Emitter
-import org.json.JSONObject
+import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 import javax.inject.Inject
 import kotlin.concurrent.schedule
@@ -21,151 +22,123 @@ class ChatRepositoryImpl @Inject constructor(
     private val chatRemoteDataSource: ChatRemoteDataSource
 ) : ChatRepository {
 
-    private var dbCount: Int = -1
+    private val compositeDisposable = CompositeDisposable()
 
-    private val onChatSendReceiver = Emitter.Listener { args ->
-        Logger.d("${args.map { it.toString() }}")
-    }
-
-    private val onChatReceiver = Emitter.Listener { args ->
-        val response = JSONObject(args.getOrNull(0).toString())
-
-        Logger.d("chatResponse: $response")
-        if (response.getInt("user_id") == AuthHolder.requireId()) {
-            Timer().schedule(500) {
+    init {
+        chatRemoteDataSource.setChatCallback { response ->
+            if (response.userId == AuthHolder.requireId()) {
+                Timer().schedule(500) {
+                    chatLocalDataSource.insert(
+                        ChatEntity(
+                            uuid = response.uuid.orEmpty(),
+                            studyId = response.studyId,
+                            userId = response.userId,
+                            nickname = response.nickname.orEmpty(),
+                            message = response.message.orEmpty(),
+                            timeStamp = response.date
+                        )
+                    )
+                        .networkSchedulers()
+                        .subscribe()
+                }
+            } else {
                 chatLocalDataSource.insert(
                     ChatEntity(
-                        uuid = response.getString("uuid"),
-                        studyId = response.getInt("study_id"),
-                        userId = response.getInt("user_id"),
-                        nickname = response.getString("nickname"),
-                        message = response.getString("message"),
-                        timeStamp = response.getLong("date")
+                        uuid = response.uuid.orEmpty(),
+                        studyId = response.studyId,
+                        userId = response.userId,
+                        nickname = response.nickname.orEmpty(),
+                        message = response.message.orEmpty(),
+                        timeStamp = response.date
                     )
                 )
                     .networkSchedulers()
                     .subscribe()
             }
-        } else {
-            chatLocalDataSource.insert(
-                ChatEntity(
-                    uuid = response.getString("uuid"),
-                    studyId = response.getInt("study_id"),
-                    userId = response.getInt("user_id"),
-                    nickname = response.getString("nickname"),
-                    message = response.getString("message"),
-                    timeStamp = response.getLong("date")
-                )
-            )
-                .networkSchedulers()
-                .subscribe()
         }
     }
 
     override fun getAll(studyId: Int): Flowable<List<ChatEntity>> =
         chatLocalDataSource.getAll(studyId)
 
-    override fun insert(chatEntity: ChatEntity): Completable =
-        chatLocalDataSource.insert(chatEntity)
-
-    override fun setChat(studyId: Int) {
-        var disposable: Disposable? = null
-        disposable = chatLocalDataSource.getChatCount(studyId)
-            .networkSchedulers()
-            .subscribe({ count ->
-                if (count > 0) {
-                    getChat(studyId)
-                    dbCount = count
-                } else {
-                    getAllChat(studyId, -1, true)
-                }
-                disposable?.dispose()
-            }, {
-                Logger.d("$it")
-                disposable?.dispose()
-            })
+    override fun setChat(studyId: Int): Completable {
+        return Completable.create { emitter ->
+            compositeDisposable += chatLocalDataSource.getTimeStamp(studyId)
+                .networkSchedulers()
+                .subscribe({ timeStamp ->
+                    compositeDisposable += requestChat(studyId, timeStamp, emitter)
+                }, {
+                    if (it is EmptyResultSetException) {
+                        compositeDisposable += requestChat(studyId, -1, emitter)
+                    } else {
+                        emitter.onError(it)
+                    }
+                })
+        }
     }
 
-    private fun getChat(studyId: Int) {
-        var disposable: Disposable? = null
-        disposable = chatLocalDataSource.getTimeStamp(studyId)
-            .flatMap { timestamp ->
-                chatRemoteDataSource.getChat(studyId, timestamp, false)
-                    .map {
-                        it.data?.toChatting()
-                    }
-            }
-            .networkSchedulers()
-            .subscribe({
-                if (it != null) {
-                    updateNicknames(it.chatUserList)
-                    if (it.chatList.isNotEmpty()) {
-                        insertAll(ChatEntity.of(it.chatList, it.chatUserList))
-                    }
-                }
-                disposable?.dispose()
-            }, {
-                disposable?.dispose()
-            })
-    }
-
-    private fun getAllChat(studyId: Int, timestamp: Long, first: Boolean) {
-        var disposable: Disposable? = null
-        disposable = chatRemoteDataSource.getChat(studyId, timestamp, first)
+    private fun requestChat(studyId: Int, timeStamp: Long, emitter: CompletableEmitter) =
+        chatRemoteDataSource.getChat(studyId, timeStamp, timeStamp == -1L)
             .map {
                 it.data?.toChatting()
             }
             .networkSchedulers()
-            .subscribe({
-                if (it != null) {
-                    updateNicknames(it.chatUserList)
-                    if (it.chatList.isNotEmpty()) {
-                        insertAll(ChatEntity.of(it.chatList, it.chatUserList))
+            .subscribe({ chatting: Chatting? ->
+                if (chatting != null) {
+                    val jobList = mutableListOf<Completable>()
+                    if (timeStamp != -1L) {
+                        jobList.addAll(updateNicknames(chatting.chatUserList))
+                    }
+                    if (chatting.chatList.isNotEmpty()) {
+                        jobList.add(
+                            insertAll(
+                                ChatEntity.of(
+                                    chatting.chatList,
+                                    chatting.chatUserList
+                                )
+                            )
+                        )
+                    }
+
+                    if (jobList.isEmpty()) {
+                        emitter.onComplete()
+                    } else {
+                        compositeDisposable += Completable.concat(jobList)
+                            .networkSchedulers()
+                            .subscribe({
+                                emitter.onComplete()
+                            }, { throwable ->
+                                emitter.onError(throwable)
+                                Logger.d("$throwable")
+                            })
                     }
                 }
-                disposable?.dispose()
-            }, {
-                disposable?.dispose()
-            })
-    }
 
-    private fun updateNicknames(chatUserList: List<ChatUser>) {
-        if (dbCount > 0) {
-            chatUserList.forEach {
-                var disposable: Disposable? = null
-                disposable = chatLocalDataSource.updateNickname(it.userId, it.nickname)
-                    .networkSchedulers()
-                    .subscribe({
-                        disposable?.dispose()
-                    }, { throwable ->
-                        Logger.d("$throwable")
-                        disposable?.dispose()
-                    })
-            }
+            }, {
+                emitter.onError(it)
+                Logger.d("$it")
+            })
+
+    private fun updateNicknames(chatUserList: List<ChatUser>): List<Completable> {
+        return chatUserList.map {
+            chatLocalDataSource.updateNickname(it.userId, it.nickname)
         }
     }
 
-    private fun insertAll(chatList: List<ChatEntity>) {
-        var disposable: Disposable? = null
-        disposable = chatLocalDataSource.insertAll(chatList)
-            .networkSchedulers()
-            .subscribe({
-                disposable?.dispose()
-            }, {
-                Logger.d("$it")
-                disposable?.dispose()
-            })
+    private fun insertAll(chatList: List<ChatEntity>): Completable {
+        return chatLocalDataSource.insertAll(chatList)
     }
 
     override fun onConnect(studyId: Int) {
-        return chatRemoteDataSource.onConnect(studyId, onChatSendReceiver, onChatReceiver)
+        return chatRemoteDataSource.onConnect(studyId)
     }
 
     override fun onDisconnect() {
-        return chatRemoteDataSource.onDisconnect(onChatSendReceiver, onChatReceiver)
+        compositeDisposable.clear()
+        return chatRemoteDataSource.onDisconnect()
     }
 
-    override fun sendMessage(chatMessage: JsonObject) {
-        return chatRemoteDataSource.sendMessage(chatMessage)
+    override fun sendMessage(chatMessage: String, uuid: String) {
+        return chatRemoteDataSource.sendMessage(chatMessage, uuid)
     }
 }

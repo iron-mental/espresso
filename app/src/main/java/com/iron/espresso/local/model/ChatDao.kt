@@ -24,7 +24,4 @@ interface ChatDao {
 
     @Query("UPDATE chat_table SET nickname = (:nickname) WHERE user_id IN (:userId)")
     fun updateNickname(userId: Int, nickname: String): Completable
-
-    @Query("SELECT COUNT(uuid) FROM chat_table WHERE study_id IN (:studyId)")
-    fun getChatCount(studyId: Int): Single<Int>
 }

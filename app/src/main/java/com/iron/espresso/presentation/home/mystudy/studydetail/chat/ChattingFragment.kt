@@ -5,46 +5,25 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.JsonObject
-import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
-import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentChattingBinding
+import com.iron.espresso.ext.hideLoading
+import com.iron.espresso.ext.showLoading
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment_chatting) {
 
     private val chattingViewModel by viewModels<ChattingViewModel>()
-    private val studyId: Int by lazy {
-        arguments?.getInt(ChattingViewModel.KEY_STUDY_ID) ?: -1
-    }
 
     private val chatAdapter by lazy { ChatAdapter() }
     private val inputChatAdapter by lazy {
         InputChatAdapter { chatMessage ->
-            val uuid = UUID.randomUUID().toString()
-            chatAdapter.submitList(
-                chatAdapter.currentList +
-                    ChatItem(
-                        uuid = uuid,
-                        studyId = studyId,
-                        userId = AuthHolder.requireId(),
-                        name = UserHolder.get()?.nickname.orEmpty(),
-                        message = chatMessage,
-                        timeStamp = System.currentTimeMillis(),
-                        isMyChat = true,
-                        sent = false
-                    )
-            )
-
-            val data = JsonObject()
-            data.addProperty("message", chatMessage.trim())
-            data.addProperty("uuid", uuid)
-
-            chattingViewModel.sendMessage(data)
+            val message = chatMessage.trim()
+            if (message.isNotEmpty()) {
+                chattingViewModel.sendMessage(message)
+            }
         }
     }
 
@@ -56,18 +35,29 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
         binding.chatList.adapter = adapter
 
         chattingViewModel.run {
-            onConnect()
-            setChat(studyId)
-            getAllChats()
             chatList.observe(viewLifecycleOwner, {
                 chatAdapter.submitList(it)
 
                 if (inputChatAdapter.currentList.isEmpty()) {
                     inputChatAdapter.submitList(listOf(InputChatItem))
                     (binding.chatList.layoutManager as LinearLayoutManager)
+                        .scrollToPositionWithOffset(chatAdapter.currentList.lastIndex, 0)
                 }
+                hideLoading()
             })
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        showLoading()
+        chattingViewModel.onConnect()
+        chattingViewModel.setup()
+    }
+
+    override fun onStop() {
+        chattingViewModel.onDisconnect()
+        super.onStop()
     }
 
     override fun onDestroyView() {
