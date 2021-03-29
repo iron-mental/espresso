@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.JsonObject
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
@@ -54,27 +55,17 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
 
         binding.chatList.adapter = adapter
 
-        inputChatAdapter.submitList(
-            listOf(
-                ChatItem(
-                    "",
-                    0,
-                    0,
-                    "원우석",
-                    "",
-                    System.currentTimeMillis(),
-                    true,
-                    sent = true
-                )
-            )
-        )
-
         chattingViewModel.run {
             onConnect()
             setChat(studyId)
             getAllChats()
             chatList.observe(viewLifecycleOwner, {
                 chatAdapter.submitList(it)
+
+                if (inputChatAdapter.currentList.isEmpty()) {
+                    inputChatAdapter.submitList(listOf(InputChatItem))
+                    (binding.chatList.layoutManager as LinearLayoutManager)
+                }
             })
         }
     }
