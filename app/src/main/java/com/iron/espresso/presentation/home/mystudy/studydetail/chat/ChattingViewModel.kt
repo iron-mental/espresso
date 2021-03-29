@@ -15,6 +15,7 @@ import com.iron.espresso.ext.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ChattingViewModel @ViewModelInject constructor(
@@ -47,10 +48,34 @@ class ChattingViewModel @ViewModelInject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                _chatList.value = ChatItem.of(it)
+                _chatList.value = groupByDate(ChatItem.of(it))
             }, {
                 Logger.d("$it")
             })
+    }
+
+    private fun groupByDate(chatList: List<ChatItem>): MutableList<ChatItem> {
+        val list = mutableListOf<ChatItem>()
+        val dateGroup = chatList.groupBy {
+            SimpleDateFormat("yyyy년 MM월 dd일").format(it.timeStamp)
+        }
+        dateGroup.forEach {
+            list.add(
+                ChatItem(
+                    uuid = "",
+                    studyId = 0,
+                    userId = 0,
+                    name = "",
+                    message = it.key,
+                    timeStamp = 0,
+                    isMyChat = false,
+                    sent = true
+                )
+            )
+            list.addAll(it.value)
+        }
+
+        return list
     }
 
     fun onConnect() {
