@@ -111,6 +111,16 @@ class ChattingViewModel @ViewModelInject constructor(
         }
     }
 
+    fun deleteBookmark(){
+        compositeDisposable += chatRepository.deleteBookmark()
+            .networkSchedulers()
+            .subscribe({
+
+            },{
+                Logger.d("$it")
+            })
+    }
+
     companion object {
         const val KEY_STUDY_ID = "STUDY_ID"
     }

@@ -88,8 +88,23 @@ class ChatRepositoryImpl @Inject constructor(
                     val jobList = mutableListOf<Completable>()
                     if (timeStamp != -1L) {
                         jobList.addAll(updateNicknames(chatting.chatUserList))
+                        if (chatting.chatList.isNotEmpty()) {
+                            chatLocalDataSource.insert(
+                                ChatEntity(
+                                    uuid = "bookmark",
+                                    studyId = studyId,
+                                    userId = 0,
+                                    nickname = "",
+                                    message = "여기까지 읽었습니다",
+                                    timeStamp = chatting.chatList[0].date - 1
+                                )
+                            )
+                                .networkSchedulers()
+                                .subscribe()
+                        }
                     }
                     if (chatting.chatList.isNotEmpty()) {
+
                         jobList.add(
                             insertAll(
                                 ChatEntity.of(
@@ -127,6 +142,10 @@ class ChatRepositoryImpl @Inject constructor(
 
     private fun insertAll(chatList: List<ChatEntity>): Completable {
         return chatLocalDataSource.insertAll(chatList)
+    }
+
+    override fun deleteBookmark(): Completable {
+        return chatLocalDataSource.deleteBookmark()
     }
 
     override fun onConnect(studyId: Int) {

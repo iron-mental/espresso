@@ -25,4 +25,7 @@ interface ChatDao {
 
     @Query("UPDATE chat_table SET nickname = (:nickname) WHERE user_id = (:userId) AND connect_id = (:connectId)")
     fun updateNickname(userId: Int, nickname: String, connectId: Int = AuthHolder.requireId()): Completable
+
+    @Query("DELETE FROM chat_table WHERE uuid = (:uuid)")
+    fun deleteBookmark(uuid: String = "bookmark"): Completable
 }

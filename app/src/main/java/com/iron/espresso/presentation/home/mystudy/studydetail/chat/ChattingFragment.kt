@@ -20,10 +20,7 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
     private val chatAdapter by lazy { ChatAdapter() }
     private val inputChatAdapter by lazy {
         InputChatAdapter { chatMessage ->
-            val message = chatMessage.trim()
-            if (message.isNotEmpty()) {
-                chattingViewModel.sendMessage(message)
-            }
+            chattingViewModel.sendMessage(chatMessage)
         }
     }
 
@@ -56,11 +53,13 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
     }
 
     override fun onStop() {
+        chattingViewModel.deleteBookmark()
         chattingViewModel.onDisconnect()
         super.onStop()
     }
 
     override fun onDestroyView() {
+        chattingViewModel.deleteBookmark()
         chattingViewModel.onDisconnect()
         super.onDestroyView()
     }
