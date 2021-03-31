@@ -46,13 +46,19 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
         binding.chatList.adapter = adapter
 
         chattingViewModel.run {
-            chatList.observe(viewLifecycleOwner, {
-                chatAdapter.submitList(it)
-
+            chatList.observe(viewLifecycleOwner, { chatList ->
+                chatAdapter.submitList(chatList)
                 if (inputChatAdapter.currentList.isEmpty()) {
                     inputChatAdapter.submitList(listOf(InputChatItem))
+
+                    val findItem = chatAdapter.currentList.find { it.uuid == "bookmark" }
+                    if (findItem != null) {
+                        (binding.chatList.layoutManager as LinearLayoutManager)
+                            .scrollToPositionWithOffset(chatAdapter.currentList.lastIndexOf(findItem), 0)
+                    }
+
                     (binding.chatList.layoutManager as LinearLayoutManager)
-                        .scrollToPositionWithOffset(chatAdapter.currentList.lastIndex, 0)
+                        .stackFromEnd = true
                 }
                 hideLoading()
             })
