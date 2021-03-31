@@ -48,7 +48,7 @@ class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyAp
 
     override fun sendMessage(chatMessage: String, uuid: String): Completable {
         return Completable.create { emitter ->
-            if (chatSocket == null) {
+            if (chatSocket?.connected() == false) {
                 Timer().schedule(2000) {
                     emitter.onError(SocketException())
                 }
@@ -96,7 +96,6 @@ class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyAp
 
                 on(Socket.EVENT_DISCONNECT) { response ->
                     Logger.d("EVENT_DISCONNECT ${response.map { it.toString() }}")
-                    chatSocket = null
                 }
 
                 on(Socket.EVENT_MESSAGE) { response ->
