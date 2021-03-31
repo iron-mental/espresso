@@ -1,5 +1,7 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.chat
 
+import android.graphics.Color
+import androidx.annotation.ColorInt
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.local.model.ChatEntity
 
@@ -32,7 +34,9 @@ data class ChatItem(
     }
 }
 
-enum class ChatSendingState {
-    SENDING, SUCCESS, FAILURE
+enum class ChatSendingState(@ColorInt val color: Int) {
+    SENDING(Color.GRAY),
+    SUCCESS(Color.WHITE),
+    FAILURE(Color.RED)
 }
 

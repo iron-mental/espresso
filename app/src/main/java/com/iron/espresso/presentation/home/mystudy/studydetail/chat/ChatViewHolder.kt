@@ -29,27 +29,10 @@ class ChatViewHolder(
 
     fun checkActivation(state: ChatSendingState) {
         with(binding) {
-            when (state) {
-                ChatSendingState.SENDING -> {
-                    name.setTextColor(Color.GRAY)
-                    message.setTextColor(Color.GRAY)
-                    time.setTextColor(Color.GRAY)
-                    myChat.setTextColor(Color.GRAY)
-                }
-                ChatSendingState.SUCCESS -> {
-                    name.setTextColor(Color.WHITE)
-                    message.setTextColor(Color.WHITE)
-                    time.setTextColor(Color.WHITE)
-                    myChat.setTextColor(Color.WHITE)
-                }
-
-                ChatSendingState.FAILURE -> {
-                    name.setTextColor(Color.RED)
-                    message.setTextColor(Color.RED)
-                    time.setTextColor(Color.RED)
-                    myChat.setTextColor(Color.RED)
-                }
-            }
+            name.setTextColor(state.color)
+            message.setTextColor(state.color)
+            time.setTextColor(state.color)
+            myChat.setTextColor(state.color)
         }
     }
 }
