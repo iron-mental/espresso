@@ -35,7 +35,7 @@ class ChatAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(DIFF_CALLBACK
         payloads: MutableList<Any>
     ) {
         if (payloads.contains(CHECK_ACTIVATE)) {
-            (holder as ChatViewHolder).checkActivation(currentList[position].sent)
+            (holder as ChatViewHolder).checkActivation(currentList[position].chatSendingState)
         } else {
             super.onBindViewHolder(holder, position, payloads)
         }
@@ -51,7 +51,7 @@ class ChatAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(DIFF_CALLBACK
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ChatItem>() {
 
             override fun getChangePayload(oldItem: ChatItem, newItem: ChatItem): Any? {
-                if (oldItem.sent != newItem.sent) return CHECK_ACTIVATE
+                if (oldItem.chatSendingState != newItem.chatSendingState) return CHECK_ACTIVATE
 
                 return super.getChangePayload(oldItem, newItem)
             }

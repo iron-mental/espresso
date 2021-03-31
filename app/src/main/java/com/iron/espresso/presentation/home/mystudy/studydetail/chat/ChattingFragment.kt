@@ -5,7 +5,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
+import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentChattingBinding
 import com.iron.espresso.ext.hideLoading
@@ -20,6 +22,18 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
     private val chatAdapter by lazy { ChatAdapter() }
     private val inputChatAdapter by lazy {
         InputChatAdapter { chatMessage ->
+            chatAdapter.submitList(
+                chatAdapter.currentList + ChatItem(
+                    uuid = "",
+                    studyId = 0,
+                    userId = AuthHolder.requireId(),
+                    name = UserHolder.get()?.nickname.orEmpty(),
+                    message = chatMessage,
+                    timeStamp = System.currentTimeMillis(),
+                    isMyChat = true,
+                    chatSendingState = ChatSendingState.SENDING
+                )
+            )
             chattingViewModel.sendMessage(chatMessage)
         }
     }

@@ -6,10 +6,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.databinding.ItemChatBinding
-import com.iron.espresso.ext.setTextColorIf
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.concurrent.timerTask
 
 class ChatViewHolder(
     parent: ViewGroup,
@@ -18,8 +15,6 @@ class ChatViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val dateFormat = SimpleDateFormat("[a hh:mm]")
-    private val timer = Timer()
-    private var timerTask = timerTask { sendFailed() }
 
     fun bind(item: ChatItem) {
         with(binding) {
@@ -28,32 +23,33 @@ class ChatViewHolder(
             time.text = dateFormat.format(item.timeStamp)
             myChat.isVisible = item.isMyChat
 
-            checkActivation(item.sent)
+            checkActivation(item.chatSendingState)
         }
     }
 
-    fun checkActivation(sent: Boolean) {
+    fun checkActivation(state: ChatSendingState) {
         with(binding) {
-            name.setTextColorIf(Color.WHITE, Color.GRAY, sent)
-            message.setTextColorIf(Color.WHITE, Color.GRAY, sent)
-            time.setTextColorIf(Color.WHITE, Color.GRAY, sent)
-            myChat.setTextColorIf(Color.WHITE, Color.GRAY, sent)
+            when (state) {
+                ChatSendingState.SENDING -> {
+                    name.setTextColor(Color.GRAY)
+                    message.setTextColor(Color.GRAY)
+                    time.setTextColor(Color.GRAY)
+                    myChat.setTextColor(Color.GRAY)
+                }
+                ChatSendingState.SUCCESS -> {
+                    name.setTextColor(Color.WHITE)
+                    message.setTextColor(Color.WHITE)
+                    time.setTextColor(Color.WHITE)
+                    myChat.setTextColor(Color.WHITE)
+                }
 
-            if (sent) {
-                timerTask.cancel()
-            } else {
-                timerTask = timerTask { sendFailed() }
-                timer.schedule(timerTask, 2000)
+                ChatSendingState.FAILURE -> {
+                    name.setTextColor(Color.RED)
+                    message.setTextColor(Color.RED)
+                    time.setTextColor(Color.RED)
+                    myChat.setTextColor(Color.RED)
+                }
             }
-        }
-    }
-
-    private fun sendFailed() {
-        with(binding) {
-            name.setTextColor(Color.RED)
-            message.setTextColor(Color.RED)
-            time.setTextColor(Color.RED)
-            myChat.setTextColor(Color.RED)
         }
     }
 }

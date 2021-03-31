@@ -157,7 +157,7 @@ class ChatRepositoryImpl @Inject constructor(
         return chatRemoteDataSource.onDisconnect()
     }
 
-    override fun sendMessage(chatMessage: String, uuid: String) {
+    override fun sendMessage(chatMessage: String, uuid: String): Completable {
         return chatRemoteDataSource.sendMessage(chatMessage, uuid)
     }
 }

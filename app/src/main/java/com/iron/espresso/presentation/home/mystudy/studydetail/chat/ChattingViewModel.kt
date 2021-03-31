@@ -15,6 +15,7 @@ import com.iron.espresso.ext.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.net.SocketException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -69,7 +70,7 @@ class ChattingViewModel @ViewModelInject constructor(
                     message = it.key,
                     timeStamp = 0,
                     isMyChat = false,
-                    sent = true
+                    chatSendingState = ChatSendingState.SUCCESS
                 )
             )
             list.addAll(it.value)
@@ -96,27 +97,34 @@ class ChattingViewModel @ViewModelInject constructor(
         if (chatMessage.isNotEmpty()) {
             val uuid = UUID.randomUUID().toString()
 
-            _chatList.value = chatList.value.orEmpty() + ChatItem(
-                uuid = uuid,
-                studyId = studyId,
-                userId = AuthHolder.requireId(),
-                name = UserHolder.get()?.nickname.orEmpty(),
-                message = message,
-                timeStamp = System.currentTimeMillis(),
-                isMyChat = true,
-                sent = false
-            )
+            compositeDisposable += chatRepository.sendMessage(message, uuid)
+                .networkSchedulers()
+                .subscribe({
 
-            chatRepository.sendMessage(message, uuid)
+                }, {
+                    if (it is SocketException) {
+                        _chatList.value = chatList.value.orEmpty() + ChatItem(
+                            uuid = uuid,
+                            studyId = studyId,
+                            userId = AuthHolder.requireId(),
+                            name = UserHolder.get()?.nickname.orEmpty(),
+                            message = "$message - 전송 실패",
+                            timeStamp = System.currentTimeMillis(),
+                            isMyChat = true,
+                            chatSendingState = ChatSendingState.FAILURE
+                        )
+                    }
+
+                })
         }
     }
 
-    fun deleteBookmark(){
+    fun deleteBookmark() {
         compositeDisposable += chatRepository.deleteBookmark()
             .networkSchedulers()
             .subscribe({
 
-            },{
+            }, {
                 Logger.d("$it")
             })
     }

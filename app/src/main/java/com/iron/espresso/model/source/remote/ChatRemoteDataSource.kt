@@ -8,6 +8,7 @@ import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.chat.SocketChatResponse
 import com.iron.espresso.model.response.study.ChattingResponse
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.socket.client.IO
 import io.socket.client.Manager
@@ -15,8 +16,11 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.net.SocketException
 import java.net.URI
+import java.util.*
 import javax.inject.Inject
+import kotlin.concurrent.schedule
 
 
 class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyApi) :
@@ -42,12 +46,21 @@ class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyAp
         return studyApi.getChat(studyId = studyId, date = date, first = first)
     }
 
-    override fun sendMessage(chatMessage: String, uuid: String) {
-        val data = JsonObject()
-        data.addProperty("message", chatMessage)
-        data.addProperty("uuid", uuid)
+    override fun sendMessage(chatMessage: String, uuid: String): Completable {
+        return Completable.create { emitter ->
+            if (chatSocket == null) {
+                Timer().schedule(2000) {
+                    emitter.onError(SocketException())
+                }
+            } else {
+                val data = JsonObject()
+                data.addProperty("message", chatMessage)
+                data.addProperty("uuid", uuid)
 
-        chatSocket?.emit(CHAT, data)
+                chatSocket?.emit(CHAT, data)
+                emitter.onComplete()
+            }
+        }
     }
 
     override fun onDisconnect() {
@@ -83,6 +96,7 @@ class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyAp
 
                 on(Socket.EVENT_DISCONNECT) { response ->
                     Logger.d("EVENT_DISCONNECT ${response.map { it.toString() }}")
+                    chatSocket = null
                 }
 
                 on(Socket.EVENT_MESSAGE) { response ->
@@ -106,7 +120,7 @@ interface ChatRemoteDataSource {
 
     fun onDisconnect()
 
-    fun sendMessage(chatMessage: String, uuid: String)
+    fun sendMessage(chatMessage: String, uuid: String): Completable
 
     fun setChatCallback(callback: (SocketChatResponse) -> Unit)
 }

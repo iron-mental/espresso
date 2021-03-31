@@ -11,7 +11,7 @@ data class ChatItem(
     val message: String,
     val timeStamp: Long,
     val isMyChat: Boolean,
-    val sent: Boolean
+    val chatSendingState: ChatSendingState
 ) {
     companion object {
 
@@ -25,10 +25,14 @@ data class ChatItem(
                     message = it.message,
                     timeStamp = it.timeStamp,
                     isMyChat = it.userId == AuthHolder.requireId(),
-                    sent = true
+                    chatSendingState = ChatSendingState.SUCCESS
                 )
             }
         }
     }
+}
+
+enum class ChatSendingState {
+    SENDING, SUCCESS, FAILURE
 }
 

@@ -15,5 +15,5 @@ interface ChatRepository {
 
     fun onDisconnect()
 
-    fun sendMessage(chatMessage: String, uuid: String)
+    fun sendMessage(chatMessage: String, uuid: String): Completable
 }
