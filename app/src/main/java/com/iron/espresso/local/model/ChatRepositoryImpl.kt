@@ -23,35 +23,21 @@ class ChatRepositoryImpl @Inject constructor(
 ) : ChatRepository {
 
     private val compositeDisposable = CompositeDisposable()
+    private var chatUserList = listOf<ChatUser>()
 
     init {
         chatRemoteDataSource.setChatCallback { response ->
-            if (response.userId == AuthHolder.requireId()) {
-                Timer().schedule(500) {
-                    chatLocalDataSource.insert(
-                        ChatEntity(
-                            uuid = response.uuid.orEmpty(),
-                            studyId = response.studyId,
-                            userId = response.userId,
-                            nickname = response.nickname.orEmpty(),
-                            message = response.message.orEmpty(),
-                            timeStamp = response.date
-                        )
-                    )
-                        .networkSchedulers()
-                        .subscribe()
-                }
+            val delay: Long = if (response.userId == AuthHolder.requireId()) {
+                500
             } else {
-                chatLocalDataSource.insert(
-                    ChatEntity(
-                        uuid = response.uuid.orEmpty(),
-                        studyId = response.studyId,
-                        userId = response.userId,
-                        nickname = response.nickname.orEmpty(),
-                        message = response.message.orEmpty(),
-                        timeStamp = response.date
-                    )
-                )
+                0
+            }
+
+            Timer().schedule(delay) {
+                val jobList = mutableListOf<Completable>()
+                jobList.add(chatLocalDataSource.insert(response.toChatEntity()))
+                jobList.addAll(updateNicknames(chatUserList))
+                compositeDisposable += Completable.concat(jobList)
                     .networkSchedulers()
                     .subscribe()
             }
@@ -85,6 +71,7 @@ class ChatRepositoryImpl @Inject constructor(
             .networkSchedulers()
             .subscribe({ chatting: Chatting? ->
                 if (chatting != null) {
+                    chatUserList = chatting.chatUserList
                     val jobList = mutableListOf<Completable>()
                     if (timeStamp != -1L) {
                         jobList.addAll(updateNicknames(chatting.chatUserList))
