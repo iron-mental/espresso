@@ -135,6 +135,14 @@ class ChatRepositoryImpl @Inject constructor(
         return chatLocalDataSource.deleteBookmark()
     }
 
+    override fun delete(studyId: Int): Completable {
+        return chatLocalDataSource.delete(studyId)
+    }
+
+    override fun deleteAll(studyId: Int): Completable {
+        return chatLocalDataSource.deleteAll(studyId)
+    }
+
     override fun onConnect(studyId: Int) {
         return chatRemoteDataSource.onConnect(studyId)
     }

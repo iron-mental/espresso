@@ -25,4 +25,10 @@ interface ChatDao {
 
     @Query("DELETE FROM chat_table WHERE uuid = (:uuid)")
     fun deleteBookmark(uuid: String = "bookmark"): Completable
+
+    @Query("DELETE FROM chat_table WHERE study_id = (:studyId) AND connect_id = (:connectId)")
+    fun delete(studyId: Int, connectId: Int = AuthHolder.requireId()): Completable
+
+    @Query("DELETE FROM chat_table WHERE study_id = (:studyId)")
+    fun deleteAll(studyId: Int): Completable
 }

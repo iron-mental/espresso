@@ -11,6 +11,10 @@ interface ChatRepository {
 
     fun deleteBookmark(): Completable
 
+    fun delete(studyId: Int): Completable
+
+    fun deleteAll(studyId: Int): Completable
+
     fun onConnect(studyId: Int)
 
     fun onDisconnect()

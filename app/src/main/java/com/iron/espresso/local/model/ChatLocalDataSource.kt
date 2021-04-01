@@ -17,6 +17,10 @@ interface ChatLocalDataSource {
     fun deleteBookmark(): Completable
 
     fun updateNickname(userId: Int, nickname: String): Completable
+
+    fun delete(studyId: Int): Completable
+
+    fun deleteAll(studyId: Int): Completable
 }
 
 class ChatLocalDataSourceImpl @Inject constructor(private val chatDao: ChatDao) : ChatLocalDataSource {
@@ -37,4 +41,10 @@ class ChatLocalDataSourceImpl @Inject constructor(private val chatDao: ChatDao) 
 
     override fun updateNickname(userId: Int, nickname: String): Completable =
         chatDao.updateNickname(userId, nickname)
+
+    override fun delete(studyId: Int): Completable =
+        chatDao.delete(studyId)
+
+    override fun deleteAll(studyId: Int): Completable =
+        chatDao.deleteAll(studyId)
 }
