@@ -1,6 +1,7 @@
 package com.iron.espresso.model.response.chat
 
 import com.google.gson.annotations.SerializedName
+import com.iron.espresso.local.model.ChatEntity
 
 data class SocketChatResponse(
     @SerializedName("uuid")
@@ -15,4 +16,14 @@ data class SocketChatResponse(
     val message: String?,
     @SerializedName("date")
     val date: Long = -1L
-)
+) {
+    fun toChatEntity(): ChatEntity =
+        ChatEntity(
+            uuid = uuid.orEmpty(),
+            studyId = studyId,
+            userId = userId,
+            nickname = nickname.orEmpty(),
+            message = message.orEmpty(),
+            timeStamp = date
+        )
+}
