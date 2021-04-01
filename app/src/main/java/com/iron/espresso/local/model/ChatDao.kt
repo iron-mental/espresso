@@ -20,9 +20,6 @@ interface ChatDao {
     @Insert
     fun insertAll(chatEntity: List<ChatEntity>): Completable
 
-    @Delete
-    fun delete(chatEntity: ChatEntity): Completable
-
     @Query("UPDATE chat_table SET nickname = (:nickname) WHERE user_id = (:userId) AND connect_id = (:connectId)")
     fun updateNickname(userId: Int, nickname: String, connectId: Int = AuthHolder.requireId()): Completable
 
