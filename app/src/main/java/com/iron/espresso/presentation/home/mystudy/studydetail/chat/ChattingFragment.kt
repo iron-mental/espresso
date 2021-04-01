@@ -2,9 +2,11 @@ package com.iron.espresso.presentation.home.mystudy.studydetail.chat
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.R
 import com.iron.espresso.UserHolder
@@ -41,28 +43,47 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ConcatAdapter(chatAdapter, inputChatAdapter)
+        binding.run {
+            val adapter = ConcatAdapter(chatAdapter, inputChatAdapter)
+            var scrollDy = 0
+            chatList.adapter = adapter
 
-        binding.chatList.adapter = adapter
+            chatList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    scrollDy += dy
+                    binding.moveDownButton.isVisible = scrollDy < -3500
+                }
+            })
+            moveDownButton.setOnClickListener {
+                (chatList.layoutManager as LinearLayoutManager)
+                    .scrollToPositionWithOffset(chatAdapter.currentList.lastIndex, 0)
+
+                scrollDy = 0
+                chatList.stopScroll()
+            }
+        }
 
         chattingViewModel.run {
             chatList.observe(viewLifecycleOwner, { chatList ->
                 chatAdapter.submitList(chatList)
                 if (inputChatAdapter.currentList.isEmpty()) {
                     inputChatAdapter.submitList(listOf(InputChatItem))
-
-                    val findItem = chatAdapter.currentList.find { it.uuid == "bookmark" }
-                    if (findItem != null) {
-                        (binding.chatList.layoutManager as LinearLayoutManager)
-                            .scrollToPositionWithOffset(chatAdapter.currentList.lastIndexOf(findItem), 0)
-                    }
-
-                    (binding.chatList.layoutManager as LinearLayoutManager)
-                        .stackFromEnd = true
+                    setScrollPosition()
                 }
                 hideLoading()
             })
         }
+    }
+
+    private fun setScrollPosition() {
+        val findItem = chatAdapter.currentList.find { it.uuid == "bookmark" }
+        if (findItem != null) {
+            (binding.chatList.layoutManager as LinearLayoutManager)
+                .scrollToPositionWithOffset(chatAdapter.currentList.lastIndexOf(findItem), 0)
+        }
+
+        (binding.chatList.layoutManager as LinearLayoutManager).stackFromEnd = true
     }
 
     override fun onStart() {
