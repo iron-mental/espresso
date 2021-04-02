@@ -37,8 +37,8 @@ fun ImageView.setImage(imageUrl: String, centerCrop: Boolean = false) {
 }
 
 @BindingAdapter("bind:setCircleImage")
-fun ImageView.setCircleImage(imageUrl: String) {
-    if (imageUrl.isEmpty()) return
+fun ImageView.setCircleImage(imageUrl: String?) {
+    if (imageUrl.isNullOrEmpty()) return
 
     Glide.with(context)
         .load(
@@ -75,4 +75,9 @@ fun ImageView.setRadiusImage(imageUrl: String) {
         )
         .transform(CenterCrop(), RoundedCorners(30))
         .into(this)
+}
+
+@BindingAdapter("android:activationIf")
+fun ImageView.activationIf(activation: Boolean?) {
+    this.alpha = if (activation == true) 1F else 0.4F
 }

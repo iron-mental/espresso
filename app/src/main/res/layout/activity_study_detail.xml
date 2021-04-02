@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.home.study.AbsStudyDetailViewModel" />
     </data>
 
     <LinearLayout
@@ -52,18 +56,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp">
 
-                    <ImageView
-                        android:id="@+id/introduce"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:lineSpacingExtra="24sp"
-                        android:src="@drawable/icon_web"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+
+                    <include
+                        layout="@layout/view_sns_study"
                         app:layout_constraintBottom_toBottomOf="@+id/join_button"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/join_button" />
+                        app:layout_constraintTop_toTopOf="@id/join_button"
+                        bind:viewModel="@{viewModel}" />
 
                     <TextView
                         android:id="@+id/join_button"

@@ -19,6 +19,12 @@ interface UserApi {
         @Body body: LoginRequest
     ): Single<BaseResponse<UserAuthResponse>>
 
+    @POST("/v1/user/logout")
+    fun logout(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Body body: LogoutRequest = LogoutRequest(AuthHolder.requireId())
+    ): Single<BaseResponse<Nothing>>
+
     @GET("/v1/user/{id}")
     fun getUser(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
@@ -48,16 +54,17 @@ interface UserApi {
         @Part body: List<MultipartBody.Part>
     ): Single<BaseResponse<Nothing>>
 
-    @DELETE("/v1/user/{id}")
+    @HTTP(method = "DELETE", path = "/v1/user/{id}", hasBody = true)
     fun deleteUser(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int
+        @Path("id") id: Int = AuthHolder.requireId(),
+        @Body body: DeleteUserRequest
     ): Single<BaseResponse<Nothing>>
 
     @GET("/v1/user/{id}/emailVerify")
     fun verifyEmail(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
-        @Path("id") id: Int
+        @Path("id") id: Int = AuthHolder.requireId()
     ): Single<BaseResponse<Nothing>>
 
     @POST("/v1/firebase/reset-password/{email}")

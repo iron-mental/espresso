@@ -22,7 +22,7 @@ import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.HomeActivity
 import com.iron.espresso.presentation.home.apply.ApplyStudyActivity
 import com.iron.espresso.presentation.home.apply.ConfirmDialog
-import com.iron.espresso.presentation.home.mystudy.studydetail.ChattingFragment
+import com.iron.espresso.presentation.home.mystudy.studydetail.chat.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.DelegateLeaderActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.ModifyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
@@ -58,7 +58,7 @@ class MyStudyDetailActivity :
                     when (position) {
                         0 -> NoticeFragment.newInstance(studyId)
                         1 -> StudyInfoFragment.newInstance(studyId)
-                        2 -> ChattingFragment.newInstance()
+                        2 -> ChattingFragment.newInstance(studyId)
                         else -> error("Invalid position")
                     }
             }

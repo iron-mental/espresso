@@ -18,7 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.home.alert.AlertListActivity"></activity>
+        <activity android:name=".presentation.home.setting.DeleteUserActivity" />
+
+        <activity android:name=".presentation.home.mystudy.studydetail.MemberProfileActivity" />
+        <activity android:name=".presentation.home.alert.AlertListActivity" />
         <activity android:name=".presentation.home.apply.ApplyStudyActivity" />
         <activity android:name=".presentation.home.apply.MyApplyStudyActivity" />
         <activity android:name=".presentation.home.mystudy.studydetail.ModifyStudyActivity" />
@@ -63,12 +66,6 @@
             android:name=".presentation.sign.SignUpActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".presentation.home.study.list.StudyListActivity" />
-        <activity android:name=".presentation.home.setting.SettingProfileActivity" />
-        <activity android:name=".presentation.home.setting.SettingPolicyActivity" />
-        <activity android:name=".presentation.home.setting.SettingTermsActivity" />
-        <activity android:name=".presentation.home.setting.SettingContactActivity" />
-        <activity android:name=".presentation.home.setting.SettingHelpActivity" />
-        <activity android:name=".presentation.home.setting.SettingNoticeActivity" />
         <activity android:name=".presentation.home.study.StudyCategoryActivity" />
         <activity android:name=".presentation.home.study.StudyCreateActivity" />
         <activity android:name=".presentation.home.study.search.SearchStudyActivity" />

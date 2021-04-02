@@ -15,6 +15,8 @@ interface UserRepository {
         pushToken: String
     ): Single<BaseResponse<UserAuthResponse>>
 
+    fun logout(): Single<Pair<Boolean, String>>
+
     fun getUser(id: Int): Single<User>
 
     fun registerUser(
@@ -22,6 +24,8 @@ interface UserRepository {
         password: String,
         nickname: String
     ): Single<BaseResponse<Nothing>>
+
+    fun deleteUser(email: String, password: String): Single<Pair<Boolean, String>>
 
     fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
 
@@ -49,4 +53,6 @@ interface UserRepository {
     ): Single<BaseResponse<Nothing>>
 
     fun getAddressList(): Single<List<Address>>
+
+    fun verifyEmail(): Single<Pair<Boolean, String>>
 }

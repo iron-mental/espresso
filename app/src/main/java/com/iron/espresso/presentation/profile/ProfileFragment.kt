@@ -10,8 +10,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.UserHolder
@@ -43,7 +45,6 @@ class ProfileFragment :
     private fun setupView() {
         binding.run {
             this.viewModel = profileViewModel
-
             layoutHeader.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 val user = profileViewModel.user.value ?: return@setOnClickListener
                 showFragment(
@@ -54,6 +55,7 @@ class ProfileFragment :
                     )
                 )
             }
+
             layoutCareer.root.findViewById<View>(R.id.edt_button).setOnClickListener {
                 val user = profileViewModel.user.value ?: return@setOnClickListener
                 showFragment(
@@ -147,8 +149,6 @@ class ProfileFragment :
     private fun setProfile() {
         UserHolder.get()?.let {
             profileViewModel.setProfile(user = it)
-
-            binding.layoutHeader.profileImage.setCircleImage(it.image)
         }
     }
 
@@ -165,10 +165,14 @@ class ProfileFragment :
         if (requestCode == REQ_MODIFY_SUCCESS_CODE && resultCode == Activity.RESULT_OK) {
             profileViewModel.refreshProfile()
             setProfile()
+
+            setFragmentResult(KEY_UPDATE_PROFILE, bundleOf(KEY_PROFILE_DATA to data))
         }
     }
 
     companion object {
+        const val KEY_UPDATE_PROFILE = "UPDATE_PROFILE"
+        const val KEY_PROFILE_DATA = "PROFILE_DATA"
         fun newInstance() =
             ProfileFragment()
 

@@ -126,27 +126,27 @@
                     layout="@layout/view_input_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:hint="@{`Notion URL`}"
+                    bind:hint="@{@string/sns_notion_input_hint}"
                     bind:icon="@{R.drawable.notion}"
-                    bind:title="@{`Notion`}" />
+                    bind:title="@{@string/sns_notion_input_title}" />
 
                 <include
                     android:id="@+id/evernote_input_view"
                     layout="@layout/view_input_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:hint="@{`EverNote URL`}"
+                    bind:hint="@{@string/sns_ever_note_input_hint}"
                     bind:icon="@{R.drawable.ever_note}"
-                    bind:title="@{`EverNote`}" />
+                    bind:title="@{@string/sns_ever_note_input_title}" />
 
                 <include
                     android:id="@+id/web_input_view"
                     layout="@layout/view_input_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:hint="@{`URL (blog etc)`}"
+                    bind:hint="@{@string/sns_web_input_hint}"
                     bind:icon="@{R.drawable.icon_web}"
-                    bind:title="@{`Web`}" />
+                    bind:title="@{@string/sns_web_input_title}" />
 
                 <include layout="@layout/view_divider" />
 

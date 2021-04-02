@@ -32,9 +32,8 @@
 
         <ImageView
             android:id="@+id/setting_item_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:src="@drawable/ic_next"
             app:layout_constraintBottom_toBottomOf="@+id/setting_item_text"
             app:layout_constraintEnd_toEndOf="parent"

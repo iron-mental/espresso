@@ -32,6 +32,16 @@ class ModifyStudyViewModel @ViewModelInject constructor(private val studyReposit
 
     val image = MutableLiveData<Uri>()
 
+    val notion = MutableLiveData<String>()
+    val everNote = MutableLiveData<String>()
+    val web = MutableLiveData<String>()
+
+    fun initSnsData(notion: String, everNote: String, web: String) {
+        this.notion.value = notion
+        this.everNote.value = everNote
+        this.web.value = web
+    }
+
     fun initLocalItem(locationItem: LocationItem) {
         _localItem.value = LocalItem(
             lat = locationItem.latitude.toDouble(),

@@ -6,23 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.ValidationInputText
-import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.data.model.StudyDetailItem
 import com.iron.espresso.domain.usecase.RegisterApply
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.StudyApi
+import retrofit2.HttpException
 
 class StudyDetailViewModel @ViewModelInject constructor(
     private val studyApi: StudyApi,
     private val registerApply: RegisterApply
-) : BaseViewModel() {
-
-    private val _studyDetail = MutableLiveData<StudyDetailItem>()
-    val studyDetail: LiveData<StudyDetailItem>
-        get() = _studyDetail
+) : AbsStudyDetailViewModel() {
 
     private val _emptyCheckMessage = MutableLiveData<Event<ValidationInputText>>()
     val emptyCheckMessage: LiveData<Event<ValidationInputText>>
@@ -88,5 +83,4 @@ class StudyDetailViewModel @ViewModelInject constructor(
             _emptyCheckMessage.value = Event(checkMessage)
         }
     }
-
 }
