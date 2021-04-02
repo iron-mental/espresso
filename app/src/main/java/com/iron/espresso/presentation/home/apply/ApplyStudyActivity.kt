@@ -9,6 +9,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.ActivityApplyStudyBinding
+import com.iron.espresso.presentation.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,6 +44,9 @@ class ApplyStudyActivity :
         val fragment = supportFragmentManager.findFragmentById(R.id.container)
 
         if ((fragment as? BaseFragment<*>)?.onBackPressed() != true) {
+            if (isTaskRoot) {
+                startActivity(HomeActivity.getIntent(this))
+            }
             super.onBackPressed()
         }
     }

@@ -167,6 +167,9 @@
     <string name="alert">알림</string>
 
     <string name="empty_delegate_member">위임할 멤버가 존재하지 않아요</string>
+    <string name="check">확인하기</string>
+    <string name="toast_study_deleted">%s 스터디가 삭제되었습니다.</string>
+    <string name="toast_study_rejected">%s 스터디 입장이 거절되었습니다.</string>
 
     <string name="sns_notion_input_hint">Notion URL</string>
     <string name="sns_notion_input_title">Notion</string>

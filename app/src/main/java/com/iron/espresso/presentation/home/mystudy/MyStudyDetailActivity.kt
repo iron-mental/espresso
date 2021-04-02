@@ -19,6 +19,7 @@ import com.iron.espresso.data.model.StudyInfoItem
 import com.iron.espresso.databinding.ActivityMystudyDetailBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.toast
+import com.iron.espresso.presentation.home.HomeActivity
 import com.iron.espresso.presentation.home.apply.ApplyStudyActivity
 import com.iron.espresso.presentation.home.apply.ConfirmDialog
 import com.iron.espresso.presentation.home.mystudy.studydetail.chat.ChattingFragment
@@ -39,7 +40,7 @@ class MyStudyDetailActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle(intent.getStringExtra(TOOLBAR_TITLE))
+        setToolbarTitle(intent?.getStringExtra(TOOLBAR_TITLE))
         setNavigationIcon(R.drawable.ic_back_24)
 
         studyId = intent.getIntExtra(STUDY_ID, DEFAULT_VALUE)
@@ -164,6 +165,13 @@ class MyStudyDetailActivity :
         return true
     }
 
+    override fun onBackPressed() {
+        if (isTaskRoot) {
+            startActivity(HomeActivity.getIntent(this))
+        }
+        super.onBackPressed()
+    }
+
     private fun showLeaveStudyDialog() {
         val dialog = ConfirmDialog.newInstance(getString(R.string.dialog_leave_study_title))
 
@@ -208,7 +216,7 @@ class MyStudyDetailActivity :
         private const val DELEGATE_CODE = 1
         private const val MODIFY_CODE = 2
 
-        fun getInstance(context: Context, title: String, id: Int) =
+        fun getInstance(context: Context, title: String = "", id: Int) =
             Intent(context, MyStudyDetailActivity::class.java)
                 .putExtra(TOOLBAR_TITLE, title)
                 .putExtra(STUDY_ID, id)
