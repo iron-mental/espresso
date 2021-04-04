@@ -44,6 +44,18 @@ object DomainModule {
 
     @Singleton
     @Provides
+    fun provideReIssuanceToken(repository: UserRepository): ReIssuanceToken {
+        return ReIssuanceToken(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetVersionInfo(repository: UserRepository): GetVersionInfo {
+        return GetVersionInfo(repository)
+    }
+
+    @Singleton
+    @Provides
     fun provideGetMyProjectList(repository: ProjectRepository): GetMyProjectList {
         return GetMyProjectList(repository)
     }
@@ -87,7 +99,10 @@ object DomainModule {
 
     @Singleton
     @Provides
-    fun provideModifyUserLocation(userRepository: UserRepository, kakaoRepository: KakaoRepository): ModifyUserLocation {
+    fun provideModifyUserLocation(
+        userRepository: UserRepository,
+        kakaoRepository: KakaoRepository
+    ): ModifyUserLocation {
         return ModifyUserLocation(userRepository, kakaoRepository)
     }
 

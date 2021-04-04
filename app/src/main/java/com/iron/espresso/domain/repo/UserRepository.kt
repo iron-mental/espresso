@@ -1,7 +1,9 @@
 package com.iron.espresso.domain.repo
 
+import com.iron.espresso.domain.entity.AccessToken
 import com.iron.espresso.domain.entity.Address
 import com.iron.espresso.domain.entity.User
+import com.iron.espresso.domain.entity.Version
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import io.reactivex.rxjava3.core.Completable
@@ -55,4 +57,8 @@ interface UserRepository {
     fun getAddressList(): Single<List<Address>>
 
     fun verifyEmail(): Single<Pair<Boolean, String>>
+
+    fun reIssuanceAccessToken(refreshToken: String): Single<AccessToken>
+
+    fun getVersionInfo(version: String): Single<Version>
 }

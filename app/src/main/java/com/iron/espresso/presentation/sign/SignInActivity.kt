@@ -74,10 +74,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>(R.layout.activity_sig
 
             userAuth.observe(this@SignInActivity) { authResponse ->
                 if (AuthHolder.set(authResponse)) {
-                    val accessToken = authResponse.accessToken
-                    val userId = authResponse.id
+                    val userId = authResponse.id ?: -1
 
-                    if (accessToken != null && userId != null) {
+                    if (userId != -1) {
                         viewModel.getUserInfo(userId)
                     }
                 }

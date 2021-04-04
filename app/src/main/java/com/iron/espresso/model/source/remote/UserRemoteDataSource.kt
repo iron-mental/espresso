@@ -7,6 +7,7 @@ import com.iron.espresso.model.response.address.AddressResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
+import com.iron.espresso.model.response.user.VersionResponse
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -92,11 +93,11 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     override fun resetPassword(email: String): Single<BaseResponse<Nothing>> =
         userApi.resetPassword(email)
 
-    override fun reIssuanceAccessToken(
-        bearerToken: String,
-        refreshToken: ReIssuanceTokenRequest
-    ): Single<BaseResponse<AccessTokenResponse>> =
-        userApi.reIssuanceAccessToken(bearerToken, refreshToken)
+    override fun reIssuanceAccessToken(refreshToken: String): Single<BaseResponse<AccessTokenResponse>> =
+        userApi.reIssuanceAccessToken(refreshToken =ReIssuanceTokenRequest(refreshToken))
+
+    override fun getVersionInfo(version: String): Single<BaseResponse<VersionResponse>> =
+        userApi.getVersionInfo(version = version)
 }
 
 data class RegisterUserRequest(val email: String, val password: String, val nickname: String)
@@ -189,10 +190,9 @@ interface UserRemoteDataSource {
 
     fun resetPassword(email: String): Single<BaseResponse<Nothing>>
 
-    fun reIssuanceAccessToken(
-        bearerToken: String,
-        refreshToken: ReIssuanceTokenRequest
-    ): Single<BaseResponse<AccessTokenResponse>>
+    fun reIssuanceAccessToken(refreshToken: String): Single<BaseResponse<AccessTokenResponse>>
+
+    fun getVersionInfo(version: String): Single<BaseResponse<VersionResponse>>
 
     fun modifyUserImage(
         image: File?

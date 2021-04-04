@@ -13,6 +13,7 @@ import com.iron.espresso.base.BaseDialogFragment
 import com.iron.espresso.databinding.DialogConfirmBinding
 
 class ConfirmDialog : BaseDialogFragment<DialogConfirmBinding>(R.layout.dialog_confirm) {
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -30,6 +31,8 @@ class ConfirmDialog : BaseDialogFragment<DialogConfirmBinding>(R.layout.dialog_c
             arguments?.run {
                 setTitle(getString(KEY_TITLE, ""))
                 setSubTitle(getString(KEY_SUB_TITLE, ""))
+                cancelBtnName = getString(KEY_CANCEL_BTN_NAME) ?: getString(R.string.no)
+                okBtnName = getString(KEY_OK_BTN_NAME) ?: getString(R.string.yes)
             }
 
             yes.setOnClickListener {
@@ -55,13 +58,22 @@ class ConfirmDialog : BaseDialogFragment<DialogConfirmBinding>(R.layout.dialog_c
 
         private const val KEY_TITLE = "TITLE"
         private const val KEY_SUB_TITLE = "SUB_TITLE"
+        private const val KEY_CANCEL_BTN_NAME = "CANCEL_BTN_NAME"
+        private const val KEY_OK_BTN_NAME = "OK_BTN_NAME"
 
-        fun newInstance(title: String, subTitle: String = "") =
+        fun newInstance(
+            title: String,
+            subTitle: String = "",
+            cancelBtnName: String? = null,
+            okBtnName: String? = null
+        ) =
             ConfirmDialog().apply {
-                arguments = bundleOf(
-                    KEY_TITLE to title,
-                    KEY_SUB_TITLE to subTitle
-                )
+                arguments = Bundle().apply {
+                    putString(KEY_TITLE, title)
+                    putString(KEY_SUB_TITLE, subTitle)
+                    putString(KEY_CANCEL_BTN_NAME, cancelBtnName)
+                    putString(KEY_OK_BTN_NAME, okBtnName)
+                }
             }
     }
 }

@@ -198,4 +198,11 @@
     <string name="empty_search_study">스터디 검색결과가 없습니다.</string>
     <string name="empty_study">아직 스터디가 없습니다.</string>
     <string name="empty_delegate_member">위임할 멤버가 존재하지 않습니다.</string>
+    <string name="later">나중에</string>
+    <string name="update">업데이트</string>
+    <string name="dialog_update_title">업데이트 알림</string>
+    <string name="dialog_update_sub_title">원활한 앱 사용을 위해 앱을 업데이트해 주세요</string>
+    <string name="dialog_server_closed_title">서버 점검 알림</string>
+    <string name="dialog_server_closed_sub_title">원활한 앱 사용을 위해 서버 점검 중 입니다.</string>
+    <string name="close">닫기</string>
 </resources>

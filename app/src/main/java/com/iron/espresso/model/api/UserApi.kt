@@ -6,6 +6,7 @@ import com.iron.espresso.model.response.address.AddressResponse
 import com.iron.espresso.model.response.user.AccessTokenResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.response.user.UserResponse
+import com.iron.espresso.model.response.user.VersionResponse
 import com.iron.espresso.model.source.remote.*
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
@@ -77,6 +78,13 @@ interface UserApi {
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
         @Body refreshToken: ReIssuanceTokenRequest
     ): Single<BaseResponse<AccessTokenResponse>>
+
+    @GET("/check-version")
+    fun getVersionInfo(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Query("version") version: String,
+        @Query("device") device: String = "android"
+    ): Single<BaseResponse<VersionResponse>>
 
 
     @Multipart
