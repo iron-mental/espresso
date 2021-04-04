@@ -49,7 +49,7 @@ class ChattingViewModel @ViewModelInject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                _chatList.value = groupByDate(ChatItem.of(it))
+                _chatList.value = groupByDate(ChatItem.listOf(it))
             }, {
                 Logger.d("$it")
             })

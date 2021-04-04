@@ -5,6 +5,7 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.domain.entity.ChatUser
 import com.iron.espresso.domain.entity.Chatting
+import com.iron.espresso.domain.entity.LocalChat
 import com.iron.espresso.domain.repo.ChatRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
@@ -44,8 +45,13 @@ class ChatRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getAll(studyId: Int): Flowable<List<ChatEntity>> =
+    override fun getAll(studyId: Int): Flowable<List<LocalChat>> =
         chatLocalDataSource.getAll(studyId)
+            .map {
+                it.map { chat ->
+                    chat.toLocalChat()
+                }
+            }
 
     override fun setChat(studyId: Int): Completable {
         return Completable.create { emitter ->

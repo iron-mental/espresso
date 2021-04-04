@@ -6,10 +6,11 @@ import androidx.room.PrimaryKey
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.domain.entity.Chat
 import com.iron.espresso.domain.entity.ChatUser
+import com.iron.espresso.domain.entity.LocalChat
 
 @Entity(tableName = "chat_table")
 data class ChatEntity(
-    @PrimaryKey (autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "uuid") val uuid: String,
     @ColumnInfo(name = "study_id") val studyId: Int,
     @ColumnInfo(name = "user_id") val userId: Int,
@@ -18,6 +19,18 @@ data class ChatEntity(
     @ColumnInfo(name = "time_stamp") val timeStamp: Long,
     @ColumnInfo(name = "connect_id") val connectId: Int = AuthHolder.requireId()
 ) {
+    fun toLocalChat(): LocalChat =
+        LocalChat(
+            id = id,
+            uuid = uuid,
+            studyId = studyId,
+            userId = userId,
+            nickname = nickname,
+            message = message,
+            timeStamp = timeStamp,
+            connectId = connectId
+        )
+
     companion object {
         fun of(chatList: List<Chat>, userList: List<ChatUser>): List<ChatEntity> {
 

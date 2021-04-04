@@ -3,7 +3,7 @@ package com.iron.espresso.presentation.home.mystudy.studydetail.chat
 import android.graphics.Color
 import androidx.annotation.ColorInt
 import com.iron.espresso.AuthHolder
-import com.iron.espresso.local.model.ChatEntity
+import com.iron.espresso.domain.entity.LocalChat
 
 data class ChatItem(
     val uuid: String,
@@ -17,8 +17,8 @@ data class ChatItem(
 ) {
     companion object {
 
-        fun of(chatEntityList: List<ChatEntity>): List<ChatItem> {
-            return chatEntityList.map {
+        fun listOf(chatList: List<LocalChat>): List<ChatItem> {
+            return chatList.map {
                 ChatItem(
                     uuid = it.uuid,
                     studyId = it.studyId,

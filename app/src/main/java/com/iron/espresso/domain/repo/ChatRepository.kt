@@ -1,11 +1,11 @@
 package com.iron.espresso.domain.repo
 
-import com.iron.espresso.local.model.ChatEntity
+import com.iron.espresso.domain.entity.LocalChat
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
 interface ChatRepository {
-    fun getAll(studyId: Int): Flowable<List<ChatEntity>>
+    fun getAll(studyId: Int): Flowable<List<LocalChat>>
 
     fun setChat(studyId: Int): Completable
 

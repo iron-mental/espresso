@@ -17,3 +17,14 @@ data class ChatUser(
     val userId: Int,
     val nickname: String
 )
+
+data class LocalChat(
+    val id: Int,
+    val uuid: String,
+    val studyId: Int,
+    val userId: Int,
+    val nickname: String,
+    val message: String,
+    val timeStamp: Long,
+    val connectId: Int
+)
