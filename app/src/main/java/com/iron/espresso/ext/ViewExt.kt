@@ -24,5 +24,5 @@ fun View.goneIf(isGone: Boolean?) {
 
 @BindingAdapter("android:activationIf")
 fun View.activationIf(activation: Boolean?) {
-    this.alpha = if (activation == true) 1F else 0.4F
+    this.alpha = if (activation == true) 1f else 0.4f
 }

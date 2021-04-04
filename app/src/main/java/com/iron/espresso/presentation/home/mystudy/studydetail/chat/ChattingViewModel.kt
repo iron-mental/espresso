@@ -56,7 +56,7 @@ class ChattingViewModel @ViewModelInject constructor(
             })
     }
 
-    private fun groupByDate(chatList: List<ChatItem>): MutableList<ChatItem> {
+    private fun groupByDate(chatList: List<ChatItem>): List<ChatItem> {
         val list = mutableListOf<ChatItem>()
         val dateGroup = chatList.groupBy {
             SimpleDateFormat("yyyy년 MM월 dd일").format(it.timeStamp)
