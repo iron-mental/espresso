@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
@@ -11,9 +10,12 @@ import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.NoticeApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class NoticeViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
+@HiltViewModel
+class NoticeViewModel @Inject constructor(private val noticeApi: NoticeApi) :
     BaseViewModel() {
 
     private val _noticeListItem = MutableLiveData<List<NoticeItem>>()

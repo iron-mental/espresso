@@ -1,6 +1,5 @@
 package com.iron.espresso
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.base.BaseViewModel
@@ -13,8 +12,11 @@ import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.response.ErrorCode
 import com.iron.espresso.model.source.remote.ReIssuanceTokenRequest
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SplashViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SplashViewModel @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource,
     private val getUser: GetUser
 ) :

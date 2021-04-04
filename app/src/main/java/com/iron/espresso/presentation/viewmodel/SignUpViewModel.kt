@@ -1,7 +1,6 @@
 package com.iron.espresso.presentation.viewmodel
 
 import android.util.Patterns
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.App
@@ -13,10 +12,13 @@ import com.iron.espresso.domain.usecase.CheckDuplicateNickname
 import com.iron.espresso.domain.usecase.RegisterUser
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-class SignUpViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
     private val registerUser: RegisterUser,
     private val checkDuplicateEmail: CheckDuplicateEmail,
     private val checkDuplicateNickname: CheckDuplicateNickname

@@ -1,14 +1,11 @@
 package com.iron.espresso.presentation.home.setting
 
-import com.iron.espresso.presentation.viewmodel.AbsProfileViewModel
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.UserHolder
 import com.iron.espresso.domain.entity.User
-import com.iron.espresso.domain.usecase.DeleteUser
 import com.iron.espresso.domain.usecase.GetUser
 import com.iron.espresso.domain.usecase.LogoutUser
 import com.iron.espresso.domain.usecase.VerifyEmail
@@ -16,8 +13,12 @@ import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
+import com.iron.espresso.presentation.viewmodel.AbsProfileViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SettingViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SettingViewModel @Inject constructor(
     private val getUser: GetUser,
     private val verifyEmail: VerifyEmail,
     private val logoutUser: LogoutUser

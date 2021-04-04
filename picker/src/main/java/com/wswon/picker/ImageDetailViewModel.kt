@@ -9,7 +9,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class ImageDetailViewModel @ViewModelInject constructor(private val imageLoadManager: ImageLoadManager) : BaseViewModel() {
+class ImageDetailViewModel @ViewModelInject constructor(private val imageLoadManager: ImageLoadManager) :
+    BaseViewModel() {
 
     private val _imageDetailItemList = MutableLiveData<List<ImageDetailItem>>()
     val imageDetailItemList: LiveData<List<ImageDetailItem>>

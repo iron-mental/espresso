@@ -10,7 +10,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class ImagePickerViewModel @ViewModelInject constructor(private val imageLoadManager: ImageLoadManager) : BaseViewModel() {
+class ImagePickerViewModel @ViewModelInject constructor(private val imageLoadManager: ImageLoadManager) :
+    BaseViewModel() {
 
     private val allImgList = mutableSetOf<Pair<String, Uri>>()
 

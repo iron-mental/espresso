@@ -1,23 +1,25 @@
 package com.iron.espresso.presentation.home.study
 
 import android.net.Uri
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.data.model.CreateStudyItem
+import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.model.api.StudyApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class StudyCreateViewModel @ViewModelInject constructor(private val studyApi: StudyApi) :
+@HiltViewModel
+class StudyCreateViewModel @Inject constructor(private val studyApi: StudyApi) :
     BaseViewModel() {
 
     private val _localItem = MutableLiveData<LocalItem>()

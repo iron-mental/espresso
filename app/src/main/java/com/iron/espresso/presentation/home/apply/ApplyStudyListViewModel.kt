@@ -1,7 +1,5 @@
 package com.iron.espresso.presentation.home.apply
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -12,9 +10,12 @@ import com.iron.espresso.domain.usecase.GetApplyList
 import com.iron.espresso.domain.usecase.GetMyApplyList
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ApplyStudyListViewModel @ViewModelInject constructor(
-    @Assisted private val state: SavedStateHandle,
+@HiltViewModel
+class ApplyStudyListViewModel @Inject constructor(
+    private val state: SavedStateHandle,
     private val getApplyList: GetApplyList,
     private val getMyApplyList: GetMyApplyList
 ) :

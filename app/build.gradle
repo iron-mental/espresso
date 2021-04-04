@@ -1,9 +1,13 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'com.google.gms.google-services'
+
+plugins {
+    id('com.android.application')
+    id('kotlin-android')
+    id('kotlin-kapt')
+    id('kotlin-parcelize')
+    id('dagger.hilt.android.plugin')
+    id('com.google.gms.google-services')
+    id('com.google.firebase.crashlytics')
+}
 
 android {
     compileSdkVersion 30
@@ -44,9 +48,6 @@ dependencies {
     implementation project(":picker")
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$coreVersion"
@@ -70,13 +71,12 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
-    implementation "androidx.activity:activity-ktx:$activityVersion"
-    implementation "com.google.dagger:hilt-android:2.28-alpha"
-    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
+    implementation "com.google.dagger:hilt-android:2.31-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.31-alpha"
 
-    implementation "androidx.hilt:hilt-common:1.0.0-alpha02"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
-    kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
+    implementation "androidx.hilt:hilt-common:1.0.0-beta01"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    kapt "androidx.hilt:hilt-compiler:1.0.0-beta01"
 
     // 네이버 지도 SDK
     implementation 'com.naver.maps:map-sdk:3.10.0'
@@ -88,7 +88,7 @@ dependencies {
     }
     implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.2.0'
 
-    implementation "androidx.recyclerview:recyclerview:1.2.0-beta01"
+    implementation "androidx.recyclerview:recyclerview:1.2.0-rc01"
     implementation "com.airbnb.android:lottie:3.6.0"
     implementation 'gun0912.ted:tedpermission:2.2.3'
 

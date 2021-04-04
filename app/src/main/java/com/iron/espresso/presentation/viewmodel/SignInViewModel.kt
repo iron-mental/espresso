@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
@@ -13,8 +12,11 @@ import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SignInViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SignInViewModel @Inject constructor(
     private val loginUser: LoginUser,
     private val getUser: GetUser
 ) :
