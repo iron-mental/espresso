@@ -22,7 +22,7 @@ data class NoticeDetailResponse(
     @SerializedName("leader_nickname")
     val leaderNickname: String?,
     @SerializedName("updated_at")
-    val updatedAt: String?
+    val updatedAt: Long = -1L
 ) {
     fun toNoticeDetailItem() = NoticeDetailItem(
         id = id ?: -1,
@@ -33,6 +33,6 @@ data class NoticeDetailResponse(
         leaderId = leaderId ?: -1,
         leaderImage = leaderImage,
         leaderNickname = leaderNickname.orEmpty(),
-        updatedAt = updatedAt.orEmpty()
+        updatedAt = updatedAt
     )
 }
