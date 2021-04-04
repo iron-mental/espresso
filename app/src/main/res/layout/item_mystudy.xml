@@ -52,52 +52,5 @@
             app:layout_constraintStart_toStartOf="@id/location"
             app:layout_constraintTop_toBottomOf="@id/location" />
 
-        <TextView
-            android:id="@+id/chat"
-            android:layout_width="wrap_content"
-            android:layout_height="19dp"
-            android:background="@drawable/bg_round"
-            android:backgroundTint="@color/colorCobaltBlue"
-            android:gravity="center"
-            android:paddingStart="7.6dp"
-            android:paddingEnd="7.6dp"
-            android:text="@string/mystudy_chat"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/notice"
-            android:layout_width="wrap_content"
-            android:layout_height="19dp"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/bg_round"
-            android:backgroundTint="@android:color/holo_red_dark"
-            android:gravity="center"
-            android:paddingStart="7.6dp"
-            android:paddingEnd="7.6dp"
-            android:text="@string/mystudy_notice"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/chat" />
-
-        <TextView
-            android:id="@+id/member"
-            android:layout_width="wrap_content"
-            android:layout_height="19dp"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/bg_round"
-            android:backgroundTint="@android:color/darker_gray"
-            android:gravity="center"
-            android:paddingStart="7.6dp"
-            android:paddingEnd="7.6dp"
-            android:text="@string/mystudy_member"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/notice" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
