@@ -35,7 +35,7 @@ class AlertListViewModel @ViewModelInject constructor(
                 throwable.toErrorResponse()?.let {
                     _toastMessage.value = Event(it.message.orEmpty())
                 }
-                Logger.d("$throwable")
+                Logger.d("${throwable.printStackTrace()}")
             })
 
     }

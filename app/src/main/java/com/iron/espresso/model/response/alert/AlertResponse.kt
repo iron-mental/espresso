@@ -19,7 +19,7 @@ data class AlertResponse(
     @SerializedName("confirm")
     val confirm: Boolean = false,
     @SerializedName("created_at")
-    val createdAt: String?
+    val createdAt: Long = -1
 ) {
     fun toAlert(): Alert =
         Alert(
@@ -29,6 +29,6 @@ data class AlertResponse(
             alertType,
             message.orEmpty(),
             confirm,
-            createdAt.orEmpty()
+            createdAt
         )
 }
