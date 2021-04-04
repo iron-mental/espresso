@@ -6,9 +6,6 @@
 
     <data>
 
-        <variable
-            name="viewModel"
-            type="com.iron.espresso.presentation.home.study.search.StudyResultViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,9 +21,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.iron.espresso.view.EmptyListView
+            android:id="@+id/empty_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibleIf="@{viewModel.studyList.size() == 0}"
             app:image="@drawable/ic_empty_delegate_member"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +35,6 @@
             android:id="@+id/participate_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibleIf="@{viewModel.studyList.size() > 0}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
