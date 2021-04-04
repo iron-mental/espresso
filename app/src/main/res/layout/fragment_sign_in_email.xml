@@ -37,15 +37,16 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
             android:layout_marginEnd="15dp"
-            app:boxBackgroundMode="filled"
             app:boxStrokeColor="@color/colorCobaltBlue"
-            app:boxStrokeWidth="0dp"
+            app:boxStrokeErrorColor="@color/ffeb5545"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorCobaltBlue"
+            app:errorEnabled="true"
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/explain"

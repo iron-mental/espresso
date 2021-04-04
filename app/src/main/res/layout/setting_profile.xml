@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -11,8 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/setting_profile_image"
@@ -20,8 +20,10 @@
             android:layout_height="55dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/circle_shape"
             android:src="@drawable/ic_person_24"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,16 +36,17 @@
             android:text="@{viewModel.user.nickname}"
             android:textColor="@color/white"
             android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/setting_profile_text"
             app:layout_constraintEnd_toStartOf="@+id/setting_profile_location"
             app:layout_constraintStart_toEndOf="@+id/setting_profile_image"
-            app:layout_constraintTop_toTopOf="@+id/setting_profile_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="닉네임" />
 
         <TextView
             android:id="@+id/setting_profile_location"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
             android:text="@{viewModel.user.siGungu}"
             android:textSize="12sp"
@@ -56,13 +59,17 @@
             android:id="@+id/setting_profile_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
             android:ellipsize="end"
             android:lines="1"
+            android:visibleIf="@{viewModel.user.introduce.length() > 0}"
             android:text="@{viewModel.user.introduce}"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/setting_profile_image"
-            app:layout_constraintEnd_toEndOf="@+id/setting_profile_location"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/setting_profile_nickname"
+            app:layout_constraintTop_toBottomOf="@id/setting_profile_nickname"
             tools:text="자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다.자기소개 글이 길어지면 '...' 표시가 됩니다." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
