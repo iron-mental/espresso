@@ -18,6 +18,7 @@ import io.reactivex.schedulers.Schedulers
 import java.net.SocketException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.schedule
 
 class ChattingViewModel @ViewModelInject constructor(
     @Assisted
@@ -103,16 +104,20 @@ class ChattingViewModel @ViewModelInject constructor(
 
                 }, {
                     if (it is SocketException) {
-                        _chatList.value = chatList.value.orEmpty() + ChatItem(
-                            uuid = uuid,
-                            studyId = studyId,
-                            userId = AuthHolder.requireId(),
-                            name = UserHolder.get()?.nickname.orEmpty(),
-                            message = "$message - 전송 실패",
-                            timeStamp = System.currentTimeMillis(),
-                            isMyChat = true,
-                            chatSendingState = ChatSendingState.FAILURE
-                        )
+                        Timer().schedule(10000) {
+                            _chatList.postValue(
+                                chatList.value.orEmpty() + ChatItem(
+                                    uuid = uuid,
+                                    studyId = studyId,
+                                    userId = AuthHolder.requireId(),
+                                    name = UserHolder.get()?.nickname.orEmpty(),
+                                    message = "$message - 전송 실패",
+                                    timeStamp = System.currentTimeMillis(),
+                                    isMyChat = true,
+                                    chatSendingState = ChatSendingState.FAILURE
+                                )
+                            )
+                        }
                     }
 
                 })

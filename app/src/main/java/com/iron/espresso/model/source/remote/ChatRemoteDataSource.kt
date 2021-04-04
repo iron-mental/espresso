@@ -49,9 +49,7 @@ class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyAp
     override fun sendMessage(chatMessage: String, uuid: String): Completable {
         return Completable.create { emitter ->
             if (chatSocket?.connected() == false) {
-                Timer().schedule(10000) {
-                    emitter.onError(SocketException())
-                }
+                emitter.onError(SocketException())
             } else {
                 val data = JsonObject()
                 data.addProperty("message", chatMessage)
