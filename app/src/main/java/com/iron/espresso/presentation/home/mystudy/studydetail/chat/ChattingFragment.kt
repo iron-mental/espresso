@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.AuthHolder
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentChattingBinding
+import com.iron.espresso.ext.dp
 import com.iron.espresso.ext.hideLoading
 import com.iron.espresso.ext.showLoading
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,8 +53,8 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             chatList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    scrollDy += dy
-                    binding.moveDownButton.isVisible = scrollDy < -3500
+                    scrollDy -= dy
+                    binding.moveDownButton.isVisible = scrollDy > 800.dp
                 }
             })
             moveDownButton.setOnClickListener {
