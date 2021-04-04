@@ -61,6 +61,7 @@ class SearchPlaceActivity :
             resetSearchView()
         }
 
+        binding.viewModel = viewModel
         binding.placeList.run {
             adapter = placeAdapter
             addItemDecoration(

@@ -13,7 +13,6 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.data.model.MyStudyItem
 import com.iron.espresso.databinding.FragmentMystudyBinding
-import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.alert.AlertListActivity
 import com.iron.espresso.presentation.home.apply.MyApplyStudyActivity
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
@@ -31,6 +30,7 @@ class MyStudyFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.run {
+            viewModel = myStudyViewModel
             rvMyStudy.adapter = myStudyAdapter
             myStudyViewModel.showMyStudyList()
             swipeRefresh.apply {

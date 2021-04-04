@@ -26,4 +26,8 @@ class EmptyListView @JvmOverloads constructor(
             a.recycle()
         }
     }
+
+    fun setMessage(message: String) {
+        findViewById<TextView>(R.id.message).text = message
+    }
 }

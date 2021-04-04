@@ -77,7 +77,6 @@
     <string name="register_notice">공지사항이 등록되었습니다</string>
     <string name="modify_notice">공지사항이 수정되었습니다</string>
     <string name="delete_notice">공지사항이 삭제되었습니다</string>
-    <string name="empty_notice">공지사항이 없습니다</string>
     <string name="success">임시 성공</string>
 
 
@@ -146,9 +145,7 @@
     <string name="accept">수락</string>
     <string name="modify_study">스터디 수정하기</string>
 
-    <string name="empty_study">아직 스터디가 없어요</string>
     <string name="select_category">카테고리 선택</string>
-    <string name="empty_search_study">검색된 스터디가 없어요</string>
     <string name="must_read">필독</string>
     <string name="normal">일반</string>
     <string name="ttl">제목</string>
@@ -166,8 +163,6 @@
     <string name="dialog_delegate_leader_title">방장을 위임하시겠어요?</string>
     <string name="dialog_logout_title">로그아웃 하시겠어요?</string>
     <string name="alert">알림</string>
-
-    <string name="empty_delegate_member">위임할 멤버가 존재하지 않아요</string>
 
     <string name="sns_notion_input_hint">Notion URL</string>
     <string name="sns_notion_input_title">Notion</string>
@@ -195,4 +190,12 @@
     <string name="invalid_email">이메일 형식이 올바르지 않습니다.</string>
     <string name="invalid_nickname">닉네임을 2~7자로 입력해 주세요.</string>
     <string name="empty_alert">도착한 알림이 없습니다.</string>
+    <string name="empty_my_study">참여중인 스터디가 없습니다.</string>
+    <string name="empty_location">검색 결과가 없습니다.\n키워드를 입력해 주세요</string>
+    <string name="empty_my_apply">신청한 스터디가 없습니다.</string>
+    <string name="empty_apply">신청자가 없습니다.</string>
+    <string name="empty_notice">작성된 공지사항이 없습니다.</string>
+    <string name="empty_search_study">스터디 검색결과가 없습니다.</string>
+    <string name="empty_study">아직 스터디가 없습니다.</string>
+    <string name="empty_delegate_member">위임할 멤버가 존재하지 않습니다.</string>
 </resources>

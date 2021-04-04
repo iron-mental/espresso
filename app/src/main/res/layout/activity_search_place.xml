@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.place.SearchPlaceViewModel" />
 
     </data>
 
@@ -21,10 +26,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.iron.espresso.view.EmptyListView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibleIf="@{viewModel.placeList.size() == 0}"
+            app:image="@drawable/ic_empty_location"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:message="@string/empty_location" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/place_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibleIf="@{viewModel.placeList.size() > 0}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
