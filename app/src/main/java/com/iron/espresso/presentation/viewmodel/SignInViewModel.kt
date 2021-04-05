@@ -63,12 +63,16 @@ class SignInViewModel @Inject constructor(
                     response.data?.let {
                         _userAuth.value = it
                     }
-
                 } else {
-                    _toastMessage.value = Event(response.message.orEmpty())
+                    _checkType.value = CheckType.CHECK_PASSWORD_FAIL.setMessage(response.message.orEmpty())
                 }
             }, {
-                Logger.d("$it")
+                val errorResponse = it.toErrorResponse()
+                if (errorResponse != null) {
+                    Logger.d("${errorResponse.message}")
+                    _checkType.value = CheckType.CHECK_PASSWORD_FAIL.setMessage(errorResponse.message.orEmpty())
+                }
+
                 hideLoading()
             })
     }

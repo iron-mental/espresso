@@ -34,10 +34,8 @@ class SignInPasswordFragment :
         }
         signInViewModel.run {
             checkType.observe(viewLifecycleOwner, { type ->
-                when (type) {
-                    CheckType.CHECK_PASSWORD_FAIL -> {
-
-                    }
+                if (type == CheckType.CHECK_PASSWORD_FAIL && type.message.isNotEmpty()) {
+                    binding.passwordField.error = type.message
                 }
             })
         }
