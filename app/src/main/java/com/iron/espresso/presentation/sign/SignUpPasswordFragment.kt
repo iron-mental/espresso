@@ -35,13 +35,30 @@ class SignUpPasswordFragment :
         }
         signUpViewModel.run {
             checkType.observe(viewLifecycleOwner, { type ->
-                when (type) {
-                    CheckType.CHECK_PASSWORD_FAIL -> {
-
-                    }
+                if (type == CheckType.CHECK_PASSWORD_FAIL && type.message.isNotEmpty()) {
+                    binding.passwordField.error = type.message
                 }
             })
         }
+
+        compositeDisposable += binding.inputPwd.textChanges()
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ text ->
+                when {
+                    text.length in 1..5 -> {
+                        binding.passwordField.error = getString(R.string.sign_up_password_helper)
+                    }
+                    text.length > 20 -> {
+                        binding.passwordField.error = getString(R.string.sign_up_password_helper2)
+                    }
+                    else -> {
+                        binding.passwordField.error = null
+                    }
+                }
+            }, {
+                Logger.d("$it")
+            })
 
         compositeDisposable += binding.inputPwd.textChanges()
             .debounce(500, TimeUnit.MILLISECONDS)

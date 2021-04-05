@@ -4,10 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.iron.espresso.model.api.UserApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.address.AddressResponse
-import com.iron.espresso.model.response.user.AccessTokenResponse
-import com.iron.espresso.model.response.user.UserAuthResponse
-import com.iron.espresso.model.response.user.UserResponse
-import com.iron.espresso.model.response.user.VersionResponse
+import com.iron.espresso.model.response.user.*
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -27,7 +24,7 @@ class UserRemoteDataSourceImpl @Inject constructor(private val userApi: UserApi)
     override fun getUser(id: Int): Single<BaseResponse<UserResponse>> =
         userApi.getUser(id = id)
 
-    override fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>> =
+    override fun checkDuplicateEmail(email: String): Single<BaseResponse<CheckEmailResponse>> =
         userApi.checkDuplicateEmail(email)
 
     override fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>> =
@@ -180,7 +177,7 @@ interface UserRemoteDataSource {
 
     fun logout(): Single<BaseResponse<Nothing>>
 
-    fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
+    fun checkDuplicateEmail(email: String): Single<BaseResponse<CheckEmailResponse>>
 
     fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>
 

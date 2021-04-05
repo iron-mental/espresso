@@ -13,7 +13,6 @@ import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.NoticeApi
 import com.iron.espresso.model.api.RegisterNoticeRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
-import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,8 +57,8 @@ class NoticeCreateViewModel @Inject constructor(private val noticeApi: NoticeApi
                     _emptyCheckMessage.value = Event(message)
                     Logger.d("$it")
                 }, {
-                    val errorResponse = (it as HttpException).toErrorResponse()
-                    if (errorResponse.message != null) {
+                    val errorResponse = it.toErrorResponse()
+                    if (errorResponse?.message != null) {
                         _toastMessage.value = Event(errorResponse.message)
                     }
                     Logger.d("$it")

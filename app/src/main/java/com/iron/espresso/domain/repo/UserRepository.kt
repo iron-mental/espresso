@@ -29,9 +29,9 @@ interface UserRepository {
 
     fun deleteUser(email: String, password: String): Single<Pair<Boolean, String>>
 
-    fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>>
+    fun checkDuplicateEmail(email: String): Single<Boolean>
 
-    fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>>
+    fun checkDuplicateNickname(nickname: String): Single<Pair<Boolean, String>>
 
     fun modifyUserImage(image: File?): Single<Boolean>
 
