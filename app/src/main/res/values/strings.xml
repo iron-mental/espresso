@@ -12,7 +12,7 @@
     <string name="version_text">0.0.0</string>
     <string name="push_alarm">푸쉬 알림 사용</string>
 
-    <string name="intro_sign_up">1분만에 시작하기</string>
+    <string name="intro_sign_up">시작하기</string>
     <string name="intro_sign_in">로그인</string>
     <string name="intro_explain">혼자하는 개발 공부 힘들었다면?\n개발자들이 개발자를 알고 만든\n‘터미널’ 에서 스터디를 시작해보세요.</string>
     <string name="search_place">장소로 검색</string>
@@ -21,23 +21,24 @@
 
     <string name="sign_next">다음</string>
 
-    <string name="sign_up_email_explain">사용하실 이메일을\n입력해 주세요.</string>
-    <string name="sign_up_email_hint">email@inputinput.com</string>
+    <string name="sign_up_email_explain">이메일을\n입력해 주세요.</string>
+    <string name="sign_up_email_hint">abc1234@terminal.com</string>
 
     <string name="sign_up_nickname_explain">가입을 위해\n닉네임을 입력해 주세요.</string>
     <string name="sign_up_nickname_hint">닉네임</string>
 
     <string name="sign_up_password_explain">사용하실 비밀번호\n입력해 주세요.</string>
     <string name="sign_up_password_hint">비밀번호</string>
-    <string name="sign_up_password_helper">6글자 이상 입력하세요</string>
+    <string name="sign_up_password_helper">6자 이상 입력해 주세요.</string>
+    <string name="sign_up_password_helper2">20자 이하로 입력해 주세요.</string>
 
 
-    <string name="sign_in_email_explain">사용하실 이메일을\n입력해 주세요.</string>
+    <string name="sign_in_email_explain">이메일을\n입력해 주세요.</string>
     <string name="sign_in_email_hint">email@inputinput.com</string>
 
-    <string name="sign_in_password_explain">사용하실 비밀번호\n입력해 주세요.</string>
+    <string name="sign_in_password_explain">로그인을 위해\n계정의 비밀번호를\n입력해 주세요.</string>
     <string name="sign_in_password_hint">비밀번호</string>
-    <string name="sign_in_password_helper">6글자 이상 입력하세요</string>
+    <string name="sign_in_password_helper">6자 이상 입력해 주세요.</string>
 
 
     <string name="my_study_explain1">내 스터디</string>
@@ -76,7 +77,6 @@
     <string name="register_notice">공지사항이 등록되었습니다</string>
     <string name="modify_notice">공지사항이 수정되었습니다</string>
     <string name="delete_notice">공지사항이 삭제되었습니다</string>
-    <string name="empty_notice">공지사항이 없습니다</string>
     <string name="success">임시 성공</string>
 
 
@@ -145,9 +145,7 @@
     <string name="accept">수락</string>
     <string name="modify_study">스터디 수정하기</string>
 
-    <string name="empty_study">아직 스터디가 없어요</string>
     <string name="select_category">카테고리 선택</string>
-    <string name="empty_search_study">검색된 스터디가 없어요</string>
     <string name="must_read">필독</string>
     <string name="normal">일반</string>
     <string name="ttl">제목</string>
@@ -166,7 +164,6 @@
     <string name="dialog_logout_title">로그아웃 하시겠어요?</string>
     <string name="alert">알림</string>
 
-    <string name="empty_delegate_member">위임할 멤버가 존재하지 않아요</string>
     <string name="check">확인하기</string>
     <string name="toast_study_deleted">%s 스터디가 삭제되었습니다.</string>
     <string name="toast_study_rejected">%s 스터디 입장이 거절되었습니다.</string>
@@ -192,4 +189,24 @@
     <string name="delete_user_password_hint">비밀번호</string>
     <string name="delete_user_explain">회원님의 소중한 계정 보호를 위해, 터미널계정의 이메일과 비밀번호를 확인해 주세요.</string>
     <string name="dialog_delete_user_title">정말 회원탈퇴를 하시겠어요?</string>
+    <string name="login_failed">로그인 실패</string>
+    <string name="login_success">로그인 성공</string>
+    <string name="invalid_email">이메일 형식이 올바르지 않습니다.</string>
+    <string name="invalid_nickname">닉네임을 2~7자로 입력해 주세요.</string>
+    <string name="empty_alert">도착한 알림이 없습니다.</string>
+    <string name="empty_my_study">참여중인 스터디가 없습니다.</string>
+    <string name="empty_location">검색 결과가 없습니다.\n키워드를 입력해 주세요</string>
+    <string name="empty_my_apply">신청한 스터디가 없습니다.</string>
+    <string name="empty_apply">신청자가 없습니다.</string>
+    <string name="empty_notice">작성된 공지사항이 없습니다.</string>
+    <string name="empty_search_study">스터디 검색결과가 없습니다.</string>
+    <string name="empty_study">아직 스터디가 없습니다.</string>
+    <string name="empty_delegate_member">위임할 멤버가 존재하지 않습니다.</string>
+    <string name="later">나중에</string>
+    <string name="update">업데이트</string>
+    <string name="dialog_update_title">업데이트 알림</string>
+    <string name="dialog_update_sub_title">원활한 앱 사용을 위해 앱을 업데이트해 주세요</string>
+    <string name="dialog_server_closed_title">서버 점검 알림</string>
+    <string name="dialog_server_closed_sub_title">원활한 앱 사용을 위해 서버 점검 중 입니다.</string>
+    <string name="close">닫기</string>
 </resources>

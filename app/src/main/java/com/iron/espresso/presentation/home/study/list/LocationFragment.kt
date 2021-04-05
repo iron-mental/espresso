@@ -2,9 +2,7 @@ package com.iron.espresso.presentation.home.study.list
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
@@ -20,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment_location) {
 
-    private val viewModel by viewModels<StudyListViewModel>()
+    private val listViewModel by viewModels<StudyListViewModel>()
     private val studyListAdapter = StudyListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,22 +26,22 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
 
         val category = arguments?.getString(STUDY_CATEGORY).orEmpty()
         binding.run {
+            viewModel = listViewModel
             studyList.adapter = studyListAdapter
             swipeRefresh.apply {
                 setOnRefreshListener {
-                    viewModel.getStudyList(category, SORT_LENGTH)
+                    listViewModel.getStudyList(category, SORT_LENGTH)
 
                     this.isRefreshing = false
                 }
             }
         }
 
-        viewModel.run {
+        listViewModel.run {
             getStudyList(category, SORT_LENGTH)
 
-            studyList.observe(viewLifecycleOwner, Observer { studyList ->
+            studyList.observe(viewLifecycleOwner, { studyList ->
                 studyListAdapter.setItemList(studyList)
-                binding.emptyView.isVisible = studyList.isNullOrEmpty()
             })
 
             loadingState.observe(viewLifecycleOwner, EventObserver(::setLoading))
@@ -51,7 +49,13 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
 
         studyListAdapter.setItemClickListener { studyItem ->
             if (studyItem.isMember) {
-                startActivity(MyStudyDetailActivity.getInstance(requireContext(), studyItem.title, studyItem.id))
+                startActivity(
+                    MyStudyDetailActivity.getInstance(
+                        requireContext(),
+                        studyItem.title,
+                        studyItem.id
+                    )
+                )
             } else {
                 startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
             }
@@ -72,7 +76,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
                     if (layoutManager.findLastCompletelyVisibleItemPosition()
                         == studyListAdapter.itemCount - 1
                     ) {
-                        viewModel.getStudyListPaging(OPTION, studyListAdapter.itemCount)
+                        listViewModel.getStudyListPaging(OPTION, studyListAdapter.itemCount)
                     }
                 }
             }

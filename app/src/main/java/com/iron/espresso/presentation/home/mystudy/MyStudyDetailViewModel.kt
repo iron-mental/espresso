@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.mystudy
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
@@ -13,9 +12,12 @@ import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class MyStudyDetailViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MyStudyDetailViewModel @Inject constructor(
     private val studyRepository: StudyRepository,
     private val deleteChat: DeleteChat,
     private val deleteAllChat: DeleteAllChat

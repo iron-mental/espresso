@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
@@ -13,8 +12,11 @@ import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SignInViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SignInViewModel @Inject constructor(
     private val loginUser: LoginUser,
     private val getUser: GetUser
 ) :
@@ -38,30 +40,36 @@ class SignInViewModel @ViewModelInject constructor(
     val userInfo: LiveData<User> get() = _userInfo
 
     fun checkLogin(userId: String, userPass: String, pushToken: String) {
+        showLoading()
         compositeDisposable += loginUser(userId, userPass, pushToken)
             .networkSchedulers()
-            .subscribe({
-                if (it.result) {
-                    _userAuth.value = it.data
+            .subscribe({ response ->
+                if (response.result) {
+                    response.data?.let {
+                        _userAuth.value = it
+                    }
+
                 } else {
-                    _toastMessage.value = Event(it.message.orEmpty())
+                    _toastMessage.value = Event(response.message.orEmpty())
                 }
             }, {
                 Logger.d("$it")
+                hideLoading()
             })
     }
 
-    fun getUserInfo(bearerToken: String, userId: Int) {
+    fun getUserInfo(userId: Int) {
         compositeDisposable += getUser(userId)
             .networkSchedulers()
             .subscribe({
                 _userInfo.value = it
+                hideLoading()
             }, { throwable ->
+                Logger.d("$throwable")
                 throwable.toErrorResponse()?.let {
                     _toastMessage.value = Event(it.message.orEmpty())
                 }
-
-                Logger.d("$throwable")
+                hideLoading()
             })
     }
 
@@ -78,7 +86,7 @@ class SignInViewModel @ViewModelInject constructor(
 
     fun verifyPasswordCheck(password: String?) {
         password?.let {
-            if (password.length > 6) {
+            if (password.length in 6..20) {
                 _checkType.value = CheckType.CHECK_PASSWORD_SUCCESS
             } else {
                 _checkType.value = CheckType.CHECK_PASSWORD_FAIL

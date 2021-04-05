@@ -5,7 +5,7 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.domain.entity.Project
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.project.ProjectListResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 
 

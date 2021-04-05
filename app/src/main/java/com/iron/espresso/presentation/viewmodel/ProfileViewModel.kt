@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
@@ -13,8 +12,11 @@ import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.presentation.profile.ProjectItem
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ProfileViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
     private val getUser: GetUser,
     private val getMyProjectList: GetMyProjectList
 ) : AbsProfileViewModel() {

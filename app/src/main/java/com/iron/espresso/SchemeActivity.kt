@@ -6,7 +6,7 @@ import com.iron.espresso.di.ApiModule
 import com.iron.espresso.domain.entity.AlertType
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.presentation.home.alert.AlertGateway
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 class SchemeActivity : AppCompatActivity() {
 

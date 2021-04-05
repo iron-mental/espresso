@@ -1,9 +1,12 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'com.google.gms.google-services'
+plugins {
+    id('com.android.application')
+    id('kotlin-android')
+    id('kotlin-kapt')
+    id('kotlin-parcelize')
+    id('dagger.hilt.android.plugin')
+    id('com.google.gms.google-services')
+    id('com.google.firebase.crashlytics')
+}
 
 android {
     compileSdkVersion 30
@@ -14,7 +17,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,9 +47,6 @@ dependencies {
     implementation project(":picker")
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$coreVersion"
@@ -57,46 +57,54 @@ dependencies {
     implementation "androidx.activity:activity-ktx:$activityVersion"
 
     //RxJava2 : https://github.com/ReactiveX/RxJava
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    implementation "io.reactivex.rxjava3:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava3:rxandroid:$rxAndroidVersion"
 
     //Retrofit
     implementation "com.google.code.gson:gson:$gsonVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation "com.github.bumptech.glide:glide:4.11.0"
+    kapt "com.github.bumptech.glide:compiler:4.11.0"
 
-    implementation "androidx.activity:activity-ktx:$activityVersion"
-    implementation "com.google.dagger:hilt-android:2.28-alpha"
-    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
+    implementation "com.google.dagger:hilt-android:2.31-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.31-alpha"
 
-    implementation "androidx.hilt:hilt-common:1.0.0-alpha02"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
-    kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
+    implementation "androidx.hilt:hilt-common:1.0.0-beta01"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    kapt "androidx.hilt:hilt-compiler:1.0.0-beta01"
 
     // 네이버 지도 SDK
-    implementation 'com.naver.maps:map-sdk:3.10.0'
+    implementation "com.naver.maps:map-sdk:3.10.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
-    implementation('io.socket:socket.io-client:1.0.0') {
+    implementation("io.socket:socket.io-client:1.0.0") {
         // excluding org.json which is provided by Android
-        exclude group: 'org.json', module: 'json'
+        exclude group: "org.json", module: "json"
     }
-    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.2.0'
+    implementation "com.google.androidbrowserhelper:androidbrowserhelper:2.2.0"
 
-    implementation "androidx.recyclerview:recyclerview:1.2.0-beta01"
+    implementation "androidx.recyclerview:recyclerview:1.2.0-rc01"
     implementation "com.airbnb.android:lottie:3.6.0"
-    implementation 'gun0912.ted:tedpermission-rx2:2.2.3'
+    implementation "gun0912.ted:tedpermission:2.2.3"
 
-    implementation platform('com.google.firebase:firebase-bom:26.2.0')
-    implementation 'com.google.firebase:firebase-messaging-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation platform("com.google.firebase:firebase-bom:26.2.0")
+    implementation "com.google.firebase:firebase-messaging-ktx"
+    implementation "com.google.firebase:firebase-analytics-ktx"
+
+    implementation "com.jakewharton.rxbinding4:rxbinding:4.0.0"
+
+    implementation platform("com.google.firebase:firebase-bom:26.8.0")
+
+    implementation platform("com.google.firebase:firebase-bom:26.2.0")
+    implementation "com.google.firebase:firebase-messaging-ktx"
+    implementation "com.google.firebase:firebase-crashlytics-ktx"
+    implementation "com.google.firebase:firebase-analytics-ktx"
 
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
-    implementation "androidx.room:room-rxjava2:$roomVersion"
+    implementation "androidx.room:room-rxjava3:$roomVersion"
 }

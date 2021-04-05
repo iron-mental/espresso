@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.*
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.http.*

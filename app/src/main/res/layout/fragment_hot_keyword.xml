@@ -18,16 +18,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/place_search_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/search_place"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
             <TextView
                 android:id="@+id/hot_keyword"
                 android:layout_width="wrap_content"

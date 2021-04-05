@@ -8,11 +8,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.data.model.AuthorityType
@@ -40,11 +39,11 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
         viewModel.showNoticeList(studyId)
 
         viewModel.noticeListItem.observe(viewLifecycleOwner, { noticeListItem ->
+            Logger.d("$noticeListItem")
             noticeAdapter.setItemList(noticeListItem)
-            binding.emptyView.isVisible = noticeListItem.isNullOrEmpty()
         })
 
-        viewModel.scrollItem.observe(viewLifecycleOwner, Observer {
+        viewModel.scrollItem.observe(viewLifecycleOwner, {
             noticeAdapter.setScrollItem(it)
         })
 
@@ -59,6 +58,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
             )
         }
         binding.noticeList.adapter = noticeAdapter
+        binding.viewModel = viewModel
 
         scrollListener()
 

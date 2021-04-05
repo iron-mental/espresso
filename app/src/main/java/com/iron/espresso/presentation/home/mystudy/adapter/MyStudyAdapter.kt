@@ -20,13 +20,13 @@ class MyStudyAdapter : RecyclerView.Adapter<MyStudyViewHolder>() {
     private val myStudyList = mutableListOf<MyStudyItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyStudyViewHolder =
-        MyStudyViewHolder(parent)
+        MyStudyViewHolder(parent, itemClickListener)
 
     override fun getItemCount(): Int =
         myStudyList.size
 
     override fun onBindViewHolder(holder: MyStudyViewHolder, position: Int) {
-        holder.bind(myStudyList[position], itemClickListener)
+        holder.bind(myStudyList[position])
     }
 
     fun replaceAll(list: List<MyStudyItem>?) {

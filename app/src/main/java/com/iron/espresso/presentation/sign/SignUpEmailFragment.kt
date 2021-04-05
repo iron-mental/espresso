@@ -9,9 +9,12 @@ import androidx.fragment.app.activityViewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignUpEmailBinding
+import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.presentation.viewmodel.CheckType
 import com.iron.espresso.presentation.viewmodel.SignUpViewModel
+import com.jakewharton.rxbinding4.widget.textChanges
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 @AndroidEntryPoint
 class SignUpEmailFragment :
@@ -29,12 +32,20 @@ class SignUpEmailFragment :
 
         signUpViewModel.run {
             checkType.observe(viewLifecycleOwner) { type ->
-                when (type) {
-                    CheckType.CHECK_EMAIL_FAIL -> {
-                    }
+                if (type == CheckType.CHECK_EMAIL_FAIL) {
+                    binding.emailField.error = type.message
                 }
             }
         }
+        binding.inputEmail.requestFocus()
+
+        compositeDisposable += binding.inputEmail.textChanges()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ email ->
+                binding.emailField.error = null
+            }, {
+
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -46,7 +57,7 @@ class SignUpEmailFragment :
         when (item.itemId) {
             R.id.next -> {
                 signUpViewModel.run {
-                    verifyEmailCheck(signUpViewModel.signUpEmail.value)
+                    verifyEmailCheck()
                 }
             }
             android.R.id.home -> {

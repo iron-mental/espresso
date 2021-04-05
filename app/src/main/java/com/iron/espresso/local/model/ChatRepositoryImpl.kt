@@ -1,6 +1,6 @@
 package com.iron.espresso.local.model
 
-import androidx.room.EmptyResultSetException
+import androidx.room.rxjava3.EmptyResultSetException
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.domain.entity.ChatUser
@@ -10,10 +10,10 @@ import com.iron.espresso.domain.repo.ChatRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.model.source.remote.ChatRemoteDataSource
-import io.reactivex.Completable
-import io.reactivex.CompletableEmitter
-import io.reactivex.Flowable
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.CompletableEmitter
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.util.*
 import javax.inject.Inject
 import kotlin.concurrent.schedule

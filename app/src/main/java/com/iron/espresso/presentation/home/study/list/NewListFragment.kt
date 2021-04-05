@@ -2,7 +2,6 @@ package com.iron.espresso.presentation.home.study.list
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +11,6 @@ import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentNewListBinding
 import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.setLoading
-import com.iron.espresso.ext.visibleIf
 import com.iron.espresso.presentation.home.mystudy.MyStudyDetailActivity
 import com.iron.espresso.presentation.home.study.StudyDetailActivity
 import com.iron.espresso.presentation.home.study.adapter.StudyListAdapter
@@ -21,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_new_list) {
 
-    private val viewModel by viewModels<StudyListViewModel>()
+    private val listViewModel by viewModels<StudyListViewModel>()
     private val studyListAdapter = StudyListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,22 +27,22 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
 
         val category = arguments?.getString(STUDY_CATEGORY).orEmpty()
         binding.run {
+            viewModel = listViewModel
             studyList.adapter = studyListAdapter
             swipeRefresh.apply {
                 setOnRefreshListener {
-                    viewModel.getStudyList(category, SORT_NEW)
+                    listViewModel.getStudyList(category, SORT_NEW)
 
                     this.isRefreshing = false
                 }
             }
         }
 
-        viewModel.run {
+        listViewModel.run {
             getStudyList(category, SORT_NEW)
 
             studyList.observe(viewLifecycleOwner, Observer { studyList ->
                 studyListAdapter.setItemList(studyList)
-                binding.emptyView.isVisible = studyList.isNullOrEmpty()
             })
 
             loadingState.observe(viewLifecycleOwner, EventObserver(::setLoading))
@@ -79,7 +77,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
                     if (layoutManager.findLastCompletelyVisibleItemPosition()
                         == studyListAdapter.itemCount - 1
                     ) {
-                        viewModel.getStudyListPaging(OPTION, studyListAdapter.itemCount)
+                        listViewModel.getStudyListPaging(OPTION, studyListAdapter.itemCount)
                     }
                 }
             }

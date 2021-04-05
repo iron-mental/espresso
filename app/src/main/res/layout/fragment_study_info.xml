@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -35,21 +36,11 @@
                 android:orientation="vertical"
                 android:paddingBottom="40dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/container_title_and_image"
+                <ImageView
+                    android:id="@+id/image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/image"
-                        android:layout_width="match_parent"
-                        android:layout_height="169dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/swift"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:layout_editor_absoluteX="0dp" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="169dp"
+                    android:scaleType="fitCenter" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -69,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
-                        android:lineSpacingExtra="11sp"
+                        android:lineSpacingMultiplier="1.2"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textStyle="normal"
@@ -94,7 +85,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:lineSpacingExtra="24sp"
                         android:text="@string/member_list"
                         android:textColor="@color/white"
                         android:textSize="16sp"
@@ -107,7 +97,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:lineSpacingExtra="24sp"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="@+id/member"
                         app:layout_constraintStart_toEndOf="@+id/member"
@@ -145,7 +134,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:lineSpacingExtra="24sp"
                         android:text="@string/study_proceed"
                         android:textColor="@color/white"
                         android:textSize="16sp"
@@ -159,7 +147,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
-                        android:lineSpacingExtra="11sp"
+                        android:lineSpacingMultiplier="1.2"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textStyle="normal"
@@ -185,7 +173,6 @@ Swift의 기본을 다집니다.
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:lineSpacingExtra="24sp"
                         android:text="@string/time"
                         android:textColor="@color/white"
                         android:textSize="16sp"
@@ -199,7 +186,6 @@ Swift의 기본을 다집니다.
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
-                        android:lineSpacingExtra="11sp"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textStyle="normal"
@@ -222,7 +208,6 @@ Swift의 기본을 다집니다.
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:lineSpacingExtra="24sp"
                         android:text="@string/place"
                         android:textColor="@color/white"
                         android:textSize="16sp"
@@ -236,7 +221,6 @@ Swift의 기본을 다집니다.
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
-                        android:lineSpacingExtra="11sp"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textStyle="normal"

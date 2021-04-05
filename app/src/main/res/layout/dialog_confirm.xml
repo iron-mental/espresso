@@ -4,12 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="title"
             type="String" />
 
         <variable
             name="subTitle"
+            type="String" />
+
+        <variable
+            name="cancelBtnName"
+            type="String" />
+
+        <variable
+            name="okBtnName"
             type="String" />
     </data>
 
@@ -81,15 +90,18 @@
 
             <TextView
                 android:id="@+id/sub_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/noto_sans_medium"
                 android:text="@{subTitle}"
+                android:textAlignment="center"
                 android:textColor="@color/white_alpha70"
                 android:textSize="18sp"
                 android:visibleIf="@{subTitle.length() > 0}"
-                app:layout_constraintBottom_toTopOf="@id/no"
+                app:layout_constraintBottom_toTopOf="@id/yes"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title"
@@ -102,13 +114,14 @@
                 android:background="?android:selectableItemBackgroundBorderless"
                 android:fontFamily="@font/noto_sans_regular"
                 android:padding="15dp"
-                android:text="@string/no"
+                android:text="@{cancelBtnName}"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:visibleIf="@{cancelBtnName.length() > 0}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias=".25"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toStartOf="@id/yes"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/no" />
 
             <TextView
                 android:id="@+id/yes"
@@ -117,13 +130,14 @@
                 android:background="?android:selectableItemBackgroundBorderless"
                 android:fontFamily="@font/noto_sans_regular"
                 android:padding="15dp"
-                android:text="@string/yes"
+                android:text="@{okBtnName}"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:visibleIf="@{okBtnName.length() > 0}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias=".75"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/no"
+                tools:text="@string/yes" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

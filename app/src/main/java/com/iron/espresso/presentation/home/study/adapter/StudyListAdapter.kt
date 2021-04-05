@@ -21,12 +21,12 @@ class StudyListAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudyListViewHolder =
-        StudyListViewHolder(parent)
+        StudyListViewHolder(parent, itemClickListener)
 
     override fun getItemCount(): Int =
         studyList.size
 
     override fun onBindViewHolder(holder: StudyListViewHolder, position: Int) {
-        holder.bind(studyList[position], itemClickListener)
+        holder.bind(studyList[position])
     }
 }

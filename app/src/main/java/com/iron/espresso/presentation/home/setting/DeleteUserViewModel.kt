@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.setting
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
@@ -10,8 +9,11 @@ import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DeleteUserViewModel @ViewModelInject constructor(private val deleteUser: DeleteUser) :
+@HiltViewModel
+class DeleteUserViewModel @Inject constructor(private val deleteUser: DeleteUser) :
     BaseViewModel() {
 
     private val _successEvent = MutableLiveData<Event<Unit>>()

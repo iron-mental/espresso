@@ -1,19 +1,21 @@
 package com.iron.espresso.presentation.home.apply
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.iron.espresso.Logger
+import com.iron.espresso.R
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.usecase.GetApplyList
 import com.iron.espresso.domain.usecase.GetMyApplyList
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ApplyStudyListViewModel @ViewModelInject constructor(
-    @Assisted private val state: SavedStateHandle,
+@HiltViewModel
+class ApplyStudyListViewModel @Inject constructor(
+    private val state: SavedStateHandle,
     private val getApplyList: GetApplyList,
     private val getMyApplyList: GetMyApplyList
 ) :
@@ -26,6 +28,9 @@ class ApplyStudyListViewModel @ViewModelInject constructor(
     val studyId: Int by lazy {
         (state.get(KEY_STUDY_ID) as? Int) ?: -1
     }
+
+    val emptyViewMessage: Int
+        get() = if (type == ApplyListFragment.Type.MY) R.string.empty_my_apply else R.string.empty_apply
 
     private val _applyList = MutableLiveData<List<ApplyStudyItem>>()
     val applyList: LiveData<List<ApplyStudyItem>>

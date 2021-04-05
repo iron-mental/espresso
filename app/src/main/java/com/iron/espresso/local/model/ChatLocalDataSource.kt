@@ -1,8 +1,8 @@
 package com.iron.espresso.local.model
 
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 interface ChatLocalDataSource {
@@ -23,7 +23,8 @@ interface ChatLocalDataSource {
     fun deleteAll(studyId: Int): Completable
 }
 
-class ChatLocalDataSourceImpl @Inject constructor(private val chatDao: ChatDao) : ChatLocalDataSource {
+class ChatLocalDataSourceImpl @Inject constructor(private val chatDao: ChatDao) :
+    ChatLocalDataSource {
     override fun getAll(studyId: Int): Flowable<List<ChatEntity>> =
         chatDao.getAll(studyId)
 

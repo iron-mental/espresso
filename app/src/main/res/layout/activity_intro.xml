@@ -37,17 +37,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cover"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:src="@drawable/intro_bg"
-            app:layout_constraintBottom_toTopOf="@id/sign_up_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sign_in_button"
-            app:layout_constraintVertical_bias=".1" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".3"
+            app:srcCompat="@drawable/ic_logo_big" />
+
 
         <TextView
             android:id="@+id/explain"
@@ -70,13 +71,13 @@
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="25dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:text="@string/intro_sign_up"
             android:textColor="@color/white"
             android:textSize="24sp"
-            android:fontFamily="@font/noto_sans_bold"
-            app:backgroundTint="@color/colorCobaltBlue"
+            app:backgroundTint="#3C78EB"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

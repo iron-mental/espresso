@@ -5,7 +5,7 @@ import com.iron.espresso.model.api.ModifyStudyRequest
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.study.*
 import com.iron.espresso.model.source.remote.StudyRemoteDataSource
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class StudyRepositoryImpl @Inject constructor(

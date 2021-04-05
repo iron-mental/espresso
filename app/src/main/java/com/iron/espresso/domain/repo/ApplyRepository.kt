@@ -2,7 +2,7 @@ package com.iron.espresso.domain.repo
 
 import com.iron.espresso.domain.entity.Apply
 import com.iron.espresso.domain.entity.ApplyDetail
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 interface ApplyRepository {
     fun registerApply(

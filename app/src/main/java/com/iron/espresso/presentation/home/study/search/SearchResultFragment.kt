@@ -3,7 +3,6 @@ package com.iron.espresso.presentation.home.study.search
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchResultFragment :
     BaseFragment<FragmentSearchResultBinding>(R.layout.fragment_search_result) {
 
-    private val viewModel by viewModels<StudyResultViewModel>()
+    private val resultViewModel by viewModels<StudyResultViewModel>()
     val studyListAdapter = StudyListAdapter()
     private val editText: EditText?
         get() = baseActivity?.getCustomView()?.findViewById(R.id.edit_view) as? EditText
@@ -30,23 +29,24 @@ class SearchResultFragment :
         val keyword = arguments?.getString(SEARCH_KEYWORD).orEmpty()
         scrollListener()
 
+
         binding.run {
+            viewModel = resultViewModel
             studyList.adapter = studyListAdapter
 
             swipeRefresh.apply {
                 setOnRefreshListener {
-                    viewModel.showSearchStudyList(keyword)
+                    resultViewModel.showSearchStudyList(keyword)
 
                     this.isRefreshing = false
                 }
             }
         }
 
-        viewModel.run {
+        resultViewModel.run {
             showSearchStudyList(keyword)
             studyList.observe(viewLifecycleOwner, { studyList ->
                 studyListAdapter.setItemList(studyList)
-                binding.emptyView.isVisible = studyList.isNullOrEmpty()
             })
         }
 
@@ -78,7 +78,7 @@ class SearchResultFragment :
                         == studyListAdapter.itemCount - 1
                     ) {
                         if (studyListAdapter.itemCount >= 10) {
-                            viewModel.getSearchStudyListPaging(OPTION, studyListAdapter.itemCount)
+                            resultViewModel.getSearchStudyListPaging(OPTION, studyListAdapter.itemCount)
                         }
                     }
                 }

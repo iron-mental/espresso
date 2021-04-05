@@ -4,7 +4,7 @@ import com.iron.espresso.domain.entity.Apply
 import com.iron.espresso.domain.entity.ApplyDetail
 import com.iron.espresso.domain.repo.ApplyRepository
 import com.iron.espresso.model.source.remote.ApplyRemoteDataSource
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class ApplyRepositoryImpl @Inject constructor(private val remoteDataSource: ApplyRemoteDataSource) :

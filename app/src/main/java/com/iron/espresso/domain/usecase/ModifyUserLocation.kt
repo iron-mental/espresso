@@ -2,7 +2,7 @@ package com.iron.espresso.domain.usecase
 
 import com.iron.espresso.domain.repo.KakaoRepository
 import com.iron.espresso.domain.repo.UserRepository
-import io.reactivex.Completable
+import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
 class ModifyUserLocation @Inject constructor(

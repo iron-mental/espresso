@@ -8,8 +8,8 @@ import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.chat.SocketChatResponse
 import com.iron.espresso.model.response.study.ChattingResponse
-import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import io.socket.client.IO
 import io.socket.client.Manager
 import io.socket.client.Socket
@@ -18,9 +18,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.net.SocketException
 import java.net.URI
-import java.util.*
 import javax.inject.Inject
-import kotlin.concurrent.schedule
 
 
 class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyApi) :
@@ -42,7 +40,11 @@ class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyAp
         this.callback = callback
     }
 
-    override fun getChat(studyId: Int, date: Long, first: Boolean): Single<BaseResponse<ChattingResponse>> {
+    override fun getChat(
+        studyId: Int,
+        date: Long,
+        first: Boolean
+    ): Single<BaseResponse<ChattingResponse>> {
         return studyApi.getChat(studyId = studyId, date = date, first = first)
     }
 

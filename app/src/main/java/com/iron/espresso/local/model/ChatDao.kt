@@ -1,10 +1,12 @@
 package com.iron.espresso.local.model
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 import com.iron.espresso.AuthHolder
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface ChatDao {
@@ -21,7 +23,11 @@ interface ChatDao {
     fun insertAll(chatEntity: List<ChatEntity>): Completable
 
     @Query("UPDATE chat_table SET nickname = (:nickname) WHERE user_id = (:userId) AND connect_id = (:connectId)")
-    fun updateNickname(userId: Int, nickname: String, connectId: Int = AuthHolder.requireId()): Completable
+    fun updateNickname(
+        userId: Int,
+        nickname: String,
+        connectId: Int = AuthHolder.requireId()
+    ): Completable
 
     @Query("DELETE FROM chat_table WHERE uuid = (:uuid)")
     fun deleteBookmark(uuid: String = "bookmark"): Completable

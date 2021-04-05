@@ -7,5 +7,5 @@ data class Alert(
     val alertType: AlertType?,
     val message: String,
     val confirm: Boolean,
-    val createdAt: String
+    val createdAt: Long
 )

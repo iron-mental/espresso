@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.study.list
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
@@ -10,9 +9,12 @@ import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class StudyListViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
+@HiltViewModel
+class StudyListViewModel @Inject constructor(private val studyRepository: StudyRepository) :
     BaseViewModel() {
 
     private val _studyList = MutableLiveData<List<StudyItem>>()

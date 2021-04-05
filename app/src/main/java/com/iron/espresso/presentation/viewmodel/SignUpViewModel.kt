@@ -1,19 +1,24 @@
 package com.iron.espresso.presentation.viewmodel
 
 import android.util.Patterns
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.iron.espresso.App
 import com.iron.espresso.Logger
+import com.iron.espresso.R
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.usecase.CheckDuplicateEmail
 import com.iron.espresso.domain.usecase.CheckDuplicateNickname
 import com.iron.espresso.domain.usecase.RegisterUser
 import com.iron.espresso.ext.plusAssign
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.iron.espresso.ext.toErrorResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-class SignUpViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
     private val registerUser: RegisterUser,
     private val checkDuplicateEmail: CheckDuplicateEmail,
     private val checkDuplicateNickname: CheckDuplicateNickname
@@ -32,63 +37,72 @@ class SignUpViewModel @ViewModelInject constructor(
     val checkNickname: (email: String) -> Unit = this::verifyNicknameCheck
     val checkPassword: (email: String) -> Unit = this::verifyPasswordCheck
 
-    fun verifyEmailCheck(email: String?) {
-        email?.let {
-            if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                compositeDisposable += checkDuplicateEmail.invoke(email)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ message ->
-                        if (message.result) {
-                            _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
-                        } else {
-                            _checkType.value = CheckType.CHECK_EMAIL_FAIL
-                        }
-                        Logger.d(it)
-                    }, {
-                        _checkType.value = CheckType.CHECK_EMAIL_FAIL
-                        Logger.d("$it")
-                    })
-            } else {
-                _checkType.value = CheckType.CHECK_EMAIL_FAIL
-            }
+
+    private val isValidEmail: (email: String) -> Boolean = { email ->
+        Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    val isValidNickName: (nickname: String) -> Boolean = { nickname ->
+        nickname.length in 2..7
+    }
+
+    private val isValidPassWord: (nickname: String) -> Boolean = { password ->
+        password.length in 6..20
+    }
+
+
+    fun verifyEmailCheck(email: String = signUpEmail.value.orEmpty()) {
+        if (isValidEmail(email)) {
+            compositeDisposable += checkDuplicateEmail.invoke(email)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ message ->
+                    if (message.result) {
+                        _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
+                    } else {
+                        _checkType.value = CheckType.CHECK_EMAIL_FAIL.setMessage(message.message)
+                    }
+                    Logger.d("$message")
+                }, {
+                    _checkType.value =
+                        CheckType.CHECK_EMAIL_FAIL.setMessage(it.toErrorResponse()?.message.orEmpty())
+                    Logger.d("$it")
+                })
+        } else {
+            _checkType.value =
+                CheckType.CHECK_EMAIL_FAIL.setMessage(App.instance.getString(R.string.invalid_email))
         }
     }
 
-    fun verifyNicknameCheck(nickname: String?) {
-        nickname?.let {
-            if (nickname.length in 2..7) {
-                compositeDisposable += checkDuplicateNickname.invoke(nickname)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ message ->
-                        Logger.d("${message.message.length}")
-                        if (message.result) {
-                            _checkType.value = CheckType.CHECK_NICKNAME_SUCCESS
-                        } else {
-                            _checkType.value = CheckType.CHECK_NICKNAME_FAIL
-                        }
-                    }, {
-                        _checkType.value = CheckType.CHECK_NICKNAME_FAIL
-                    })
-            } else {
-                _checkType.value = CheckType.CHECK_NICKNAME_FAIL
-            }
-
+    fun verifyNicknameCheck(nickname: String = signUpNickname.value.orEmpty()) {
+        if (isValidNickName(nickname)) {
+            compositeDisposable += checkDuplicateNickname.invoke(nickname)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ message ->
+                    Logger.d("${message.message.length}")
+                    if (message.result) {
+                        _checkType.value = CheckType.CHECK_NICKNAME_SUCCESS
+                    } else {
+                        _checkType.value = CheckType.CHECK_NICKNAME_FAIL.setMessage(message.message)
+                    }
+                }, {
+                    _checkType.value = CheckType.CHECK_NICKNAME_FAIL.setMessage(it.toErrorResponse()?.message.orEmpty())
+                })
+        } else {
+            _checkType.value = CheckType.CHECK_NICKNAME_FAIL.setMessage(App.instance.getString(R.string.invalid_nickname))
         }
     }
 
-    fun verifyPasswordCheck(password: String?) {
-        password?.let {
-            if (password.length > 6) {
-                registerUser(
-                    signUpEmail.value.orEmpty(),
-                    signUpPassword.value.orEmpty(),
-                    signUpNickname.value.orEmpty(),
-                )
-            } else {
-                _checkType.value = CheckType.CHECK_PASSWORD_FAIL
-            }
+    fun verifyPasswordCheck(password: String = signUpPassword.value.orEmpty()) {
+        if (isValidPassWord(password)) {
+            registerUser(
+                signUpEmail.value.orEmpty(),
+                signUpPassword.value.orEmpty(),
+                signUpNickname.value.orEmpty(),
+            )
+        } else {
+            _checkType.value = CheckType.CHECK_PASSWORD_FAIL
         }
     }
 
@@ -106,7 +120,12 @@ class SignUpViewModel @ViewModelInject constructor(
     }
 }
 
-enum class CheckType {
+enum class CheckType(var message: String = "") {
     CHECK_EMAIL_SUCCESS, CHECK_NICKNAME_SUCCESS, CHECK_PASSWORD_SUCCESS, CHECK_ALL_SUCCESS,
-    CHECK_EMAIL_FAIL, CHECK_NICKNAME_FAIL, CHECK_PASSWORD_FAIL, CHECK_ALL_FAIL
+    CHECK_EMAIL_FAIL, CHECK_NICKNAME_FAIL, CHECK_PASSWORD_FAIL, CHECK_ALL_FAIL;
+
+    fun setMessage(message: String): CheckType {
+        this.message = message
+        return this
+    }
 }

@@ -5,8 +5,11 @@ import com.iron.espresso.model.api.DelegateRequest
 import com.iron.espresso.model.api.ModifyStudyRequest
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
-import com.iron.espresso.model.response.study.*
-import io.reactivex.Single
+import com.iron.espresso.model.response.study.HotSearchKeywordResponse
+import com.iron.espresso.model.response.study.MyStudyListResponse
+import com.iron.espresso.model.response.study.StudyDetailResponse
+import com.iron.espresso.model.response.study.StudyListResponse
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 

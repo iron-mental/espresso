@@ -4,7 +4,7 @@ import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.notice.NoticeDetailResponse
 import com.iron.espresso.model.response.notice.NoticeListResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 
 data class RegisterNoticeRequest(

@@ -1,7 +1,5 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.chat
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -12,16 +10,18 @@ import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.repo.ChatRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.net.SocketException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 import kotlin.concurrent.schedule
 
-class ChattingViewModel @ViewModelInject constructor(
-    @Assisted
+@HiltViewModel
+class ChattingViewModel @Inject constructor(
     private val savedState: SavedStateHandle,
     private val chatRepository: ChatRepository
 ) : BaseViewModel() {

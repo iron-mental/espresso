@@ -6,12 +6,17 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignInPasswordBinding
+import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.presentation.viewmodel.CheckType
 import com.iron.espresso.presentation.viewmodel.SignInViewModel
+import com.jakewharton.rxbinding4.widget.textChanges
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class SignInPasswordFragment :
@@ -36,6 +41,19 @@ class SignInPasswordFragment :
                 }
             })
         }
+
+        compositeDisposable += binding.inputPwd.textChanges()
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ text ->
+                if (text.length in 1..5) {
+                    binding.passwordField.error = getString(R.string.sign_in_password_helper)
+                } else {
+                    binding.passwordField.error = null
+                }
+            }, {
+                Logger.d("$it")
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
