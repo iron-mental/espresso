@@ -79,6 +79,8 @@
     <string name="delete_notice">공지사항이 삭제되었습니다</string>
     <string name="success">임시 성공</string>
 
+    <string name="create_study_title_hint">스터디 이름을 입력하세요</string>
+
 
     <string name="notice_create">공지사항 작성화면</string>
     <string name="notice_modify">공지사항 수정화면</string>

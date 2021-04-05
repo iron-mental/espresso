@@ -134,14 +134,11 @@ class StudyDetailActivity :
         when (authority) {
             AUTHORITY_APPLIER -> {
                 binding.joinButton.visibility = View.INVISIBLE
-                binding.joiningButton.visibility = View.VISIBLE
-            }
-            AUTHORITY_REJECT -> {
-
+                binding.joiningContainer.visibility = View.VISIBLE
             }
             else -> {
                 binding.joinButton.visibility = View.VISIBLE
-                binding.joiningButton.visibility = View.INVISIBLE
+                binding.joiningContainer.visibility = View.INVISIBLE
             }
         }
     }

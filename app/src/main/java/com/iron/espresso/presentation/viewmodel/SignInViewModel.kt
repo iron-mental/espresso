@@ -72,7 +72,6 @@ class SignInViewModel @Inject constructor(
                     Logger.d("${errorResponse.message}")
                     _checkType.value = CheckType.CHECK_PASSWORD_FAIL.setMessage(errorResponse.message.orEmpty())
                 }
-
                 hideLoading()
             })
     }

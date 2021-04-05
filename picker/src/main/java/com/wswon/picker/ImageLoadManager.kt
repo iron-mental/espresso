@@ -4,8 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import javax.inject.Inject
 
-class ImageLoadManager(private val context: Context) {
+class ImageLoadManager( private val context: Context) {
 
     @SuppressLint("InlinedApi")
     fun getFilePaths(): Set<Pair<String, Uri>> {

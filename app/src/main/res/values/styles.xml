@@ -8,6 +8,7 @@
 
         <item name="android:textViewStyle">@style/NotoSansKrTextViewStyle</item>
         <item name="android:buttonStyle">@style/NotoSansKrButtonStyle</item>
+        <item name="editTextStyle">@style/NotoSansKrEditTextStyle</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
@@ -21,6 +22,10 @@
     </style>
 
     <style name="NotoSansKrButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+    </style>
+
+    <style name="NotoSansKrEditTextStyle" parent="android:Widget.EditText">
         <item name="android:fontFamily">@font/noto_sans_regular</item>
     </style>
 

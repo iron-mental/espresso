@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -33,62 +32,105 @@
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
                 android:orientation="vertical"
                 android:paddingBottom="40dp">
 
-                <ImageView
-                    android:id="@+id/image"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_title_and_image"
                     android:layout_width="match_parent"
                     android:layout_height="169dp"
-                    android:scaleType="fitCenter" />
+                    android:background="@color/theme_414141">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp">
-
-                    <include
-                        android:id="@+id/study_sns"
-                        layout="@layout/view_sns_study"
+                    <ImageView
+                        android:id="@+id/image"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_dummy_image_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_percent=".5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        bind:viewModel="@{viewModel}" />
-
-                    <TextView
-                        android:id="@+id/introduce_detail"
-                        android:layout_width="224dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
-                        android:lineSpacingMultiplier="1.2"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:textStyle="normal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/study_sns"
-                        tools:text="안녕하세요 Swift를 정복하기 위한
-스터디에 함께 할 분을 모집중입니다.
-열심히 하실 분이라면 언제든 환영합니다.
-아래의 노션링크도 참고해주세요" />
-
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <include layout="@layout/view_divider" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
+                    <include
+                        android:id="@+id/sns"
+                        layout="@layout/view_sns_study"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        bind:viewModel="@{viewModel}" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:id="@+id/introduce"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:text="@string/study_introduce"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="카테고리" />
+
+                    <TextView
+                        android:id="@+id/introduce_detail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_input_view"
+                        android:padding="15dp"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/introduce"
+                        tools:text="안녕하세요 Swift를 정복하기 위한
+스터디에 함께 할 분을 모집중입니다.
+열심히 하실 분이라면 언제든 환영합니다.
+아래의 노션링크도 참고해주세요" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
 
                     <TextView
                         android:id="@+id/member"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
+                        android:fontFamily="@font/noto_sans_bold"
                         android:text="@string/member_list"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -122,35 +164,35 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include layout="@layout/view_divider" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
 
                     <TextView
                         android:id="@+id/proceed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
+                        android:fontFamily="@font/noto_sans_bold"
                         android:text="@string/study_proceed"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/proceed_detail"
-                        android:layout_width="285dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
-                        android:lineSpacingMultiplier="1.2"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_input_view"
+                        android:padding="15dp"
                         android:textColor="@color/white"
                         android:textSize="14sp"
-                        android:textStyle="normal"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/proceed"
                         tools:text="진행은 이렇게 저렇게 합니다. 1주차는 Swift의 문법
@@ -162,45 +204,46 @@ Swift의 기본을 다집니다.
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include layout="@layout/view_divider" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
 
                     <TextView
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
+                        android:fontFamily="@font/noto_sans_bold"
                         android:text="@string/time"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/time_detail"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_input_view"
+                        android:padding="15dp"
                         android:textColor="@color/white"
                         android:textSize="14sp"
-                        android:textStyle="normal"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/time"
                         tools:text="시간" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include layout="@layout/view_divider" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/place_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
 
 
                     <TextView
@@ -208,22 +251,25 @@ Swift의 기본을 다집니다.
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
+                        android:fontFamily="@font/noto_sans_bold"
                         android:text="@string/place"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/place_detail"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/bg_input_view"
+                        android:padding="15dp"
                         android:textColor="@color/white"
                         android:textSize="14sp"
-                        android:textStyle="normal"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/place"
                         tools:text="장소" />

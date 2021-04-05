@@ -59,6 +59,25 @@ class SignUpPasswordFragment :
             }, {
                 Logger.d("$it")
             })
+
+        compositeDisposable += binding.inputPwd.textChanges()
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ text ->
+                when {
+                    text.length in 1..5 -> {
+                        binding.passwordField.error = getString(R.string.sign_up_password_helper)
+                    }
+                    text.length > 20 -> {
+                        binding.passwordField.error = getString(R.string.sign_up_password_helper2)
+                    }
+                    else -> {
+                        binding.passwordField.error = null
+                    }
+                }
+            }, {
+                Logger.d("$it")
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
