@@ -1,6 +1,7 @@
 package com.iron.espresso.di
 
 import com.iron.espresso.domain.repo.*
+import com.iron.espresso.local.model.ChatRepositoryImpl
 import com.iron.espresso.model.repo.*
 import dagger.Binds
 import dagger.Module
@@ -37,4 +38,8 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindAlertRepository(alertRepositoryImpl: AlertRepositoryImpl): AlertRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindChatRepository(chatRepositoryImpl: ChatRepositoryImpl): ChatRepository
 }

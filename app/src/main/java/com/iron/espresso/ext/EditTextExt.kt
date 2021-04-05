@@ -20,10 +20,17 @@ fun EditText.onEditorEnterAction(f: (email: String) -> Unit?) {
         }
 
         val keyDownEvent = event?.keyCode == KeyEvent.KEYCODE_ENTER
-                || event?.action == KeyEvent.ACTION_DOWN
+            || event?.action == KeyEvent.ACTION_DOWN
 
         if (imeAction or keyDownEvent)
             true.also { f(v.editableText.toString()) }
         else false
     }
+}
+
+fun EditText.multilineIme(action: Int) {
+    inputType = EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
+    setHorizontallyScrolling(false)
+    maxLines = Integer.MAX_VALUE
+    imeOptions = action
 }

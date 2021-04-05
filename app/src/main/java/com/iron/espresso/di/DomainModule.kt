@@ -153,8 +153,14 @@ object DomainModule {
 
     @Singleton
     @Provides
-    fun provideReadAlert(repository: AlertRepository): ReadAlert {
-        return ReadAlert(repository)
+    fun provideDeleteChat(repository: ChatRepository): DeleteChat {
+        return DeleteChat(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDeleteAllChat(repository: ChatRepository): DeleteAllChat {
+        return DeleteAllChat(repository)
     }
 }
 

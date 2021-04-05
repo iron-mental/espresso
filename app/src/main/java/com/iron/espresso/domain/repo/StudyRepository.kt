@@ -1,11 +1,8 @@
 package com.iron.espresso.domain.repo
 
 import com.iron.espresso.model.api.ModifyStudyRequest
-import com.iron.espresso.model.response.study.HotSearchKeywordResponse
 import com.iron.espresso.model.response.BaseResponse
-import com.iron.espresso.model.response.study.MyStudyListResponse
-import com.iron.espresso.model.response.study.StudyDetailResponse
-import com.iron.espresso.model.response.study.StudyListResponse
+import com.iron.espresso.model.response.study.*
 import io.reactivex.Single
 
 interface StudyRepository {

@@ -3,10 +3,7 @@ package com.iron.espresso.model.repo
 import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.model.api.ModifyStudyRequest
 import com.iron.espresso.model.response.BaseResponse
-import com.iron.espresso.model.response.study.HotSearchKeywordResponse
-import com.iron.espresso.model.response.study.MyStudyListResponse
-import com.iron.espresso.model.response.study.StudyDetailResponse
-import com.iron.espresso.model.response.study.StudyListResponse
+import com.iron.espresso.model.response.study.*
 import com.iron.espresso.model.source.remote.StudyRemoteDataSource
 import io.reactivex.Single
 import javax.inject.Inject
