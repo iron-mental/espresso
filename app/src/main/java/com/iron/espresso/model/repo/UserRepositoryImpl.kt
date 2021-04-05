@@ -46,11 +46,17 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
             it.result to it.message.orEmpty()
         }
 
-    override fun checkDuplicateEmail(email: String): Single<BaseResponse<Nothing>> =
+    override fun checkDuplicateEmail(email: String): Single<Boolean> =
         userRemoteDataSource.checkDuplicateEmail(email)
+            .map {
+                it.data?.duplicate == true
+            }
 
-    override fun checkDuplicateNickname(nickname: String): Single<BaseResponse<Nothing>> =
+    override fun checkDuplicateNickname(nickname: String): Single<Pair<Boolean, String>> =
         userRemoteDataSource.checkDuplicateNickname(nickname)
+            .map {
+                it.result to it.message.orEmpty()
+            }
 
     override fun modifyUserImage(image: File?): Single<Boolean> {
         return userRemoteDataSource.modifyUserImage(image)
