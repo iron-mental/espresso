@@ -191,6 +191,7 @@
     <string name="dialog_delete_user_title">정말 회원탈퇴를 하시겠어요?</string>
     <string name="login_failed">로그인 실패</string>
     <string name="login_success">로그인 성공</string>
+    <string name="not_found_email">존재하지 않는 이메일 입니다.</string>
     <string name="duplicated_email">중복된 이메일 입니다.</string>
     <string name="invalid_email">이메일 형식이 올바르지 않습니다.</string>
     <string name="invalid_nickname">닉네임을 2~7자로 입력해 주세요.</string>
