@@ -1,13 +1,15 @@
 package com.iron.espresso.model.repo
 
+import com.iron.espresso.domain.entity.AccessToken
 import com.iron.espresso.domain.entity.Address
 import com.iron.espresso.domain.entity.User
+import com.iron.espresso.domain.entity.Version
 import com.iron.espresso.domain.repo.UserRepository
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import com.iron.espresso.model.source.remote.UserRemoteDataSource
-import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import java.io.File
 import javax.inject.Inject
 
@@ -104,5 +106,21 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
         return userRemoteDataSource.verifyEmail().map {
             it.result to it.message.orEmpty()
         }
+    }
+
+    override fun reIssuanceAccessToken(refreshToken: String): Single<AccessToken> {
+        return userRemoteDataSource.reIssuanceAccessToken(refreshToken)
+            .map { response ->
+                if (!response.result) error(response.message.orEmpty())
+                response.data?.toAccessToken()
+            }
+    }
+
+    override fun getVersionInfo(version: String): Single<Version> {
+        return userRemoteDataSource.getVersionInfo(version)
+            .map { response ->
+                if (!response.result) error(response.message.orEmpty())
+                response.data?.toVersion()
+            }
     }
 }

@@ -9,6 +9,7 @@
         <item name="android:textViewStyle">@style/NotoSansKrTextViewStyle</item>
         <item name="android:buttonStyle">@style/NotoSansKrButtonStyle</item>
         <item name="editTextStyle">@style/NotoSansKrEditTextStyle</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
 

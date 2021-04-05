@@ -1,8 +1,8 @@
 package com.iron.espresso
 
-import javax.annotation.Resource
+import androidx.annotation.StringRes
 
-enum class ValidationInputText(@Resource val resId: Int) {
+enum class ValidationInputText(@StringRes val resId: Int) {
     EMPTY_TITLE(R.string.empty_title),
     EMPTY_CONTENTS(R.string.empty_contents),
     EMPTY_INTRODUCE(R.string.empty_introduce),

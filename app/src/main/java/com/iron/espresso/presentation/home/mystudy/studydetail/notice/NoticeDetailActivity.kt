@@ -9,10 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResultListener
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.AuthorityType
@@ -22,6 +19,8 @@ import com.iron.espresso.ext.EventObserver
 import com.iron.espresso.ext.setCircleImage
 import com.iron.espresso.presentation.home.apply.ConfirmDialog
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class NoticeDetailActivity :
@@ -51,7 +50,7 @@ class NoticeDetailActivity :
                 title.text = notice.title
                 writerName.text = notice.leaderNickname
                 content.text = notice.contents
-                date.text = notice.updatedAt
+                date.text = SimpleDateFormat("yy/MM/dd").format(Date(notice.updatedAt * 1000L))
 
                 if (!notice.leaderImage.isNullOrEmpty()) {
                     writerImage.setCircleImage(notice.leaderImage)

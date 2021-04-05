@@ -1,7 +1,5 @@
 package com.iron.espresso.presentation.home.apply
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -15,9 +13,11 @@ import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.presentation.profile.ProjectItem
 import com.iron.espresso.presentation.viewmodel.AbsProfileViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ApplyDetailViewModel @ViewModelInject constructor(
-    @Assisted
+@HiltViewModel
+class ApplyDetailViewModel @Inject constructor(
     private val savedState: SavedStateHandle,
     private val getApply: GetApplyOwner,
     private val getUser: GetUser,

@@ -18,7 +18,7 @@ data class StudyResponse(
     @SerializedName("leader_image")
     val leaderImage: String?,
     @SerializedName("created_at")
-    val createdAt: String?,
+    val createdAt: Long = -1L,
     @SerializedName("distance")
     val distance: Double?,
     @SerializedName("member_count")
@@ -36,7 +36,7 @@ data class StudyResponse(
             image = image,
             sigungu = sigungu.orEmpty(),
             leaderImage = leaderImage,
-            createdAt = createdAt.orEmpty(),
+            createdAt = createdAt,
             distance = distance ?: -1.0,
             memberCount = memberCount ?: -1,
             isMember = isMember ?: false,

@@ -5,23 +5,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
 class InputChatAdapter(private val chatMessage: (String) -> Unit) :
-    ListAdapter<ChatItem, ChatInputViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<InputChatItem, ChatInputViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatInputViewHolder {
         return ChatInputViewHolder(parent, chatMessage)
     }
 
     override fun onBindViewHolder(holder: ChatInputViewHolder, position: Int) {
-        holder.bind(currentList[position])
+        holder.bind()
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ChatItem>() {
-            override fun areItemsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean =
-                oldItem.message == newItem.message
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<InputChatItem>() {
+            override fun areItemsTheSame(oldItem: InputChatItem, newItem: InputChatItem): Boolean =
+                true
 
-            override fun areContentsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean =
-                oldItem == newItem
+            override fun areContentsTheSame(oldItem: InputChatItem, newItem: InputChatItem): Boolean =
+                true
         }
     }
 }

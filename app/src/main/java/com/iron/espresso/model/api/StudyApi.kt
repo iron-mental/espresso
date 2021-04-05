@@ -3,11 +3,8 @@ package com.iron.espresso.model.api
 import com.google.gson.annotations.SerializedName
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
-import com.iron.espresso.model.response.study.HotSearchKeywordResponse
-import com.iron.espresso.model.response.study.MyStudyListResponse
-import com.iron.espresso.model.response.study.StudyDetailResponse
-import com.iron.espresso.model.response.study.StudyListResponse
-import io.reactivex.Single
+import com.iron.espresso.model.response.study.*
+import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.http.*
@@ -197,4 +194,12 @@ interface StudyApi {
     fun getStudyCategory(
         @Header("Authorization") bearerToken: String = AuthHolder.bearerToken
     ): Single<BaseResponse<List<String>>>
+
+    @GET("/v1/study/{study_id}/chat")
+    fun getChat(
+        @Header("Authorization") bearerToken: String = AuthHolder.bearerToken,
+        @Path("study_id") studyId: Int,
+        @Query("date") date: Long,
+        @Query("first") first: Boolean
+    ): Single<BaseResponse<ChattingResponse>>
 }

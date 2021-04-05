@@ -6,6 +6,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.iron.espresso.presentation.home.alert.AlertListViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,10 +23,22 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.iron.espresso.view.EmptyListView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibleIf="@{viewModel.alertList.size() == 0}"
+            app:image="@drawable/ic_empty_alert"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:message="@string/empty_alert" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/alert_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibleIf="@{viewModel.alertList.size() > 0}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

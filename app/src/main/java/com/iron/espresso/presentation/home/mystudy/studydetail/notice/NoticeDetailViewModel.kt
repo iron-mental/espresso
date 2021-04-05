@@ -1,21 +1,22 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.notice
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.NoticeDetailItem
-import com.iron.espresso.data.model.NoticeItemType
 import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.NoticeApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class NoticeDetailViewModel @ViewModelInject constructor(private val noticeApi: NoticeApi) :
+@HiltViewModel
+class NoticeDetailViewModel @Inject constructor(private val noticeApi: NoticeApi) :
     BaseViewModel() {
 
     private val _notice = MutableLiveData<NoticeDetailItem>()

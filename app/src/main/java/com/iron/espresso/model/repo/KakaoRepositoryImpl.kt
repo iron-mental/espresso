@@ -2,7 +2,7 @@ package com.iron.espresso.model.repo
 
 import com.iron.espresso.domain.repo.KakaoRepository
 import com.iron.espresso.model.source.remote.KakaoRemoteDataSource
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class KakaoRepositoryImpl @Inject constructor(private val remoteDataSource: KakaoRemoteDataSource) :

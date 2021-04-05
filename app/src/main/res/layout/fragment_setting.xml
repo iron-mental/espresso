@@ -113,6 +113,7 @@
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="true"
                         app:layout_constraintBottom_toBottomOf="@+id/push_alarm"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/push_alarm" />
@@ -157,17 +158,17 @@
                 <include
                     android:id="@+id/contact"
                     layout="@layout/setting_item_layout"
-                    bind:title="@{@string/contact}"/>
+                    bind:title="@{@string/contact}" />
 
                 <include
                     android:id="@+id/terms"
                     layout="@layout/setting_item_layout"
-                    bind:title="@{@string/terms}"/>
+                    bind:title="@{@string/terms}" />
 
                 <include
                     android:id="@+id/policy"
                     layout="@layout/setting_item_layout"
-                    bind:title="@{@string/policy}"/>
+                    bind:title="@{@string/policy}" />
 
                 <View
                     android:id="@+id/category_divider"
@@ -182,11 +183,11 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:textSize="16sp"
                     android:gravity="center_vertical"
                     android:minHeight="48dp"
                     android:text="@string/logout"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/membership_withdrawal"
@@ -194,36 +195,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:textSize="16sp"
                     android:gravity="center_vertical"
                     android:minHeight="48dp"
                     android:text="@string/membership_withdrawal"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
             </LinearLayout>
         </ScrollView>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp">
-
-            <EditText
-                android:id="@+id/input_message"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/send_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="전송"
-                app:layout_constraintStart_toEndOf="@id/input_message"
-                app:layout_constraintTop_toTopOf="@id/input_message" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

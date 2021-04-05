@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -19,8 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:textColor="@color/colorPrimary"
             android:maxLines="1"
+            android:textColor="@color/colorPrimary"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,10 +39,19 @@
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/location"
             app:layout_constraintEnd_toStartOf="@id/image"
+            app:layout_constraintStart_toStartOf="@id/location"
             app:layout_constraintTop_toBottomOf="@id/location"
             tools:text="스니커즈 어플 만드실" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/date_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:srcCompat="@drawable/ic_date_24" />
 
         <TextView
             android:id="@+id/date"
@@ -49,12 +59,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/title"
-            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@id/date_icon"
+            app:layout_constraintStart_toEndOf="@id/date_icon"
+            app:layout_constraintTop_toTopOf="@id/date_icon"
             tools:text="09/21" />
 
         <ImageView

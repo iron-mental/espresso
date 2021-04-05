@@ -1,16 +1,17 @@
 package com.iron.espresso.di
 
 import com.iron.espresso.domain.repo.*
+import com.iron.espresso.local.model.ChatRepositoryImpl
 import com.iron.espresso.model.repo.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
     @Singleton
@@ -37,4 +38,8 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindAlertRepository(alertRepositoryImpl: AlertRepositoryImpl): AlertRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindChatRepository(chatRepositoryImpl: ChatRepositoryImpl): ChatRepository
 }

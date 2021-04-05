@@ -10,18 +10,19 @@ import com.iron.espresso.data.model.MyStudyItem
 import com.iron.espresso.databinding.ItemMystudyBinding
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
 
-class MyStudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-    LayoutInflater.from(parent.context).inflate(
-        R.layout.item_mystudy, parent, false
-    )
-) {
+class MyStudyViewHolder(
+    parent: ViewGroup,
+    private val itemClickListener: MyStudyAdapter.ItemClickListener
+) :
+    RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(
+            R.layout.item_mystudy, parent, false
+        )
+    ) {
     private val binding =
         DataBindingUtil.bind<ItemMystudyBinding>(itemView)
 
-    fun bind(
-        item: MyStudyItem,
-        itemClickListener: MyStudyAdapter.ItemClickListener
-    ) {
+    fun bind(item: MyStudyItem) {
         binding?.run {
             setVariable(BR.myStudyItem, item)
             executePendingBindings()

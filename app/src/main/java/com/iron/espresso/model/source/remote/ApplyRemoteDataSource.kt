@@ -7,7 +7,7 @@ import com.iron.espresso.model.api.RegisterStudyApplyRequest
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.apply.ApplyDetailResponse
 import com.iron.espresso.model.response.apply.ApplyListResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 

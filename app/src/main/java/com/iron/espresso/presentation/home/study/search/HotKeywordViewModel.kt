@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.study.search
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
@@ -9,8 +8,11 @@ import com.iron.espresso.domain.repo.StudyRepository
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.presentation.home.study.HotKeywordItem
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HotKeywordViewModel @ViewModelInject constructor(private val studyRepository: StudyRepository) :
+@HiltViewModel
+class HotKeywordViewModel @Inject constructor(private val studyRepository: StudyRepository) :
     BaseViewModel() {
 
     private val _hotKeywordList = MutableLiveData<List<HotKeywordItem>>()

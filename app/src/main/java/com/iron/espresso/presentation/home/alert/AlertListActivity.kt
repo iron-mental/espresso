@@ -43,6 +43,7 @@ class AlertListActivity : BaseActivity<ActivityAlertListBinding>(R.layout.activi
     }
 
     private fun setupView() {
+        binding.viewModel = viewModel
         with(binding) {
             alertList.adapter = adapter
 

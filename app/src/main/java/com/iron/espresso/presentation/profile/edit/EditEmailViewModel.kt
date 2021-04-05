@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.profile.edit
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.Logger
@@ -10,8 +9,11 @@ import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class EditEmailViewModel @ViewModelInject constructor(
+@HiltViewModel
+class EditEmailViewModel @Inject constructor(
     private val modifyUserEmail: ModifyUserEmail
 ) :
     BaseViewModel() {

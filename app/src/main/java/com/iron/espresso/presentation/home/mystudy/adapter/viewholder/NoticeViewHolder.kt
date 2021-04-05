@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.data.model.NoticeItem
 import com.iron.espresso.databinding.ItemNoticeLayoutBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(
@@ -37,7 +39,7 @@ class NoticeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
                 }
             }
-            date.text = item.updatedAt
+            date.text = SimpleDateFormat("yy/MM/dd").format(Date(item.updatedAt * 1000L))
             content.text = item.contents
 
             divider.apply {

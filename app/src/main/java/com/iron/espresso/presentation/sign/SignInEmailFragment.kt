@@ -6,13 +6,15 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentSignInEmailBinding
+import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.presentation.viewmodel.CheckType
 import com.iron.espresso.presentation.viewmodel.SignInViewModel
+import com.jakewharton.rxbinding4.widget.textChanges
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 @AndroidEntryPoint
 class SignInEmailFragment :
@@ -29,13 +31,22 @@ class SignInEmailFragment :
         }
 
         signInViewModel.run {
-            checkType.observe(viewLifecycleOwner, Observer { type ->
-                when (type) {
-                    CheckType.CHECK_EMAIL_FAIL -> {
-                    }
+            checkType.observe(viewLifecycleOwner, { type ->
+                if (type == CheckType.CHECK_EMAIL_FAIL) {
+                    binding.emailField.error = type.message
                 }
             })
         }
+
+        binding.inputEmail.requestFocus()
+
+        compositeDisposable += binding.inputEmail.textChanges()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ email ->
+                binding.emailField.error = null
+            }, {
+
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

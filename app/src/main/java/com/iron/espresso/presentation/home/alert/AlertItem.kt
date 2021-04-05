@@ -16,16 +16,7 @@ data class AlertItem(
     companion object {
         fun of(alert: Alert): AlertItem {
             val date = Calendar.getInstance().apply {
-                val day = alert.createdAt.split(" ")[0].split("-")
-                val time = alert.createdAt.split(" ")[1].split(":")
-                set(
-                    day[0].toInt(),
-                    day[1].toInt() - 1,
-                    day[2].toInt(),
-                    time[0].toInt(),
-                    time[1].toInt(),
-                    time[2].toInt()
-                )
+                time = Date(alert.createdAt * 1000L)
             }
 
             val now = Calendar.getInstance()

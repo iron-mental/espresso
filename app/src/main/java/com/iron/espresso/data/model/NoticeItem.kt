@@ -7,6 +7,6 @@ data class NoticeItem(
     val title: String,
     val contents: String,
     val pinned: Boolean,
-    val createdAt: String,
-    val updatedAt: String
+    val createdAt: Long,
+    val updatedAt: Long
 ) : Serializable

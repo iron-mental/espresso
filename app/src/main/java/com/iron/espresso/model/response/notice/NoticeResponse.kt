@@ -14,16 +14,16 @@ data class NoticeResponse(
     @SerializedName("pinned")
     val pinned: Boolean?,
     @SerializedName("created_at")
-    val createdAt: String?,
+    val createdAt: Long = -1,
     @SerializedName("updated_at")
-    val updatedAt: String?
+    val updatedAt: Long = -1
 ) {
     fun toNoticeItem() = NoticeItem(
         id = id ?: -1,
         title = title.orEmpty(),
         contents = contents.orEmpty(),
         pinned = pinned ?: false,
-        createdAt = createdAt.orEmpty(),
-        updatedAt = updatedAt.orEmpty()
+        createdAt = createdAt,
+        updatedAt = updatedAt
     )
 }

@@ -15,15 +15,15 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragment_apply_list) {
 
-    private val viewModel by viewModels<ApplyStudyListViewModel>()
+    private val listViewModel by viewModels<ApplyStudyListViewModel>()
 
     private val type: Type
-        get() = viewModel.type
+        get() = listViewModel.type
 
     private val adapter: ApplyStudyAdapter by lazy {
         ApplyStudyAdapter(type) { item ->
             if (type == Type.NONE) showApplyDetail(
-                viewModel.studyId,
+                listViewModel.studyId,
                 item.id,
                 item.userId
             ) else showMyApplyDetail(item)
@@ -40,12 +40,15 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
 
     private fun setupView() {
         with(binding) {
+            viewModel = listViewModel
             applyList.adapter = adapter
+
+            emptyView.setMessage(getString(listViewModel.emptyViewMessage))
         }
     }
 
     private fun setupViewModel() {
-        with(viewModel) {
+        with(listViewModel) {
             applyList.observe(viewLifecycleOwner, { list ->
                 adapter.submitList(list)
             })
@@ -61,7 +64,7 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
 
         fragment.setFragmentResultListener(fragment::class.java.simpleName) { _: String, bundle: Bundle ->
             if (bundle.containsKey(ApplyDetailFragment.REFRESH)) {
-                viewModel.getList()
+                listViewModel.getList()
             }
         }
     }
@@ -75,7 +78,7 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
 
         fragment.setFragmentResultListener(fragment::class.java.simpleName) { _: String, bundle: Bundle ->
             if (bundle.containsKey(MyApplyDetailFragment.REFRESH)) {
-                viewModel.getList()
+                listViewModel.getList()
             }
         }
     }

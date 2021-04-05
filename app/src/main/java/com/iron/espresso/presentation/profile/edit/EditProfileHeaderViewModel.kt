@@ -2,7 +2,6 @@ package com.iron.espresso.presentation.profile.edit
 
 import android.net.Uri
 import androidx.core.net.toFile
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
@@ -14,9 +13,12 @@ import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
-import io.reactivex.Single
+import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class EditProfileHeaderViewModel @ViewModelInject constructor(
+@HiltViewModel
+class EditProfileHeaderViewModel @Inject constructor(
     private val modifyUserImage: ModifyUserImage,
     private val modifyUserInfo: ModifyUserInfo
 ) :

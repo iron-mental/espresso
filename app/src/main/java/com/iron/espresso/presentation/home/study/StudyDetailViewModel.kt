@@ -1,6 +1,5 @@
 package com.iron.espresso.presentation.home.study
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.AuthHolder
@@ -12,9 +11,11 @@ import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.StudyApi
-import retrofit2.HttpException
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class StudyDetailViewModel @ViewModelInject constructor(
+@HiltViewModel
+class StudyDetailViewModel @Inject constructor(
     private val studyApi: StudyApi,
     private val registerApply: RegisterApply
 ) : AbsStudyDetailViewModel() {

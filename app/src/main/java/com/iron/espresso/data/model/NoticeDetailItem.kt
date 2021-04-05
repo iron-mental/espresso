@@ -11,5 +11,5 @@ data class NoticeDetailItem(
     val leaderId: Int,
     val leaderImage: String?,
     val leaderNickname: String,
-    val updatedAt: String
+    val updatedAt: Long
 ) : Serializable

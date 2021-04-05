@@ -1,17 +1,19 @@
 package com.iron.espresso.presentation.place
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.model.api.KakaoApi
 import com.iron.espresso.model.response.LocalResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class SearchPlaceDetailViewModel @ViewModelInject constructor(private val kakaoApi: KakaoApi) :
+@HiltViewModel
+class SearchPlaceDetailViewModel @Inject constructor(private val kakaoApi: KakaoApi) :
     BaseViewModel() {
 
     val sendLocalItem = MutableLiveData<LocalItem>()

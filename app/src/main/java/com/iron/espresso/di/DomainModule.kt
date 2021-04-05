@@ -5,11 +5,11 @@ import com.iron.espresso.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object DomainModule {
 
     @Singleton
@@ -40,6 +40,18 @@ object DomainModule {
     @Provides
     fun provideCheckDuplicateNickname(repository: UserRepository): CheckDuplicateNickname {
         return CheckDuplicateNickname(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideReIssuanceToken(repository: UserRepository): ReIssuanceToken {
+        return ReIssuanceToken(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetVersionInfo(repository: UserRepository): GetVersionInfo {
+        return GetVersionInfo(repository)
     }
 
     @Singleton
@@ -87,7 +99,10 @@ object DomainModule {
 
     @Singleton
     @Provides
-    fun provideModifyUserLocation(userRepository: UserRepository, kakaoRepository: KakaoRepository): ModifyUserLocation {
+    fun provideModifyUserLocation(
+        userRepository: UserRepository,
+        kakaoRepository: KakaoRepository
+    ): ModifyUserLocation {
         return ModifyUserLocation(userRepository, kakaoRepository)
     }
 
@@ -153,8 +168,14 @@ object DomainModule {
 
     @Singleton
     @Provides
-    fun provideReadAlert(repository: AlertRepository): ReadAlert {
-        return ReadAlert(repository)
+    fun provideDeleteChat(repository: ChatRepository): DeleteChat {
+        return DeleteChat(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDeleteAllChat(repository: ChatRepository): DeleteAllChat {
+        return DeleteAllChat(repository)
     }
 }
 
