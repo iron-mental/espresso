@@ -9,6 +9,7 @@ import androidx.fragment.app.setFragmentResultListener
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivitySplashBinding
 import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.fcm.MyNotification
 import com.iron.espresso.presentation.home.HomeActivity
 import com.iron.espresso.presentation.home.apply.ConfirmDialog
 import com.iron.espresso.presentation.sign.IntroActivity
@@ -21,6 +22,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (checkPushEvent()) return
 
         with(viewModel) {
             userInfoResult.observe(this@SplashActivity, { userResponse ->
@@ -89,6 +92,27 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 }
             }
         }
+    }
+
+    private fun checkPushEvent(): Boolean {
+        val event = intent?.getStringExtra("pushEvent")
+        if (!event.isNullOrEmpty()) {
+
+            val data = mutableMapOf<String, String>()
+            intent.extras?.let { extras ->
+                extras.keySet().forEach { key ->
+                    data[key] = extras.getString(key).orEmpty()
+                }
+            }
+
+            val intent = MyNotification.createIntent(data)
+            startActivity(intent)
+            finish()
+
+            return true
+        }
+
+        return false
     }
 
     private fun goIntroActivity() {

@@ -21,3 +21,8 @@ fun View.invisibleIf(isInvisible: Boolean?) {
 fun View.goneIf(isGone: Boolean?) {
     this.isGone = isGone ?: false
 }
+
+@BindingAdapter("android:activationIf")
+fun View.activationIf(activation: Boolean?) {
+    this.alpha = if (activation == true) 1f else 0.4f
+}

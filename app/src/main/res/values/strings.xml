@@ -164,6 +164,10 @@
     <string name="dialog_logout_title">로그아웃 하시겠어요?</string>
     <string name="alert">알림</string>
 
+    <string name="check">확인하기</string>
+    <string name="toast_study_deleted">%s 스터디가 삭제되었습니다.</string>
+    <string name="toast_study_rejected">%s 스터디 입장이 거절되었습니다.</string>
+
     <string name="sns_notion_input_hint">Notion URL</string>
     <string name="sns_notion_input_title">Notion</string>
     <string name="sns_ever_note_input_hint">EverNote URL</string>

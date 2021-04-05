@@ -76,8 +76,3 @@ fun ImageView.setRadiusImage(imageUrl: String) {
         .transform(CenterCrop(), RoundedCorners(30))
         .into(this)
 }
-
-@BindingAdapter("android:activationIf")
-fun ImageView.activationIf(activation: Boolean?) {
-    this.alpha = if (activation == true) 1F else 0.4F
-}

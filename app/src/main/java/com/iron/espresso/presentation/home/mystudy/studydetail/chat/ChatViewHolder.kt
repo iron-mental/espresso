@@ -1,5 +1,6 @@
 package com.iron.espresso.presentation.home.mystudy.studydetail.chat
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -21,6 +22,17 @@ class ChatViewHolder(
             message.text = item.message
             time.text = dateFormat.format(item.timeStamp)
             myChat.isVisible = item.isMyChat
+
+            checkActivation(item.chatSendingState)
+        }
+    }
+
+    fun checkActivation(state: ChatSendingState) {
+        with(binding) {
+            name.setTextColor(state.color)
+            message.setTextColor(state.color)
+            time.setTextColor(state.color)
+            myChat.setTextColor(state.color)
         }
     }
 }

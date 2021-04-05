@@ -99,6 +99,12 @@ dependencies {
 
     implementation platform("com.google.firebase:firebase-bom:26.8.0")
 
+    implementation platform("com.google.firebase:firebase-bom:26.2.0")
+    implementation "com.google.firebase:firebase-messaging-ktx"
     implementation "com.google.firebase:firebase-crashlytics-ktx"
     implementation "com.google.firebase:firebase-analytics-ktx"
+
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-rxjava3:$roomVersion"
 }

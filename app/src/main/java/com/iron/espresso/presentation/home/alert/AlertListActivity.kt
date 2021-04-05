@@ -12,6 +12,7 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityAlertListBinding
 import com.iron.espresso.ext.dp
+import com.iron.espresso.presentation.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +24,9 @@ class AlertListActivity : BaseActivity<ActivityAlertListBinding>(R.layout.activi
         AlertListAdapter { item ->
             if (!item.confirm) {
                 viewModel.read(alertId = item.id)
+            }
+            item.alertType?.let { type ->
+                AlertGateway.goToPage(this, type, item.studyId, item.studyTitle)
             }
         }
     }
@@ -75,6 +79,13 @@ class AlertListActivity : BaseActivity<ActivityAlertListBinding>(R.layout.activi
                 adapter.submitList(list)
             })
         }
+    }
+
+    override fun onBackPressed() {
+        if (isTaskRoot) {
+            startActivity(HomeActivity.getIntent(this))
+        }
+        super.onBackPressed()
     }
 
     companion object {

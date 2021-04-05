@@ -54,4 +54,6 @@ ext {
 
     activityVersion = "1.1.0"
     glideVersion = '4.10.0'
+
+    roomVersion = '2.3.0-beta03'
 }

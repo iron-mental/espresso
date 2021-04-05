@@ -30,25 +30,15 @@ class TerminalFirebaseMessageService : FirebaseMessagingService() {
         Logger.d("${remoteMessage.notification?.title}")
         Logger.d("${remoteMessage.notification?.body}")
         Logger.d("${remoteMessage.notification?.channelId}")
-
-//        Logger.d("${remoteMessage.data["Push Test"]}")
-//        Logger.d("${remoteMessage.data.values.toList()}")
-
-
-        if (remoteMessage.data.isNotEmpty()) {
-
-//            MyNotificationManager().show(
-//                applicationContext,
-//                NOTIFICATION_ID++,
-//                "data 노티인것인가?",
-//                remoteMessage.data.values.toList().getOrNull(0) ?: ""
-//            )
+        val data = remoteMessage.data.keys.map {
+            it + " : " + remoteMessage.data[it]
         }
+        Logger.d("$data")
 
-        // Check if message contains a notification payload.
-        remoteMessage.notification?.let {
-            MyNotificationManager().show(applicationContext, NOTIFICATION_ID++, it)
-        }
+        MyNotification(applicationContext, remoteMessage).show(
+            applicationContext,
+            NOTIFICATION_ID++
+        )
     }
 
     companion object {

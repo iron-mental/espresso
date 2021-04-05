@@ -36,6 +36,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SchemeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="terminal" />
+            </intent-filter>
+        </activity>
         <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeDetailActivity" />
         <activity android:name=".presentation.sign.IntroActivity" />
 
