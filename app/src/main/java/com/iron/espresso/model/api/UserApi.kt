@@ -3,10 +3,7 @@ package com.iron.espresso.model.api
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.address.AddressResponse
-import com.iron.espresso.model.response.user.AccessTokenResponse
-import com.iron.espresso.model.response.user.UserAuthResponse
-import com.iron.espresso.model.response.user.UserResponse
-import com.iron.espresso.model.response.user.VersionResponse
+import com.iron.espresso.model.response.user.*
 import com.iron.espresso.model.source.remote.*
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
@@ -40,7 +37,7 @@ interface UserApi {
     @GET("/v1/user/check-email/{email}")
     fun checkDuplicateEmail(
         @Path("email") email: String
-    ): Single<BaseResponse<Nothing>>
+    ): Single<BaseResponse<CheckEmailResponse>>
 
     @GET("/v1/user/check-nickname/{nickname}")
     fun checkDuplicateNickname(

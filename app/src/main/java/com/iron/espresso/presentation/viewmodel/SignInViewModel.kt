@@ -1,10 +1,14 @@
 package com.iron.espresso.presentation.viewmodel
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.iron.espresso.App
 import com.iron.espresso.Logger
+import com.iron.espresso.R
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.entity.User
+import com.iron.espresso.domain.usecase.CheckDuplicateEmail
 import com.iron.espresso.domain.usecase.GetUser
 import com.iron.espresso.domain.usecase.LoginUser
 import com.iron.espresso.ext.Event
@@ -13,12 +17,15 @@ import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.response.user.UserAuthResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val loginUser: LoginUser,
-    private val getUser: GetUser
+    private val getUser: GetUser,
+    private val checkDuplicateEmail: CheckDuplicateEmail
 ) :
     BaseViewModel() {
 
@@ -39,6 +46,14 @@ class SignInViewModel @Inject constructor(
     private val _userInfo = MutableLiveData<User>()
     val userInfo: LiveData<User> get() = _userInfo
 
+    private val isValidEmail: (email: String) -> Boolean = { email ->
+        Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private val isValidPassWord: (nickname: String) -> Boolean = { password ->
+        password.length in 6..20
+    }
+
     fun checkLogin(userId: String, userPass: String, pushToken: String) {
         showLoading()
         compositeDisposable += loginUser(userId, userPass, pushToken)
@@ -48,12 +63,16 @@ class SignInViewModel @Inject constructor(
                     response.data?.let {
                         _userAuth.value = it
                     }
-
                 } else {
-                    _toastMessage.value = Event(response.message.orEmpty())
+                    _checkType.value = CheckType.CHECK_PASSWORD_FAIL.setMessage(response.message.orEmpty())
                 }
             }, {
-                Logger.d("$it")
+                val errorResponse = it.toErrorResponse()
+                if (errorResponse != null) {
+                    Logger.d("${errorResponse.message}")
+                    _checkType.value = CheckType.CHECK_PASSWORD_FAIL.setMessage(errorResponse.message.orEmpty())
+                }
+
                 hideLoading()
             })
     }
@@ -75,9 +94,23 @@ class SignInViewModel @Inject constructor(
 
 
     fun verifyEmailCheck(email: String?) {
-        email?.let {
-            if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
+        if (email != null) {
+            if (isValidEmail(email)) {
+                compositeDisposable += checkDuplicateEmail.invoke(email)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ isDuplicate ->
+                        if (!isDuplicate) {
+                            _checkType.value =
+                                CheckType.CHECK_EMAIL_FAIL.setMessage(App.instance.getString(R.string.not_found_email))
+                        } else {
+                            _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
+                        }
+                    }, {
+                        _checkType.value =
+                            CheckType.CHECK_EMAIL_FAIL.setMessage(it.toErrorResponse()?.message.orEmpty())
+                        Logger.d("$it")
+                    })
             } else {
                 _checkType.value = CheckType.CHECK_EMAIL_FAIL
             }
@@ -85,8 +118,8 @@ class SignInViewModel @Inject constructor(
     }
 
     fun verifyPasswordCheck(password: String?) {
-        password?.let {
-            if (password.length in 6..20) {
+        if (password != null) {
+            if (isValidPassWord(password)) {
                 _checkType.value = CheckType.CHECK_PASSWORD_SUCCESS
             } else {
                 _checkType.value = CheckType.CHECK_PASSWORD_FAIL

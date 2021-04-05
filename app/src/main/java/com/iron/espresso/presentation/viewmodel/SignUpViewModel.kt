@@ -56,13 +56,13 @@ class SignUpViewModel @Inject constructor(
             compositeDisposable += checkDuplicateEmail.invoke(email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ message ->
-                    if (message.result) {
+                .subscribe({ isDuplicate ->
+                    if (!isDuplicate) {
                         _checkType.value = CheckType.CHECK_EMAIL_SUCCESS
                     } else {
-                        _checkType.value = CheckType.CHECK_EMAIL_FAIL.setMessage(message.message)
+                        _checkType.value =
+                            CheckType.CHECK_EMAIL_FAIL.setMessage(App.instance.getString(R.string.duplicated_email))
                     }
-                    Logger.d("$message")
                 }, {
                     _checkType.value =
                         CheckType.CHECK_EMAIL_FAIL.setMessage(it.toErrorResponse()?.message.orEmpty())
@@ -79,18 +79,19 @@ class SignUpViewModel @Inject constructor(
             compositeDisposable += checkDuplicateNickname.invoke(nickname)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ message ->
-                    Logger.d("${message.message.length}")
-                    if (message.result) {
+                .subscribe({ (isSuccess, message) ->
+                    if (isSuccess) {
                         _checkType.value = CheckType.CHECK_NICKNAME_SUCCESS
                     } else {
-                        _checkType.value = CheckType.CHECK_NICKNAME_FAIL.setMessage(message.message)
+                        _checkType.value = CheckType.CHECK_NICKNAME_FAIL.setMessage(message)
                     }
                 }, {
-                    _checkType.value = CheckType.CHECK_NICKNAME_FAIL.setMessage(it.toErrorResponse()?.message.orEmpty())
+                    _checkType.value =
+                        CheckType.CHECK_NICKNAME_FAIL.setMessage(it.toErrorResponse()?.message.orEmpty())
                 })
         } else {
-            _checkType.value = CheckType.CHECK_NICKNAME_FAIL.setMessage(App.instance.getString(R.string.invalid_nickname))
+            _checkType.value =
+                CheckType.CHECK_NICKNAME_FAIL.setMessage(App.instance.getString(R.string.invalid_nickname))
         }
     }
 
