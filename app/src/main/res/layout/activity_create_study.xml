@@ -30,6 +30,7 @@
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
                 android:orientation="vertical"
                 android:paddingBottom="40dp">
 
@@ -38,33 +39,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/change_image"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:background="@drawable/ic_material_add"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="169dp"
+                        android:background="@color/gray7C7C7C"
+                        android:alpha=".4"
                         android:scaleType="fitXY"
-                        android:src="@drawable/swift"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_editor_absoluteX="0dp" />
+
+                    <ImageView
+                        android:id="@+id/change_image"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/ic_add_circle_outline_24"
+                        app:layout_constraintBottom_toBottomOf="@id/image"
+                        app:layout_constraintDimensionRatio="1"
+                        app:layout_constraintEnd_toEndOf="@id/image"
+                        app:layout_constraintStart_toStartOf="@id/image"
+                        app:layout_constraintTop_toTopOf="@id/image"
+                        app:layout_constraintWidth_percent=".1" />
 
                     <EditText
                         android:id="@+id/title_input_view"
                         android:layout_width="283dp"
                         android:layout_height="54dp"
-                        android:background="@drawable/bg_round"
-                        android:backgroundTint="@color/white"
+                        android:background="@drawable/bg_input_view"
                         android:gravity="center"
                         android:singleLine="true"
-                        android:textColor="@color/black"
+                        android:hint="@string/create_study_title_hint"
+                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="@id/image"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +89,8 @@
                         android:layout_marginStart="15dp"
                         android:fontFamily="@font/noto_sans_bold"
                         android:text="@string/study_introduce"
-                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,7 +100,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:fontFamily="@font/noto_sans_bold"
-                        android:textSize="13sp"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="카테고리" />
@@ -104,22 +111,32 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="15dp"
-                        android:background="@drawable/bg_round"
-                        android:backgroundTint="@color/theme_292929"
+                        android:background="@drawable/bg_input_view"
                         android:gravity="top"
                         android:hint="@string/empty_introduce"
                         android:lines="6"
                         android:padding="10dp"
                         android:scrollbars="vertical"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/introduce" />
-
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <TextView
+                    android:id="@+id/sns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:text="@string/sns"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <include
                     android:id="@+id/notion_input_view"
@@ -148,12 +165,10 @@
                     bind:icon="@{R.drawable.icon_web}"
                     bind:title="@{@string/sns_web_input_title}" />
 
-                <include layout="@layout/view_divider" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
 
                     <TextView
                         android:id="@+id/proceed"
@@ -162,7 +177,8 @@
                         android:layout_marginStart="15dp"
                         android:fontFamily="@font/noto_sans_bold"
                         android:text="@string/study_proceed"
-                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -173,25 +189,23 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
-                        android:background="@drawable/bg_round"
-                        android:backgroundTint="@color/theme_292929"
+                        android:background="@drawable/bg_input_view"
                         android:gravity="top"
                         android:hint="@string/empty_progress"
                         android:lines="6"
                         android:padding="10dp"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/proceed" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include layout="@layout/view_divider" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/place_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
 
 
                     <TextView
@@ -201,7 +215,8 @@
                         android:layout_marginStart="15dp"
                         android:fontFamily="@font/noto_sans_bold"
                         android:text="@string/place"
-                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -212,11 +227,11 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
-                        android:background="@drawable/bg_round"
-                        android:backgroundTint="@color/theme_292929"
-                        android:padding="10dp"
+                        android:background="@drawable/bg_input_view"
+                        android:padding="15dp"
                         android:text="@string/empty_place"
-                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/place" />
@@ -228,24 +243,22 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
-                        android:background="@drawable/bg_round"
-                        android:backgroundTint="@color/theme_292929"
+                        android:background="@drawable/bg_input_view"
                         android:hint="@string/empty_place_detail"
-                        android:padding="10dp"
+                        android:padding="15dp"
                         android:singleLine="true"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/place_detail" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include layout="@layout/view_divider" />
-
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
 
                     <TextView
                         android:id="@+id/time"
@@ -254,7 +267,8 @@
                         android:layout_marginStart="15dp"
                         android:fontFamily="@font/noto_sans_bold"
                         android:text="@string/time"
-                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -265,25 +279,22 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
-                        android:background="@drawable/bg_round"
-                        android:backgroundTint="@color/theme_292929"
+                        android:background="@drawable/bg_input_view"
                         android:gravity="top"
                         android:hint="@string/empty_time"
-                        android:padding="10dp"
+                        android:padding="15dp"
                         android:singleLine="true"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/time" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                <include layout="@layout/view_divider" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp">
 
 
                     <com.google.android.material.button.MaterialButton
@@ -293,9 +304,13 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
                         android:layout_marginBottom="10dp"
-                        android:backgroundTint="@color/colorCobaltBlue"
+                        android:background="@drawable/bg_round"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:fontFamily="@font/noto_sans_bold"
+                        android:padding="10dp"
                         android:text="@string/complete"
-                        android:textSize="30sp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
