@@ -58,7 +58,7 @@ class NewListFragment : BaseFragment<FragmentNewListBinding>(R.layout.fragment_n
                     )
                 )
             } else {
-                startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
+                startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id, studyItem.title))
             }
         }
 
