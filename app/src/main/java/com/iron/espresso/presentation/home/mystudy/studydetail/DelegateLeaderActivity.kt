@@ -45,9 +45,8 @@ class DelegateLeaderActivity :
 
         participateAdapter.apply {
             val memberList = excludeOneself(participateList)
-            if (memberList.isEmpty()) {
-                binding.emptyView.isVisible = true
-            } else {
+            binding.emptyView.isVisible = memberList.isEmpty()
+            if (memberList.isNotEmpty()) {
                 setItemList(memberList)
                 setItemClickListener { participateItem ->
                     showDelegateLeaderDialog(participateItem.userId)
