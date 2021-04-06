@@ -34,7 +34,7 @@ class DelegateLeaderActivity :
         super.onCreate(savedInstanceState)
 
         setNavigationIcon(R.drawable.ic_back_24)
-        setToolbarTitle(TOOLBAR_TITLE)
+        setToolbarTitle(R.string.host_delegate)
 
         studyId =
             intent.getIntExtra(MyStudyDetailActivity.STUDY_ID, DEF_VALUE)
@@ -98,7 +98,6 @@ class DelegateLeaderActivity :
     }
 
     companion object {
-        private const val TOOLBAR_TITLE = "스터디 장 위임화면"
         private const val PARTICIPATE_LIST = "participateList"
         private const val KEY_AUTHORITY = "AUTHORITY"
         fun getIntent(context: Context, studyId: Int, participateList: ArrayList<ParticipateItem>, authority: String) =
