@@ -105,6 +105,13 @@ class HotKeywordFragment :
             .commit()
     }
 
+    override fun onBackPressed(): Boolean {
+        val inputMethodManager =
+            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+        return super.onBackPressed()
+    }
+
     companion object {
         private const val RESULT_TAG = "result"
         fun newInstance() =
