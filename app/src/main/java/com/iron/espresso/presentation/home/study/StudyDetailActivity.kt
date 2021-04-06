@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.view.isVisible
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
@@ -66,6 +67,7 @@ class StudyDetailActivity :
                 if (!studyDetail.studyInfoItem.image.isNullOrEmpty()) {
                     image.setRadiusImage(studyDetail.studyInfoItem.image)
                 }
+                changeImage.isVisible = studyDetail.studyInfoItem.image.isNullOrEmpty()
             }
 
             /* 구성원 수 만큼 동적 생성 */
