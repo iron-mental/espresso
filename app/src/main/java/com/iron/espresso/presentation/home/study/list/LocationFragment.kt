@@ -57,7 +57,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
                     )
                 )
             } else {
-                startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
+                startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id, studyItem.title))
             }
         }
 

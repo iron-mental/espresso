@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.iron.espresso.BR
 import com.iron.espresso.R
 import com.iron.espresso.data.model.MyStudyItem
 import com.iron.espresso.databinding.ItemMystudyBinding
+import com.iron.espresso.ext.setRadiusImage
 import com.iron.espresso.presentation.home.mystudy.adapter.MyStudyAdapter
 
 class MyStudyViewHolder(
@@ -24,8 +24,14 @@ class MyStudyViewHolder(
 
     fun bind(item: MyStudyItem) {
         binding?.run {
-            setVariable(BR.myStudyItem, item)
-            executePendingBindings()
+            location.text = item.sigungu
+            name.text = item.title
+
+            if (item.image.isEmpty()) {
+                image.setImageResource(R.drawable.bg_dash_line)
+            } else {
+                image.setRadiusImage(item.image)
+            }
 
             itemView.setOnClickListener {
                 itemClickListener.onClick(item)

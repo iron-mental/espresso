@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
-
-    <data>
-        <variable
-            name="myStudyItem"
-            type="com.iron.espresso.data.model.MyStudyItem" />
-    </data>
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,9 +17,7 @@
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/bg_dash_line"
-            bind:setRadiusImage="@{myStudyItem.image}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/location"
@@ -34,7 +26,7 @@
             android:layout_marginStart="24dp"
             android:fontFamily="@font/noto_sans_bold"
             android:gravity="center_vertical"
-            android:text="@{myStudyItem.sigungu}"
+            tools:text="시군구"
             android:textColor="#0047ab"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@id/image"
@@ -45,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:gravity="center_vertical"
-            android:text="@{myStudyItem.title}"
+            tools:text="타이틀"
             android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="normal"

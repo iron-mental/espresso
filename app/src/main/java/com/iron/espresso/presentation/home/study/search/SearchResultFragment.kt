@@ -60,7 +60,7 @@ class SearchResultFragment :
                     )
                 )
             } else {
-                startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id))
+                startActivity(StudyDetailActivity.getIntent(requireContext(), studyItem.id, studyItem.title))
             }
         }
     }

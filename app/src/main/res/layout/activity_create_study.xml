@@ -45,9 +45,8 @@
                         android:layout_height="169dp"
                         android:background="@color/gray7C7C7C"
                         android:alpha=".4"
-                        android:scaleType="fitXY"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:layout_editor_absoluteX="0dp" />
+                        android:scaleType="centerCrop"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/change_image"
@@ -59,7 +58,7 @@
                         app:layout_constraintEnd_toEndOf="@id/image"
                         app:layout_constraintStart_toStartOf="@id/image"
                         app:layout_constraintTop_toTopOf="@id/image"
-                        app:layout_constraintWidth_percent=".1" />
+                        app:layout_constraintWidth_percent=".15" />
 
                     <EditText
                         android:id="@+id/title_input_view"

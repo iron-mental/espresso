@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.iron.espresso.R
@@ -49,6 +50,7 @@ class StudyInfoFragment : BaseFragment<FragmentStudyInfoBinding>(R.layout.fragme
                 if (!studyDetail.studyInfoItem.image.isNullOrEmpty()) {
                     image.setRadiusImage(studyDetail.studyInfoItem.image)
                 }
+                changeImage.isVisible = studyDetail.studyInfoItem.image.isNullOrEmpty()
             }
 
             /* 구성원 수 만큼 동적 생성 */

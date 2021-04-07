@@ -57,8 +57,8 @@ class StudyCreateViewModel @Inject constructor(private val studyApi: StudyApi) :
             createStudyItem.title.isEmpty() -> ValidationInputText.EMPTY_TITLE
             createStudyItem.introduce.isEmpty() -> ValidationInputText.EMPTY_INTRODUCE
             createStudyItem.progress.isEmpty() -> ValidationInputText.EMPTY_PROGRESS
-            createStudyItem.studyTime.isEmpty() -> ValidationInputText.EMPTY_TIME
             (createStudyItem.localItem == null) -> ValidationInputText.EMPTY_PLACE
+            createStudyItem.studyTime.isEmpty() -> ValidationInputText.EMPTY_TIME
             else -> ValidationInputText.REGISTER_STUDY
         }
     }

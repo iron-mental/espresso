@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.lifecycle.Observer
+import androidx.core.view.isVisible
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.databinding.ActivityStudyDetailBinding
@@ -34,7 +34,7 @@ class StudyDetailActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setToolbarTitle(R.string.title_study_detail)
+        setToolbarTitle(intent.getStringExtra(KEY_TOOLBAR_TITLE).orEmpty())
         setNavigationIcon(R.drawable.ic_back_24)
 
         setupView()
@@ -52,7 +52,8 @@ class StudyDetailActivity :
             toast(it.resId)
         })
 
-        viewModel.studyDetail.observe(this, Observer { studyDetail ->
+        viewModel.studyDetail.observe(this, { studyDetail ->
+            setToolbarTitle(studyDetail.studyInfoItem.title)
             visibleBtn(studyDetail.studyInfoItem.authority)
             binding.run {
                 introduceDetail.text = studyDetail.studyInfoItem.introduce
@@ -66,6 +67,7 @@ class StudyDetailActivity :
                 if (!studyDetail.studyInfoItem.image.isNullOrEmpty()) {
                     image.setRadiusImage(studyDetail.studyInfoItem.image)
                 }
+                changeImage.isVisible = studyDetail.studyInfoItem.image.isNullOrEmpty()
             }
 
             /* 구성원 수 만큼 동적 생성 */
@@ -169,13 +171,13 @@ class StudyDetailActivity :
 
     companion object {
         private const val STUDY_ID = "studyId"
+        private const val KEY_TOOLBAR_TITLE = "TOOLBAR_TITLE"
         private const val DEFAULT_VALUE = -1
         private const val AUTHORITY_APPLIER = "applier"
-        private const val AUTHORITY_REJECT = "reject"
 
-
-        fun getIntent(context: Context, studyId: Int) =
+        fun getIntent(context: Context, studyId: Int, title: String) =
             Intent(context, StudyDetailActivity::class.java)
                 .putExtra(STUDY_ID, studyId)
+                .putExtra(KEY_TOOLBAR_TITLE, title)
     }
 }
