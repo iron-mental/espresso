@@ -88,18 +88,6 @@ class MyStudyDetailActivity :
         })
     }
 
-    private fun checkAuthority(authority: String): Boolean {
-        return when (authority) {
-            AUTH_HOST -> {
-                false
-            }
-            else -> {
-                true
-            }
-        }
-
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == DELEGATE_CODE && resultCode == RESULT_OK) {
@@ -183,7 +171,7 @@ class MyStudyDetailActivity :
             val result = bundle.get(ConfirmDialog.RESULT)
 
             if (result == Activity.RESULT_OK) {
-                if (checkAuthority(studyInfoItem?.authority ?: "")) {
+                if (studyInfoItem?.authority != AUTH_HOST) {
                     viewModel.leaveStudy(studyId)
                 } else {
                     if (studyInfoItem?.participateItem?.size == 1) {
