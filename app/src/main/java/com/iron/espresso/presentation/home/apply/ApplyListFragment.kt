@@ -8,6 +8,8 @@ import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentApplyListBinding
+import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.apply.ApplyStudyListViewModel.Companion.KEY_STUDY_ID
 import com.iron.espresso.presentation.home.apply.ApplyStudyListViewModel.Companion.KEY_TYPE
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,6 +53,10 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
         with(listViewModel) {
             applyList.observe(viewLifecycleOwner, { list ->
                 adapter.submitList(list)
+            })
+            toastMessage.observe(viewLifecycleOwner, EventObserver(::toast))
+            failureEvent.observe(viewLifecycleOwner, EventObserver {
+                activity?.finish()
             })
         }
     }

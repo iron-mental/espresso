@@ -8,8 +8,10 @@ import com.iron.espresso.R
 import com.iron.espresso.base.BaseViewModel
 import com.iron.espresso.domain.usecase.GetApplyList
 import com.iron.espresso.domain.usecase.GetMyApplyList
+import com.iron.espresso.ext.Event
 import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
+import com.iron.espresso.ext.toErrorResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -36,6 +38,10 @@ class ApplyStudyListViewModel @Inject constructor(
     val applyList: LiveData<List<ApplyStudyItem>>
         get() = _applyList
 
+    private val _failureEvent = MutableLiveData<Event<Unit>>()
+    val failureEvent: LiveData<Event<Unit>>
+        get() = _failureEvent
+
     init {
         getList()
     }
@@ -52,6 +58,9 @@ class ApplyStudyListViewModel @Inject constructor(
                 _applyList.value = list
             }, {
                 Logger.d("$it")
+                val errorResponse = it.toErrorResponse()
+                _toastMessage.value = Event(errorResponse?.message.orEmpty())
+                _failureEvent.value = Event(Unit)
             })
     }
 
