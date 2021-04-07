@@ -70,22 +70,26 @@ class MyStudyDetailActivity :
 
         binding.topTab.selectTab(binding.topTab.getTabAt(1))
 
-        viewModel.getStudy(studyId)
+        viewModel.run {
+            getStudy(studyId)
+            studyDetail.observe(this@MyStudyDetailActivity, { studyDetailItem ->
+                studyInfoItem = studyDetailItem.studyInfoItem
+                setToolbarTitle(studyInfoItem?.title)
 
-        viewModel.studyDetail.observe(this, { studyDetailItem ->
-            studyInfoItem = studyDetailItem.studyInfoItem
-            setToolbarTitle(studyInfoItem?.title)
+                val findFragment = supportFragmentManager.fragments.find { it is NoticeFragment } as NoticeFragment
+                findFragment.setAuthority(studyInfoItem?.authority.orEmpty())
 
-            val findFragment = supportFragmentManager.fragments.find { it is NoticeFragment } as NoticeFragment
-            findFragment.setAuthority(studyInfoItem?.authority.orEmpty())
-
-        })
-
-        viewModel.toastMessage.observe(this, EventObserver { message ->
-            toast(message)
-            setResult(RESULT_OK)
-            finish()
-        })
+            })
+            toastMessage.observe(this@MyStudyDetailActivity, EventObserver { message ->
+                toast(message)
+            })
+            successEvent.observe(this@MyStudyDetailActivity, EventObserver { success ->
+                if (success) {
+                    setResult(RESULT_OK)
+                }
+                finish()
+            })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

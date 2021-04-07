@@ -27,6 +27,10 @@ class MyStudyDetailViewModel @Inject constructor(
     val studyDetail: LiveData<StudyDetailItem>
         get() = _studyDetail
 
+    private val _successEvent = MutableLiveData<Event<Boolean>>()
+    val successEvent: LiveData<Event<Boolean>>
+        get() = _successEvent
+
     fun getStudy(studyId: Int) {
         compositeDisposable += studyRepository
             .getStudyDetail(
@@ -41,9 +45,10 @@ class MyStudyDetailViewModel @Inject constructor(
                 Logger.d("$it")
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
-                if (errorResponse != null) {
-                    Logger.d("$errorResponse")
-                }
+                Logger.d("$errorResponse")
+                _toastMessage.value = Event(errorResponse?.message.orEmpty())
+                _successEvent.value = Event(false)
+
             })
     }
 
@@ -56,6 +61,7 @@ class MyStudyDetailViewModel @Inject constructor(
             .subscribe({
                 delete(studyId)
                 _toastMessage.value = Event(it.message.orEmpty())
+                _successEvent.value = Event(true)
                 Logger.d("$it")
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
@@ -73,6 +79,7 @@ class MyStudyDetailViewModel @Inject constructor(
             .subscribe({
                 deleteAll(studyId)
                 _toastMessage.value = Event(it.message.orEmpty())
+                _successEvent.value = Event(true)
                 Logger.d("$it")
             }, {
                 val errorResponse = (it as? HttpException)?.toErrorResponse()
