@@ -28,6 +28,9 @@ import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.chat.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Timer
+import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
 class MyStudyDetailActivity :
@@ -83,11 +86,17 @@ class MyStudyDetailActivity :
             toastMessage.observe(this@MyStudyDetailActivity, EventObserver { message ->
                 toast(message)
             })
-            successEvent.observe(this@MyStudyDetailActivity, EventObserver { success ->
-                if (success) {
-                    setResult(RESULT_OK)
-                }
+            successEvent.observe(this@MyStudyDetailActivity, EventObserver {
+                setResult(RESULT_OK)
                 finish()
+            })
+            failureEvent.observe(this@MyStudyDetailActivity, EventObserver { message ->
+                Timer().schedule(500) {
+                    runOnUiThread {
+                        toast(message)
+                        finish()
+                    }
+                }
             })
         }
     }

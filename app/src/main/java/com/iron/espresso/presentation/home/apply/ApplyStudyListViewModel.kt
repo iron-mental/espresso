@@ -38,8 +38,8 @@ class ApplyStudyListViewModel @Inject constructor(
     val applyList: LiveData<List<ApplyStudyItem>>
         get() = _applyList
 
-    private val _failureEvent = MutableLiveData<Event<Unit>>()
-    val failureEvent: LiveData<Event<Unit>>
+    private val _failureEvent = MutableLiveData<Event<String>>()
+    val failureEvent: LiveData<Event<String>>
         get() = _failureEvent
 
     init {
@@ -59,8 +59,7 @@ class ApplyStudyListViewModel @Inject constructor(
             }, {
                 Logger.d("$it")
                 val errorResponse = it.toErrorResponse()
-                _toastMessage.value = Event(errorResponse?.message.orEmpty())
-                _failureEvent.value = Event(Unit)
+                _failureEvent.value = Event(errorResponse?.message.orEmpty())
             })
     }
 
