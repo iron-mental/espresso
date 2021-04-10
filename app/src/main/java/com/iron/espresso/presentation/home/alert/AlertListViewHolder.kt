@@ -17,6 +17,9 @@ class AlertListViewHolder(
         with(binding) {
             root.setOnClickListener {
                 itemClick(item)
+                if (!item.confirm){
+                    it.alpha = 0.5f
+                }
             }
             type.text = item.alertType?.emoji
             title.text = item.studyTitle

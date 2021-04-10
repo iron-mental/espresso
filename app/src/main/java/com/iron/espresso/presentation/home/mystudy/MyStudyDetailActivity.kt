@@ -28,6 +28,9 @@ import com.iron.espresso.presentation.home.mystudy.studydetail.StudyInfoFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.chat.ChattingFragment
 import com.iron.espresso.presentation.home.mystudy.studydetail.notice.NoticeFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Timer
+import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
 class MyStudyDetailActivity :
@@ -70,34 +73,32 @@ class MyStudyDetailActivity :
 
         binding.topTab.selectTab(binding.topTab.getTabAt(1))
 
-        viewModel.getStudy(studyId)
+        viewModel.run {
+            getStudy(studyId)
+            studyDetail.observe(this@MyStudyDetailActivity, { studyDetailItem ->
+                studyInfoItem = studyDetailItem.studyInfoItem
+                setToolbarTitle(studyInfoItem?.title)
 
-        viewModel.studyDetail.observe(this, { studyDetailItem ->
-            studyInfoItem = studyDetailItem.studyInfoItem
-            setToolbarTitle(studyInfoItem?.title)
+                val findFragment = supportFragmentManager.fragments.find { it is NoticeFragment } as NoticeFragment
+                findFragment.setAuthority(studyInfoItem?.authority.orEmpty())
 
-            val findFragment = supportFragmentManager.fragments.find { it is NoticeFragment } as NoticeFragment
-            findFragment.setAuthority(studyInfoItem?.authority.orEmpty())
-
-        })
-
-        viewModel.toastMessage.observe(this, EventObserver { message ->
-            toast(message)
-            setResult(RESULT_OK)
-            finish()
-        })
-    }
-
-    private fun checkAuthority(authority: String): Boolean {
-        return when (authority) {
-            AUTH_HOST -> {
-                false
-            }
-            else -> {
-                true
-            }
+            })
+            toastMessage.observe(this@MyStudyDetailActivity, EventObserver { message ->
+                toast(message)
+            })
+            successEvent.observe(this@MyStudyDetailActivity, EventObserver {
+                setResult(RESULT_OK)
+                finish()
+            })
+            failureEvent.observe(this@MyStudyDetailActivity, EventObserver { message ->
+                Timer().schedule(500) {
+                    runOnUiThread {
+                        toast(message)
+                        finish()
+                    }
+                }
+            })
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -183,7 +184,7 @@ class MyStudyDetailActivity :
             val result = bundle.get(ConfirmDialog.RESULT)
 
             if (result == Activity.RESULT_OK) {
-                if (checkAuthority(studyInfoItem?.authority ?: "")) {
+                if (studyInfoItem?.authority != AUTH_HOST) {
                     viewModel.leaveStudy(studyId)
                 } else {
                     if (studyInfoItem?.participateItem?.size == 1) {

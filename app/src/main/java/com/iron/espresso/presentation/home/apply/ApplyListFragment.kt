@@ -8,9 +8,13 @@ import androidx.fragment.app.viewModels
 import com.iron.espresso.R
 import com.iron.espresso.base.BaseFragment
 import com.iron.espresso.databinding.FragmentApplyListBinding
+import com.iron.espresso.ext.EventObserver
+import com.iron.espresso.ext.toast
 import com.iron.espresso.presentation.home.apply.ApplyStudyListViewModel.Companion.KEY_STUDY_ID
 import com.iron.espresso.presentation.home.apply.ApplyStudyListViewModel.Companion.KEY_TYPE
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
 class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragment_apply_list) {
@@ -51,6 +55,14 @@ class ApplyListFragment : BaseFragment<FragmentApplyListBinding>(R.layout.fragme
         with(listViewModel) {
             applyList.observe(viewLifecycleOwner, { list ->
                 adapter.submitList(list)
+            })
+            failureEvent.observe(viewLifecycleOwner, EventObserver { message ->
+                Timer().schedule(500) {
+                    activity?.runOnUiThread {
+                        activity?.onBackPressed()
+                        toast(message)
+                    }
+                }
             })
         }
     }
