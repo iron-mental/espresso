@@ -63,6 +63,15 @@ class StudyCreateViewModel @Inject constructor(private val studyApi: StudyApi) :
         }
     }
 
+    private fun validationCheck(label: String): ValidationInputText {
+        return when (label) {
+            ErrorLabel.TITLE.label -> ValidationInputText.LENGTH_TITLE
+            ErrorLabel.SNS_NOTION.label -> ValidationInputText.SNS_NOTION
+            ErrorLabel.SNS_EVERNOTE.label -> ValidationInputText.SNS_EVERNOTE
+            else -> error("is not label")
+        }
+    }
+
     fun createStudy(createStudyItem: CreateStudyItem) {
         val message = emptyCheck(createStudyItem)
         if (message == ValidationInputText.REGISTER_STUDY && createStudyItem.localItem != null) {
@@ -94,7 +103,11 @@ class StudyCreateViewModel @Inject constructor(private val studyApi: StudyApi) :
                 }, {
                     val errorResponse = (it as? HttpException)?.toErrorResponse()
                     if (errorResponse?.message != null) {
-                        _toastMessage.value = Event("${errorResponse.message}")
+                        if (errorResponse.label != null) {
+                            _emptyCheckMessage.value = Event(validationCheck(errorResponse.label.orEmpty()))
+                        } else {
+                            _toastMessage.value = Event("${errorResponse.message}")
+                        }
                     } else {
                         _toastMessage.value = Event("Communication Error")
                     }
@@ -103,4 +116,10 @@ class StudyCreateViewModel @Inject constructor(private val studyApi: StudyApi) :
             _emptyCheckMessage.value = Event(message)
         }
     }
+}
+
+enum class ErrorLabel(val label: String) {
+    TITLE("title"),
+    SNS_NOTION("sns_notion"),
+    SNS_EVERNOTE("sns_evernote")
 }

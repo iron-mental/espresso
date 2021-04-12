@@ -7,6 +7,7 @@ data class BaseResponse<T>(
     @SerializedName("type") val type: String? = null,
     @SerializedName("code") val code: ErrorCode? = null,
     @SerializedName("message") val message: String? = null,
+    @SerializedName("label") val label: String? = null,
     @SerializedName("data") val data: T? = null,
 )
 

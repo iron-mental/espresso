@@ -13,5 +13,9 @@ enum class ValidationInputText(@StringRes val resId: Int) {
     REGISTER_NOTICE(R.string.register_notice),
     MODIFY_NOTICE(R.string.modify_notice),
 
+    LENGTH_TITLE(R.string.length_title),
+    SNS_NOTION(R.string.address_sns_notion),
+    SNS_EVERNOTE(R.string.address_sns_evernote),
+
     SUCCESS(R.string.success)
 }
