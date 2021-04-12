@@ -15,6 +15,7 @@ import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.ModifyStudyRequest
+import com.iron.espresso.presentation.home.study.ErrorLabel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -86,6 +87,15 @@ class ModifyStudyViewModel @Inject constructor(private val studyRepository: Stud
         }
     }
 
+    private fun validationCheck(label: String): ValidationInputText {
+        return when (label) {
+            ErrorLabel.TITLE.label -> ValidationInputText.LENGTH_TITLE
+            ErrorLabel.SNS_NOTION.label -> ValidationInputText.SNS_NOTION
+            ErrorLabel.SNS_EVERNOTE.label -> ValidationInputText.SNS_EVERNOTE
+            else -> error("is not label")
+        }
+    }
+
     private fun duplicateItemCheck(title: String, modifyTitle: String): String {
         return if (title == modifyTitle) "" else modifyTitle
     }
@@ -126,7 +136,11 @@ class ModifyStudyViewModel @Inject constructor(private val studyRepository: Stud
                     Logger.d("$it")
                     val errorResponse = it.toErrorResponse()
                     if (errorResponse?.message != null) {
-                        _toastMessage.value = Event("${errorResponse.message}")
+                        if (errorResponse.label != null) {
+                            _emptyCheckMessage.value = Event(validationCheck(errorResponse.label.orEmpty()))
+                        } else {
+                            _toastMessage.value = Event("${errorResponse.message}")
+                        }
                     } else {
                         _toastMessage.value = Event("Communication Error")
                     }
