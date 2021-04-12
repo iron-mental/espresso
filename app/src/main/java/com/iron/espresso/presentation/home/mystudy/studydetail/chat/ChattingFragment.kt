@@ -84,8 +84,8 @@ class ChattingFragment : BaseFragment<FragmentChattingBinding>(R.layout.fragment
             (binding.chatList.layoutManager as LinearLayoutManager)
                 .scrollToPositionWithOffset(chatAdapter.currentList.lastIndexOf(findItem), 0)
         }
-
-        (binding.chatList.layoutManager as LinearLayoutManager).stackFromEnd = true
+        (binding.chatList.layoutManager as LinearLayoutManager)
+            .scrollToPositionWithOffset(chatAdapter.currentList.lastIndex, 0)
     }
 
     override fun onStart() {

@@ -29,6 +29,7 @@ class ChatInputViewHolder(
             }
 
             inputChat.multilineIme(EditorInfo.IME_ACTION_SEND)
+            inputChat.requestFocus()
 
             inputChat.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
