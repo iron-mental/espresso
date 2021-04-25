@@ -3,13 +3,12 @@ package com.iron.espresso.presentation.viewmodel
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.iron.espresso.App
-import com.iron.espresso.Logger
-import com.iron.espresso.R
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
+import com.iron.espresso.*
 import com.iron.espresso.base.BaseViewModel
-import com.iron.espresso.domain.usecase.CheckDuplicateEmail
-import com.iron.espresso.domain.usecase.CheckDuplicateNickname
-import com.iron.espresso.domain.usecase.RegisterUser
+import com.iron.espresso.domain.usecase.*
+import com.iron.espresso.ext.networkSchedulers
 import com.iron.espresso.ext.plusAssign
 import com.iron.espresso.ext.toErrorResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val registerUser: RegisterUser,
+    private val loginUser: LoginUser,
+    private val getUser: GetUser,
     private val checkDuplicateEmail: CheckDuplicateEmail,
     private val checkDuplicateNickname: CheckDuplicateNickname
 ) : BaseViewModel() {
@@ -112,13 +113,41 @@ class SignUpViewModel @Inject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                _checkType.value =
-                    if (it.result) CheckType.CHECK_ALL_SUCCESS else CheckType.CHECK_ALL_FAIL
-
+                login(userId, userPass)
             }, {
                 Logger.d("$it")
             })
     }
+
+    private fun login(userId: String, userPass: String) {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Logger.d("Fetching FCM registration token failed ${task.exception}")
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                val token = task.result
+
+                if (token != null) {
+                    loginUser(userId, userPass, token)
+                        .flatMap {
+                            AuthHolder.set(it.data ?: error("auth is null"))
+                            val id = it.data.id ?: error("id is null")
+                            getUser(id)
+                        }
+                        .networkSchedulers()
+                        .subscribe({
+                            UserHolder.set(it)
+                            _checkType.value = CheckType.CHECK_ALL_SUCCESS
+                        }, {
+                            Logger.d("$it")
+                        })
+                }
+            })
+    }
+
 }
 
 enum class CheckType(var message: String = "") {
