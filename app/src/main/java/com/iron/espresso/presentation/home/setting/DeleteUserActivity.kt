@@ -3,6 +3,7 @@ package com.iron.espresso.presentation.home.setting
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.fragment.app.setFragmentResultListener
@@ -72,6 +73,15 @@ class DeleteUserActivity : BaseActivity<ActivityDeleteUserBinding>(R.layout.acti
                 deleteUserViewModel.membershipWithdrawal(email, password)
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {
