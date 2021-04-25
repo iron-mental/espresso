@@ -18,25 +18,39 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.home.setting.DeleteUserActivity" />
+        <activity
+            android:name=".presentation.home.setting.DeleteUserActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".presentation.home.mystudy.studydetail.MemberProfileActivity" />
-        <activity android:name=".presentation.home.alert.AlertListActivity" />
-        <activity android:name=".presentation.home.apply.ApplyStudyActivity" />
-        <activity android:name=".presentation.home.apply.MyApplyStudyActivity" />
-        <activity android:name=".presentation.home.mystudy.studydetail.ModifyStudyActivity" />
-        <activity android:name=".presentation.home.mystudy.studydetail.DelegateLeaderActivity" />
-        <activity android:name=".presentation.home.study.StudyDetailActivity" />
-        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeModifyActivity" />
-        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeCreateActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".presentation.home.mystudy.studydetail.MemberProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.alert.AlertListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.apply.ApplyStudyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.apply.MyApplyStudyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.mystudy.studydetail.ModifyStudyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.mystudy.studydetail.DelegateLeaderActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.study.StudyDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeModifyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeCreateActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SchemeActivity"
+        <activity
+            android:name=".SchemeActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -47,32 +61,45 @@
                 <data android:scheme="terminal" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeDetailActivity" />
-        <activity android:name=".presentation.sign.IntroActivity" />
+        <activity android:name=".presentation.home.mystudy.studydetail.notice.NoticeDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.sign.IntroActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="zwhswglizn" />
 
-        <activity android:name=".presentation.profile.ProfileActivity" />
-        <activity android:name=".presentation.home.mystudy.MyStudyDetailActivity" />
+        <activity android:name=".presentation.profile.ProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.mystudy.MyStudyDetailActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".presentation.home.HomeActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.sign.SignInActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".presentation.sign.SignUpActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".presentation.home.study.list.StudyListActivity" />
-        <activity android:name=".presentation.home.study.StudyCategoryActivity" />
-        <activity android:name=".presentation.home.study.StudyCreateActivity" />
-        <activity android:name=".presentation.home.study.search.SearchStudyActivity" />
+        <activity android:name=".presentation.home.study.list.StudyListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.study.StudyCategoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.study.StudyCreateActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.home.study.search.SearchStudyActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".presentation.place.SearchPlaceDetailActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".presentation.place.SearchPlaceActivity" />
+        <activity android:name=".presentation.place.SearchPlaceActivity"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".fcm.TerminalFirebaseMessageService"
