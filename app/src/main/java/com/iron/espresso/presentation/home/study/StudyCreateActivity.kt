@@ -10,20 +10,23 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.net.toFile
+import com.iron.espresso.Logger
 import com.iron.espresso.R
 import com.iron.espresso.ValidationInputText
 import com.iron.espresso.base.BaseActivity
 import com.iron.espresso.data.model.LocalItem
 import com.iron.espresso.data.model.CreateStudyItem
 import com.iron.espresso.databinding.ActivityCreateStudyBinding
-import com.iron.espresso.ext.EventObserver
-import com.iron.espresso.ext.checkReadStoragePermission
-import com.iron.espresso.ext.setImage
-import com.iron.espresso.ext.toast
+import com.iron.espresso.ext.*
 import com.iron.espresso.presentation.place.SearchPlaceActivity
 import com.iron.espresso.presentation.place.SearchPlaceDetailActivity.Companion.LOCAL_ITEM
+import com.jakewharton.rxbinding4.view.clicks
 import com.wswon.picker.ImagePickerFragment
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class StudyCreateActivity :
@@ -59,24 +62,29 @@ class StudyCreateActivity :
                 }
             }
 
-            buttonSignUp.setOnClickListener {
-                localItem?.locationDetail = placeDetailInputView.text.toString()
+            buttonSignUp.clicks()
+                .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    localItem?.locationDetail = placeDetailInputView.text.toString()
 
-                viewModel.createStudy(
-                    CreateStudyItem(
-                        category = category.text.toString(),
-                        title = titleInputView.text.toString(),
-                        introduce = introduceInputView.text.toString(),
-                        progress = proceedInputView.text.toString(),
-                        studyTime = timeInputView.text.toString(),
-                        localItem = localItem,
-                        snsNotion = notionInputView.inputUrl.text.toString(),
-                        snsEverNote = evernoteInputView.inputUrl.text.toString(),
-                        snsWeb = webInputView.inputUrl.text.toString(),
-                        image = studyImage?.toFile()
+                    viewModel.createStudy(
+                        CreateStudyItem(
+                            category = category.text.toString(),
+                            title = titleInputView.text.toString(),
+                            introduce = introduceInputView.text.toString(),
+                            progress = proceedInputView.text.toString(),
+                            studyTime = timeInputView.text.toString(),
+                            localItem = localItem,
+                            snsNotion = notionInputView.inputUrl.text.toString(),
+                            snsEverNote = evernoteInputView.inputUrl.text.toString(),
+                            snsWeb = webInputView.inputUrl.text.toString(),
+                            image = studyImage?.toFile()
+                        )
                     )
-                )
-            }
+                }, {
+
+                })
         }
 
         viewModel.run {
@@ -101,6 +109,7 @@ class StudyCreateActivity :
             toastMessage.observe(this@StudyCreateActivity, EventObserver { message ->
                 toast(message)
             })
+            loadingState.observe(this@StudyCreateActivity, EventObserver(::setLoading))
         }
     }
 

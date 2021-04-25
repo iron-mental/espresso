@@ -14,6 +14,10 @@ class LoadingFragment : BaseFragment<FragmentLoadingBinding>(R.layout.fragment_l
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.root.setOnTouchListener { _, _ ->
+            true
+        }
         compositeDisposable += Single.just(0)
             .delay(100, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())

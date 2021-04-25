@@ -15,7 +15,10 @@ import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.model.api.StudyApi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.HttpException
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -75,6 +78,7 @@ class StudyCreateViewModel @Inject constructor(private val studyApi: StudyApi) :
     fun createStudy(createStudyItem: CreateStudyItem) {
         val message = emptyCheck(createStudyItem)
         if (message == ValidationInputText.REGISTER_STUDY && createStudyItem.localItem != null) {
+            showLoading()
             compositeDisposable += studyApi
                 .registerStudy(
                     bearerToken = AuthHolder.bearerToken,
@@ -97,9 +101,11 @@ class StudyCreateViewModel @Inject constructor(private val studyApi: StudyApi) :
                         image = createStudyItem.image,
                     ).toMultipartBody()
                 )
+                .delay(5000L, TimeUnit.MILLISECONDS, Schedulers.io())
                 .networkSchedulers()
                 .subscribe({
                     _emptyCheckMessage.value = Event(message)
+                    hideLoading()
                 }, {
                     val errorResponse = (it as? HttpException)?.toErrorResponse()
                     if (errorResponse?.message != null) {
@@ -111,6 +117,7 @@ class StudyCreateViewModel @Inject constructor(private val studyApi: StudyApi) :
                     } else {
                         _toastMessage.value = Event("Communication Error")
                     }
+                    hideLoading()
                 })
         } else {
             _emptyCheckMessage.value = Event(message)
