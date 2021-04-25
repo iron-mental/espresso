@@ -42,6 +42,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                     }
                     CheckType.CHECK_ALL_SUCCESS -> {
                         startActivity(HomeActivity.getIntent(this@SignUpActivity))
+                        finish()
                     }
                     CheckType.CHECK_ALL_FAIL -> {
 
