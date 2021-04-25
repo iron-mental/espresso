@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.iron.espresso.AuthHolder
+import com.iron.espresso.BuildConfig
 import com.iron.espresso.R
 import com.iron.espresso.UserHolder
 import com.iron.espresso.base.BaseFragment
@@ -55,6 +56,8 @@ class SettingFragment :
     private fun setupView() {
         binding.run {
             viewModel = settingViewModel
+
+            appVersionNumber.text = BuildConfig.VERSION_NAME
 
             profile.root.setOnClickListener {
                 requestActivity.launch(ProfileActivity.getInstance(requireContext()))
