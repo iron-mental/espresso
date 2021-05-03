@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
-    private const val API_URL = "https://www.terminal-study.tk"
+    private const val API_URL = "https://www.terminal-study.site"
     private const val KAKAO_URL = "https://dapi.kakao.com/"
 
     private fun getLoggingClient() =
