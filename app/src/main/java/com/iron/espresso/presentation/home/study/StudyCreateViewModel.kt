@@ -15,10 +15,7 @@ import com.iron.espresso.ext.toErrorResponse
 import com.iron.espresso.model.api.RegisterStudyRequest
 import com.iron.espresso.model.api.StudyApi
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.HttpException
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -101,7 +98,6 @@ class StudyCreateViewModel @Inject constructor(private val studyApi: StudyApi) :
                         image = createStudyItem.image,
                     ).toMultipartBody()
                 )
-                .delay(5000L, TimeUnit.MILLISECONDS, Schedulers.io())
                 .networkSchedulers()
                 .subscribe({
                     _emptyCheckMessage.value = Event(message)
