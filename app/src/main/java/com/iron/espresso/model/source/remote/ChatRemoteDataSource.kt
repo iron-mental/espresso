@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.iron.espresso.AuthHolder
 import com.iron.espresso.Logger
+import com.iron.espresso.di.ApiModule
 import com.iron.espresso.model.api.StudyApi
 import com.iron.espresso.model.response.BaseResponse
 import com.iron.espresso.model.response.chat.SocketChatResponse
@@ -84,7 +85,7 @@ class ChatRemoteDataSourceImpl @Inject constructor(private val studyApi: StudyAp
             query = "token=${AuthHolder.accessToken}&study_id=$studyId"
         }
 
-        val chatManager = Manager(URI("https://www.terminal-study.tk"), options)
+        val chatManager = Manager(URI(ApiModule.API_URL), options)
 
         chatSocket =
             chatManager.socket("/terminal").apply {
