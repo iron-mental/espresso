@@ -28,6 +28,8 @@ class StudyCategoryViewHolder(
             setOnClickListener { clickListener(item) }
             if (item != "etc") {
                 setImage("${ApiModule.API_URL}/images/category/${item}.png")
+            } else {
+                setImageResource(R.color.colorPrimaryDark)
             }
         }
         binding.title.text = item
