@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.iron.espresso.R
 import com.iron.espresso.databinding.ItemStudyCategoryBinding
+import com.iron.espresso.di.ApiModule
 import com.iron.espresso.ext.setImage
 
 class StudyCategoryViewHolder(
@@ -26,7 +27,9 @@ class StudyCategoryViewHolder(
         binding.ivImage.apply {
             setOnClickListener { clickListener(item) }
             if (item != "etc") {
-                setImage("https://www.terminal-study.tk/images/category/${item}.png")
+                setImage("${ApiModule.API_URL}/images/category/${item}.png")
+            } else {
+                setImageResource(R.color.colorPrimaryDark)
             }
         }
         binding.title.text = item
