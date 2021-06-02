@@ -44,5 +44,5 @@
 - [원우석](https://github.com/wswon)
 - [고영찬](https://github.com/ko0chan)
 
-## ia
-<img src="https://user-images.githubusercontent.com/58040559/119968608-a666b980-bfe8-11eb-8ace-20425703b661.png">
+## 프로젝트 IA
+<img src="https://user-images.githubusercontent.com/58040559/120490215-2fb82a80-c3f3-11eb-944d-e2f23a493411.png">
