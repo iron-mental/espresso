@@ -9,40 +9,41 @@
 터미널에서 함께 공부할 사람들을 찾아보세요!<br>
 서로 응원하고 힘을 합치면 원하는 목표를 달성할 수 있을 거예요.
 
+## 구성도
+<img src="https://user-images.githubusercontent.com/58040559/120490215-2fb82a80-c3f3-11eb-944d-e2f23a493411.png">
+
 ## 구조
-- mvvm
-- clean architecture
+- MVVM
+- Clean Architecture
 
 ## 라이브러리
-- viewmodel
-- livedata
-- room
-- hilt
-- retrofit
-- rxjava
-- okhttp
-- gson
-- glide
-- MaterialDesign
-- lottie
-- navermap
-- socket.io
-- Google Analytics
-- Google Firebase Crashlytics
-- REST API
+* AAC
+  * Data Binding
+  * LiveData
+  * Room
+  * ViewModel
+* Hilt
+* Retrofit
+* RxJava
+* Okhttp
+* Gson
+* Material Design
+* Lottie
+* NaverMap
+* Socket.io
+* Google Analytics
+* Google Firebase Crashlytics
+* REST API
+* Glide
+
 
 ## 협업도구
-- github
-- slack
-- notion
-- postman
-- Zeplin, Adobe XD, Figma
-
-
+- Github
+- Slack
+- Notion
+- Postman
+- Adobe XD, Zeplin
 
 ## 구성원
 - [원우석](https://github.com/wswon)
 - [고영찬](https://github.com/ko0chan)
-
-## 프로젝트 IA
-<img src="https://user-images.githubusercontent.com/58040559/120490215-2fb82a80-c3f3-11eb-944d-e2f23a493411.png">
