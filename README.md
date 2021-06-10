@@ -1,6 +1,7 @@
 <img src="https://user-images.githubusercontent.com/58040559/119955985-94cae500-bfdb-11eb-8e84-f60e12658f18.png" width="80">
 
 # 터미널
+- [Google Play Store](https://play.google.com/store/apps/details?id=com.kychan.mlog)
 
 ## 소개
 **터미널**은 개발자분들을 위한 스터디 모임 앱 서비스입니다.
